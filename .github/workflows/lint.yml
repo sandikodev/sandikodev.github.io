@@ -1,9 +1,9 @@
 # https://github.com/kentcdodds/kentcdodds.com/blob/main/.github/workflows/deployment.yml
 name: Code Check
 on:
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
   pull_request: {}
 
 jobs:
