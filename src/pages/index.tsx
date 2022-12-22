@@ -1,10 +1,11 @@
+import { Box } from '@chakra-ui/react';
+import { AnimatePresence, motion } from 'framer-motion';
 import * as React from 'react';
 
+import { Frame } from '@/components/Frame';
 import Layout from '@/components/layout/Layout';
-import ArrowLink from '@/components/links/ArrowLink';
-import ButtonLink from '@/components/links/ButtonLink';
-import UnstyledLink from '@/components/links/UnstyledLink';
-import Seo from '@/components/Seo';
+
+import { container, text_reveal, text_reveal_fade } from '@/utils/animation';
 
 /**
  * SVGR Support
@@ -13,54 +14,76 @@ import Seo from '@/components/Seo';
  * You can override the next-env if the type is important to you
  * @see https://stackoverflow.com/questions/68103844/how-to-override-next-js-svg-module-declaration
  */
-import Vercel from '~/svg/Vercel.svg';
 
 // !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
 // Before you begin editing, follow all comments with `STARTERCONF`,
 // to customize the default configuration.
 
-export default function HomePage() {
+const Page = () => {
   return (
-    <Layout>
+    <>
       {/* <Seo templateTitle='Home' /> */}
-      <Seo />
-
-      <main>
-        <section className='bg-white'>
-          <div className='layout flex min-h-screen flex-col items-center justify-center text-center'>
-            <Vercel className='text-5xl' />
-            <h1 className='mt-4'>
-              Next.js + Tailwind CSS + TypeScript Starter
-            </h1>
-            <p className='mt-2 text-sm text-gray-800'>
-              A starter for Next.js, Tailwind CSS, and TypeScript with Absolute
-              Import, Seo, Link component, pre-configured with Husky{' '}
-            </p>
-            <p className='mt-2 text-sm text-gray-700'>
-              <ArrowLink href='https://github.com/theodorusclarence/ts-nextjs-tailwind-starter'>
-                See the repository
-              </ArrowLink>
-            </p>
-
-            <ButtonLink className='mt-6' href='/components' variant='light'>
-              See all components
-            </ButtonLink>
-
-            <UnstyledLink
-              href='https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2Ftheodorusclarence%2Fts-nextjs-tailwind-starter'
-              className='mt-4'
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                width='92'
-                height='32'
-                src='https://vercel.com/button'
-                alt='Deploy with Vercel'
-              />
-            </UnstyledLink>
-          </div>
-        </section>
-      </main>
-    </Layout>
+      <Box className='layout flex min-h-screen flex-col items-center justify-center text-center'>
+        <Featuring />
+      </Box>
+    </>
   );
-}
+};
+
+Page.getLayout = (page: React.ReactElement) => <Layout>{page}</Layout>;
+
+export default Page;
+
+const Featuring = () => {
+  const texts = [{ content: 'SANDIKO.DEV' }];
+
+  const textList = texts.map((text, index) => (
+    <div className='overflow-hidden' key={index}>
+      <motion.div
+        style={{ fontSize: '5rem' }}
+        className='gradient-text mb-8'
+        variants={text_reveal}
+      >
+        {text.content}
+      </motion.div>
+    </div>
+  ));
+
+  return (
+    <AnimatePresence exitBeforeEnter>
+      <motion.div
+        initial='initial'
+        animate='animate'
+        exit='exit'
+        className='flex'
+      >
+        <motion.div variants={container} className='md:w-2/3 lg:pl-36'>
+          {textList}
+          <motion.p
+            variants={text_reveal_fade}
+            style={{
+              lineHeight: '2.1rem',
+              fontSize: '17px',
+              textAlign: 'justify',
+            }}
+          >
+            I'm a Full Stack developer ,<br />
+            my background is Network Engineer. I'm actually an IoT Entusiast.
+            <br />
+            Loved build thing's, Application that aim human life. <br />
+            Currently working with{' '}
+            <span className='gradient-text'>
+              SmartCity, Beloved React Technology, staticaly Typescript and Rust
+            </span>
+            .<br />
+            My main character was shaped from beyond the edge of{' '}
+            <span className='underline-span'>Technology</span> .
+          </motion.p>
+        </motion.div>
+        <div className='fixed w-1/3 md:static md:block'>
+          <Frame radius='rounded-md' />
+        </div>
+      </motion.div>
+    </AnimatePresence>
+  );
+};

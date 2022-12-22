@@ -22,11 +22,16 @@ const data = [
   },
   {
     id: 2,
+    label: 'Project',
+    href: '/project',
+  },
+  {
+    id: 3,
     label: 'Contact',
     href: '/contact',
   },
   {
-    id: 3,
+    id: 4,
     label: 'About',
     href: '/about',
   },
@@ -34,7 +39,7 @@ const data = [
 
 const Navbar = () => {
   // const { mode, toggleMode } = useContext(WindmillContext)
-  const { toggleColorMode } = useColorMode();
+  const { colorMode, toggleColorMode } = useColorMode();
   const formBackground = useColorModeValue('gray.200', 'gray.700');
 
   return (
@@ -66,9 +71,11 @@ const Navbar = () => {
         </HStack>
 
         <HStack>
-          <Button size='sm'>{CTA}</Button>
+          <Link href='/login'>
+            <Button size='sm'>{CTA}</Button>
+          </Link>
           <Button onClick={toggleColorMode} size='sm' mt={2}>
-            Mode
+            Mode {colorMode === 'light' ? 'Dark' : 'Light'}
           </Button>
         </HStack>
       </Flex>

@@ -1,3 +1,4 @@
+import { Box } from '@chakra-ui/react';
 import { FC } from 'react';
 
 import UnderlineLink from '@/components/links/UnderlineLink';
@@ -7,12 +8,18 @@ type IFooter = {
 
 const Footer: FC<IFooter> = ({ className }) => {
   return (
-    <footer className={className}>
-      © {new Date().getFullYear()} By{' '}
-      <UnderlineLink href='https://theodorusclarence.com?ref=tsnextstarter'>
-        Theodorus Clarence
-      </UnderlineLink>
-    </footer>
+    <Box>
+      <footer className={className}>
+        ©
+        <UnderlineLink
+          href='https://theodorusclarence.com?ref=tsnextstarter'
+          className='mr-2 uppercase'
+        >
+          sandikodev
+        </UnderlineLink>
+        {new Date().getFullYear()}
+      </footer>
+    </Box>
   );
 };
 export default Footer;
