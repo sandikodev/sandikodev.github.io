@@ -5,7 +5,11 @@ import * as React from 'react';
 import { Frame } from '@/components/Frame';
 import Layout from '@/components/layout/Layout';
 
-import { container, text_reveal, text_reveal_fade } from '@/utils/animation';
+import {
+  container_frame,
+  text_reveal,
+  text_reveal_fade,
+} from '@/utils/animation';
 
 /**
  * SVGR Support
@@ -57,7 +61,7 @@ const Featuring = () => {
         exit='exit'
         className='flex'
       >
-        <motion.div variants={container} className='md:w-2/3 lg:pl-36'>
+        <motion.div variants={container_frame} className='md:w-2/3 lg:pl-36'>
           {textList}
           <motion.p
             variants={text_reveal_fade}

@@ -23,7 +23,7 @@ const data = [
   {
     id: 2,
     label: 'Project',
-    href: '/project',
+    href: '/projects',
   },
   {
     id: 3,
