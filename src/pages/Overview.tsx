@@ -5,7 +5,7 @@ import { Frame } from '@/components/Frame';
 
 // import SeoTags from "@/components/SeoTags";
 // import PageTemplate from "@/templates/page.template";
-import { container, text_reveal } from '@/utils/animation';
+import { container_frame, text_reveal } from '@/utils/animation';
 
 const Overview = () => {
   const overviews = [
@@ -66,7 +66,10 @@ const Overview = () => {
         exit='exit'
         className='flex'
       >
-        <motion.div variants={container} className='z-20 md:w-1/2 lg:pl-36'>
+        <motion.div
+          variants={container_frame}
+          className='z-20 md:w-1/2 lg:pl-36'
+        >
           {overviewList}
         </motion.div>
         <div className='fixed w-1/2 md:static md:block'>
