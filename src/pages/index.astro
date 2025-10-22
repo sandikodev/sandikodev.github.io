@@ -1,22 +1,205 @@
 ---
 import config from "@/config/config.json";
 import Base from "@/layouts/Base.astro";
-import Pagination from "@/layouts/components/Pagination.astro";
 import Posts from "@/layouts/Posts.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { sortByDate } from "@/lib/utils/sortFunctions";
 
 const posts = await getSinglePage("posts");
 const sortedPosts = sortByDate(posts);
-const totalPages = Math.ceil(posts.length / config.settings.pagination);
-const currentPosts = sortedPosts.slice(0, config.settings.pagination);
+const currentPosts = sortedPosts.slice(0, 6); // Show 6 latest posts
 ---
 
 <Base>
-  <section class="section">
-    <div class="container">
-      <Posts posts={currentPosts} className="mb-16" />
-      <Pagination currentPage={1} totalPages={totalPages} />
+  <!-- Hero Section - Simple & Clean -->
+  <section class="hero-section relative bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 py-24 overflow-hidden">
+    <div class="container mx-auto px-4 relative z-10">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+          Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Sandikodev</span>
+        </h1>
+        
+        <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8">
+          Full Stack Developer • Tech Blogger • Problem Solver
+        </p>
+        
+        <p class="text-lg text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto">
+          Passionate tentang web development dan teknologi. 
+          Menulis tentang coding, productivity, dan continuous learning.
+        </p>
+        
+        <div class="flex flex-wrap justify-center gap-4">
+          <a 
+            href="/blog" 
+            class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
+          >
+            📝 Baca Blog
+          </a>
+          <a 
+            href="https://sandikodev.github.io/trackme" 
+            target="_blank"
+            class="bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
+          >
+            📊 Lihat TrackMe
+          </a>
+          <a 
+            href={`mailto:${config.contactinfo.email}`}
+            class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300"
+          >
+            📧 Kontak
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TrackMe CTA Section -->
+  <section class="py-16 bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 dark:from-amber-700 dark:via-yellow-700 dark:to-amber-800">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-8 md:p-12 border border-white/20">
+          <div class="flex items-center justify-center mb-6">
+            <span class="text-6xl">🌟</span>
+          </div>
+          
+          <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-4">
+            TrackMe - Wisenesday™ Tracker
+          </h2>
+          
+          <p class="text-lg text-white/90 text-center mb-6 max-w-2xl mx-auto">
+            Personal productivity tracker dengan metodologi <strong>Wisenesday™</strong> - 
+            evaluasi mingguan untuk growth berkelanjutan. Track evaluations, work sessions, dan progress!
+          </p>
+          
+          <div class="grid md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white/20 backdrop-blur-sm rounded-xl p-6 text-center">
+              <div class="text-3xl font-bold text-white mb-2">12</div>
+              <p class="text-white/80 text-sm">Wisenesday™ Streak</p>
+            </div>
+            <div class="bg-white/20 backdrop-blur-sm rounded-xl p-6 text-center">
+              <div class="text-3xl font-bold text-white mb-2">47+</div>
+              <p class="text-white/80 text-sm">Work Sessions</p>
+            </div>
+            <div class="bg-white/20 backdrop-blur-sm rounded-xl p-6 text-center">
+              <div class="text-3xl font-bold text-white mb-2">156h</div>
+              <p class="text-white/80 text-sm">Hours Tracked (Oct)</p>
+            </div>
+          </div>
+          
+          <div class="flex flex-wrap justify-center gap-4">
+            <a 
+              href="https://sandikodev.github.io/trackme" 
+              target="_blank"
+              class="bg-white hover:bg-gray-100 text-gray-900 px-8 py-4 rounded-xl font-bold transition-all duration-300 transform hover:scale-105 hover:shadow-xl inline-flex items-center"
+            >
+              <span class="mr-2">📊</span>
+              Open TrackMe Dashboard
+            </a>
+            <a 
+              href="https://github.com/sandikodev/trackme" 
+              target="_blank"
+              class="bg-gray-800 hover:bg-gray-900 text-white px-8 py-4 rounded-xl font-bold transition-all duration-300 transform hover:scale-105 hover:shadow-xl inline-flex items-center"
+            >
+              <span class="mr-2">⭐</span>
+              View on GitHub
+            </a>
+          </div>
+          
+          <p class="text-center text-white/70 text-sm mt-6">
+            🌟 <strong>Every Wednesday:</strong> Wisenesday™ evaluation - make Wednesday your wisdom day!
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest Blog Posts - Main Focus -->
+  <section class="py-20 bg-white dark:bg-gray-900">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">📝 Latest Blog Posts</h2>
+        <p class="text-xl text-gray-600 dark:text-gray-300">
+          Artikel terbaru tentang teknologi, development, dan productivity
+        </p>
+      </div>
+      
+      <Posts posts={currentPosts} class="mb-16" />
+      
+      <div class="text-center">
+        <a 
+          href="/blog" 
+          class="inline-flex items-center bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
+        >
+          Lihat Semua Artikel
+          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills & Tech Stack - Simplified -->
+  <section class="py-16 bg-gray-50 dark:bg-gray-800">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">🛠️ Tech Stack</h2>
+        <p class="text-gray-600 dark:text-gray-300">Technologies I work with</p>
+      </div>
+      
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 max-w-4xl mx-auto">
+        {config.portfolio.skills.map((skill) => (
+          <div class="bg-white dark:bg-gray-900 p-4 rounded-lg text-center hover:shadow-lg transition-all duration-300 hover:scale-105">
+            <p class="font-semibold text-gray-900 dark:text-white text-sm">{skill}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Simple CTA Section -->
+  <section class="py-20 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+          Let's Work Together!
+        </h2>
+        <p class="text-xl text-blue-100 mb-8">
+          Interested in collaborating? Drop me a message!
+        </p>
+        
+        <div class="flex flex-wrap justify-center gap-4">
+          <a 
+            href={`mailto:${config.contactinfo.email}`}
+            class="bg-white hover:bg-gray-100 text-gray-800 px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 inline-flex items-center"
+          >
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+            </svg>
+            Email Me
+          </a>
+          <a 
+            href={config.contactinfo.github} 
+            target="_blank"
+            class="bg-gray-800 hover:bg-gray-900 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 inline-flex items-center"
+          >
+            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            GitHub
+          </a>
+          <a 
+            href={config.contactinfo.linkedin} 
+            target="_blank"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 inline-flex items-center"
+          >
+            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+            LinkedIn
+          </a>
+        </div>
+      </div>
     </div>
   </section>
 </Base>

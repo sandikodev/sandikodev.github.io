@@ -2,6 +2,7 @@
 import Logo from "@/components/Logo.astro";
 import menu from "@/config/menu.json";
 import { IoSearch } from "react-icons/io5";
+import DarkModeToggle from "../../components/DarkModeToggle";
 
 export interface ChildNavigationLink {
   name: string;
@@ -86,12 +87,13 @@ const { main }: { main: NavigationLink[] } = menu;
         ))
       }
     </ul>
-    <div class="order-1 ml-auto flex md:order-2 md:ml-0">
+    <div class="order-1 ml-auto flex items-center md:order-2 md:ml-0">
+      <DarkModeToggle />
       <a
-        class="mr-4 inline-block cursor-pointer p-2 text-xl text-dark transition hover:text-primary md:mr-0"
+        class="ml-4 inline-block cursor-pointer p-2 text-xl text-dark transition hover:text-primary"
         href="/search"
-        title="seach"
-        aria-label="seach"
+        title="search"
+        aria-label="search"
       >
         <IoSearch />
       </a>

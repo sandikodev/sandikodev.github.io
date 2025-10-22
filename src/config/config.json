@@ -1,35 +1,77 @@
 {
   "site": {
-    "title": "Bookworm Light Astro | Blog Template",
-    "base_url": "https://bookworm-light-astro.vercel.app",
+    "title": "Sandikodev | Full Stack Developer & Tech Blogger",
+    "base_url": "https://sandikodev.github.io",
     "base_path": "/",
     "trailing_slash": false,
     "favicon": "/images/favicon.png",
     "logo": "/images/logo.png",
     "logo_width": "200",
     "logo_height": "34",
-    "logo_text": "Bookworm Light"
+    "logo_text": "Sandikodev"
   },
 
   "settings": {
-    "pagination": 5,
-    "summary_length": 100
+    "pagination": 6,
+    "summary_length": 150
   },
 
   "metadata": {
-    "meta_author": "Themefisher",
+    "meta_author": "Sandikodev",
     "meta_image": "/images/og-image.png",
-    "meta_description": "Bookworm Light Astro Blog Template"
+    "meta_description": "Portfolio dan blog Sandikodev - Full Stack Developer yang berfokus pada web development, mobile apps, dan teknologi terbaru. Temukan proyek-proyek menarik dan artikel teknologi."
   },
 
   "params": {
     "contact_form_action": "#",
-    "copyright": "Copyright © 2023 a theme by [Themefisher](https://themefisher.com)"
+    "copyright": "Copyright © 2024 [Sandikodev](https://github.com/sandikodev) - All rights reserved"
   },
 
   "contactinfo": {
-    "address": "355 S Grand Ave <br/> Los Angeles, CA 90071",
-    "email": "info@bookworm.org",
-    "phone": "+800 567 1234"
+    "address": "Indonesia",
+    "email": "sandikodev@gmail.com",
+    "phone": "+62 xxx xxxx xxxx",
+    "github": "https://github.com/sandikodev",
+    "linkedin": "https://linkedin.com/in/sandikodev",
+    "twitter": "https://twitter.com/sandikodev"
+  },
+
+  "portfolio": {
+    "skills": [
+      "JavaScript/TypeScript",
+      "React/Next.js",
+      "Node.js/Express",
+      "Python/Django",
+      "Mobile Development",
+      "Database Design",
+      "Cloud Computing",
+      "DevOps"
+    ],
+    "projects": [
+      {
+        "title": "E-Commerce Platform",
+        "description": "Full-stack e-commerce dengan React, Node.js, dan PostgreSQL",
+        "tech": ["React", "Node.js", "PostgreSQL", "Stripe"],
+        "image": "/images/projects/ecommerce.jpg",
+        "github": "https://github.com/sandikodev/ecommerce",
+        "demo": "https://ecommerce-demo.com"
+      },
+      {
+        "title": "Mobile Banking App",
+        "description": "Aplikasi mobile banking dengan React Native dan Firebase",
+        "tech": ["React Native", "Firebase", "Redux", "TypeScript"],
+        "image": "/images/projects/banking.jpg",
+        "github": "https://github.com/sandikodev/banking-app",
+        "demo": "https://banking-demo.com"
+      },
+      {
+        "title": "AI Chatbot Platform",
+        "description": "Platform chatbot AI dengan integrasi OpenAI dan webhook",
+        "tech": ["Python", "FastAPI", "OpenAI", "WebSocket"],
+        "image": "/images/projects/chatbot.jpg",
+        "github": "https://github.com/sandikodev/chatbot-platform",
+        "demo": "https://chatbot-demo.com"
+      }
+    ]
   }
 }
