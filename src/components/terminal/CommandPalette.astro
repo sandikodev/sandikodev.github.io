@@ -1,0 +1,62 @@
+---
+// Command Palette - Ctrl+K or /
+---
+
+<div id="command-palette" class="palette hidden">
+  <div class="backdrop"></div>
+  <div class="container">
+    <div class="header">
+      <span class="prompt">>_</span>
+      <input type="text" id="palette-input" placeholder="Type to search..." autocomplete="off" />
+      <kbd>ESC</kbd>
+    </div>
+    <div class="results" id="palette-results">
+      <a href="/" class="item" data-keywords="home"><span>🏠</span> Home <span class="shortcut">g h</span></a>
+      <a href="/blog" class="item" data-keywords="blog posts"><span>📝</span> Blog <span class="shortcut">g b</span></a>
+      <a href="/about" class="item" data-keywords="about"><span>👤</span> About <span class="shortcut">g a</span></a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .palette { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: flex-start; justify-content: center; padding-top: 15vh; }
+  .palette.hidden { display: none; }
+  .backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); }
+  .container { position: relative; width: 100%; max-width: 500px; margin: 0 var(--space-4); background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+  .header { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4); border-bottom: 1px solid var(--border); }
+  .prompt { color: var(--green); font-weight: bold; }
+  .header input { flex: 1; background: transparent; border: none; outline: none; font-family: var(--font-mono); font-size: 1rem; color: var(--text-primary); }
+  .header input::placeholder { color: var(--text-muted); }
+  .header kbd { padding: 4px 8px; background: var(--bg-tertiary); border-radius: var(--radius-sm); font-size: 0.75rem; color: var(--text-muted); }
+  .results { padding: var(--space-2); max-height: 300px; overflow-y: auto; }
+  .item { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3); border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; }
+  .item:hover, .item.selected { background: var(--bg-tertiary); color: var(--text-primary); }
+  .item.hidden { display: none; }
+  .shortcut { margin-left: auto; font-size: 0.75rem; color: var(--text-muted); }
+</style>
+
+<script>
+  const palette = document.getElementById('command-palette');
+  const input = document.getElementById('palette-input') as HTMLInputElement;
+  const items = document.querySelectorAll('.item');
+
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey && e.key === 'k') || (e.key === '/' && document.activeElement?.tagName !== 'INPUT')) {
+      e.preventDefault();
+      palette?.classList.remove('hidden');
+      input?.focus();
+    }
+    if (e.key === 'Escape') palette?.classList.add('hidden');
+  });
+
+  palette?.querySelector('.backdrop')?.addEventListener('click', () => palette?.classList.add('hidden'));
+
+  input?.addEventListener('input', (e) => {
+    const q = (e.target as HTMLInputElement).value.toLowerCase();
+    items.forEach(item => {
+      const text = item.textContent?.toLowerCase() || '';
+      const keywords = item.getAttribute('data-keywords')?.toLowerCase() || '';
+      item.classList.toggle('hidden', !text.includes(q) && !keywords.includes(q) && q !== '');
+    });
+  });
+</script>

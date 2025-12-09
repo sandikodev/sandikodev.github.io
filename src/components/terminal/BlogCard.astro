@@ -1,0 +1,75 @@
+---
+interface Props {
+  title: string;
+  slug: string;
+  description?: string;
+  date?: Date;
+  tags?: string[];
+  readingTime?: number;
+  index?: number;
+}
+
+const { title, slug, description, date, tags = [], readingTime = 5, index = 1 } = Astro.props;
+const formattedDate = date ? date.toISOString().split('T')[0] : '';
+---
+
+<a href={`/${slug}`} class="blog-card">
+  <div class="card-header">
+    <span class="card-index">{String(index).padStart(3, '0')}</span>
+    <span class="card-filename">{slug}.md</span>
+    <span class="card-date">{formattedDate}</span>
+  </div>
+  <div class="card-body">
+    <h3 class="card-title">{title}</h3>
+    {description && <p class="card-desc">> {description}</p>}
+  </div>
+  <div class="card-footer">
+    <div class="card-tags">{tags.slice(0, 3).map(tag => <span>#{tag}</span>)}</div>
+    <span class="card-time">⏱️ {readingTime}m</span>
+  </div>
+</a>
+
+<style>
+  .blog-card {
+    display: block;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .blog-card:hover {
+    border-color: var(--blue);
+    transform: translateY(-2px);
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-2) var(--space-4);
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.75rem;
+  }
+
+  .card-index { color: var(--yellow); }
+  .card-filename { color: var(--text-muted); }
+  .card-date { color: var(--cyan); }
+
+  .card-body { padding: var(--space-4); }
+  .card-title { font-size: 1rem; margin: 0 0 var(--space-2); color: var(--text-primary); }
+  .card-title::before { content: "# "; color: var(--magenta); }
+  .card-desc { margin: 0; font-size: 0.875rem; color: var(--text-muted); }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-2) var(--space-4);
+    border-top: 1px solid var(--border);
+    font-size: 0.75rem;
+  }
+
+  .card-tags { display: flex; gap: var(--space-2); color: var(--green); }
+  .card-time { color: var(--text-muted); }
+</style>

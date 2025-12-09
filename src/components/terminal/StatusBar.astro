@@ -1,0 +1,51 @@
+---
+interface Props {
+  mode?: string;
+  file?: string;
+}
+
+const { mode = "NORMAL", file = "index" } = Astro.props;
+const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+---
+
+<footer class="status-bar">
+  <div class="status-left">
+    <span class="status-mode" data-mode={mode.toLowerCase()}>{mode}</span>
+    <span class="sep">│</span>
+    <span class="status-file">{file}</span>
+  </div>
+  <div class="status-right">
+    <span class="status-time">{time}</span>
+  </div>
+</footer>
+
+<style>
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-2) var(--space-4);
+    background: var(--bg-tertiary);
+    border-top: 1px solid var(--border);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+  }
+
+  .status-left, .status-right { display: flex; align-items: center; gap: var(--space-2); }
+  .sep { color: var(--text-muted); }
+
+  .status-mode {
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+  }
+
+  .status-mode[data-mode="normal"] { background: var(--blue); color: var(--bg-primary); }
+  .status-mode[data-mode="insert"] { background: var(--green); color: var(--bg-primary); }
+  .status-file { color: var(--text-primary); }
+  .status-time { color: var(--text-muted); }
+</style>

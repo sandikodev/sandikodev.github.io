@@ -1,0 +1,141 @@
+---
+// Keyboard shortcuts handler
+---
+
+<div class="kbd-indicator" id="kbd-indicator"></div>
+
+<style>
+  .kbd-indicator {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 9999;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .kbd-indicator.show {
+    opacity: 1;
+  }
+
+  .kbd-key {
+    display: inline-block;
+    padding: 2px 6px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-size: 0.75rem;
+    margin: 0 2px;
+  }
+</style>
+
+<script>
+  let gPressed = false;
+  let scrollTimeout: number;
+  const indicator = document.getElementById('kbd-indicator');
+
+  function showIndicator(text: string) {
+    if (!indicator) return;
+    indicator.innerHTML = text;
+    indicator.classList.add('show');
+    clearTimeout(scrollTimeout);
+    scrollTimeout = window.setTimeout(() => {
+      indicator.classList.remove('show');
+    }, 1500);
+  }
+
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    showIndicator('Scrolled to top');
+  }
+
+  function scrollToBottom() {
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    showIndicator('Scrolled to bottom');
+  }
+
+  function scrollBy(amount: number) {
+    window.scrollBy({ top: amount, behavior: 'smooth' });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    // Skip if typing in input
+    if (document.activeElement?.tagName === 'INPUT' || 
+        document.activeElement?.tagName === 'TEXTAREA') return;
+
+    const key = e.key.toLowerCase();
+
+    // j/k scrolling
+    if (key === 'j') {
+      e.preventDefault();
+      scrollBy(100);
+      showIndicator('<span class="kbd-key">j</span> Scroll down');
+    } else if (key === 'k') {
+      e.preventDefault();
+      scrollBy(-100);
+      showIndicator('<span class="kbd-key">k</span> Scroll up');
+    }
+
+    // gg / G navigation
+    if (key === 'g') {
+      if (gPressed) {
+        e.preventDefault();
+        scrollToTop();
+        gPressed = false;
+      } else {
+        gPressed = true;
+        setTimeout(() => { gPressed = false; }, 500);
+      }
+    } else if (key === 'G' && e.shiftKey) {
+      e.preventDefault();
+      scrollToBottom();
+    }
+
+    // Theme toggle (t)
+    if (key === 't') {
+      const themes = ['tokyo-night', 'dracula', 'gruvbox', 'nord', 'matrix'];
+      const current = document.documentElement.getAttribute('data-theme') || 'tokyo-night';
+      const next = themes[(themes.indexOf(current) + 1) % themes.length];
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      showIndicator(`<span class="kbd-key">t</span> Theme: ${next}`);
+    }
+
+    // Help (?)
+    if (key === '?' && e.shiftKey) {
+      e.preventDefault();
+      const helpModal = document.getElementById('help-modal');
+      if (helpModal) {
+        helpModal.classList.add('visible');
+      }
+    }
+
+    // Close modal (Esc)
+    if (key === 'escape') {
+      const helpModal = document.getElementById('help-modal');
+      if (helpModal) {
+        helpModal.classList.remove('visible');
+      }
+    }
+
+    // Navigation shortcuts
+    if (key === 'h' && gPressed) {
+      e.preventDefault();
+      window.location.href = '/';
+      gPressed = false;
+    } else if (key === 'b' && gPressed) {
+      e.preventDefault();
+      window.location.href = '/blog-tiling';
+      gPressed = false;
+    }
+  });
+</script>
