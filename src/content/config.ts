@@ -48,9 +48,20 @@ const pagesCollection = defineCollection({
   }),
 });
 
+// About collection schema
+const aboutCollection = defineCollection({
+  schema: z.object({
+    title: z.string().optional(),
+    meta_title: z.string().optional(),
+    description: z.string().optional(),
+    draft: z.boolean().optional(),
+  }),
+});
+
 // Export collections
 export const collections = {
   posts: postsCollection,
   pages: pagesCollection,
   authors: authorsCollection,
+  about: aboutCollection,
 };
