@@ -1,0 +1,181 @@
+---
+import "@/styles/terminal-theme.css";
+import "@/styles/i3wm-theme.css";
+import "@/styles/animations.css";
+import Polybar from "@/components/terminal/Polybar.astro";
+import config from "@/config/config.json";
+import { ViewTransitions } from "astro:transitions";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { 
+  title = config.site.title, 
+  description = config.metadata.meta_description,
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en" data-theme="tokyo-night">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    
+    <!-- Prevent theme flash (FOUC) -->
+    <script is:inline>
+      (function() {
+        const theme = localStorage.getItem('theme') || 'tokyo-night';
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <title>{title}</title>
+    
+    <ViewTransitions />
+  </head>
+  
+  <body>
+    <!-- Skip to content link (accessibility) -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Loading bar -->
+    <div id="loading-bar" class="loading-bar"></div>
+    
+    <!-- Polybar -->
+    <Polybar />
+    
+    <!-- i3 Container -->
+    <main id="main-content" class="i3-container">
+      <slot />
+    </main>
+    
+    <style is:global>
+      /* Force terminal font in terminal mode */
+      [data-theme-mode="terminal"] body,
+      [data-theme-mode="terminal"] * {
+        font-family: 'Fira Code', 'JetBrains Mono', 'Consolas', monospace !important;
+      }
+
+      /* Ensure blog mode uses its fonts */
+      [data-theme-mode="blog"] body {
+        font-family: Georgia, serif;
+      }
+
+      [data-theme-mode="blog"] h1,
+      [data-theme-mode="blog"] h2,
+      [data-theme-mode="blog"] h3,
+      [data-theme-mode="blog"] h4,
+      [data-theme-mode="blog"] h5,
+      [data-theme-mode="blog"] h6 {
+        font-family: 'Inter', sans-serif;
+      }
+
+      html, body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        min-height: 100vh;
+      }
+
+      body {
+        background: var(--bg-primary);
+      }
+
+      /* Smooth scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Skip link */
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 8px;
+        background: var(--blue);
+        color: var(--i3-bg);
+        padding: 8px 16px;
+        text-decoration: none;
+        border-radius: 4px;
+        font-family: var(--font-mono);
+        font-size: 0.875rem;
+        z-index: 10000;
+        transition: top 0.2s;
+      }
+
+      .skip-link:focus {
+        top: 8px;
+      }
+
+      /* Loading bar */
+      .loading-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--blue), var(--cyan));
+        width: 0%;
+        transition: width 0.3s ease;
+        z-index: 10001;
+        opacity: 0;
+      }
+
+      .loading-bar.active {
+        width: 100%;
+        opacity: 1;
+      }
+
+      /* Mobile touch improvements */
+      @media (max-width: 768px) {
+        * {
+          -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+          overflow-x: hidden;
+        }
+      }
+
+      /* Reduced motion */
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        
+        .loading-bar {
+          transition: none;
+        }
+      }
+    </style>
+
+    <script>
+      // Loading bar for page transitions
+      document.addEventListener('astro:before-preparation', () => {
+        document.getElementById('loading-bar')?.classList.add('active');
+      });
+      
+      document.addEventListener('astro:page-load', () => {
+        const bar = document.getElementById('loading-bar');
+        if (bar) {
+          setTimeout(() => bar.classList.remove('active'), 300);
+        }
+      });
+
+      // Global error handler
+      window.addEventListener('error', (e) => {
+        console.error('Error:', e.error);
+      });
+
+      window.addEventListener('unhandledrejection', (e) => {
+        console.error('Unhandled rejection:', e.reason);
+      });
+    </script>
+  </body>
+</html>
