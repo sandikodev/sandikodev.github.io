@@ -1,0 +1,93 @@
+---
+const { headings } = Astro.props;
+---
+
+{headings && headings.length > 0 && (
+  <nav class="toc">
+    <div class="toc-title">Contents</div>
+    <ul>
+      {headings.filter((h: any) => h.depth <= 3).map((heading: any) => (
+        <li class={`toc-item depth-${heading.depth}`}>
+          <a href={`#${heading.slug}`}>{heading.text}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+<style>
+  .toc {
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .toc-title {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #737373;
+    margin-bottom: 0.75rem;
+  }
+  
+  .toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .toc-item {
+    margin-bottom: 0.5rem;
+  }
+  
+  .toc-item a {
+    font-size: 0.8125rem;
+    color: #525252;
+    text-decoration: none;
+    transition: color 0.15s ease;
+    line-height: 1.4;
+    display: block;
+  }
+  
+  :global(.dark) .toc-item a {
+    color: #a3a3a3;
+  }
+  
+  .toc-item a:hover {
+    color: #0a0a0a;
+  }
+  
+  :global(.dark) .toc-item a:hover {
+    color: #fafafa;
+  }
+  
+  .toc-item.active a {
+    color: #0a0a0a;
+    font-weight: 500;
+  }
+  
+  :global(.dark) .toc-item.active a {
+    color: #fafafa;
+  }
+  
+  .depth-3 {
+    padding-left: 0.75rem;
+  }
+</style>
+
+<script>
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const id = entry.target.getAttribute('id');
+        const link = document.querySelector(`.toc-item a[href="#${id}"]`);
+        if (entry.isIntersecting) {
+          document.querySelectorAll('.toc-item').forEach(i => i.classList.remove('active'));
+          link?.parentElement?.classList.add('active');
+        }
+      });
+    },
+    { rootMargin: '-80px 0px -66%' }
+  );
+
+  document.querySelectorAll('article h2, article h3').forEach((h) => observer.observe(h));
+</script>

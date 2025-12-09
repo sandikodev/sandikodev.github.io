@@ -1,0 +1,59 @@
+---
+const { content, readingTime } = Astro.props;
+
+const words = content.trim().split(/\s+/).length;
+const codeBlocks = (content.match(/```/g) || []).length / 2;
+---
+
+<div class="stats">
+  <div class="stat">
+    <span class="stat-value">{words.toLocaleString()}</span>
+    <span class="stat-label">words</span>
+  </div>
+  <div class="stat">
+    <span class="stat-value">{readingTime}</span>
+    <span class="stat-label">min</span>
+  </div>
+  <div class="stat">
+    <span class="stat-value">{codeBlocks}</span>
+    <span class="stat-label">code</span>
+  </div>
+</div>
+
+<style>
+  .stats {
+    display: flex;
+    gap: 1.5rem;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+  
+  :global(.dark) .stats {
+    border-color: rgba(255, 255, 255, 0.06);
+  }
+  
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+  
+  .stat-value {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0a0a0a;
+  }
+  
+  :global(.dark) .stat-value {
+    color: #fafafa;
+  }
+  
+  .stat-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6875rem;
+    color: #737373;
+    text-transform: lowercase;
+  }
+</style>

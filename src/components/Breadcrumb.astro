@@ -1,0 +1,38 @@
+---
+interface Props {
+  items: Array<{ name: string; url?: string }>;
+}
+
+const { items } = Astro.props;
+const baseUrl = "https://sandikodev.github.io";
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": items.map((item, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": item.name,
+    "item": item.url ? `${baseUrl}${item.url}` : undefined
+  }))
+};
+---
+
+<nav aria-label="Breadcrumb" class="mb-8">
+  <ol class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+    {items.map((item, index) => (
+      <li class="flex items-center">
+        {index > 0 && <span class="mx-2">/</span>}
+        {item.url ? (
+          <a href={item.url} class="hover:text-blue-600 dark:hover:text-blue-400">
+            {item.name}
+          </a>
+        ) : (
+          <span class="text-gray-900 dark:text-gray-100">{item.name}</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
