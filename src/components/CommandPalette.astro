@@ -1,0 +1,339 @@
+---
+// Command Palette - Cmd+K for quick navigation
+---
+
+<div id="command-palette" class="command-palette">
+  <div class="command-modal">
+    <div class="command-input-wrapper">
+      <svg class="search-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="9" cy="9" r="7"/>
+        <path d="M14 14l5 5"/>
+      </svg>
+      <input 
+        type="text" 
+        id="command-input" 
+        class="command-input" 
+        placeholder="Type a command or search..."
+        autocomplete="off"
+      />
+      <kbd class="esc-hint">Esc</kbd>
+    </div>
+    
+    <div id="command-results" class="command-results">
+      <div class="command-section">
+        <div class="section-title">Quick Actions</div>
+        <div class="command-item" data-action="home">
+          <span class="command-icon">🏠</span>
+          <span class="command-text">Go to Home</span>
+          <kbd>g h</kbd>
+        </div>
+        <div class="command-item" data-action="blog">
+          <span class="command-icon">📝</span>
+          <span class="command-text">Go to Blog</span>
+          <kbd>g b</kbd>
+        </div>
+        <div class="command-item" data-action="now">
+          <span class="command-icon">⏰</span>
+          <span class="command-text">What I'm doing now</span>
+        </div>
+        <div class="command-item" data-action="about">
+          <span class="command-icon">👤</span>
+          <span class="command-text">About Me</span>
+          <kbd>g a</kbd>
+        </div>
+      </div>
+      
+      <div class="command-section">
+        <div class="section-title">Terminal Commands</div>
+        <div class="command-item" data-cmd="ls posts">
+          <span class="command-icon">$</span>
+          <span class="command-text">ls posts</span>
+          <span class="command-desc">List all blog posts</span>
+        </div>
+        <div class="command-item" data-cmd="ls tags">
+          <span class="command-icon">$</span>
+          <span class="command-text">ls tags</span>
+          <span class="command-desc">List all tags</span>
+        </div>
+        <div class="command-item" data-cmd="cat about.md">
+          <span class="command-icon">$</span>
+          <span class="command-text">cat about.md</span>
+          <span class="command-desc">Read about page</span>
+        </div>
+        <div class="command-item" data-cmd="cd ~">
+          <span class="command-icon">$</span>
+          <span class="command-text">cd ~</span>
+          <span class="command-desc">Go to home</span>
+        </div>
+      </div>
+      
+      <div id="search-results" class="command-section" style="display: none;">
+        <div class="section-title">Search Results</div>
+        <div id="search-items"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .command-palette {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 15vh;
+    backdrop-filter: blur(4px);
+  }
+  .command-palette.active {
+    display: flex;
+  }
+  .command-modal {
+    background: white;
+    border-radius: 1rem;
+    width: 90%;
+    max-width: 640px;
+    max-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    animation: slideDown 0.2s ease;
+  }
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .command-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .search-icon {
+    color: #9ca3af;
+    flex-shrink: 0;
+  }
+  .command-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 1.125rem;
+    font-family: Inter, sans-serif;
+  }
+  .esc-hint {
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    color: #6b7280;
+  }
+  .command-results {
+    overflow-y: auto;
+    max-height: calc(70vh - 80px);
+    padding: 0.5rem;
+  }
+  .command-section {
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #9ca3af;
+    padding: 0.5rem 1rem;
+  }
+  .command-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .command-item:hover,
+  .command-item.selected {
+    background: #f3f4f6;
+  }
+  .command-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+  .command-text {
+    flex: 1;
+    font-weight: 500;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9375rem;
+  }
+  .command-desc {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+  .command-item kbd {
+    background: #e5e7eb;
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+</style>
+
+<script>
+  const palette = document.getElementById('command-palette');
+  const input = document.getElementById('command-input') as HTMLInputElement;
+  const results = document.getElementById('command-results');
+  const searchSection = document.getElementById('search-results');
+  const searchItems = document.getElementById('search-items');
+  
+  let selectedIndex = 0;
+  let allItems: NodeListOf<Element>;
+  
+  // Show palette
+  function showPalette() {
+    palette?.classList.add('active');
+    input?.focus();
+    updateSelection();
+  }
+  
+  // Hide palette
+  function hidePalette() {
+    palette?.classList.remove('active');
+    if (input) input.value = '';
+    searchSection!.style.display = 'none';
+    selectedIndex = 0;
+  }
+  
+  // Update selection
+  function updateSelection() {
+    allItems = document.querySelectorAll('.command-item');
+    allItems.forEach((item, i) => {
+      if (i === selectedIndex) {
+        item.classList.add('selected');
+        item.scrollIntoView({ block: 'nearest' });
+      } else {
+        item.classList.remove('selected');
+      }
+    });
+  }
+  
+  // Execute command
+  function executeCommand(item: Element) {
+    const action = item.getAttribute('data-action');
+    const cmd = item.getAttribute('data-cmd');
+    const url = item.getAttribute('data-url');
+    
+    if (action === 'home') window.location.href = '/';
+    else if (action === 'blog') window.location.href = '/blog';
+    else if (action === 'now') window.location.href = '/now';
+    else if (action === 'about') window.location.href = '/about';
+    else if (cmd === 'ls posts') window.location.href = '/blog';
+    else if (cmd === 'ls tags') window.location.href = '/tags';
+    else if (cmd === 'cat about.md') window.location.href = '/about';
+    else if (cmd === 'cd ~') window.location.href = '/';
+    else if (url) window.location.href = url;
+    
+    hidePalette();
+  }
+  
+  // Search posts
+  async function searchPosts(query: string) {
+    if (query.length < 2) {
+      searchSection!.style.display = 'none';
+      return;
+    }
+    
+    try {
+      const response = await fetch('/search.json');
+      const posts = await response.json();
+      
+      const filtered = posts.filter((post: any) => 
+        post.title.toLowerCase().includes(query.toLowerCase()) ||
+        post.description?.toLowerCase().includes(query.toLowerCase())
+      ).slice(0, 5);
+      
+      if (filtered.length > 0) {
+        searchSection!.style.display = 'block';
+        searchItems!.innerHTML = filtered.map((post: any) => `
+          <div class="command-item" data-url="/${post.slug}">
+            <span class="command-icon">📄</span>
+            <span class="command-text">${post.title}</span>
+          </div>
+        `).join('');
+        updateSelection();
+      } else {
+        searchSection!.style.display = 'none';
+      }
+    } catch (e) {
+      console.error('Search failed:', e);
+    }
+  }
+  
+  // Keyboard shortcuts
+  document.addEventListener('keydown', (e) => {
+    // Cmd+K or Ctrl+K to open
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      showPalette();
+      return;
+    }
+    
+    // Only handle these if palette is open
+    if (!palette?.classList.contains('active')) return;
+    
+    // Escape to close
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      hidePalette();
+      return;
+    }
+    
+    // Arrow navigation
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      selectedIndex = Math.min(selectedIndex + 1, allItems.length - 1);
+      updateSelection();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      selectedIndex = Math.max(selectedIndex - 1, 0);
+      updateSelection();
+    }
+    
+    // Enter to execute
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const selected = allItems[selectedIndex];
+      if (selected) executeCommand(selected);
+    }
+  });
+  
+  // Input search
+  input?.addEventListener('input', (e) => {
+    const query = (e.target as HTMLInputElement).value;
+    searchPosts(query);
+  });
+  
+  // Click handlers
+  results?.addEventListener('click', (e) => {
+    const item = (e.target as Element).closest('.command-item');
+    if (item) executeCommand(item);
+  });
+  
+  // Close on backdrop click
+  palette?.addEventListener('click', (e) => {
+    if (e.target === palette) hidePalette();
+  });
+</script>

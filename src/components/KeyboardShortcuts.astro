@@ -1,0 +1,269 @@
+---
+// Keyboard shortcuts overlay
+---
+
+<div id="shortcuts-overlay" class="shortcuts-overlay">
+  <div class="shortcuts-modal">
+    <div class="shortcuts-header">
+      <h3>⌨️ Keyboard Shortcuts</h3>
+      <button id="close-shortcuts" class="close-btn">×</button>
+    </div>
+    <div class="shortcuts-grid">
+      <div class="shortcut-group">
+        <h4>Navigation</h4>
+        <div class="shortcut-item">
+          <kbd>g</kbd> + <kbd>h</kbd>
+          <span>Go to Home</span>
+        </div>
+        <div class="shortcut-item">
+          <kbd>g</kbd> + <kbd>b</kbd>
+          <span>Go to Blog</span>
+        </div>
+        <div class="shortcut-item">
+          <kbd>g</kbd> + <kbd>a</kbd>
+          <span>Go to About</span>
+        </div>
+      </div>
+      
+      <div class="shortcut-group">
+        <h4>Actions</h4>
+        <div class="shortcut-item">
+          <kbd>/</kbd>
+          <span>Search</span>
+        </div>
+        <div class="shortcut-item">
+          <kbd>?</kbd>
+          <span>Show shortcuts</span>
+        </div>
+        <div class="shortcut-item">
+          <kbd>Esc</kbd>
+          <span>Close overlay</span>
+        </div>
+      </div>
+      
+      <div class="shortcut-group">
+        <h4>Scrolling</h4>
+        <div class="shortcut-item">
+          <kbd>j</kbd>
+          <span>Scroll down</span>
+        </div>
+        <div class="shortcut-item">
+          <kbd>k</kbd>
+          <span>Scroll up</span>
+        </div>
+        <div class="shortcut-item">
+          <kbd>g</kbd> + <kbd>g</kbd>
+          <span>Scroll to top</span>
+        </div>
+        <div class="shortcut-item">
+          <kbd>G</kbd>
+          <span>Scroll to bottom</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .shortcuts-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  .shortcuts-overlay.active {
+    display: flex;
+  }
+  .shortcuts-modal {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+  }
+  .shortcuts-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  .shortcuts-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #6b7280;
+    line-height: 1;
+    padding: 0;
+    width: 2rem;
+    height: 2rem;
+  }
+  .close-btn:hover {
+    color: #1a1a1a;
+  }
+  .shortcuts-grid {
+    display: grid;
+    gap: 2rem;
+  }
+  .shortcut-group h4 {
+    margin: 0 0 1rem 0;
+    color: #6b7280;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .shortcut-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+  }
+  kbd {
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+  .shortcut-item span {
+    color: #6b7280;
+  }
+  @media (min-width: 768px) {
+    .shortcuts-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+
+<script>
+  const overlay = document.getElementById('shortcuts-overlay');
+  const closeBtn = document.getElementById('close-shortcuts');
+  
+  let gPressed = false;
+  let gTimeout: NodeJS.Timeout;
+  
+  // Show shortcuts
+  function showShortcuts() {
+    overlay?.classList.add('active');
+  }
+  
+  // Hide shortcuts
+  function hideShortcuts() {
+    overlay?.classList.remove('active');
+  }
+  
+  // Keyboard handler
+  document.addEventListener('keydown', (e) => {
+    // Ignore if typing in input
+    if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+      return;
+    }
+    
+    // Show shortcuts with ?
+    if (e.key === '?' && !e.shiftKey) {
+      e.preventDefault();
+      showShortcuts();
+      return;
+    }
+    
+    // Close with Escape
+    if (e.key === 'Escape') {
+      hideShortcuts();
+      return;
+    }
+    
+    // Search with /
+    if (e.key === '/') {
+      e.preventDefault();
+      window.location.href = '/search';
+      return;
+    }
+    
+    // Vim-style scrolling
+    if (e.key === 'j') {
+      e.preventDefault();
+      window.scrollBy({ top: 100, behavior: 'smooth' });
+      return;
+    }
+    
+    if (e.key === 'k') {
+      e.preventDefault();
+      window.scrollBy({ top: -100, behavior: 'smooth' });
+      return;
+    }
+    
+    // Scroll to bottom with Shift+G
+    if (e.key === 'G' && e.shiftKey) {
+      e.preventDefault();
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      return;
+    }
+    
+    // g-based navigation
+    if (e.key === 'g') {
+      if (gPressed) {
+        // gg - scroll to top
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        gPressed = false;
+        clearTimeout(gTimeout);
+      } else {
+        gPressed = true;
+        gTimeout = setTimeout(() => {
+          gPressed = false;
+        }, 1000);
+      }
+      return;
+    }
+    
+    // g+h - home
+    if (gPressed && e.key === 'h') {
+      e.preventDefault();
+      window.location.href = '/';
+      gPressed = false;
+      return;
+    }
+    
+    // g+b - blog
+    if (gPressed && e.key === 'b') {
+      e.preventDefault();
+      window.location.href = '/blog';
+      gPressed = false;
+      return;
+    }
+    
+    // g+a - about
+    if (gPressed && e.key === 'a') {
+      e.preventDefault();
+      window.location.href = '/about';
+      gPressed = false;
+      return;
+    }
+  });
+  
+  // Close button
+  closeBtn?.addEventListener('click', hideShortcuts);
+  
+  // Close on overlay click
+  overlay?.addEventListener('click', (e) => {
+    if (e.target === overlay) {
+      hideShortcuts();
+    }
+  });
+</script>
