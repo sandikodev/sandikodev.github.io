@@ -1,0 +1,60 @@
+.preview-section {
+  padding: 3rem 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.font-sample {
+  padding: 1.5rem;
+  background: white;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #e5e7eb;
+}
+
+.font-label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.color-box {
+  padding: 2rem;
+  border-radius: 0.75rem;
+  text-align: center;
+  font-family: monospace;
+  font-size: 0.875rem;
+}
+
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.info-box {
+  background: white;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  margin-top: 1rem;
+  border: 1px solid #e5e7eb;
+}
+
+.btn-demo {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: white;
+}
+
+.btn-secondary {
+  background: white;
+  color: #1a1a1a;
+  border: 2px solid #e5e7eb;
+}
