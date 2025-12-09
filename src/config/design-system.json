@@ -1,0 +1,77 @@
+{
+  "typography": {
+    "fonts": {
+      "heading": "Inter",
+      "body": "Georgia",
+      "code": "JetBrains Mono"
+    },
+    "sizes": {
+      "xs": "0.75rem",
+      "sm": "0.875rem",
+      "base": "1rem",
+      "lg": "1.125rem",
+      "xl": "1.25rem",
+      "2xl": "1.5rem",
+      "3xl": "1.875rem",
+      "4xl": "2.25rem",
+      "5xl": "3rem",
+      "6xl": "3.75rem"
+    },
+    "lineHeight": {
+      "tight": "1.25",
+      "normal": "1.5",
+      "relaxed": "1.75",
+      "loose": "2"
+    },
+    "letterSpacing": {
+      "tight": "-0.025em",
+      "normal": "0",
+      "wide": "0.025em"
+    }
+  },
+  "colors": {
+    "light": {
+      "bg": "#FAFAFA",
+      "surface": "#FFFFFF",
+      "text": "#1A1A1A",
+      "textMuted": "#6B7280",
+      "accent": "#2563EB",
+      "accentHover": "#1D4ED8",
+      "border": "#E5E7EB",
+      "code": "#F3F4F6"
+    },
+    "dark": {
+      "bg": "#0F0F0F",
+      "surface": "#1A1A1A",
+      "text": "#E5E5E5",
+      "textMuted": "#9CA3AF",
+      "accent": "#60A5FA",
+      "accentHover": "#3B82F6",
+      "border": "#374151",
+      "code": "#1F2937"
+    }
+  },
+  "spacing": {
+    "section": "5rem",
+    "container": "1200px",
+    "contentWidth": "680px",
+    "gap": {
+      "xs": "0.5rem",
+      "sm": "1rem",
+      "md": "1.5rem",
+      "lg": "2rem",
+      "xl": "3rem"
+    }
+  },
+  "borderRadius": {
+    "sm": "0.25rem",
+    "md": "0.5rem",
+    "lg": "0.75rem",
+    "xl": "1rem"
+  },
+  "transitions": {
+    "fast": "150ms",
+    "normal": "300ms",
+    "slow": "500ms"
+  }
+}

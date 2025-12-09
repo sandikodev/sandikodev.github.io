@@ -5,24 +5,16 @@
       "url": "/"
     },
     {
-      "name": "Portfolio",
-      "url": "/#portfolio"
-    },
-    {
-      "name": "Skills",
-      "url": "/#skills"
-    },
-    {
       "name": "Blog",
       "url": "/blog"
     },
     {
-      "name": "About",
-      "url": "/about"
+      "name": "Now",
+      "url": "/now"
     },
     {
-      "name": "Contact",
-      "url": "/#contact"
+      "name": "About",
+      "url": "/about"
     }
   ],
   "footer": [
@@ -31,20 +23,16 @@
       "url": "/"
     },
     {
-      "name": "Portfolio",
-      "url": "/#portfolio"
-    },
-    {
       "name": "Blog",
       "url": "/blog"
     },
     {
-      "name": "About",
-      "url": "/about"
+      "name": "Now",
+      "url": "/now"
     },
     {
-      "name": "Contact",
-      "url": "/#contact"
+      "name": "About",
+      "url": "/about"
     }
   ]
 }
