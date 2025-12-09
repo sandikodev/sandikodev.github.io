@@ -7,6 +7,12 @@
 
 **"The terminal is not just a tool, it's a lifestyle."**
 
+### Why This Design System Exists
+
+Memperkenalkan dunia geek (Linux, terminal, tiling WM) kepada awam dengan cara yang approachable dan menyenangkan. Mensimulasikan antarmuka sistem operasi minimal yang customizable - seperti miniatur v0.dev meets i3wm showcase.
+
+**Goal**: Membuktikan bahwa "geek world" tidak menakutkan - justru powerful, estetis, dan accessible untuk siapa saja. Memberikan playground untuk ricing tanpa perlu install Linux.
+
 Design ini terinspirasi dari:
 - **i3wm / Sway** - Tiling window manager layout
 - **Polybar / Waybar** - Status bar

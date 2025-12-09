@@ -50,6 +50,7 @@ After downloading the template, you have some prerequisites to install. Then you
 ### ⚙️Install prerequisites (once for a machine)
 
 - **Node Installation:** [Install node js](https://nodejs.org/en/download/) [Recommended LTS version]
+- **pnpm Installation:** [Install pnpm](https://pnpm.io/installation) [Recommended package manager]
 
 ### 🖥️Local setup
 
@@ -58,13 +59,13 @@ After successfully installing those dependencies, open this template with any ID
 - Install dependencies
 
 ```
-npm install
+pnpm install
 ```
 
 - Run locally
 
 ```
-npm run dev
+pnpm dev
 ```
 
 After that, it will open up a preview of the template in your default browser, watch for changes to source files, and live-reload the browser when changes are saved.
@@ -74,8 +75,26 @@ After that, it will open up a preview of the template in your default browser, w
 After finishing all the customization, you can create a production build by running this command.
 
 ```
-npm run build
+pnpm build
 ```
+
+## 🎨 Dual Design System
+
+This portfolio features two distinct design systems that users can toggle between:
+
+### Design System V1 (Default) - Blog Theme
+Clean, modern blog interface with Inter + Georgia fonts. Perfect for reading articles and professional content.
+
+### Design System V2 - Terminal Theme
+i3wm/sway-inspired tiling window manager interface with retro terminal aesthetics. Features:
+- Simulates minimal Linux desktop environment
+- Customizable themes (Tokyo Night, Dracula, Gruvbox, Nord, Matrix)
+- Keyboard-driven navigation (vim-style shortcuts)
+- Demonstrates that the "geek world" is accessible and customizable
+
+**Philosophy:** Making the terminal aesthetic approachable for everyone while providing a playground for ricing enthusiasts. Think of it as a mini v0.dev simulator meets i3wm showcase.
+
+**User Preference:** The selected design system is saved in browser localStorage, allowing visitors to choose their preferred experience.
 
 <!-- reporting issue -->
 ## 🐞Reporting Issues
