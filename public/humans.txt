@@ -1,0 +1,15 @@
+/* TEAM */
+Developer: Sandikodev
+Site: https://sandikodev.github.io
+Location: Indonesia
+GitHub: https://github.com/sandikodev
+
+/* THANKS */
+Astro: https://astro.build
+Tailwind CSS: https://tailwindcss.com
+
+/* SITE */
+Last update: 2025/12/09
+Language: Indonesian / English
+Doctype: HTML5
+IDE: VS Code

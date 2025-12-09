@@ -1,0 +1,4 @@
+Contact: mailto:sandikodev@gmail.com
+Contact: https://github.com/sandikodev
+Preferred-Languages: id, en
+Canonical: https://sandikodev.github.io/.well-known/security.txt

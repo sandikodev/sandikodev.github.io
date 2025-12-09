@@ -1,0 +1,25 @@
+{
+  "name": "Sandikodev - Full Stack Developer",
+  "short_name": "Sandikodev",
+  "description": "Portfolio dan blog Sandikodev - Full Stack Developer",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f0f0f",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["technology", "development", "portfolio"],
+  "lang": "id-ID"
+}
