@@ -1,12 +1,320 @@
 # Design System Strategy - V1 vs V2 Coexistence
 
-## 🎯 Problem Statement
+## 🎯 Design Philosophy
 
-Kita punya 2 design system yang berbeda:
-- **V1**: Blog theme (Inter + Georgia + JetBrains Mono)
-- **V2**: Terminal theme (Fira Code monospace everything)
+Kita memiliki 2 design system yang berbeda dengan tujuan yang jelas:
 
-Keduanya harus bisa coexist tanpa konflik.
+### Design System V1 (Default) - Blog Theme
+**Target**: Pembaca umum, profesional, fokus konten
+**Fonts**: Inter + Georgia + JetBrains Mono
+**Style**: Clean, modern, readable blog interface
+
+### Design System V2 - Terminal Theme  
+**Target**: Enthusiast, developer, ricing community
+**Fonts**: Fira Code (monospace everything)
+**Style**: i3wm/sway tiling WM, retro terminal aesthetic
+
+**Philosophy**: Memperkenalkan "geek world" kepada awam - membuktikan bahwa terminal, tiling WM, dan Linux aesthetic tidak menakutkan, justru powerful dan customizable. Seperti simulator mini v0.dev meets i3wm showcase.
+
+**User Choice**: Toggle button untuk switch antara V1 ↔ V2, preferensi tersimpan di localStorage.
+
+---
+
+## 📊 Current State Analysis
+
+### Design System V1 (Blog Theme)
+**Used by**:
+- `Base.astro` → Most blog pages
+- `PostSingle.astro` → Blog post detail
+- `Posts.astro` → Blog listing
+- Regular pages (about, contact, etc)
+
+**Fonts**:
+- Heading: Inter
+- Body: Georgia (serif)
+- Code: JetBrains Mono
+
+**Style**: Traditional blog, readable, professional
+
+---
+
+### Design System V2 (Terminal Theme)
+**Used by**:
+- `I3Layout.astro` → Terminal pages
+- `TerminalLayout.astro` → Terminal features
+- `/terminal`, `/blog-tiling`, `/404`
+
+**Fonts**:
+- Everything: Fira Code (monospace)
+
+**Style**: i3wm, hacker aesthetic, terminal vibes
+
+---
+
+## ✅ Recommended Strategy: **Scoped Isolation with Toggle**
+
+### Approach: Attribute-Based Scoping + User Preference
+
+```
+User Flow:
+1. First visit → V1 (default)
+2. Click toggle → Switch to V2
+3. Preference saved → localStorage
+4. Next visit → Load saved preference
+```
+
+### Technical Implementation
+
+```
+src/
+├── layouts/
+│   ├── Base.astro          → V1 (data-theme-mode="blog")
+│   ├── I3Layout.astro      → V2 (data-theme-mode="terminal")
+│   └── ...
+├── styles/
+│   ├── main.css            → V1 global styles
+│   ├── terminal-theme.css  → V2 base (scoped)
+│   ├── i3wm-theme.css      → V2 tiling (scoped)
+│   └── animations.css      → Shared utilities
+└── components/
+    └── DesignSystemToggle.astro → Switch V1 ↔ V2
+```
+
+**Key Principle**: Each layout scoped by `data-theme-mode` attribute, user can toggle between them.
+
+---
+
+## 🔧 Implementation Plan
+
+### Phase 1: Isolate V2 Styles (DONE ✅)
+
+#### 1.1 Scope Terminal Theme
+```css
+/* terminal-theme.css - All content wrapped with scope */
+[data-theme-mode="terminal"] {
+  --font-mono: 'Fira Code', monospace;
+  --bg-primary: #1a1b26;
+  /* ... all V2 variables */
+}
+
+[data-theme-mode="terminal"] body {
+  font-family: var(--font-mono);
+}
+```
+
+#### 1.2 I3Layout with Scoping (DONE ✅)
+```astro
+<html data-theme-mode="terminal" data-theme="tokyo-night">
+```
+
+#### 1.3 Base Layout with Scoping (DONE ✅)
+```astro
+<html data-theme-mode="blog">
+```
+
+---
+
+### Phase 2: Add Toggle Button (TODO 🔲)
+
+#### 2.1 Create DesignSystemToggle Component
+```astro
+---
+// src/components/DesignSystemToggle.astro
+---
+<button id="design-toggle" aria-label="Toggle Design System">
+  <span class="v1-icon">📝</span>
+  <span class="v2-icon">💻</span>
+</button>
+
+<script>
+  // Load preference from localStorage
+  const saved = localStorage.getItem('design-mode') || 'blog';
+  
+  // Apply on page load
+  document.documentElement.setAttribute('data-theme-mode', saved);
+  
+  // Toggle handler
+  document.getElementById('design-toggle')?.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme-mode');
+    const next = current === 'blog' ? 'terminal' : 'blog';
+    
+    document.documentElement.setAttribute('data-theme-mode', next);
+    localStorage.setItem('design-mode', next);
+    
+    // Reload to apply layout changes
+    window.location.reload();
+  });
+</script>
+```
+
+#### 2.2 Add Toggle to Both Layouts
+```astro
+// Base.astro & I3Layout.astro
+import DesignSystemToggle from '@/components/DesignSystemToggle.astro';
+
+<DesignSystemToggle />
+```
+
+---
+
+### Phase 3: Font Strategy (DONE ✅)
+
+**Separate Font Loading** (Current Implementation):
+
+**Base.astro** (V1):
+```astro
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet" />
+```
+
+**I3Layout.astro** (V2):
+```astro
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet" />
+```
+
+**Pros**:
+- ✅ Clean separation
+- ✅ No conflicts
+- ✅ Each page loads only what it needs
+
+---
+
+### Phase 4: CSS Variable Namespacing (DONE ✅)
+
+#### V1 Variables (main.css)
+```css
+:root {
+  --blog-primary: #3b82f6;
+  --blog-text: #1f2937;
+  --blog-bg: #ffffff;
+}
+```
+
+#### V2 Variables (terminal-theme.css)
+```css
+[data-theme-mode="terminal"] {
+  --terminal-bg: #1a1b26;
+  --terminal-text: #c0caf5;
+  --terminal-accent: #7aa2f7;
+}
+```
+
+---
+
+## 🎨 User Experience Flow
+
+### Scenario 1: First-Time Visitor
+```
+1. Lands on homepage
+2. Sees V1 (blog theme) - default
+3. Notices toggle button (📝 💻)
+4. Clicks → Switches to V2 (terminal theme)
+5. Preference saved → Next visit loads V2
+```
+
+### Scenario 2: Returning Visitor (Saved V2)
+```
+1. Lands on homepage
+2. localStorage has 'terminal'
+3. Loads V2 immediately
+4. Can toggle back to V1 anytime
+```
+
+### Scenario 3: Page Navigation
+```
+1. User on blog page (V1)
+2. Clicks terminal link
+3. Switches to I3Layout (V2)
+4. Preference persists across pages
+```
+
+---
+
+## 🚀 Implementation Checklist
+
+### Phase 1: Isolation (DONE ✅)
+- [x] Add `data-theme-mode="terminal"` to I3Layout
+- [x] Add `data-theme-mode="blog"` to Base.astro
+- [x] Wrap V2 CSS with `[data-theme-mode="terminal"]`
+- [x] Separate font loading
+
+### Phase 2: Toggle (TODO 🔲)
+- [ ] Create DesignSystemToggle component
+- [ ] Add localStorage persistence
+- [ ] Add toggle to both layouts
+- [ ] Style toggle button (both themes)
+- [ ] Add smooth transition
+
+### Phase 3: Testing (TODO 🔲)
+- [ ] Test V1 → V2 switch
+- [ ] Test V2 → V1 switch
+- [ ] Test localStorage persistence
+- [ ] Test page reload
+- [ ] Test cross-navigation
+- [ ] Test mobile responsiveness
+
+---
+
+## 🧪 Testing Checklist
+
+### V1 (Blog Theme)
+- [x] Homepage uses Inter + Georgia
+- [x] Blog posts readable
+- [x] Code blocks use JetBrains Mono
+- [x] No Fira Code loaded
+- [x] No terminal styles applied
+
+### V2 (Terminal Theme)
+- [x] Terminal pages use Fira Code
+- [x] i3wm layout works
+- [x] Theme switching works (Tokyo Night, Dracula, etc)
+- [x] No blog styles interfere
+- [x] Keyboard shortcuts work
+
+### Toggle Functionality (TODO)
+- [ ] Toggle button visible on both themes
+- [ ] Click switches theme
+- [ ] Preference saved to localStorage
+- [ ] Page reload respects preference
+- [ ] Smooth transition (no FOUC)
+
+---
+
+## 📝 Next Steps
+
+1. **Commit current state** (isolation done)
+2. **Implement toggle button** (Phase 2)
+3. **Test thoroughly** (Phase 3)
+4. **Document usage** (README update)
+5. **Push to production**
+
+---
+
+## 🎉 Expected Result
+
+### Current State (Phase 1 Complete)
+```
+✅ Clean separation via data-theme-mode
+✅ No style conflicts
+✅ Fonts isolated
+✅ Both themes work independently
+```
+
+### After Phase 2 (Toggle)
+```
+✅ User can switch V1 ↔ V2
+✅ Preference persists
+✅ Smooth UX
+✅ Accessible to everyone
+```
+
+---
+
+**Priority**: 
+1. HIGH - Commit current state ✅
+2. HIGH - Implement toggle button 🔲
+3. MEDIUM - Add smooth transitions 🔲
+4. LOW - Add more V2 themes 🔲
 
 ---
 
