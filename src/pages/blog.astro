@@ -12,31 +12,61 @@ const totalPages = Math.ceil(posts.length / config.settings.pagination);
 const currentPosts = sortedPosts.slice(0, config.settings.pagination);
 ---
 
-<Base>
-  <!-- Blog Header -->
-  <section class="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-16">
-    <div class="container mx-auto px-4">
-      <div class="max-w-4xl mx-auto text-center">
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-          Tech Blog
-        </h1>
-        <p class="text-xl text-gray-600 dark:text-gray-300 mb-8">
-          Artikel tentang web development, teknologi terbaru, dan pengalaman coding
-        </p>
-        <div class="flex justify-center">
-          <a href="/" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors">
-            ← Kembali ke Portfolio
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
+<Base title="Blog" description="Articles about web development, infrastructure, and continuous learning">
+  <section class="blog-page">
+    <header class="blog-header">
+      <h1>Blog</h1>
+      <p>Thoughts on web development, infrastructure, and learning.</p>
+    </header>
 
-  <!-- Blog Posts -->
-  <section class="py-20 bg-white dark:bg-gray-900">
-    <div class="container mx-auto px-4">
-      <Posts posts={currentPosts} class="mb-16" />
-      <Pagination currentPage={1} totalPages={totalPages} />
+    <div class="blog-content">
+      <Posts posts={currentPosts} />
+      
+      {totalPages > 1 && (
+        <div class="pagination-wrapper">
+          <Pagination currentPage={1} totalPages={totalPages} />
+        </div>
+      )}
     </div>
   </section>
 </Base>
+
+<style>
+  .blog-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+  }
+  
+  .blog-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .blog-header h1 {
+    font-family: 'Inter', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+    color: #0a0a0a;
+  }
+  
+  :global(.dark) .blog-header h1 {
+    color: #fafafa;
+  }
+  
+  .blog-header p {
+    font-size: 1.125rem;
+    color: #525252;
+    margin: 0;
+  }
+  
+  :global(.dark) .blog-header p {
+    color: #a3a3a3;
+  }
+  
+  .pagination-wrapper {
+    margin-top: 4rem;
+  }
+</style>

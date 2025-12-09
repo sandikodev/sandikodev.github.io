@@ -13,12 +13,15 @@ export async function getStaticPaths() {
   const pages = await getSinglePage("pages");
   const allPages = [...pages, ...posts];
 
-  const paths = allPages.map((page: any) => ({
-    params: {
-      regular: page.slug,
-    },
-    props: { page },
-  }));
+  const excludedSlugs = ['404', 'contact'];
+  const paths = allPages
+    .filter((page: any) => !excludedSlugs.includes(page.slug))
+    .map((page: any) => ({
+      params: {
+        regular: page.slug,
+      },
+      props: { page },
+    }));
   return paths;
 }
 
