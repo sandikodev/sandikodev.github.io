@@ -1,87 +1,146 @@
 ---
 import { Image } from "astro:assets";
-import config from "@/config/config.json";
-import { getSinglePage } from "@/lib/contentParser.astro";
 import dateFormat from "@/lib/utils/dateFormat";
-import { humanize,slugify } from "@/lib/utils/textConverter";
-import { BiCalendarEdit,BiCategoryAlt } from "react-icons/bi";
-const authors = await getSinglePage("authors");
-const { summary_length } = config.settings;
-const { className, posts, fluid } = Astro.props;
+import { slugify } from "@/lib/utils/textConverter";
+
+const { posts } = Astro.props;
 ---
 
-<div class={`row gy-5 gx-4 ${className} ${posts.length == 1 ? "justify-center" : ""} `}>
-  {
-    posts.map((post: any, i: number) => (
-      <div class={i === 0 && fluid != false ? "col-12" : "col-12 sm:col-6"}>
+<div class="posts-grid">
+  {posts.map((post: any) => {
+    const readingTime = Math.ceil(post.body.trim().split(/\s+/).length / 200);
+    
+    return (
+      <article class="post-card">
         {post.data.image && (
-          <a href={`/${post.slug}`} class="rounded-lg block hover:text-primary overflow-hidden group">
+          <a href={`/${post.slug}`} class="post-image">
             <Image
-              class="group-hover:scale-[1.03] transition duration-300 w-full"
               src={post.data.image}
               alt={post.data.title}
-              width={i === 0 ? 925 : 445}
-              height={i === 0 ? 475 : 230}
+              width={400}
+              height={225}
             />
           </a>
         )}
-        <ul class="mt-6 mb-4 flex flex-wrap items-center text-text">
-          <li class="mr-5">
-            {authors
-              .filter((author) =>
-                post.data.authors
-                  .map((author: string) => slugify(author))
-                  .includes(slugify(author.data.title))
-              )
-              .map((author) => (
-                <a
-                  href={`/authors/${slugify(author.data.title)}`}
-                  class="flex items-center hover:text-primary font-medium"
-                >
-                  {author.data.image && (
-                    <Image
-                      src={author.data.image}
-                      alt={author.data.title}
-                      height={50}
-                      width={50}
-                      class="mr-2 h-6 w-6 rounded-full"
-                    />
-                  )}
-                  <span>{author.data.title}</span>
-                </a>
-              ))}
-          </li>
-          <li class="mr-5 flex items-center flex-wrap font-medium">
-            <BiCalendarEdit className="mr-1 h-5 w-5 text-gray-600" />
-            <>{dateFormat(post.data.date)}</>
-          </li>
-          <li class="mr-5 flex items-center flex-wrap">
-            <BiCategoryAlt className="mr-1 h-[18px] w-[18px] text-gray-600" />
-            <>
-              <ul>
-                {post.data.categories.map((category: string, i: number) => (
-                  <li class="inline-block">
-                    <a
-                      href={`/categories/${slugify(category)}`}
-                      class="mr-2 hover:text-primary font-medium"
-                    >
-                      {humanize(category)}{i !== post.data.categories.length - 1 && ","}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </>
-          </li>
-        </ul>
-        <h3 class="mb-4">
-          <a href={`/${post.slug}`} class="block hover:text-primary transition duration-300">
-            {post.data.title}
-          </a>
-        </h3>
-        <p class="text-text">
-          {post.body?.slice(0, Number(i === 0 && fluid != false ? summary_length * 2 : summary_length))}...
-        </p>
-      </div>
-    ))
-  }
+        
+        <div class="post-content">
+          <div class="post-meta">
+            <time>{dateFormat(post.data.date)}</time>
+            <span>·</span>
+            <span>{readingTime} min read</span>
+          </div>
+          
+          <h3 class="post-title">
+            <a href={`/${post.slug}`}>{post.data.title}</a>
+          </h3>
+          
+          {post.data.description && (
+            <p class="post-excerpt">{post.data.description}</p>
+          )}
+        </div>
+      </article>
+    );
+  })}
 </div>
+
+<style>
+  .posts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  
+  .post-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .post-image {
+    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+  }
+  
+  .post-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .post-card:hover .post-image img {
+    transform: scale(1.03);
+  }
+  
+  .post-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    color: #737373;
+  }
+  
+  :global(.dark) .post-meta {
+    color: #737373;
+  }
+  
+  .post-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0;
+  }
+  
+  .post-title a {
+    color: #0a0a0a;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  
+  :global(.dark) .post-title a {
+    color: #fafafa;
+  }
+  
+  .post-title a:hover {
+    color: #525252;
+  }
+  
+  :global(.dark) .post-title a:hover {
+    color: #a3a3a3;
+  }
+  
+  .post-excerpt {
+    font-family: Georgia, serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #525252;
+    margin: 0;
+  }
+  
+  :global(.dark) .post-excerpt {
+    color: #a3a3a3;
+  }
+  
+  @media (min-width: 640px) {
+    .posts-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+  }
+  
+  @media (min-width: 900px) {
+    .posts-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

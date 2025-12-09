@@ -1,135 +1,286 @@
 ---
 import { Image } from "astro:assets";
-import Share from "@/components/Share.astro";
-import SimilarPosts from "@/components/SimilarPosts.astro";
+import ReadingProgress from "@/components/ReadingProgress.astro";
+import TableOfContents from "@/components/TableOfContents.astro";
+import RelatedPosts from "@/components/RelatedPosts.astro";
+import CodeBlockEnhancer from "@/components/CodeBlockEnhancer.astro";
+import DevStats from "@/components/DevStats.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import dateFormat from "@/lib/utils/dateFormat";
 import similerItems from "@/lib/utils/similarItems";
-import { humanize, markdownify, slugify } from "@/lib/utils/textConverter";
-import { BiCalendarEdit, BiCategoryAlt } from "react-icons/bi";
+import { humanize, slugify } from "@/lib/utils/textConverter";
 
 const allAuthors = await getSinglePage("authors");
-const posts = await getSinglePage("posts");
+const allPosts = await getSinglePage("posts");
 const { post } = Astro.props;
-const similarPosts = similerItems(post, posts, post.slug);
-const { Content } = await post.render();
-const { title, description, authors, categories, image, date, tags } =
-  post.data;
+const { Content, headings } = await post.render();
+const { title, description, authors, categories, image, date, tags } = post.data;
+
+// Calculate reading time
+const words = post.body.trim().split(/\s+/).length;
+const readingTime = Math.ceil(words / 200);
+
+// Get related posts
+const relatedPosts = similerItems(post, allPosts, post.slug);
 ---
 
-<section class="section">
-  <div class="container">
-    <article class="row justify-center">
-      <div class="md:col-10 text-center">
-        <h1 set:html={markdownify(title)} class="h2" />
-        <ul class="mt-4 flex flex-wrap items-center justify-center text-text">
-          <li class="mx-3">
-            {
-              allAuthors
+<ReadingProgress />
+  
+  <style>
+    .article-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    .article-header {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 2rem 0;
+    }
+    .article-title {
+      font-size: 2.5rem;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+    }
+    .article-meta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      color: #6b7280;
+      font-size: 0.875rem;
+      margin-bottom: 2rem;
+      font-family: Inter, sans-serif;
+    }
+    .article-meta a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+    .article-meta a:hover {
+      text-decoration: underline;
+    }
+    .article-image {
+      max-width: 1000px;
+      margin: 0 auto 3rem;
+    }
+    .article-image img {
+      width: 100%;
+      border-radius: 0.75rem;
+    }
+    .article-main {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .article-content {
+      max-width: 680px;
+      margin: 0 auto;
+      font-family: Georgia, serif;
+      font-size: 1.125rem;
+      line-height: 1.75;
+      color: #1a1a1a;
+    }
+    .article-content :global(h2),
+    .article-content :global(h3),
+    .article-content :global(h4) {
+      font-family: Inter, sans-serif;
+      scroll-margin-top: 5rem;
+    }
+    .article-content :global(h2) {
+      font-size: 1.875rem;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+    }
+    .article-content :global(h3) {
+      font-size: 1.5rem;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+    }
+    .article-content :global(h4) {
+      font-size: 1.25rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .article-content :global(p) {
+      margin-bottom: 1.5rem;
+    }
+    .article-content :global(a) {
+      color: #2563eb;
+      text-decoration: underline;
+    }
+    .article-content :global(code) {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9em;
+      background: #f3f4f6;
+      padding: 0.2em 0.4em;
+      border-radius: 0.25rem;
+    }
+    .article-content :global(pre) {
+      background: #1f2937;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      overflow-x: auto;
+      margin: 2rem 0;
+    }
+    .article-content :global(pre code) {
+      background: none;
+      color: #e5e7eb;
+      padding: 0;
+    }
+    .article-content :global(blockquote) {
+      border-left: 4px solid #2563eb;
+      padding-left: 1.5rem;
+      margin: 2rem 0;
+      font-style: italic;
+      color: #6b7280;
+    }
+    .article-content :global(ul),
+    .article-content :global(ol) {
+      margin-bottom: 1.5rem;
+      padding-left: 2rem;
+    }
+    .article-content :global(li) {
+      margin-bottom: 0.5rem;
+    }
+    .article-content :global(img) {
+      border-radius: 0.75rem;
+      margin: 2rem 0;
+    }
+    .article-footer {
+      max-width: 680px;
+      margin: 3rem auto 0;
+      padding-top: 2rem;
+      border-top: 1px solid #e5e7eb;
+    }
+    .tags {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .tag {
+      background: #f3f4f6;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      color: #1a1a1a;
+      text-decoration: none;
+      font-family: Inter, sans-serif;
+      transition: background 0.2s;
+    }
+    .tag:hover {
+      background: #e5e7eb;
+    }
+    @media (min-width: 768px) {
+      .article-title {
+        font-size: 3rem;
+      }
+    }
+    @media (min-width: 1200px) {
+      .article-main {
+        grid-template-columns: 1fr 250px;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+      }
+      .article-content {
+        margin: 0;
+      }
+    }
+    .article-sidebar {
+      display: none;
+    }
+    @media (min-width: 1200px) {
+      .article-sidebar {
+        display: block;
+        position: sticky;
+        top: 80px;
+      }
+    }
+  </style>
+
+  <article class="article-layout">
+    
+    <header class="article-header">
+      <h1 class="article-title">{title}</h1>
+      
+      <div class="article-meta">
+        <span>{dateFormat(date)}</span>
+        <span>•</span>
+        <span>{readingTime} min read</span>
+        {authors.length > 0 && (
+          <>
+            <span>•</span>
+            <span>
+              {allAuthors
                 .filter((author) =>
                   authors
-                    .map((author: string) => slugify(author))
-                    .includes(slugify(author.data.title)),
+                    .map((a: string) => slugify(a))
+                    .includes(slugify(author.data.title))
                 )
-                .map((author, i) => (
-                  <a
-                    href={`/authors/${slugify(author.slug)}`}
-                    class="flex items-center hover:text-primary font-medium"
-                  >
-                    {author.data.image && (
-                      <Image
-                        src={author.data.image}
-                        alt={author.data.title}
-                        height={50}
-                        width={50}
-                        class="mr-2 h-6 w-6 rounded-full"
-                      />
-                    )}
-                    <span>{author.data.title}</span>
+                .map((author) => (
+                  <a href={`/authors/${slugify(author.slug)}`}>
+                    {author.data.title}
                   </a>
-                ))
-            }
-          </li>
-          <li class="mx-3 flex items-center flex-wrap font-medium">
-            <BiCalendarEdit className="mr-1 h-5 w-5 text-gray-600" />
-            <>{dateFormat(date)}</>
-          </li>
-          <li class="mx-3 flex items-center flex-wrap">
-            <BiCategoryAlt className="mr-1 h-[18px] w-[18px] text-gray-600" />
-            <>
-              <ul>
-                {
-                  categories.map((category: string, i: number) => (
-                    <li class="inline-block">
-                      <a
-                        href={`/categories/${slugify(category)}`}
-                        class="mr-2 hover:text-primary font-medium"
-                      >
-                        {humanize(category)}
-                        {i !== post.data.categories.length - 1 && ","}
-                      </a>
-                    </li>
-                  ))
-                }
-              </ul>
-            </>
-          </li>
-        </ul>
-      </div>
-
-      <div class="col-12 mt-8 mb-2">
-        {
-          image && (
-            <Image
-              src={image}
-              height={500}
-              width={1000}
-              alt={title}
-              class="rounded-lg"
-            />
-          )
-        }
-      </div>
-
-      <div class="md:col-10">
-        <div class="content mb-16 text-left">
-          <Content />
-        </div>
-        <div class="flex flex-wrap items-center justify-between">
-          <ul class="mr-4 mb-4 space-x-3">
-            {
-              tags.map((tag: string) => (
-                <li class="inline-block">
-                  <a
-                    href={`/tags/${slugify(tag)}`}
-                    class="block rounded-lg bg-theme-light px-4 py-2 font-semibold text-dark text-sm hover:text-primary transition duration-300"
-                  >
-                    #{humanize(tag)}
+                ))}
+            </span>
+          </>
+        )}
+        {categories.length > 0 && (
+          <>
+            <span>•</span>
+            <span>
+              {categories.map((cat: string, i: number) => (
+                <>
+                  <a href={`/categories/${slugify(cat)}`}>
+                    {humanize(cat)}
                   </a>
-                </li>
-              ))
-            }
-          </ul>
-          <Share
-            className="social-share mb-4"
-            title={title}
-            description={description}
-            slug={post.slug}
-          />
-        </div>
+                  {i < categories.length - 1 && ", "}
+                </>
+              ))}
+            </span>
+          </>
+        )}
       </div>
-    </article>
-  </div>
-</section>
+    </header>
 
-<!-- similar posts -->
-{
-  similarPosts.length > 0 && (
-    <section class="section pt-0">
-      <div class="container">
-        <h2 class="mb-8 text-center h3">Similar Posts</h2>
-        <SimilarPosts posts={similarPosts.slice(0, 3)} />
+    {image && (
+      <div class="article-image">
+        <Image
+          src={image}
+          alt={title}
+          width={1000}
+          height={500}
+        />
       </div>
-    </section>
-  )
-}
+    )}
+
+    <div class="article-main">
+      <div class="article-content">
+        <Content />
+        
+        {tags && tags.length > 0 && (
+          <footer class="article-footer">
+            <div class="tags">
+              {tags.map((tag: string) => (
+                <a href={`/tags/${slugify(tag)}`} class="tag">
+                  #{humanize(tag)}
+                </a>
+              ))}
+            </div>
+          </footer>
+        )}
+      </div>
+
+      <aside class="article-sidebar">
+        <DevStats content={post.body} readingTime={readingTime} />
+        <TableOfContents headings={headings} />
+      </aside>
+    </div>
+  </article>
+
+  <RelatedPosts posts={relatedPosts} />
+  <CodeBlockEnhancer />
