@@ -1,20 +1,193 @@
 ---
-import Base from "@/layouts/Base.astro";
-import { markdownify } from "@/lib/utils/textConverter";
-import { getEntryBySlug } from "astro:content";
-const entry = await getEntryBySlug("pages", "404");
-const { Content } = await entry.render();
+import I3Layout from "@/layouts/I3Layout.astro";
+import I3Window from "@/components/terminal/I3Window.astro";
+import Prompt from "@/components/terminal/Prompt.astro";
 ---
 
-<Base title={entry.data.title}>
-  <section class="section">
-    <div class="container">
-      <div class="flex h-[40vh] items-center justify-center">
-        <div class="text-center">
-          <h1 class="mb-4" set:html={markdownify(entry.data.title)} />
-          <Content />
+<I3Layout title="404 - Command Not Found | dev@enigma">
+  <div class="i3-split-h error-layout">
+    <I3Window title="bash: command not found" focused={true}>
+      <div class="error-content">
+        <Prompt command={`cd ${Astro.url.pathname}`} showCursor={false} />
+        
+        <pre class="error-message">
+bash: cd: {Astro.url.pathname}: No such file or directory
+
+<span class="error-code">Error 404</span> - The path you're looking for doesn't exist.
+        </pre>
+
+        <div class="suggestions">
+          <p class="suggestion-title">$ ls ~/available-paths</p>
+          <div class="path-list">
+            <a href="/" class="path-item">
+              <span class="path-icon">📁</span>
+              <span class="path-name">/</span>
+              <span class="path-desc">Home directory</span>
+            </a>
+            <a href="/blog-tiling" class="path-item">
+              <span class="path-icon">📝</span>
+              <span class="path-name">/blog-tiling</span>
+              <span class="path-desc">Blog posts</span>
+            </a>
+            <a href="/about" class="path-item">
+              <span class="path-icon">👤</span>
+              <span class="path-name">/about</span>
+              <span class="path-desc">About me</span>
+            </a>
+            <a href="/terminal" class="path-item">
+              <span class="path-icon">💻</span>
+              <span class="path-name">/terminal</span>
+              <span class="path-desc">Terminal demo</span>
+            </a>
+          </div>
         </div>
+
+        <div class="help-text">
+          <p>$ man navigation</p>
+          <ul>
+            <li>Press <kbd>g h</kbd> to go home</li>
+            <li>Press <kbd>g b</kbd> to go to blog</li>
+            <li>Press <kbd>?</kbd> for help</li>
+          </ul>
+        </div>
+
+        <Prompt showCursor={true} />
       </div>
-    </div>
-  </section>
-</Base>
+    </I3Window>
+  </div>
+</I3Layout>
+
+<style>
+  .error-layout {
+    min-height: calc(100vh - 28px);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .error-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .error-message {
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin: 0;
+    padding: 16px;
+    background: var(--bg-tertiary);
+    border-left: 3px solid var(--red);
+    border-radius: 4px;
+  }
+
+  .error-code {
+    color: var(--red);
+    font-weight: 700;
+    font-size: 1.125rem;
+  }
+
+  .suggestions {
+    margin-top: 8px;
+  }
+
+  .suggestion-title {
+    color: var(--green);
+    font-size: 0.875rem;
+    margin-bottom: 12px;
+  }
+
+  .path-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .path-item {
+    display: grid;
+    grid-template-columns: 32px 150px 1fr;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+  }
+
+  .path-item:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--blue);
+    transform: translateX(4px);
+  }
+
+  .path-icon {
+    font-size: 1.25rem;
+  }
+
+  .path-name {
+    color: var(--cyan);
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+
+  .path-desc {
+    color: var(--text-muted);
+    font-size: 0.8125rem;
+  }
+
+  .help-text {
+    margin-top: 8px;
+    padding: 12px;
+    background: var(--bg-secondary);
+    border-radius: 6px;
+  }
+
+  .help-text p {
+    color: var(--yellow);
+    font-size: 0.875rem;
+    margin: 0 0 8px;
+  }
+
+  .help-text ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .help-text li {
+    color: var(--text-secondary);
+    font-size: 0.8125rem;
+  }
+
+  .help-text kbd {
+    padding: 2px 6px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-primary);
+  }
+
+  @media (max-width: 768px) {
+    .path-item {
+      grid-template-columns: 32px 1fr;
+      gap: 8px;
+    }
+
+    .path-desc {
+      display: none;
+    }
+
+    .help-text ul {
+      font-size: 0.75rem;
+    }
+  }
+</style>
