@@ -1,0 +1,630 @@
+/* ═══════════════════════════════════════════════════════════════
+   TERMINAL THEME - dev@enigma (SCOPED TO TERMINAL MODE)
+   Neo Terminal / SSH Hacker Aesthetic
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── CSS Variables (Scoped to Terminal Mode) ───────────────── */
+[data-theme-mode="terminal"] {
+  /* Tokyo Night Storm - Default Theme */
+  --bg-primary: #1a1b26;
+  --bg-secondary: #24283b;
+  --bg-tertiary: #414868;
+  --bg-hover: #292e42;
+  
+  --text-primary: #c0caf5;
+  --text-secondary: #9aa5ce;
+  --text-muted: #565f89;
+  
+  /* Terminal ANSI Colors */
+  --red: #f7768e;
+  --green: #9ece6a;
+  --yellow: #e0af68;
+  --blue: #7aa2f7;
+  --magenta: #bb9af7;
+  --cyan: #7dcfff;
+  --orange: #ff9e64;
+  --white: #c0caf5;
+  
+  /* Special */
+  --cursor: #c0caf5;
+  --selection: #33467c;
+  --border: #3b4261;
+  --glow: rgba(122, 162, 247, 0.4);
+  --glow-green: rgba(158, 206, 106, 0.4);
+  
+  /* Typography - Fira Code with Ligatures */
+  --font-mono: 'Fira Code', 'JetBrains Mono', 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+  
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 400ms ease;
+}
+
+/* ─── Theme Variants ────────────────────────────────────────── */
+
+/* Dracula */
+[data-theme="dracula"] {
+  --bg-primary: #282a36;
+  --bg-secondary: #44475a;
+  --bg-tertiary: #6272a4;
+  --text-primary: #f8f8f2;
+  --text-secondary: #f8f8f2cc;
+  --text-muted: #6272a4;
+  --red: #ff5555;
+  --green: #50fa7b;
+  --yellow: #f1fa8c;
+  --blue: #8be9fd;
+  --magenta: #ff79c6;
+  --cyan: #8be9fd;
+  --orange: #ffb86c;
+  --glow: rgba(189, 147, 249, 0.4);
+}
+
+/* Gruvbox */
+[data-theme="gruvbox"] {
+  --bg-primary: #282828;
+  --bg-secondary: #3c3836;
+  --bg-tertiary: #504945;
+  --text-primary: #ebdbb2;
+  --text-secondary: #d5c4a1;
+  --text-muted: #928374;
+  --red: #fb4934;
+  --green: #b8bb26;
+  --yellow: #fabd2f;
+  --blue: #83a598;
+  --magenta: #d3869b;
+  --cyan: #8ec07c;
+  --orange: #fe8019;
+  --glow: rgba(254, 128, 25, 0.4);
+}
+
+/* Nord */
+[data-theme="nord"] {
+  --bg-primary: #2e3440;
+  --bg-secondary: #3b4252;
+  --bg-tertiary: #434c5e;
+  --text-primary: #eceff4;
+  --text-secondary: #e5e9f0;
+  --text-muted: #4c566a;
+  --red: #bf616a;
+  --green: #a3be8c;
+  --yellow: #ebcb8b;
+  --blue: #81a1c1;
+  --magenta: #b48ead;
+  --cyan: #88c0d0;
+  --orange: #d08770;
+  --glow: rgba(136, 192, 208, 0.4);
+}
+
+/* Matrix */
+[data-theme="matrix"] {
+  --bg-primary: #0d0d0d;
+  --bg-secondary: #1a1a1a;
+  --bg-tertiary: #2a2a2a;
+  --text-primary: #00ff00;
+  --text-secondary: #00cc00;
+  --text-muted: #006600;
+  --red: #ff0000;
+  --green: #00ff00;
+  --yellow: #ffff00;
+  --blue: #00ffff;
+  --magenta: #ff00ff;
+  --cyan: #00ffff;
+  --orange: #ff8800;
+  --glow: rgba(0, 255, 0, 0.5);
+}
+
+/* ─── Base Styles ───────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-mono);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Enable ligatures */
+  font-feature-settings: "liga" 1, "calt" 1, "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1, "ss05" 1;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+::selection {
+  background: var(--selection);
+  color: var(--text-primary);
+}
+
+/* ─── Typography ────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0 0 var(--space-4);
+  color: var(--text-primary);
+}
+
+/* Terminal-style heading prefixes */
+h1::before { content: "# "; color: var(--magenta); }
+h2::before { content: "## "; color: var(--blue); }
+h3::before { content: "### "; color: var(--cyan); }
+h4::before { content: "#### "; color: var(--green); }
+
+h1 { font-size: 2rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+h4 { font-size: 1.125rem; }
+
+p {
+  margin: 0 0 var(--space-4);
+  color: var(--text-secondary);
+}
+
+a {
+  color: var(--blue);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+a:hover {
+  color: var(--cyan);
+  text-shadow: 0 0 8px var(--glow);
+}
+
+/* ─── Code & Pre ────────────────────────────────────────────── */
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--bg-secondary);
+  padding: 0.2em 0.4em;
+  border-radius: var(--radius-sm);
+  color: var(--orange);
+}
+
+pre {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  overflow-x: auto;
+  margin: var(--space-4) 0;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  color: var(--text-primary);
+}
+
+/* ─── Blockquote ────────────────────────────────────────────── */
+blockquote {
+  margin: var(--space-6) 0;
+  padding: var(--space-4) var(--space-6);
+  border-left: 3px solid var(--magenta);
+  background: var(--bg-secondary);
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+blockquote::before {
+  content: "> ";
+  color: var(--magenta);
+  font-style: normal;
+}
+
+/* ─── Lists ─────────────────────────────────────────────────── */
+ul, ol {
+  margin: var(--space-4) 0;
+  padding-left: var(--space-6);
+}
+
+li {
+  margin: var(--space-2) 0;
+  color: var(--text-secondary);
+}
+
+ul li::marker {
+  content: "├── ";
+  color: var(--text-muted);
+}
+
+ul li:last-child::marker {
+  content: "└── ";
+}
+
+/* ─── Cursor Animation ──────────────────────────────────────── */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.cursor {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.2em;
+  background: var(--cursor);
+  animation: blink 1s infinite;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+}
+
+/* ─── Typing Animation ──────────────────────────────────────── */
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.typing {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing 2s steps(40) forwards;
+}
+
+/* ─── Glow Effects ──────────────────────────────────────────── */
+.glow {
+  text-shadow: 
+    0 0 5px var(--glow),
+    0 0 10px var(--glow),
+    0 0 20px var(--glow);
+}
+
+.glow-box {
+  box-shadow: 
+    0 0 5px var(--glow),
+    0 0 15px var(--glow);
+}
+
+.glow-green {
+  text-shadow: 
+    0 0 5px var(--glow-green),
+    0 0 10px var(--glow-green);
+}
+
+/* ─── Scan Lines (CRT Effect) ───────────────────────────────── */
+.scanlines {
+  position: relative;
+}
+
+.scanlines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 0.1) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* ─── Glitch Effect ─────────────────────────────────────────── */
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+.glitch:hover {
+  animation: glitch 0.3s infinite;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ─── Focus States ──────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+/* ─── Utility Classes ───────────────────────────────────────── */
+.text-red { color: var(--red); }
+.text-green { color: var(--green); }
+.text-yellow { color: var(--yellow); }
+.text-blue { color: var(--blue); }
+.text-magenta { color: var(--magenta); }
+.text-cyan { color: var(--cyan); }
+.text-orange { color: var(--orange); }
+.text-muted { color: var(--text-muted); }
+
+.bg-primary { background: var(--bg-primary); }
+.bg-secondary { background: var(--bg-secondary); }
+.bg-tertiary { background: var(--bg-tertiary); }
+
+.font-mono { font-family: var(--font-mono); }
+
+/* ─── Terminal Prompt ───────────────────────────────────────── */
+.prompt {
+  color: var(--text-muted);
+}
+
+.prompt-user {
+  color: var(--green);
+}
+
+.prompt-host {
+  color: var(--green);
+}
+
+.prompt-path {
+  color: var(--blue);
+}
+
+.prompt-symbol {
+  color: var(--magenta);
+}
+
+/* ─── Responsive ────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+  
+  h1 { font-size: 1.75rem; }
+  h2 { font-size: 1.375rem; }
+  h3 { font-size: 1.125rem; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   KATEX - Math Equations Styling
+   ═══════════════════════════════════════════════════════════════ */
+
+.katex-display {
+  margin: var(--space-4) 0;
+  overflow-x: auto;
+}
+
+.katex-display > .katex {
+  color: var(--cyan);
+}
+
+.katex {
+  font-size: 1.1em;
+  color: var(--text-primary);
+}
+
+/* Inline math */
+p .katex,
+li .katex {
+  color: var(--orange);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MERMAID - Flowchart Styling
+   ═══════════════════════════════════════════════════════════════ */
+
+.mermaid {
+  margin: var(--space-4) 0;
+  padding: var(--space-4);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+/* Override mermaid text colors */
+.mermaid .nodeLabel,
+.mermaid .edgeLabel,
+.mermaid .label {
+  font-family: var(--font-mono) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SHIKI CODE BLOCKS - Astro Built-in Syntax Highlighting
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Code blocks - clean single box */
+.astro-code,
+pre:has(> code) {
+  margin: 0;
+  padding: var(--space-4);
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.7;
+  overflow-x: auto;
+  font-feature-settings: "liga" 1, "calt" 1;
+}
+
+.astro-code code,
+pre > code {
+  display: block;
+  background: transparent !important;
+  padding: 0;
+  color: var(--text-primary);
+}
+
+.astro-code .line:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* Code header - language + copy button */
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-4);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  margin-top: var(--space-4);
+}
+
+.code-header .code-lang {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--cyan);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.code-header .code-copy {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.code-header .code-copy:hover {
+  color: var(--text-primary);
+}
+
+.code-header .code-copy.copied {
+  color: var(--green);
+}
+
+@media (max-width: 768px) {
+  .code-header .code-copy span {
+    display: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CODE SYNTAX HIGHLIGHTING - Enhanced
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Code block container */
+.astro-code {
+  margin: var(--space-4) 0;
+  padding: var(--space-4);
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  /* Enable ligatures in code */
+  font-feature-settings: "liga" 1, "calt" 1;
+}
+
+/* Line numbers */
+.astro-code code {
+  counter-reset: line;
+}
+
+.astro-code code > .line::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 2rem;
+  margin-right: 1rem;
+  padding-right: 0.5rem;
+  text-align: right;
+  color: var(--text-muted);
+  border-right: 1px solid var(--border);
+}
+
+/* Highlighted lines */
+.astro-code .line.highlighted {
+  background: var(--selection);
+  margin: 0 calc(var(--space-4) * -1);
+  padding: 0 var(--space-4);
+}
+
+/* Diff highlighting */
+.astro-code .line.diff.add {
+  background: rgba(158, 206, 106, 0.15);
+}
+
+.astro-code .line.diff.add::before {
+  content: "+";
+  color: var(--green);
+}
+
+.astro-code .line.diff.remove {
+  background: rgba(247, 118, 142, 0.15);
+}
+
+.astro-code .line.diff.remove::before {
+  content: "-";
+  color: var(--red);
+}
+
+/* Language badge */
+[data-language]::before {
+  content: attr(data-language);
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: var(--space-1) var(--space-2);
+  background: var(--bg-tertiary);
+  border-bottom-left-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  color: var(--cyan);
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LIGATURE SHOWCASE
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Common ligatures in Fira Code:
+   ->  =>  !=  !==  ==  ===  <=  >=  
+   ::  ...  &&  ||  ??  ?:  |>  <|
+   ++  --  **  //  /*  */  <!--  -->
+   www  ~~  ~@  @_  __  ##  ###
+*/
+
+.ligature-demo {
+  font-family: var(--font-mono);
+  font-feature-settings: "liga" 1, "calt" 1;
+  font-size: 1.25rem;
+}
