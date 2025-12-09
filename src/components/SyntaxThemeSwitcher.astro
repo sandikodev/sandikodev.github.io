@@ -1,0 +1,163 @@
+---
+// Syntax theme switcher for code blocks
+---
+
+<div class="syntax-theme-switcher">
+  <button id="theme-toggle" class="theme-btn" title="Change syntax theme">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 2v4m0 0v4m0-4h4m-4 0H8"/>
+    </svg>
+  </button>
+  
+  <div id="theme-menu" class="theme-menu">
+    <div class="theme-option" data-theme="github-dark">
+      <span class="theme-preview github-dark"></span>
+      <span>GitHub Dark</span>
+    </div>
+    <div class="theme-option" data-theme="github-light">
+      <span class="theme-preview github-light"></span>
+      <span>GitHub Light</span>
+    </div>
+    <div class="theme-option" data-theme="dracula">
+      <span class="theme-preview dracula"></span>
+      <span>Dracula</span>
+    </div>
+    <div class="theme-option" data-theme="nord">
+      <span class="theme-preview nord"></span>
+      <span>Nord</span>
+    </div>
+    <div class="theme-option" data-theme="tokyo-night">
+      <span class="theme-preview tokyo-night"></span>
+      <span>Tokyo Night</span>
+    </div>
+    <div class="theme-option" data-theme="one-dark-pro">
+      <span class="theme-preview one-dark-pro"></span>
+      <span>One Dark Pro</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .syntax-theme-switcher {
+    position: relative;
+    display: inline-block;
+  }
+  .theme-btn {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    color: #6b7280;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+  }
+  .theme-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #1a1a1a;
+  }
+  .theme-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 0.5rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    min-width: 200px;
+    z-index: 100;
+  }
+  .theme-menu.active {
+    display: block;
+  }
+  .theme-option {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.875rem;
+  }
+  .theme-option:hover {
+    background: #f3f4f6;
+  }
+  .theme-option.active {
+    background: #eff6ff;
+    color: #2563eb;
+  }
+  .theme-preview {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 0.25rem;
+    border: 1px solid #e5e7eb;
+  }
+  .theme-preview.github-dark {
+    background: linear-gradient(135deg, #0d1117 50%, #161b22 50%);
+  }
+  .theme-preview.github-light {
+    background: linear-gradient(135deg, #ffffff 50%, #f6f8fa 50%);
+  }
+  .theme-preview.dracula {
+    background: linear-gradient(135deg, #282a36 50%, #44475a 50%);
+  }
+  .theme-preview.nord {
+    background: linear-gradient(135deg, #2e3440 50%, #3b4252 50%);
+  }
+  .theme-preview.tokyo-night {
+    background: linear-gradient(135deg, #1a1b26 50%, #24283b 50%);
+  }
+  .theme-preview.one-dark-pro {
+    background: linear-gradient(135deg, #282c34 50%, #21252b 50%);
+  }
+</style>
+
+<script>
+  const btn = document.getElementById('theme-toggle');
+  const menu = document.getElementById('theme-menu');
+  const options = document.querySelectorAll('.theme-option');
+  
+  // Load saved theme
+  const savedTheme = localStorage.getItem('syntax-theme') || 'github-dark';
+  
+  // Apply theme
+  function applyTheme(theme: string) {
+    document.documentElement.setAttribute('data-syntax-theme', theme);
+    localStorage.setItem('syntax-theme', theme);
+    
+    // Update active state
+    options.forEach(opt => {
+      if (opt.getAttribute('data-theme') === theme) {
+        opt.classList.add('active');
+      } else {
+        opt.classList.remove('active');
+      }
+    });
+  }
+  
+  // Initialize
+  applyTheme(savedTheme);
+  
+  // Toggle menu
+  btn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    menu?.classList.toggle('active');
+  });
+  
+  // Select theme
+  options.forEach(option => {
+    option.addEventListener('click', () => {
+      const theme = option.getAttribute('data-theme');
+      if (theme) {
+        applyTheme(theme);
+        menu?.classList.remove('active');
+      }
+    });
+  });
+  
+  // Close menu on outside click
+  document.addEventListener('click', () => {
+    menu?.classList.remove('active');
+  });
+</script>
