@@ -1,0 +1,119 @@
+---
+// Design System Toggle - Switch between V1 (Blog) and V2 (Terminal)
+---
+
+<button
+  id="design-toggle"
+  class="design-toggle"
+  aria-label="Toggle Design System"
+  title="Switch between Blog and Terminal theme"
+>
+  <span class="toggle-icon blog-icon">📝</span>
+  <span class="toggle-icon terminal-icon">💻</span>
+</button>
+
+<style>
+  .design-toggle {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 9999;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    background: var(--toggle-bg, #fff);
+    color: var(--toggle-color, #1f2937);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .design-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .toggle-icon {
+    position: absolute;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  /* Blog mode: show terminal icon */
+  [data-theme-mode="blog"] .blog-icon {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  [data-theme-mode="blog"] .terminal-icon {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Terminal mode: show blog icon */
+  [data-theme-mode="terminal"] .blog-icon {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  [data-theme-mode="terminal"] .terminal-icon {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  /* Terminal theme styling */
+  [data-theme-mode="terminal"] .design-toggle {
+    --toggle-bg: #1a1b26;
+    --toggle-color: #c0caf5;
+    border-color: #7aa2f7;
+  }
+
+  @media (max-width: 768px) {
+    .design-toggle {
+      bottom: 1rem;
+      right: 1rem;
+      width: 3rem;
+      height: 3rem;
+      font-size: 1.25rem;
+    }
+  }
+</style>
+
+<script>
+  function initDesignToggle() {
+    const toggle = document.getElementById('design-toggle');
+    if (!toggle) return;
+
+    // Load saved preference
+    const saved = localStorage.getItem('design-mode');
+    if (saved) {
+      document.documentElement.setAttribute('data-theme-mode', saved);
+    }
+
+    // Toggle handler
+    toggle.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme-mode') || 'blog';
+      const next = current === 'blog' ? 'terminal' : 'blog';
+      
+      // Save preference
+      localStorage.setItem('design-mode', next);
+      
+      // Navigate to appropriate page
+      if (next === 'terminal') {
+        window.location.href = '/terminal';
+      } else {
+        window.location.href = '/';
+      }
+    });
+  }
+
+  // Init on page load
+  initDesignToggle();
+
+  // Re-init on Astro page transitions
+  document.addEventListener('astro:page-load', initDesignToggle);
+</script>
