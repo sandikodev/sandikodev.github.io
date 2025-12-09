@@ -1,0 +1,373 @@
+---
+import I3Layout from "@/layouts/I3Layout.astro";
+import I3Window from "@/components/terminal/I3Window.astro";
+import Prompt from "@/components/terminal/Prompt.astro";
+import AsciiHero from "@/components/terminal/AsciiHero.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+
+const posts = await getSinglePage("posts");
+const recentPosts = posts
+  .filter((post: any) => !post.data.draft)
+  .sort((a: any, b: any) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 5);
+
+const skills = {
+  languages: ['TypeScript', 'Python', 'Rust', 'Go'],
+  frontend: ['React', 'Next.js', 'Astro', 'Tailwind'],
+  backend: ['Node.js', 'FastAPI', 'PostgreSQL', 'Redis'],
+  devops: ['Docker', 'K8s', 'AWS', 'GitHub Actions'],
+  tools: ['NeoVim', 'i3wm', 'tmux', 'Alacritty']
+};
+---
+
+<I3Layout title="dev@enigma | i3wm">
+  
+  <div class="i3-split-h">
+    
+    <!-- Left: Main + Skills (65%) -->
+    <div class="i3-split-v" style="flex: 1.8;">
+      
+      <!-- Main terminal -->
+      <I3Window title="alacritty — dev@enigma:~" focused={true}>
+        <div class="term-content">
+          <Prompt command="neofetch" showCursor={false} />
+          <AsciiHero />
+          
+          <div class="motd">
+            <Prompt command="cat /etc/motd" showCursor={false} />
+            <div class="motd-box">
+              <p class="motd-title">👋 Welcome to my digital workspace</p>
+              <p class="motd-text">Full-stack developer passionate about clean code, terminal workflows, and building things that matter.</p>
+              <p class="motd-quote">"First, solve the problem. Then, write the code." — John Johnson</p>
+            </div>
+          </div>
+          
+          <Prompt command="htop" showCursor={false} />
+          <div class="htop-bar">
+            <div class="htop-item">
+              <span class="htop-label">CPU</span>
+              <div class="htop-progress"><div class="htop-fill cpu" style="width: 23%"></div></div>
+              <span class="htop-value">23%</span>
+            </div>
+            <div class="htop-item">
+              <span class="htop-label">MEM</span>
+              <div class="htop-progress"><div class="htop-fill mem" style="width: 45%"></div></div>
+              <span class="htop-value">4.2G/8G</span>
+            </div>
+            <div class="htop-item">
+              <span class="htop-label">SWP</span>
+              <div class="htop-progress"><div class="htop-fill swp" style="width: 5%"></div></div>
+              <span class="htop-value">0.2G/4G</span>
+            </div>
+          </div>
+          
+          <Prompt showCursor={true} />
+        </div>
+      </I3Window>
+      
+      <!-- Skills window -->
+      <I3Window title="cat ~/.config/skills.json">
+        <div class="skills-grid">
+          {Object.entries(skills).map(([category, items]) => (
+            <div class="skill-category">
+              <span class="skill-key">"{category}"</span>
+              <span class="skill-colon">:</span>
+              <span class="skill-bracket">[</span>
+              {items.map((item, i) => (
+                <span class="skill-item">
+                  <span class="skill-value">"{item}"</span>{i < items.length - 1 ? <span class="skill-comma">,</span> : ''}
+                </span>
+              ))}
+              <span class="skill-bracket">]</span>
+            </div>
+          ))}
+        </div>
+      </I3Window>
+      
+    </div>
+    
+    <!-- Right: Posts + Links + Clock (35%) -->
+    <div class="i3-split-v" style="flex: 1;">
+      
+      <!-- Recent posts -->
+      <I3Window title="ranger — ~/blog/posts">
+        <div class="ranger">
+          <div class="ranger-header">
+            <span class="ranger-path">~/blog/posts</span>
+            <span class="ranger-info">{recentPosts.length} items</span>
+          </div>
+          <div class="ranger-list">
+            {recentPosts.map((post: any, i: number) => (
+              <a href={`/${post.slug}`} class={`ranger-item ${i === 0 ? 'selected' : ''}`}>
+                <span class="ranger-icon">📄</span>
+                <span class="ranger-name">{post.slug}.md</span>
+                <span class="ranger-date">{post.data.date?.toISOString().split('T')[0]}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </I3Window>
+      
+      <!-- Links -->
+      <I3Window title="cat ~/.local/share/bookmarks">
+        <div class="bookmarks">
+          <a href="https://github.com/sandikodev" target="_blank" class="bookmark">
+            <span class="bm-icon">📦</span>
+            <span class="bm-name">GitHub</span>
+            <span class="bm-url">github.com/sandikodev</span>
+          </a>
+          <a href="https://linkedin.com/in/sandikodev" target="_blank" class="bookmark">
+            <span class="bm-icon">💼</span>
+            <span class="bm-name">LinkedIn</span>
+            <span class="bm-url">linkedin.com/in/sandikodev</span>
+          </a>
+          <a href="mailto:sandikodev@gmail.com" class="bookmark">
+            <span class="bm-icon">📧</span>
+            <span class="bm-name">Email</span>
+            <span class="bm-url">sandikodev@gmail.com</span>
+          </a>
+          <a href="/blog" class="bookmark">
+            <span class="bm-icon">📝</span>
+            <span class="bm-name">Blog</span>
+            <span class="bm-url">~/blog</span>
+          </a>
+          <a href="/about" class="bookmark">
+            <span class="bm-icon">👤</span>
+            <span class="bm-name">About</span>
+            <span class="bm-url">~/about</span>
+          </a>
+        </div>
+      </I3Window>
+      
+      <!-- Clock widget -->
+      <I3Window title="tty-clock -c">
+        <div class="clock-widget">
+          <div class="clock-time" id="clock-time">00:00:00</div>
+          <div class="clock-date" id="clock-date">Monday, January 1, 2025</div>
+          <div class="clock-uptime">uptime: <span id="uptime">0d 0h 0m</span></div>
+        </div>
+      </I3Window>
+      
+    </div>
+  </div>
+  
+  <!-- Scratchpad -->
+  <div id="scratchpad" class="i3-scratchpad">
+    <div class="sp-window">
+      <div class="sp-title">📋 scratchpad — mod+shift+minus to hide</div>
+      <textarea class="sp-input" placeholder="# Quick notes&#10;&#10;Type anything here..."></textarea>
+    </div>
+  </div>
+  
+</I3Layout>
+
+<style>
+  .term-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* MOTD */
+  .motd-box {
+    background: linear-gradient(135deg, rgba(122, 162, 247, 0.1), rgba(187, 154, 247, 0.1));
+    border-left: 3px solid var(--blue);
+    padding: 12px 16px;
+    margin: 8px 0;
+  }
+  .motd-title { color: var(--text-primary); font-weight: 600; margin-bottom: 8px; }
+  .motd-text { color: var(--text-secondary); font-size: 13px; margin-bottom: 8px; }
+  .motd-quote { color: var(--magenta); font-style: italic; font-size: 12px; }
+
+  /* htop bars */
+  .htop-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px 0;
+  }
+  .htop-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+  }
+  .htop-label { color: var(--cyan); width: 32px; }
+  .htop-progress {
+    flex: 1;
+    height: 10px;
+    background: var(--bg-tertiary);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .htop-fill {
+    height: 100%;
+    transition: width 0.3s;
+  }
+  .htop-fill.cpu { background: linear-gradient(90deg, var(--green), var(--yellow)); }
+  .htop-fill.mem { background: linear-gradient(90deg, var(--blue), var(--cyan)); }
+  .htop-fill.swp { background: var(--magenta); }
+  .htop-value { color: var(--text-muted); width: 70px; text-align: right; font-size: 11px; }
+
+  /* Skills */
+  .skills-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 12px;
+    font-family: var(--font-mono);
+  }
+  .skill-category {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+  }
+  .skill-key { color: var(--blue); }
+  .skill-colon { color: var(--text-muted); }
+  .skill-bracket { color: var(--yellow); }
+  .skill-value { color: var(--green); }
+  .skill-comma { color: var(--text-muted); }
+
+  /* Ranger file manager */
+  .ranger { font-size: 12px; }
+  .ranger-header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 8px;
+  }
+  .ranger-path { color: var(--blue); font-weight: 500; }
+  .ranger-info { color: var(--text-muted); }
+  .ranger-list { display: flex; flex-direction: column; gap: 2px; }
+  .ranger-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: 4px;
+  }
+  .ranger-item:hover, .ranger-item.selected {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+  }
+  .ranger-item.selected { border-left: 2px solid var(--blue); }
+  .ranger-icon { font-size: 14px; }
+  .ranger-name { flex: 1; color: var(--cyan); }
+  .ranger-item:hover .ranger-name { text-decoration: underline; }
+  .ranger-date { color: var(--text-muted); font-size: 11px; }
+
+  /* Bookmarks */
+  .bookmarks { display: flex; flex-direction: column; gap: 4px; }
+  .bookmark {
+    display: grid;
+    grid-template-columns: 24px 70px 1fr;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+  .bookmark:hover { background: var(--bg-tertiary); color: var(--text-primary); }
+  .bm-icon { font-size: 14px; }
+  .bm-name { color: var(--green); font-weight: 500; }
+  .bm-url { color: var(--text-muted); font-size: 11px; overflow: hidden; text-overflow: ellipsis; }
+
+  /* Clock */
+  .clock-widget {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 8px;
+    padding: 16px;
+  }
+  .clock-time {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--cyan);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 2px;
+  }
+  .clock-date {
+    color: var(--text-secondary);
+    font-size: 13px;
+  }
+  .clock-uptime {
+    color: var(--text-muted);
+    font-size: 11px;
+  }
+
+  /* Scratchpad */
+  .sp-window {
+    background: var(--i3-bg-inactive);
+    border: 2px solid var(--i3-border-focused);
+    width: 550px;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .sp-title {
+    padding: 6px 12px;
+    background: var(--i3-border-focused);
+    color: var(--i3-bg);
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .sp-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    resize: none;
+    padding: 16px;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .ranger-date { display: none; }
+    .bm-url { display: none; }
+    .bookmark { grid-template-columns: 24px 1fr; }
+    .clock-time { font-size: 1.8rem; }
+  }
+</style>
+
+<script>
+  // Live clock
+  function updateClock() {
+    const now = new Date();
+    const time = now.toLocaleTimeString('en-US', { hour12: false });
+    const date = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    
+    const timeEl = document.getElementById('clock-time');
+    const dateEl = document.getElementById('clock-date');
+    if (timeEl) timeEl.textContent = time;
+    if (dateEl) dateEl.textContent = date;
+  }
+  
+  // Fake uptime
+  let uptimeMinutes = Math.floor(Math.random() * 1000) + 100;
+  function updateUptime() {
+    uptimeMinutes++;
+    const days = Math.floor(uptimeMinutes / 1440);
+    const hours = Math.floor((uptimeMinutes % 1440) / 60);
+    const mins = uptimeMinutes % 60;
+    const el = document.getElementById('uptime');
+    if (el) el.textContent = `${days}d ${hours}h ${mins}m`;
+  }
+  
+  updateClock();
+  updateUptime();
+  setInterval(updateClock, 1000);
+  setInterval(updateUptime, 60000);
+</script>

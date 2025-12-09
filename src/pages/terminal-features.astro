@@ -1,0 +1,78 @@
+---
+import TerminalLayout from "@/layouts/TerminalLayout.astro";
+import TerminalWindow from "@/components/terminal/TerminalWindow.astro";
+import Prompt from "@/components/terminal/Prompt.astro";
+import { Code } from 'astro:components';
+
+const jsCode = `// Arrow functions with ligatures: => !== ===
+const fetchData = async (url: string): Promise<Data> => {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(\`HTTP error! status: \${response.status}\`);
+  }
+  return response.json();
+};
+
+// Nullish coalescing: ?? and optional chaining: ?.
+const value = data?.nested?.value ?? 'default';`;
+
+const pyCode = `from typing import Optional
+
+async def process_data(items: list[dict]) -> Optional[str]:
+    """Process items with async/await pattern."""
+    results = []
+    for item in items:
+        if (value := item.get('key')) is not None:
+            results.append(await transform(value))
+    return ''.join(results) if results else None`;
+
+const rustCode = `use std::collections::HashMap;
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let mut scores: HashMap<&str, i32> = HashMap::new();
+    
+    match scores.get("player1") {
+        Some(score) => println!("Score: {}", score),
+        None => println!("Player not found"),
+    }
+    Ok(())
+}`;
+---
+
+<TerminalLayout title="Terminal Features | dev@enigma" file="features">
+  <TerminalWindow title="dev@enigma:~/features">
+    <Prompt command="cat README.md" showCursor={false} />
+    
+    <article class="content">
+      <h1>Terminal Design System Features</h1>
+      <p>Ligatures, Math, Flowcharts, Syntax Highlighting with Copy button.</p>
+
+      <h2>Fira Code Ligatures</h2>
+      <pre class="ligatures"><code>// Ligatures: => !== === <= >= && || ?? ?:
+const fn = (x) => x !== null && x === true;
+if (a || b && c ?? d) return;</code></pre>
+
+      <h2>Syntax Highlighting</h2>
+      
+      <h3>TypeScript</h3>
+      <Code code={jsCode} lang="typescript" theme="tokyo-night" />
+      
+      <h3>Python</h3>
+      <Code code={pyCode} lang="python" theme="tokyo-night" />
+      
+      <h3>Rust</h3>
+      <Code code={rustCode} lang="rust" theme="tokyo-night" />
+    </article>
+  </TerminalWindow>
+</TerminalLayout>
+
+<style>
+  .content { line-height: 1.8; }
+  .content h1 { font-size: 1.5rem; margin-bottom: 1rem; }
+  .content h2 { margin-top: 2rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+  .content h3 { margin-top: 1.5rem; color: var(--cyan); }
+  .content h3::before { content: "// "; color: var(--text-muted); }
+  .content p { margin-bottom: 1rem; }
+  .ligatures { font-size: 1rem; }
+  .ligatures code { font-feature-settings: "liga" 1, "calt" 1; }
+</style>
