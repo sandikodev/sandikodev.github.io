@@ -1,5 +1,7 @@
 ---
 import TwSizeIndicator from "@/components/TwSizeIndicator.astro";
+import KeyboardShortcuts from "@/components/KeyboardShortcuts.astro";
+import CommandPalette from "@/components/CommandPalette.astro";
 import config from "@/config/config.json";
 import theme from "@/config/theme.json";
 import { plainify } from "@/lib/utils/textConverter";
@@ -41,10 +43,18 @@ const { title, meta_title, description, image, noindex, canonical } =
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme-mode="blog">
   <head>
+    <!-- Resource Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    
     <!-- favicon -->
     <link rel="shortcut icon" href={config.site.favicon} />
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
     <!-- theme meta -->
     <meta name="theme-name" content="sandikodev-portfolio" />
     <meta name="msapplication-TileColor" content="#3B82F6" />
@@ -98,6 +108,24 @@ const { title, meta_title, description, image, noindex, canonical } =
       }
     }
     </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Sandikodev",
+      "url": "https://sandikodev.github.io",
+      "description": "Portfolio dan blog Sandikodev - Full Stack Developer",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://sandikodev.github.io/search?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
 
     <!-- google font css -->
     <AstroFont
@@ -122,6 +150,9 @@ const { title, meta_title, description, image, noindex, canonical } =
         },
       ]}
     />
+
+    <!-- design system -->
+    <link rel="stylesheet" href="/src/styles/design-system.css" />
 
     <!-- responsive meta -->
     <meta
@@ -209,6 +240,8 @@ const { title, meta_title, description, image, noindex, canonical } =
   </head>
   <body>
     <TwSizeIndicator />
+    <KeyboardShortcuts />
+    <CommandPalette />
     <Header />
     <main id="main-content" class="min-h-[60vh]">
       <slot />
