@@ -46,6 +46,16 @@ const { title, meta_title, description, image, noindex, canonical } =
 <!doctype html>
 <html lang="en" data-theme-mode="blog">
   <head>
+    <!-- Prevent theme flash (FOUC) -->
+    <script is:inline>
+      (function() {
+        const saved = localStorage.getItem('design-mode');
+        if (saved === 'terminal') {
+          window.location.href = '/terminal';
+        }
+      })();
+    </script>
+    
     <!-- Resource Hints -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

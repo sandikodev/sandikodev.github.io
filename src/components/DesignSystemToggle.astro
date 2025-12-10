@@ -7,9 +7,11 @@
   class="design-toggle"
   aria-label="Toggle Design System"
   title="Switch between Blog and Terminal theme"
+  tabindex="0"
+  role="button"
 >
-  <span class="toggle-icon blog-icon">📝</span>
-  <span class="toggle-icon terminal-icon">💻</span>
+  <span class="toggle-icon blog-icon" aria-hidden="true">📝</span>
+  <span class="toggle-icon terminal-icon" aria-hidden="true">💻</span>
 </button>
 
 <style>
@@ -43,7 +45,7 @@
     transition: opacity 0.3s ease, transform 0.3s ease;
   }
 
-  /* Blog mode: show terminal icon */
+  /* Blog mode: show terminal icon (💻) */
   [data-theme-mode="blog"] .blog-icon {
     opacity: 0;
     transform: scale(0.5);
@@ -54,7 +56,7 @@
     transform: scale(1);
   }
 
-  /* Terminal mode: show blog icon */
+  /* Terminal mode: show blog icon (📝) */
   [data-theme-mode="terminal"] .blog-icon {
     opacity: 1;
     transform: scale(1);
@@ -72,6 +74,7 @@
     border-color: #7aa2f7;
   }
 
+  /* Responsive positioning */
   @media (max-width: 768px) {
     .design-toggle {
       bottom: 1rem;
@@ -81,6 +84,23 @@
       font-size: 1.25rem;
     }
   }
+
+  /* Avoid conflicts with other fixed elements */
+  @media (max-height: 600px) {
+    .design-toggle {
+      bottom: 1rem;
+      right: 1rem;
+    }
+  }
+
+  /* Hide on very small screens if needed */
+  @media (max-width: 320px) {
+    .design-toggle {
+      width: 2.5rem;
+      height: 2.5rem;
+      font-size: 1rem;
+    }
+  }
 </style>
 
 <script>
@@ -88,31 +108,51 @@
     const toggle = document.getElementById('design-toggle');
     if (!toggle) return;
 
-    // Load saved preference
+    // Load saved preference on page load
     const saved = localStorage.getItem('design-mode');
     if (saved) {
       document.documentElement.setAttribute('data-theme-mode', saved);
     }
 
-    // Toggle handler
-    toggle.addEventListener('click', () => {
+    // Toggle handler with improved UX
+    toggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      
       const current = document.documentElement.getAttribute('data-theme-mode') || 'blog';
       const next = current === 'blog' ? 'terminal' : 'blog';
       
-      // Save preference
+      // Save preference immediately
       localStorage.setItem('design-mode', next);
       
-      // Navigate to appropriate page
-      if (next === 'terminal') {
-        window.location.href = '/terminal';
-      } else {
-        window.location.href = '/';
+      // Add loading state
+      toggle.style.opacity = '0.5';
+      toggle.style.pointerEvents = 'none';
+      
+      // Navigate with small delay for visual feedback
+      setTimeout(() => {
+        if (next === 'terminal') {
+          window.location.href = '/terminal';
+        } else {
+          window.location.href = '/';
+        }
+      }, 150);
+    });
+
+    // Add keyboard support (Space/Enter)
+    toggle.addEventListener('keydown', (e) => {
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        toggle.click();
       }
     });
   }
 
   // Init on page load
-  initDesignToggle();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initDesignToggle);
+  } else {
+    initDesignToggle();
+  }
 
   // Re-init on Astro page transitions
   document.addEventListener('astro:page-load', initDesignToggle);

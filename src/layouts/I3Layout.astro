@@ -28,6 +28,11 @@ const {
     <!-- Prevent theme flash (FOUC) -->
     <script is:inline>
       (function() {
+        const saved = localStorage.getItem('design-mode');
+        if (saved === 'blog') {
+          window.location.href = '/';
+        }
+        
         const theme = localStorage.getItem('theme') || 'tokyo-night';
         document.documentElement.setAttribute('data-theme', theme);
       })();
