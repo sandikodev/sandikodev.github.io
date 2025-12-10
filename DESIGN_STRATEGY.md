@@ -238,20 +238,20 @@ import DesignSystemToggle from '@/components/DesignSystemToggle.astro';
 - [x] Wrap V2 CSS with `[data-theme-mode="terminal"]`
 - [x] Separate font loading
 
-### Phase 2: Toggle (TODO 🔲)
-- [ ] Create DesignSystemToggle component
-- [ ] Add localStorage persistence
-- [ ] Add toggle to both layouts
-- [ ] Style toggle button (both themes)
-- [ ] Add smooth transition
+### Phase 2: Toggle ✅ COMPLETE
+- [x] Create DesignSystemToggle component
+- [x] Add localStorage persistence
+- [x] Add toggle to both layouts
+- [x] Style toggle button (both themes)
+- [x] Context-aware navigation (same page, different mode)
 
-### Phase 3: Testing (TODO 🔲)
-- [ ] Test V1 → V2 switch
-- [ ] Test V2 → V1 switch
-- [ ] Test localStorage persistence
-- [ ] Test page reload
-- [ ] Test cross-navigation
-- [ ] Test mobile responsiveness
+### Phase 3: Testing ✅ COMPLETE
+- [x] Test V1 → V2 switch
+- [x] Test V2 → V1 switch
+- [x] Test localStorage persistence
+- [x] Test page reload
+- [x] Test cross-navigation
+- [x] Test mobile responsiveness
 
 ---
 
@@ -271,12 +271,12 @@ import DesignSystemToggle from '@/components/DesignSystemToggle.astro';
 - [x] No blog styles interfere
 - [x] Keyboard shortcuts work
 
-### Toggle Functionality (TODO)
-- [ ] Toggle button visible on both themes
-- [ ] Click switches theme
-- [ ] Preference saved to localStorage
-- [ ] Page reload respects preference
-- [ ] Smooth transition (no FOUC)
+### Toggle Functionality ✅ COMPLETE
+- [x] Toggle button visible on both themes
+- [x] Click switches theme
+- [x] Preference saved to localStorage
+- [x] Page reload respects preference
+- [x] Context-aware redirect (FOUC prevention)
 
 ---
 
@@ -696,36 +696,36 @@ If you want the FASTEST solution with minimal refactoring:
 ## 🧪 Testing Checklist
 
 ### V1 (Blog Theme)
-- [ ] Homepage uses Inter + Georgia
-- [ ] Blog posts readable
-- [ ] Code blocks use JetBrains Mono
-- [ ] No Fira Code loaded
-- [ ] No terminal styles applied
+- [x] Homepage uses Inter + Georgia
+- [x] Blog posts readable
+- [x] Code blocks use JetBrains Mono
+- [x] No Fira Code loaded
+- [x] No terminal styles applied
 
 ### V2 (Terminal Theme)
-- [ ] Terminal pages use Fira Code
-- [ ] i3wm layout works
-- [ ] Theme switching works
-- [ ] No blog styles interfere
-- [ ] Keyboard shortcuts work
+- [x] Terminal pages use Fira Code
+- [x] i3wm layout works
+- [x] Theme switching works
+- [x] No blog styles interfere
+- [x] Keyboard shortcuts work
 
 ### Cross-Navigation
-- [ ] Blog → Terminal (styles switch)
-- [ ] Terminal → Blog (styles switch)
-- [ ] No flash of unstyled content
-- [ ] Fonts load correctly
+- [x] Blog → Terminal (styles switch)
+- [x] Terminal → Blog (styles switch)
+- [x] No flash of unstyled content
+- [x] Fonts load correctly
 
 ---
 
 ## 📝 Migration Checklist
 
-- [ ] Add `data-theme-mode` to layouts
-- [ ] Scope V2 CSS with `[data-theme-mode="terminal"]`
-- [ ] Separate font loading
-- [ ] Update imports
-- [ ] Test all pages
-- [ ] Verify no conflicts
-- [ ] Update documentation
+- [x] Add `data-theme-mode` to layouts
+- [x] Scope V2 CSS with `[data-theme-mode="terminal"]`
+- [x] Separate font loading
+- [x] Update imports
+- [x] Test all pages
+- [x] Verify no conflicts
+- [x] Update documentation
 
 ---
 
