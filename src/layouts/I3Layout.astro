@@ -25,15 +25,16 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     
-    <!-- Prevent theme flash (FOUC) -->
+    <!-- Prevent theme flash (FOUC) - redirect to blog if preference is blog -->
     <script is:inline>
       (function() {
-        const saved = localStorage.getItem('design-mode');
-        if (saved === 'blog') {
-          window.location.href = '/';
+        var saved = localStorage.getItem('design-mode');
+        var path = window.location.pathname;
+        if (saved === 'blog' && path.startsWith('/workspace')) {
+          window.location.href = path.replace('/workspace', '') || '/';
         }
         
-        const theme = localStorage.getItem('theme') || 'tokyo-night';
+        var theme = localStorage.getItem('theme') || 'tokyo-night';
         document.documentElement.setAttribute('data-theme', theme);
       })();
     </script>

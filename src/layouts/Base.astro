@@ -46,12 +46,13 @@ const { title, meta_title, description, image, noindex, canonical } =
 <!doctype html>
 <html lang="en" data-theme-mode="blog">
   <head>
-    <!-- Prevent theme flash (FOUC) -->
+    <!-- Prevent theme flash (FOUC) - redirect to workspace if preference is dev -->
     <script is:inline>
       (function() {
-        const saved = localStorage.getItem('design-mode');
-        if (saved === 'terminal') {
-          window.location.href = '/terminal';
+        var saved = localStorage.getItem('design-mode');
+        if (saved === 'dev') {
+          var path = window.location.pathname;
+          window.location.href = '/workspace' + (path === '/' ? '' : path);
         }
       })();
     </script>
