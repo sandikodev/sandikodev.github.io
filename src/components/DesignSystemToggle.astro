@@ -1,17 +1,17 @@
 ---
-// Design System Toggle - Switch between V1 (Blog) and V2 (Terminal)
+// Design System Toggle - Switch between Blog Mode (📝) and Dev Mode (💻)
 ---
 
 <button
   id="design-toggle"
   class="design-toggle"
   aria-label="Toggle Design System"
-  title="Switch between Blog and Terminal theme"
+  title="Switch between Blog and Dev Mode"
   tabindex="0"
   role="button"
 >
   <span class="toggle-icon blog-icon" aria-hidden="true">📝</span>
-  <span class="toggle-icon terminal-icon" aria-hidden="true">💻</span>
+  <span class="toggle-icon dev-icon" aria-hidden="true">💻</span>
 </button>
 
 <style>
@@ -45,61 +45,23 @@
     transition: opacity 0.3s ease, transform 0.3s ease;
   }
 
-  /* Blog mode: show terminal icon (💻) */
-  [data-theme-mode="blog"] .blog-icon {
-    opacity: 0;
-    transform: scale(0.5);
-  }
+  /* Blog mode: show dev icon (💻) */
+  [data-theme-mode="blog"] .blog-icon { opacity: 0; transform: scale(0.5); }
+  [data-theme-mode="blog"] .dev-icon { opacity: 1; transform: scale(1); }
 
-  [data-theme-mode="blog"] .terminal-icon {
-    opacity: 1;
-    transform: scale(1);
-  }
+  /* Dev mode: show blog icon (📝) */
+  [data-theme-mode="terminal"] .blog-icon { opacity: 1; transform: scale(1); }
+  [data-theme-mode="terminal"] .dev-icon { opacity: 0; transform: scale(0.5); }
 
-  /* Terminal mode: show blog icon (📝) */
-  [data-theme-mode="terminal"] .blog-icon {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  [data-theme-mode="terminal"] .terminal-icon {
-    opacity: 0;
-    transform: scale(0.5);
-  }
-
-  /* Terminal theme styling */
+  /* Dev Mode styling */
   [data-theme-mode="terminal"] .design-toggle {
     --toggle-bg: #1a1b26;
     --toggle-color: #c0caf5;
     border-color: #7aa2f7;
   }
 
-  /* Responsive positioning */
   @media (max-width: 768px) {
-    .design-toggle {
-      bottom: 1rem;
-      right: 1rem;
-      width: 3rem;
-      height: 3rem;
-      font-size: 1.25rem;
-    }
-  }
-
-  /* Avoid conflicts with other fixed elements */
-  @media (max-height: 600px) {
-    .design-toggle {
-      bottom: 1rem;
-      right: 1rem;
-    }
-  }
-
-  /* Hide on very small screens if needed */
-  @media (max-width: 320px) {
-    .design-toggle {
-      width: 2.5rem;
-      height: 2.5rem;
-      font-size: 1rem;
-    }
+    .design-toggle { bottom: 1rem; right: 1rem; width: 3rem; height: 3rem; font-size: 1.25rem; }
   }
 </style>
 
@@ -108,52 +70,34 @@
     const toggle = document.getElementById('design-toggle');
     if (!toggle) return;
 
-    // Load saved preference on page load
-    const saved = localStorage.getItem('design-mode');
-    if (saved) {
-      document.documentElement.setAttribute('data-theme-mode', saved);
+    function getTargetUrl() {
+      const path = window.location.pathname;
+      const isWorkspace = path.startsWith('/workspace');
+      
+      if (isWorkspace) {
+        return path.replace('/workspace', '') || '/';
+      } else {
+        return '/workspace' + (path === '/' ? '' : path);
+      }
     }
 
-    // Toggle handler with improved UX
     toggle.addEventListener('click', (e) => {
       e.preventDefault();
-      
-      const current = document.documentElement.getAttribute('data-theme-mode') || 'blog';
-      const next = current === 'blog' ? 'terminal' : 'blog';
-      
-      // Save preference immediately
-      localStorage.setItem('design-mode', next);
-      
-      // Add loading state
+      const target = getTargetUrl();
+      localStorage.setItem('design-mode', target.startsWith('/workspace') ? 'dev' : 'blog');
       toggle.style.opacity = '0.5';
-      toggle.style.pointerEvents = 'none';
-      
-      // Navigate with small delay for visual feedback
-      setTimeout(() => {
-        if (next === 'terminal') {
-          window.location.href = '/terminal';
-        } else {
-          window.location.href = '/';
-        }
-      }, 150);
+      setTimeout(() => { window.location.href = target; }, 150);
     });
 
-    // Add keyboard support (Space/Enter)
     toggle.addEventListener('keydown', (e) => {
-      if (e.key === ' ' || e.key === 'Enter') {
-        e.preventDefault();
-        toggle.click();
-      }
+      if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggle.click(); }
     });
   }
 
-  // Init on page load
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initDesignToggle);
   } else {
     initDesignToggle();
   }
-
-  // Re-init on Astro page transitions
   document.addEventListener('astro:page-load', initDesignToggle);
 </script>

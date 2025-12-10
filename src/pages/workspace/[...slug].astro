@@ -1,0 +1,247 @@
+---
+import I3Layout from "@/layouts/I3Layout.astro";
+import I3Window from "@/components/terminal/I3Window.astro";
+import Prompt from "@/components/terminal/Prompt.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts");
+  const pages = await getCollection("pages");
+  
+  const paths = [
+    // Mirror blog posts: /workspace/blog/[slug]
+    ...posts
+      .filter((post) => !post.data.draft)
+      .map((post) => ({
+        params: { slug: `blog/${post.slug}` },
+        props: { entry: post, type: "post" }
+      })),
+    
+    // Mirror pages: /workspace/[slug]
+    ...pages.map((page) => ({
+      params: { slug: page.slug },
+      props: { entry: page, type: "page" }
+    }))
+  ];
+  
+  return paths;
+}
+
+const { entry, type } = Astro.props;
+const { Content } = await entry.render();
+
+// Canonical URL points to blog mode (primary)
+const blogPath = Astro.url.pathname.replace("/workspace", "") || "/";
+const canonicalUrl = `https://sandikodev.github.io${blogPath}`;
+
+const title = entry.data.title;
+const description = entry.data.description || entry.data.excerpt || "";
+---
+
+<I3Layout title={`${title} | workspace`}>
+  <link slot="head" rel="canonical" href={canonicalUrl} />
+  <meta slot="head" property="og:url" content={Astro.url.href} />
+  
+  <div class="i3-split-h">
+    
+    <!-- Main content (70%) -->
+    <div style="flex: 2;">
+      <I3Window title={`nvim — ${entry.slug}.md`} focused={true}>
+        <div class="content-wrapper">
+          <Prompt command={`cat ${entry.slug}.md`} showCursor={false} />
+          
+          <article class="workspace-article">
+            <header class="article-header">
+              <h1>{title}</h1>
+              {entry.data.date && (
+                <time class="article-date">
+                  {new Date(entry.data.date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </time>
+              )}
+              {entry.data.categories && (
+                <div class="article-tags">
+                  {entry.data.categories.map((cat: string) => (
+                    <span class="tag">{cat}</span>
+                  ))}
+                </div>
+              )}
+            </header>
+            
+            <div class="article-content">
+              <Content />
+            </div>
+          </article>
+          
+          <Prompt showCursor={true} />
+        </div>
+      </I3Window>
+    </div>
+    
+    <!-- Sidebar (30%) -->
+    <div style="flex: 1;">
+      <I3Window title="navigation">
+        <div class="nav-content">
+          <Prompt command="cat ~/.config/nav" showCursor={false} />
+          <nav class="workspace-nav">
+            <a href="/workspace/">~/home</a>
+            <a href="/workspace/blog" class={type === 'post' ? 'active' : ''}>~/blog</a>
+            <a href="/workspace/about">~/about</a>
+            <a href="/workspace/now">~/now</a>
+          </nav>
+        </div>
+      </I3Window>
+      
+      <I3Window title="info">
+        <div class="info-content">
+          <div class="info-item">
+            <span class="info-label">type:</span>
+            <span class="info-value">{type}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">mode:</span>
+            <span class="info-value">dev 💻</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">canonical:</span>
+            <a href={blogPath} class="info-link">{blogPath}</a>
+          </div>
+        </div>
+      </I3Window>
+    </div>
+    
+  </div>
+</I3Layout>
+
+<style>
+  .content-wrapper {
+    padding: 1rem;
+    font-family: 'Fira Code', monospace;
+  }
+  
+  .workspace-article {
+    margin: 1rem 0;
+  }
+  
+  .article-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  
+  .article-header h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--accent, #7aa2f7);
+    margin: 0 0 0.5rem;
+  }
+  
+  .article-date {
+    display: block;
+    font-size: 0.85rem;
+    opacity: 0.6;
+    margin-bottom: 0.5rem;
+  }
+  
+  .article-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .tag {
+    background: rgba(255,255,255,0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+  }
+  
+  .article-content {
+    line-height: 1.8;
+    font-size: 0.95rem;
+  }
+  
+  .article-content :global(h2) {
+    color: var(--accent, #7aa2f7);
+    margin-top: 2rem;
+    font-size: 1.25rem;
+  }
+  
+  .article-content :global(h3) {
+    color: var(--green, #9ece6a);
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
+  }
+  
+  .article-content :global(code) {
+    background: rgba(255,255,255,0.1);
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    font-size: 0.9em;
+  }
+  
+  .article-content :global(pre) {
+    background: rgba(0,0,0,0.3);
+    padding: 1rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 1rem 0;
+  }
+  
+  .article-content :global(a) {
+    color: var(--accent, #7aa2f7);
+    text-decoration: underline;
+  }
+  
+  .nav-content, .info-content {
+    padding: 1rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+  }
+  
+  .workspace-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  
+  .workspace-nav a {
+    color: var(--text-primary, #c0caf5);
+    text-decoration: none;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+  
+  .workspace-nav a:hover, .workspace-nav a.active {
+    background: rgba(255,255,255,0.1);
+    color: var(--accent, #7aa2f7);
+  }
+  
+  .info-item {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .info-label {
+    opacity: 0.6;
+  }
+  
+  .info-value {
+    color: var(--green, #9ece6a);
+  }
+  
+  .info-link {
+    color: var(--accent, #7aa2f7);
+    text-decoration: none;
+  }
+  
+  .info-link:hover {
+    text-decoration: underline;
+  }
+</style>
