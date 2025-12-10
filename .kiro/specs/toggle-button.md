@@ -1,28 +1,23 @@
 # Spec: Design System Toggle Button
 
-## Status: Partially Complete
+## Status: ✅ Complete
 
-## Current State
+## Implementation
 - [x] Component created: `src/components/DesignSystemToggle.astro`
 - [x] Added to Base.astro (Blog Mode)
 - [x] Added to I3Layout.astro (Dev Mode)
 - [x] localStorage persistence
 - [x] Basic styling
-- [ ] Context-aware navigation (pending route mirroring)
+- [x] Context-aware navigation
 
 ## Behavior
 
-### Current (Temporary)
-```
-/ → toggle → /terminal
-/terminal → toggle → /
-```
-
-### Target (After Route Mirroring)
+### Current (Working)
 ```
 /about → toggle → /workspace/about
 /workspace/about → toggle → /about
 /blog/post-1 → toggle → /workspace/blog/post-1
+/ → toggle → /workspace/
 ```
 
 ## Implementation
