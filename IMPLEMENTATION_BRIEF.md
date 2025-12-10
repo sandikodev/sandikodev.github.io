@@ -82,11 +82,13 @@ if (saved === 'dev' && !isWorkspace) {
 
 ## Implementation Checklist
 
-- [ ] Create `/workspace/[...slug].astro`
-- [ ] Update toggle button (context-aware)
-- [ ] Add canonical tags
-- [ ] Test all mirrored routes
-- [ ] Verify SEO tags
+- [x] Create `/workspace/[...slug].astro`
+- [x] Update toggle button (context-aware)
+- [x] Add canonical tags
+- [x] Test all mirrored routes
+- [x] Verify SEO tags
+
+**Status: ✅ Complete** (2025-12-11)
 
 ---
 
