@@ -8,6 +8,7 @@ import remarkCollapse from "remark-collapse";
 import remarkToc from "remark-toc";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import serviceWorker from "astrojs-service-worker";
 import config from "./src/config/config.json";
 
 // https://astro.build/config
@@ -37,6 +38,7 @@ export default defineConfig({
       ],
     }),
     mdx(),
+    serviceWorker(),
   ],
   markdown: {
     remarkPlugins: [

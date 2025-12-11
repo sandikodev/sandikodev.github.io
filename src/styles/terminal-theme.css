@@ -619,8 +619,8 @@ pre > code {
 /* Common ligatures in Fira Code:
    ->  =>  !=  !==  ==  ===  <=  >=  
    ::  ...  &&  ||  ??  ?:  |>  <|
-   ++  --  **  //  /*  */  <!--  -->
-   www  ~~  ~@  @_  __  ##  ###
+   ++  --  **  //  comment-start  comment-end  html-comment
+   www  tildes  at  underscore  hash  hash
 */
 
 .ligature-demo {

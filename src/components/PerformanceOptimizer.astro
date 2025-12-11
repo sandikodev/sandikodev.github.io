@@ -39,21 +39,8 @@
       }
     });
     
-    // Service Worker registration (if available)
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').catch(() => {
-          // SW not available, continue without it
-        });
-      });
-    }
-    
-    // Critical CSS inlining detection
-    const criticalCSS = document.querySelector('style[data-critical]');
-    if (criticalCSS) {
-      // Mark critical CSS as loaded
-      document.documentElement.classList.add('critical-css-loaded');
-    }
+    // Mark critical CSS as loaded immediately
+    document.documentElement.classList.add('critical-css-loaded');
     
     // Web Vitals tracking (minimal)
     if (typeof gtag !== 'undefined') {
