@@ -1,0 +1,67 @@
+{
+  "name": "@sandikodev/workspace-framework",
+  "version": "0.1.0",
+  "description": "Revolutionary desktop environment framework - Web DX for native desktop apps",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./astro": {
+      "types": "./dist/astro.d.ts",
+      "import": "./dist/astro.js"
+    },
+    "./compositor": {
+      "types": "./dist/compositor.d.ts", 
+      "import": "./dist/compositor.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "ROADMAP.md"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts src/astro.ts src/compositor.ts --format esm --dts",
+    "dev": "tsup src/index.ts src/astro.ts src/compositor.ts --format esm --dts --watch",
+    "test": "vitest",
+    "docs": "typedoc src/index.ts"
+  },
+  "keywords": [
+    "desktop-environment",
+    "wayland",
+    "compositor",
+    "workspace",
+    "native-apps",
+    "sandikodev",
+    "sandikoos",
+    "web-dx",
+    "revolutionary"
+  ],
+  "author": "SandikoDev <sandikodev@gmail.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "astro": "^4.0.0"
+  },
+  "dependencies": {
+    "@sandikodev/astro-terminal-code": "workspace:*"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0",
+    "typedoc": "^0.25.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sandikodev/workspace-framework"
+  },
+  "homepage": "https://sandikodev.com/workspace",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/sandikodev"
+  }
+}

@@ -31,6 +31,7 @@ package-lock.json
 packages/astro-deck/
 # Allow SandikoOS ecosystem packages
 !packages/astro-terminal-code/
+!packages/workspace-framework/
 pnpm-workspace.yaml
 
 # Astro-deck development files (should not be committed to portfolio repo)
