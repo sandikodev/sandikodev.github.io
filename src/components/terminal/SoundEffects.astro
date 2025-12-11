@@ -1,0 +1,277 @@
+---
+// Modular Sound Effects Manager
+interface Props {
+  enabled?: boolean;
+  volume?: number; // 0-1
+  sounds?: string[]; // ['keyboard', 'beep', 'startup', 'error']
+}
+
+const { 
+  enabled = false, 
+  volume = 0.3,
+  sounds = ['keyboard', 'beep'] 
+} = Astro.props;
+---
+
+<div id="sound-manager" class="sound-manager" data-enabled={enabled} data-volume={volume}>
+  <!-- Sound toggle button -->
+  <button id="sound-toggle" class="sound-toggle" title="Toggle sound effects">
+    <span class="sound-icon sound-on">🔊</span>
+    <span class="sound-icon sound-off">🔇</span>
+  </button>
+</div>
+
+<style>
+  .sound-toggle {
+    position: fixed;
+    bottom: 8rem;
+    right: 2rem;
+    z-index: 9997;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    border: 1px solid var(--border-color, #414868);
+    background: var(--bg-primary, #1a1b26);
+    color: var(--text-primary, #c0caf5);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    opacity: 0.7;
+  }
+  
+  .sound-toggle:hover {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  
+  .sound-icon {
+    position: absolute;
+    transition: opacity 0.2s ease;
+  }
+  
+  .sound-manager[data-enabled="true"] .sound-off {
+    opacity: 0;
+  }
+  
+  .sound-manager[data-enabled="false"] .sound-on {
+    opacity: 0;
+  }
+  
+  @media (max-width: 768px) {
+    .sound-toggle {
+      bottom: 6rem;
+      right: 1rem;
+      width: 2rem;
+      height: 2rem;
+      font-size: 0.875rem;
+    }
+  }
+</style>
+
+<script>
+  class SoundEffectsManager {
+    constructor() {
+      this.enabled = false;
+      this.volume = 0.3;
+      this.sounds = new Map();
+      this.audioContext = null;
+      this.init();
+    }
+    
+    init() {
+      // Load user preference
+      this.enabled = localStorage.getItem('sound-enabled') === 'true';
+      this.volume = parseFloat(localStorage.getItem('sound-volume')) || 0.3;
+      
+      // Update UI
+      this.updateUI();
+      
+      // Create audio context on first user interaction
+      document.addEventListener('click', this.initAudioContext.bind(this), { once: true });
+      
+      // Generate sound effects
+      this.generateSounds();
+      
+      // Bind keyboard events
+      this.bindEvents();
+    }
+    
+    initAudioContext() {
+      if (!this.audioContext) {
+        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+    
+    generateSounds() {
+      // Keyboard click sound
+      this.sounds.set('keyboard', () => {
+        if (!this.audioContext) return;
+        
+        const oscillator = this.audioContext.createOscillator();
+        const gainNode = this.audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(this.audioContext.destination);
+        
+        oscillator.frequency.setValueAtTime(800, this.audioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(400, this.audioContext.currentTime + 0.1);
+        
+        gainNode.gain.setValueAtTime(this.volume * 0.1, this.audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.1);
+        
+        oscillator.start(this.audioContext.currentTime);
+        oscillator.stop(this.audioContext.currentTime + 0.1);
+      });
+      
+      // Beep sound
+      this.sounds.set('beep', () => {
+        if (!this.audioContext) return;
+        
+        const oscillator = this.audioContext.createOscillator();
+        const gainNode = this.audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(this.audioContext.destination);
+        
+        oscillator.frequency.setValueAtTime(1000, this.audioContext.currentTime);
+        gainNode.gain.setValueAtTime(this.volume * 0.2, this.audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.2);
+        
+        oscillator.start(this.audioContext.currentTime);
+        oscillator.stop(this.audioContext.currentTime + 0.2);
+      });
+      
+      // Error sound
+      this.sounds.set('error', () => {
+        if (!this.audioContext) return;
+        
+        const oscillator = this.audioContext.createOscillator();
+        const gainNode = this.audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(this.audioContext.destination);
+        
+        oscillator.frequency.setValueAtTime(200, this.audioContext.currentTime);
+        gainNode.gain.setValueAtTime(this.volume * 0.3, this.audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.5);
+        
+        oscillator.start(this.audioContext.currentTime);
+        oscillator.stop(this.audioContext.currentTime + 0.5);
+      });
+      
+      // Startup sound
+      this.sounds.set('startup', () => {
+        if (!this.audioContext) return;
+        
+        const frequencies = [440, 554, 659, 880];
+        frequencies.forEach((freq, index) => {
+          setTimeout(() => {
+            const oscillator = this.audioContext.createOscillator();
+            const gainNode = this.audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(this.audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(freq, this.audioContext.currentTime);
+            gainNode.gain.setValueAtTime(this.volume * 0.1, this.audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.3);
+            
+            oscillator.start(this.audioContext.currentTime);
+            oscillator.stop(this.audioContext.currentTime + 0.3);
+          }, index * 100);
+        });
+      });
+    }
+    
+    bindEvents() {
+      // Keyboard sounds
+      document.addEventListener('keydown', (e) => {
+        if (this.enabled && !e.repeat) {
+          this.play('keyboard');
+        }
+      });
+      
+      // Click sounds
+      document.addEventListener('click', (e) => {
+        if (this.enabled && e.target.matches('button, a, .clickable')) {
+          this.play('beep');
+        }
+      });
+      
+      // Toggle button
+      const toggle = document.getElementById('sound-toggle');
+      if (toggle) {
+        toggle.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this.toggle();
+        });
+      }
+      
+      // Boot sound
+      document.addEventListener('typing-complete', (e) => {
+        if (this.enabled && e.detail.text.includes('Welcome')) {
+          setTimeout(() => this.play('startup'), 500);
+        }
+      });
+    }
+    
+    play(soundName) {
+      if (!this.enabled || !this.sounds.has(soundName)) return;
+      
+      try {
+        this.sounds.get(soundName)();
+      } catch (error) {
+        console.warn('Sound playback failed:', error);
+      }
+    }
+    
+    toggle() {
+      this.enabled = !this.enabled;
+      localStorage.setItem('sound-enabled', this.enabled.toString());
+      this.updateUI();
+      
+      if (this.enabled) {
+        this.play('beep');
+      }
+    }
+    
+    setVolume(volume) {
+      this.volume = Math.max(0, Math.min(1, volume));
+      localStorage.setItem('sound-volume', this.volume.toString());
+    }
+    
+    updateUI() {
+      const manager = document.getElementById('sound-manager');
+      if (manager) {
+        manager.dataset.enabled = this.enabled.toString();
+      }
+    }
+  }
+  
+  // Global instance
+  window.soundEffects = new SoundEffectsManager();
+  
+  // Global utilities
+  window.playSound = (name) => window.soundEffects.play(name);
+  window.toggleSound = () => window.soundEffects.toggle();
+  
+  // Auto-init
+  function initSoundEffects() {
+    // Only in terminal mode
+    const isTerminal = document.documentElement.getAttribute('data-theme-mode') === 'terminal';
+    if (isTerminal && !window.soundEffects) {
+      window.soundEffects = new SoundEffectsManager();
+    }
+  }
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSoundEffects);
+  } else {
+    initSoundEffects();
+  }
+  
+  document.addEventListener('astro:page-load', initSoundEffects);
+</script>

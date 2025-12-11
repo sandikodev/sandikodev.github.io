@@ -1,0 +1,171 @@
+---
+// Modular Typing Animation Component
+interface Props {
+  text: string;
+  speed?: number; // ms per character
+  delay?: number; // initial delay
+  cursor?: boolean;
+  class?: string;
+}
+
+const { 
+  text, 
+  speed = 50, 
+  delay = 0, 
+  cursor = true, 
+  class: className = '' 
+} = Astro.props;
+
+const id = `typing-${Math.random().toString(36).substr(2, 9)}`;
+---
+
+<span 
+  id={id}
+  class={`typing-text ${className}`}
+  data-text={text}
+  data-speed={speed}
+  data-delay={delay}
+  data-cursor={cursor}
+>
+  {cursor && <span class="typing-cursor">|</span>}
+</span>
+
+<style>
+  .typing-text {
+    display: inline-block;
+    font-family: 'Fira Code', monospace;
+  }
+  
+  .typing-cursor {
+    animation: blink 1s infinite;
+    color: var(--accent, #7aa2f7);
+  }
+  
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+  
+  .typing-text.completed .typing-cursor {
+    display: none;
+  }
+</style>
+
+<script>
+  class TypingAnimator {
+    constructor(element) {
+      this.element = element;
+      this.text = element.dataset.text || '';
+      this.speed = parseInt(element.dataset.speed) || 50;
+      this.delay = parseInt(element.dataset.delay) || 0;
+      this.hasCursor = element.dataset.cursor === 'true';
+      this.currentIndex = 0;
+      this.isTyping = false;
+    }
+    
+    async start() {
+      if (this.isTyping) return;
+      this.isTyping = true;
+      
+      // Initial delay
+      if (this.delay > 0) {
+        await this.wait(this.delay);
+      }
+      
+      // Clear existing content (except cursor)
+      const cursor = this.element.querySelector('.typing-cursor');
+      this.element.textContent = '';
+      if (cursor) this.element.appendChild(cursor);
+      
+      // Type each character
+      for (let i = 0; i < this.text.length; i++) {
+        await this.wait(this.speed);
+        
+        const char = this.text[i];
+        const textNode = document.createTextNode(char);
+        
+        if (cursor) {
+          this.element.insertBefore(textNode, cursor);
+        } else {
+          this.element.appendChild(textNode);
+        }
+        
+        this.currentIndex = i + 1;
+      }
+      
+      this.isTyping = false;
+      this.element.classList.add('completed');
+      
+      // Dispatch completion event
+      this.element.dispatchEvent(new CustomEvent('typing-complete', {
+        detail: { text: this.text, element: this.element }
+      }));
+    }
+    
+    wait(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    
+    reset() {
+      this.currentIndex = 0;
+      this.isTyping = false;
+      this.element.classList.remove('completed');
+      
+      const cursor = this.element.querySelector('.typing-cursor');
+      this.element.textContent = '';
+      if (cursor) this.element.appendChild(cursor);
+    }
+    
+    pause() {
+      this.isTyping = false;
+    }
+    
+    resume() {
+      if (this.currentIndex < this.text.length) {
+        this.start();
+      }
+    }
+  }
+  
+  // Auto-initialize typing animations
+  function initTypingAnimations() {
+    const typingElements = document.querySelectorAll('.typing-text[data-text]');
+    
+    typingElements.forEach(element => {
+      if (!element.typingAnimator) {
+        element.typingAnimator = new TypingAnimator(element);
+        
+        // Auto-start if in viewport
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              element.typingAnimator.start();
+              observer.unobserve(element);
+            }
+          });
+        });
+        
+        observer.observe(element);
+      }
+    });
+  }
+  
+  // Global typing utilities
+  window.TypingAnimator = TypingAnimator;
+  window.startAllTyping = () => {
+    document.querySelectorAll('.typing-text').forEach(el => {
+      if (el.typingAnimator) {
+        el.typingAnimator.start();
+      }
+    });
+  };
+  
+  // Auto-init
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTypingAnimations);
+  } else {
+    initTypingAnimations();
+  }
+  
+  document.addEventListener('astro:page-load', initTypingAnimations);
+</script>

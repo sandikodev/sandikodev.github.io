@@ -3,6 +3,7 @@ import I3Layout from "@/layouts/I3Layout.astro";
 import I3Window from "@/components/terminal/I3Window.astro";
 import Prompt from "@/components/terminal/Prompt.astro";
 import AsciiHero from "@/components/terminal/AsciiHero.astro";
+import TypingAnimation from "@/components/terminal/TypingAnimation.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 
 const posts = await getSinglePage("posts");
@@ -38,9 +39,25 @@ const canonicalUrl = "https://sandikodev.github.io/";
           <div class="motd">
             <Prompt command="cat /etc/motd" showCursor={false} />
             <div class="motd-box">
-              <p class="motd-title">👋 Welcome to Dev Mode</p>
-              <p class="motd-text">Experience the blog in i3wm-style terminal interface.</p>
-              <p class="motd-quote">"The terminal is not just a tool, it's a lifestyle."</p>
+              <p class="motd-title">
+                <TypingAnimation text="👋 Welcome to Dev Mode" speed={80} delay={1000} />
+              </p>
+              <p class="motd-text">
+                <TypingAnimation 
+                  text="Experience the blog in i3wm-style terminal interface." 
+                  speed={40} 
+                  delay={3000} 
+                  cursor={false}
+                />
+              </p>
+              <p class="motd-quote">
+                <TypingAnimation 
+                  text={`"The terminal is not just a tool, it's a lifestyle."`}
+                  speed={60} 
+                  delay={5000} 
+                  cursor={false}
+                />
+              </p>
             </div>
           </div>
           
