@@ -1,6 +1,6 @@
-<h1 align=center>Bookworm Light Astro</h1>
-<p align=center>Bookworm Light is a feature-rich, minimal, highly customizable, easy-to-use free Astro blog theme.</p>
-<h2 align="center"> <a target="_blank" href="https://bookworm-light-astro.vercel.app/" rel="nofollow">👀Demo</a> | <a  target="_blank" href="https://pagespeed.web.dev/report?url=https%3A%2F%2Fbookworm-light-astro.vercel.app%2F&form_factor=desktop">Page Speed (100%)🚀</a>
+<h1 align=center>SandikoDev Portfolio</h1>
+<p align=center>Personal portfolio website showcasing full-stack development expertise and innovative projects.</p>
+<h2 align="center"> <a target="_blank" href="https://sandikodev.github.io/" rel="nofollow">👀Live Site</a> | <a  target="_blank" href="https://pagespeed.web.dev/report?url=https%3A%2F%2Fsandikodev.github.io%2F&form_factor=desktop">Page Speed (100%)🚀</a>
 </h2>
 
 <p align=center>
@@ -8,18 +8,18 @@
     <img src="https://img.shields.io/static/v1?label=ASTRO&message=4.3&color=000&logo=astro" />
   </a>
 
-  <a href="https://github.com/themefisher/bookworm-light-astro/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/themefisher/bookworm-light-astro" alt="license"></a>
+  <a href="https://github.com/sandikodev/sandikodev.github.io/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/sandikodev/sandikodev.github.io" alt="license"></a>
 
-  <img src="https://img.shields.io/github/languages/code-size/themefisher/bookworm-light-astro" alt="code size">
+  <img src="https://img.shields.io/github/languages/code-size/sandikodev/sandikodev.github.io" alt="code size">
 
-  <a href="https://github.com/themefisher/bookworm-light-astro/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors/themefisher/bigspring-light-astro" alt="contributors"></a>
+  <a href="https://github.com/sandikodev/sandikodev.github.io/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/sandikodev/sandikodev.github.io" alt="contributors"></a>
 </p>
 
 ![bookworm-light](https://demo.gethugothemes.com/thumbnails/bookworm-light.png)
 
-Bookworm Light is a minimal multi-author free Astro blog theme which is perfect for any kind of blog website. Whether you're interested in food, beauty, travel, photography, lifestyle, fitness, health, or other topics, this theme is a great fit. The theme is super fast and SEO friendly which makes it easier for your content to be discovered by search engines.
+Personal portfolio website of a full-stack developer showcasing technical expertise, innovative projects, and development insights. Features dual design system with blog mode for professional content and experimental terminal mode demonstrating cutting-edge desktop development concepts.
 
 ## 🔑Key Features
 
@@ -108,15 +108,15 @@ The `/workspace` interface serves as a preview for **RENDER** - an experimental 
 <!-- reporting issue -->
 ## 🐞Reporting Issues
 
-We use GitHub Issues as the official bug tracker for this Template. Please Search [existing issues](https://github.com/themefisher/bookworm-light-astro/issues). It’s possible someone has already reported the same problem.
-If your problem or idea has not been addressed yet, feel free to [open a new issue](https://github.com/themefisher/bookworm-light-astro/issues).
+We use GitHub Issues as the official bug tracker for this Portfolio. Please Search [existing issues](https://github.com/sandikodev/sandikodev.github.io/issues). It’s possible someone has already reported the same problem.
+If your problem or idea has not been addressed yet, feel free to [open a new issue](https://github.com/sandikodev/sandikodev.github.io/issues).
 
 <!-- licence -->
 ## 📄License
 
-Copyright (c) 2023 - Present, Designed & Developed by [Themefisher](https://themefisher.com)
+Copyright (c) 2023 - Present, Designed & Developed by [SandikoDev](https://sandikodev.github.io)
 
-**Code License:** Released under the [MIT](https://github.com/themefisher/bookworm-light-astro/blob/main/LICENSE) license.
+**Code License:** Released under the [MIT](https://github.com/sandikodev/sandikodev.github.io/blob/main/LICENSE) license.
 
 **Image license:** The images are only for demonstration purposes. They have their license, we don't have permission to share those images.
 
@@ -124,4 +124,4 @@ Copyright (c) 2023 - Present, Designed & Developed by [Themefisher](https://them
 
 Besides developing beautifully designed and blazing-fast themes, we help businesses create fast, performance-focused, scalable & secure websites based on NextJs, Hugo, Astro, etc.
 
-If you need a custom theme, theme customization, or complete website development services from scratch you can [Hire Us](https://themefisher.com/contact).
+If you need a custom theme, theme customization, or complete website development services from scratch you can [Hire Us](https://sandikodev.github.io/contact).
