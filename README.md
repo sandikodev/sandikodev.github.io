@@ -82,10 +82,10 @@ pnpm build
 
 This portfolio features two distinct design systems that users can toggle between:
 
-### Design System V1 (Default) - Blog Theme
+### Design System V1 (Blog Mode) - Default
 Clean, modern blog interface with Inter + Georgia fonts. Perfect for reading articles and professional content.
 
-### Design System V2 - Terminal Theme
+### Design System V2 (Terminal Mode) - /workspace
 i3wm/sway-inspired tiling window manager interface with retro terminal aesthetics. Features:
 - Simulates minimal Linux desktop environment
 - Customizable themes (Tokyo Night, Dracula, Gruvbox, Nord, Matrix)
