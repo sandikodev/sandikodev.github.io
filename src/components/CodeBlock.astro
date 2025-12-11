@@ -1,0 +1,126 @@
+---
+import { Icon } from 'astro-icon/components';
+
+export interface Props {
+  lang?: string;
+  title?: string;
+  showLineNumbers?: boolean;
+  highlightLines?: number[];
+}
+
+const { lang, title, showLineNumbers = true, highlightLines = [] } = Astro.props;
+---
+
+<div class="code-container" data-language={lang}>
+  {title && (
+    <div class="code-header">
+      <span class="code-title">{title}</span>
+      <button class="code-copy" onclick="copyCode(this)">
+        <Icon name="mdi:content-copy" size={16} />
+        <span>Copy</span>
+      </button>
+    </div>
+  )}
+  <div class="code-content">
+    <slot />
+  </div>
+</div>
+
+<script>
+  function copyCode(button) {
+    const codeBlock = button.closest('.code-container').querySelector('pre code');
+    const text = codeBlock.textContent;
+    
+    navigator.clipboard.writeText(text).then(() => {
+      const icon = button.querySelector('svg');
+      const span = button.querySelector('span');
+      
+      // Change to checkmark
+      icon.style.display = 'none';
+      span.textContent = '✓ Copied';
+      button.classList.add('copied');
+      
+      // Reset after 2 seconds
+      setTimeout(() => {
+        icon.style.display = 'block';
+        span.textContent = 'Copy';
+        button.classList.remove('copied');
+      }, 2000);
+    });
+  }
+  
+  // Make function globally available
+  window.copyCode = copyCode;
+</script>
+
+<style>
+  .code-container {
+    position: relative;
+    margin: var(--space-4) 0;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  
+  .code-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-2) var(--space-4);
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .code-title {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+  
+  .code-copy {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .code-copy:hover {
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+  }
+  
+  .code-copy.copied {
+    background: var(--green);
+    color: white;
+    border-color: var(--green);
+  }
+  
+  .code-content :global(pre) {
+    margin: 0;
+    border-radius: 0;
+    border: none;
+  }
+  
+  /* Language badge for blocks without header */
+  .code-container:not(:has(.code-header))[data-language]::before {
+    content: attr(data-language);
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    border-radius: var(--radius-sm);
+    z-index: 1;
+  }
+</style>

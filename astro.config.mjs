@@ -3,6 +3,7 @@ import react from "@astrojs/react";
 import svelte from "@astrojs/svelte";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
+import partytown from "@astrojs/partytown";
 import AutoImport from "astro-auto-import";
 import astroDeck from "@sandikodev/astro-deck";
 import { defineConfig } from "astro/config";
@@ -28,6 +29,11 @@ export default defineConfig({
     tailwind({
       config: {
         applyBaseStyles: false,
+      },
+    }),
+    partytown({
+      config: {
+        forward: ["dataLayer.push"],
       },
     }),
     AutoImport({
