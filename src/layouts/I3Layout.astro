@@ -5,6 +5,8 @@ import "@/styles/animations.css";
 import Polybar from "@/components/terminal/Polybar.astro";
 import DesignSystemToggle from "@/components/DesignSystemToggle.astro";
 import BackToTop from "@/components/BackToTop.astro";
+import CommandPaletteEnhanced from "@/components/terminal/CommandPaletteEnhanced.astro";
+import CursorEffects from "@/components/terminal/CursorEffects.astro";
 import config from "@/config/config.json";
 import { ViewTransitions } from "astro:transitions";
 
@@ -62,6 +64,12 @@ const {
     
     <!-- Back to Top -->
     <BackToTop />
+    
+    <!-- Command Palette -->
+    <CommandPaletteEnhanced />
+    
+    <!-- Cursor Effects -->
+    <CursorEffects />
     
     <!-- Polybar -->
     <Polybar />

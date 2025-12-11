@@ -1,0 +1,404 @@
+---
+// Enhanced Command Palette for Dev Mode - Ctrl+K to open
+---
+
+<div id="command-palette" class="command-palette">
+  <div class="command-palette-backdrop"></div>
+  <div class="command-palette-modal">
+    <div class="command-palette-header">
+      <input 
+        type="text" 
+        id="command-input"
+        class="command-input"
+        placeholder="Type a command or search..."
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <kbd class="command-close">Esc</kbd>
+    </div>
+    
+    <div class="command-results" id="command-results">
+      <div class="command-section">
+        <div class="command-section-title">Navigation</div>
+        <div class="command-items" id="nav-commands">
+          <div class="command-item" data-action="navigate" data-url="/">
+            <span class="command-icon">🏠</span>
+            <span class="command-text">Go to Home</span>
+            <kbd class="command-shortcut">gh</kbd>
+          </div>
+          <div class="command-item" data-action="navigate" data-url="/workspace/blog">
+            <span class="command-icon">📝</span>
+            <span class="command-text">Go to Blog</span>
+            <kbd class="command-shortcut">gb</kbd>
+          </div>
+          <div class="command-item" data-action="navigate" data-url="/workspace/about">
+            <span class="command-icon">👤</span>
+            <span class="command-text">About</span>
+          </div>
+          <div class="command-item" data-action="navigate" data-url="/workspace/terminal">
+            <span class="command-icon">💻</span>
+            <span class="command-text">Terminal Playground</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="command-section">
+        <div class="command-section-title">Actions</div>
+        <div class="command-items" id="action-commands">
+          <div class="command-item" data-action="theme-cycle">
+            <span class="command-icon">🎨</span>
+            <span class="command-text">Cycle Theme</span>
+            <kbd class="command-shortcut">t</kbd>
+          </div>
+          <div class="command-item" data-action="toggle-mode">
+            <span class="command-icon">🔄</span>
+            <span class="command-text">Toggle Blog/Dev Mode</span>
+          </div>
+          <div class="command-item" data-action="scroll-top">
+            <span class="command-icon">⬆️</span>
+            <span class="command-text">Scroll to Top</span>
+            <kbd class="command-shortcut">gg</kbd>
+          </div>
+          <div class="command-item" data-action="scroll-bottom">
+            <span class="command-icon">⬇️</span>
+            <span class="command-text">Scroll to Bottom</span>
+            <kbd class="command-shortcut">G</kbd>
+          </div>
+        </div>
+      </div>
+      
+      <div class="command-section" id="search-section" style="display: none;">
+        <div class="command-section-title">Search Results</div>
+        <div class="command-items" id="search-results"></div>
+      </div>
+    </div>
+    
+    <div class="command-footer">
+      <div class="command-tips">
+        <kbd>↑↓</kbd> Navigate
+        <kbd>Enter</kbd> Select
+        <kbd>Esc</kbd> Close
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .command-palette {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 10vh;
+  }
+  
+  .command-palette.open {
+    display: flex;
+  }
+  
+  .command-palette-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+  }
+  
+  .command-palette-modal {
+    position: relative;
+    width: 90%;
+    max-width: 600px;
+    background: var(--bg-primary, #1a1b26);
+    border: 1px solid var(--border-color, #414868);
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    animation: commandPaletteIn 0.2s ease-out;
+  }
+  
+  @keyframes commandPaletteIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+  
+  .command-palette-header {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color, #414868);
+  }
+  
+  .command-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1.125rem;
+    color: var(--text-primary, #c0caf5);
+    font-family: 'Fira Code', monospace;
+  }
+  
+  .command-input::placeholder {
+    color: var(--text-secondary, #565f89);
+  }
+  
+  .command-close {
+    background: var(--bg-secondary, #414868);
+    color: var(--text-secondary, #a9b1d6);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-family: 'Fira Code', monospace;
+  }
+  
+  .command-results {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .command-section {
+    padding: 0.5rem 0;
+  }
+  
+  .command-section-title {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary, #7aa2f7);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .command-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  
+  .command-item:hover,
+  .command-item.selected {
+    background: var(--bg-secondary, rgba(122, 162, 247, 0.1));
+  }
+  
+  .command-icon {
+    font-size: 1rem;
+    width: 1.5rem;
+    text-align: center;
+  }
+  
+  .command-text {
+    flex: 1;
+    color: var(--text-primary, #c0caf5);
+    font-family: 'Fira Code', monospace;
+  }
+  
+  .command-shortcut {
+    background: var(--bg-secondary, #414868);
+    color: var(--text-secondary, #a9b1d6);
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-family: 'Fira Code', monospace;
+  }
+  
+  .command-footer {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--border-color, #414868);
+    background: var(--bg-secondary, rgba(26, 27, 38, 0.5));
+  }
+  
+  .command-tips {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.75rem;
+    color: var(--text-secondary, #565f89);
+  }
+  
+  .command-tips kbd {
+    background: var(--bg-secondary, #414868);
+    color: var(--text-secondary, #a9b1d6);
+    padding: 0.1rem 0.3rem;
+    border-radius: 2px;
+    font-family: 'Fira Code', monospace;
+  }
+  
+  /* Scrollbar styling */
+  .command-results::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .command-results::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .command-results::-webkit-scrollbar-thumb {
+    background: var(--border-color, #414868);
+    border-radius: 3px;
+  }
+</style>
+
+<script>
+  function initCommandPalette() {
+    const palette = document.getElementById('command-palette');
+    const input = document.getElementById('command-input');
+    const results = document.getElementById('command-results');
+    const searchSection = document.getElementById('search-section');
+    const searchResults = document.getElementById('search-results');
+    
+    if (!palette || !input) return;
+    
+    let selectedIndex = 0;
+    let currentItems = [];
+    
+    // Open/close handlers
+    function openPalette() {
+      palette.classList.add('open');
+      input.focus();
+      updateSelection();
+    }
+    
+    function closePalette() {
+      palette.classList.remove('open');
+      input.value = '';
+      selectedIndex = 0;
+      searchSection.style.display = 'none';
+    }
+    
+    // Update selection
+    function updateSelection() {
+      currentItems = Array.from(palette.querySelectorAll('.command-item:not([style*="display: none"])'));
+      currentItems.forEach((item, index) => {
+        item.classList.toggle('selected', index === selectedIndex);
+      });
+    }
+    
+    // Execute command
+    function executeCommand(item) {
+      const action = item.dataset.action;
+      const url = item.dataset.url;
+      
+      switch (action) {
+        case 'navigate':
+          window.location.href = url;
+          break;
+        case 'theme-cycle':
+          // Trigger theme cycle
+          document.dispatchEvent(new KeyboardEvent('keydown', { key: 't' }));
+          break;
+        case 'toggle-mode':
+          document.getElementById('design-toggle')?.click();
+          break;
+        case 'scroll-top':
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          break;
+        case 'scroll-bottom':
+          window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+          break;
+      }
+      
+      closePalette();
+    }
+    
+    // Search functionality
+    function performSearch(query) {
+      if (!query.trim()) {
+        searchSection.style.display = 'none';
+        return;
+      }
+      
+      // Simple search in page content
+      const content = document.body.textContent.toLowerCase();
+      const words = query.toLowerCase().split(' ');
+      
+      if (words.some(word => content.includes(word))) {
+        searchSection.style.display = 'block';
+        searchResults.innerHTML = `
+          <div class="command-item" data-action="search" data-query="${query}">
+            <span class="command-icon">🔍</span>
+            <span class="command-text">Search for "${query}"</span>
+          </div>
+        `;
+      } else {
+        searchSection.style.display = 'none';
+      }
+    }
+    
+    // Event listeners
+    document.addEventListener('keydown', (e) => {
+      // Open with Ctrl+K
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        openPalette();
+      }
+      
+      // Close with Escape
+      if (e.key === 'Escape' && palette.classList.contains('open')) {
+        e.preventDefault();
+        closePalette();
+      }
+      
+      // Navigation
+      if (palette.classList.contains('open')) {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          selectedIndex = Math.min(selectedIndex + 1, currentItems.length - 1);
+          updateSelection();
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          selectedIndex = Math.max(selectedIndex - 1, 0);
+          updateSelection();
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          if (currentItems[selectedIndex]) {
+            executeCommand(currentItems[selectedIndex]);
+          }
+        }
+      }
+    });
+    
+    // Input handler
+    input.addEventListener('input', (e) => {
+      const query = e.target.value;
+      performSearch(query);
+      selectedIndex = 0;
+      updateSelection();
+    });
+    
+    // Click handlers
+    palette.addEventListener('click', (e) => {
+      if (e.target === palette.querySelector('.command-palette-backdrop')) {
+        closePalette();
+      }
+      
+      const item = e.target.closest('.command-item');
+      if (item) {
+        executeCommand(item);
+      }
+    });
+  }
+  
+  // Init
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCommandPalette);
+  } else {
+    initCommandPalette();
+  }
+  
+  document.addEventListener('astro:page-load', initCommandPalette);
+</script>
