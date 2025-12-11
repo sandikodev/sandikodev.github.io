@@ -1,8 +1,10 @@
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
+import svelte from "@astrojs/svelte";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import AutoImport from "astro-auto-import";
+import astroDeck from "@sandikodev/astro-deck";
 import { defineConfig } from "astro/config";
 import remarkCollapse from "remark-collapse";
 import remarkToc from "remark-toc";
@@ -19,6 +21,7 @@ export default defineConfig({
     react({
       include: ["**/react-components/*", "**/layouts/components/*", "**/partials/*", "**/components/*"]
     }),
+    svelte(),
     sitemap(),
     tailwind({
       config: {
@@ -37,6 +40,7 @@ export default defineConfig({
       ],
     }),
     mdx(),
+    astroDeck(),
   ],
   markdown: {
     remarkPlugins: [
