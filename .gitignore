@@ -26,3 +26,23 @@ package-lock.json
 
 # Working notes
 .notes/
+
+# Development packages (astro-deck trial)
+packages/
+pnpm-workspace.yaml
+
+# CMS Admin (development only)
+public/admin/
+
+# Svelte config (not used in production)
+svelte.config.js
+
+# Backup files
+*.backup
+src/styles/terminal-theme-scoped.css
+src/styles/terminal-theme.css.backup
+src/layouts/PostSingle.astro.backup
+
+# Development tools
+commit-changes.sh
+backups/
