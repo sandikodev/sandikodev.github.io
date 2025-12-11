@@ -5,6 +5,10 @@ import TableOfContents from "@/components/TableOfContents.astro";
 import RelatedPosts from "@/components/RelatedPosts.astro";
 import CodeBlockEnhancer from "@/components/CodeBlockEnhancer.astro";
 import DevStats from "@/components/DevStats.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import ReadingTime from "@/components/ReadingTime.astro";
+import PrevNext from "@/components/PrevNext.astro";
+import SocialShare from "@/components/SocialShare.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import dateFormat from "@/lib/utils/dateFormat";
 import similerItems from "@/lib/utils/similarItems";
@@ -204,13 +208,16 @@ const relatedPosts = similerItems(post, allPosts, post.slug);
 
   <article class="article-layout">
     
+    <!-- Breadcrumb -->
+    <Breadcrumb />
+    
     <header class="article-header">
       <h1 class="article-title">{title}</h1>
       
       <div class="article-meta">
         <span>{dateFormat(date)}</span>
         <span>•</span>
-        <span>{readingTime} min read</span>
+        <ReadingTime content={post.body} />
         {authors.length > 0 && (
           <>
             <span>•</span>
@@ -273,6 +280,9 @@ const relatedPosts = similerItems(post, allPosts, post.slug);
             </div>
           </footer>
         )}
+        
+        <!-- Social Share -->
+        <SocialShare title={title} />
       </div>
 
       <aside class="article-sidebar">
@@ -280,6 +290,9 @@ const relatedPosts = similerItems(post, allPosts, post.slug);
         <TableOfContents headings={headings} />
       </aside>
     </div>
+    
+    <!-- Previous/Next Navigation -->
+    <PrevNext currentSlug={post.slug} />
   </article>
 
   <RelatedPosts posts={relatedPosts} />

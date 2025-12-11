@@ -1,16 +1,55 @@
 ---
 interface Props {
-  minutes: number;
-  words?: number;
+  content: string;
+  wordsPerMinute?: number;
 }
 
-const { minutes, words } = Astro.props;
+const { content, wordsPerMinute = 200 } = Astro.props;
+
+function calculateReadingTime(text: string, wpm: number = 200) {
+  const words = text.trim().split(/\s+/).length;
+  const minutes = Math.ceil(words / wpm);
+  return { words, minutes };
+}
+
+const { words, minutes } = calculateReadingTime(content, wordsPerMinute);
 ---
 
-<div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-  </svg>
-  <span>{minutes} min read</span>
-  {words && <span class="text-gray-400">• {words.toLocaleString()} words</span>}
+<div class="reading-time">
+  <span class="reading-time-icon" aria-hidden="true">📖</span>
+  <span class="reading-time-text">
+    {minutes} min read
+  </span>
+  <span class="reading-time-words">
+    ({words} words)
+  </span>
 </div>
+
+<style>
+  .reading-time {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary, #6b7280);
+    margin-bottom: 1rem;
+  }
+  
+  .reading-time-icon {
+    font-size: 1rem;
+  }
+  
+  .reading-time-words {
+    opacity: 0.7;
+    font-size: 0.8rem;
+  }
+  
+  /* Dev Mode styling */
+  [data-theme-mode="terminal"] .reading-time {
+    color: #7aa2f7;
+  }
+  
+  [data-theme-mode="terminal"] .reading-time-words {
+    color: #565f89;
+  }
+</style>

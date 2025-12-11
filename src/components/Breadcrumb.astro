@@ -1,38 +1,127 @@
 ---
 interface Props {
-  items: Array<{ name: string; url?: string }>;
+  items?: Array<{ label: string; href?: string }>;
 }
 
-const { items } = Astro.props;
-const baseUrl = "https://sandikodev.github.io";
+const { items = [] } = Astro.props;
 
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": items.map((item, index) => ({
-    "@type": "ListItem",
-    "position": index + 1,
-    "name": item.name,
-    "item": item.url ? `${baseUrl}${item.url}` : undefined
-  }))
-};
+// Auto-generate breadcrumbs from URL if not provided
+function generateBreadcrumbs() {
+  const path = Astro.url.pathname;
+  const segments = path.split('/').filter(Boolean);
+  
+  const breadcrumbs = [{ label: 'Home', href: '/' }];
+  
+  let currentPath = '';
+  segments.forEach((segment, index) => {
+    currentPath += `/${segment}`;
+    
+    // Format segment name
+    let label = segment.replace(/-/g, ' ');
+    label = label.charAt(0).toUpperCase() + label.slice(1);
+    
+    // Last segment is current page (no link)
+    if (index === segments.length - 1) {
+      breadcrumbs.push({ label });
+    } else {
+      breadcrumbs.push({ label, href: currentPath });
+    }
+  });
+  
+  return breadcrumbs;
+}
+
+const breadcrumbs = items.length > 0 ? items : generateBreadcrumbs();
 ---
 
-<nav aria-label="Breadcrumb" class="mb-8">
-  <ol class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
-    {items.map((item, index) => (
-      <li class="flex items-center">
-        {index > 0 && <span class="mx-2">/</span>}
-        {item.url ? (
-          <a href={item.url} class="hover:text-blue-600 dark:hover:text-blue-400">
-            {item.name}
-          </a>
-        ) : (
-          <span class="text-gray-900 dark:text-gray-100">{item.name}</span>
-        )}
-      </li>
-    ))}
-  </ol>
-</nav>
+{breadcrumbs.length > 1 && (
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol class="breadcrumb-list">
+      {breadcrumbs.map((item, index) => (
+        <li class="breadcrumb-item">
+          {item.href ? (
+            <a href={item.href} class="breadcrumb-link">{item.label}</a>
+          ) : (
+            <span class="breadcrumb-current" aria-current="page">{item.label}</span>
+          )}
+          {index < breadcrumbs.length - 1 && (
+            <span class="breadcrumb-separator" aria-hidden="true">/</span>
+          )}
+        </li>
+      ))}
+    </ol>
+  </nav>
+)}
 
-<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+<style>
+  .breadcrumb {
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+  }
+  
+  .breadcrumb-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .breadcrumb-link {
+    color: var(--text-secondary, #6b7280);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  
+  .breadcrumb-link:hover {
+    color: var(--text-primary, #1f2937);
+    text-decoration: underline;
+  }
+  
+  .breadcrumb-current {
+    color: var(--text-primary, #1f2937);
+    font-weight: 500;
+  }
+  
+  .breadcrumb-separator {
+    color: var(--text-secondary, #6b7280);
+    opacity: 0.6;
+  }
+  
+  /* Dev Mode styling */
+  [data-theme-mode="terminal"] .breadcrumb-link {
+    color: #7aa2f7;
+  }
+  
+  [data-theme-mode="terminal"] .breadcrumb-link:hover {
+    color: #c0caf5;
+  }
+  
+  [data-theme-mode="terminal"] .breadcrumb-current {
+    color: #c0caf5;
+  }
+  
+  [data-theme-mode="terminal"] .breadcrumb-separator {
+    color: #565f89;
+  }
+</style>
+
+<!-- Structured Data for SEO -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": breadcrumbs.map((item, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": item.label,
+    ...(item.href && { "item": `https://sandikodev.github.io${item.href}` })
+  }))
+})} />
