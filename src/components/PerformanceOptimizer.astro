@@ -1,0 +1,114 @@
+---
+// Performance Optimization Component
+---
+
+<script>
+  // Performance optimizations
+  function initPerformanceOptimizations() {
+    // Lazy load images
+    if ('IntersectionObserver' in window) {
+      const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            if (img.dataset.src) {
+              img.src = img.dataset.src;
+              img.removeAttribute('data-src');
+              imageObserver.unobserve(img);
+            }
+          }
+        });
+      });
+      
+      document.querySelectorAll('img[data-src]').forEach(img => {
+        imageObserver.observe(img);
+      });
+    }
+    
+    // Prefetch important pages on hover
+    const prefetchLinks = new Set();
+    document.addEventListener('mouseover', (e) => {
+      const link = e.target.closest('a[href^="/"]');
+      if (link && !prefetchLinks.has(link.href)) {
+        prefetchLinks.add(link.href);
+        
+        const prefetchLink = document.createElement('link');
+        prefetchLink.rel = 'prefetch';
+        prefetchLink.href = link.href;
+        document.head.appendChild(prefetchLink);
+      }
+    });
+    
+    // Service Worker registration (if available)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {
+          // SW not available, continue without it
+        });
+      });
+    }
+    
+    // Critical CSS inlining detection
+    const criticalCSS = document.querySelector('style[data-critical]');
+    if (criticalCSS) {
+      // Mark critical CSS as loaded
+      document.documentElement.classList.add('critical-css-loaded');
+    }
+    
+    // Web Vitals tracking (minimal)
+    if (typeof gtag !== 'undefined') {
+      // Track Core Web Vitals if GA is available
+      new PerformanceObserver((list) => {
+        list.getEntries().forEach((entry) => {
+          if (entry.entryType === 'largest-contentful-paint') {
+            gtag('event', 'web_vitals', {
+              name: 'LCP',
+              value: Math.round(entry.startTime),
+              event_category: 'performance'
+            });
+          }
+        });
+      }).observe({ entryTypes: ['largest-contentful-paint'] });
+    }
+  }
+  
+  // Init optimizations
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPerformanceOptimizations);
+  } else {
+    initPerformanceOptimizations();
+  }
+  
+  document.addEventListener('astro:page-load', initPerformanceOptimizations);
+</script>
+
+<style>
+  /* Critical CSS loading state */
+  html:not(.critical-css-loaded) {
+    visibility: hidden;
+  }
+  
+  html.critical-css-loaded {
+    visibility: visible;
+  }
+  
+  /* Lazy loading placeholder */
+  img[data-src] {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+  }
+  
+  @keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  
+  /* Reduce motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    img[data-src] {
+      animation: none;
+      background: #f0f0f0;
+    }
+  }
+</style>

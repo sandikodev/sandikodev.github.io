@@ -9,6 +9,7 @@ import CommandPaletteEnhanced from "@/components/terminal/CommandPaletteEnhanced
 import CursorEffects from "@/components/terminal/CursorEffects.astro";
 import TerminalEffects from "@/components/terminal/TerminalEffects.astro";
 import SoundEffects from "@/components/terminal/SoundEffects.astro";
+import PerformanceOptimizer from "@/components/PerformanceOptimizer.astro";
 import config from "@/config/config.json";
 import { ViewTransitions } from "astro:transitions";
 
@@ -78,6 +79,9 @@ const {
     
     <!-- Sound Effects -->
     <SoundEffects enabled={false} volume={0.3} />
+    
+    <!-- Performance Optimizer -->
+    <PerformanceOptimizer />
     
     <!-- Polybar -->
     <Polybar />
