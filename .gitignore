@@ -28,7 +28,9 @@ package-lock.json
 .notes/
 
 # Development packages (astro-deck trial)
-packages/
+packages/astro-deck/
+# Allow SandikoOS ecosystem packages
+!packages/astro-terminal-code/
 pnpm-workspace.yaml
 
 # Astro-deck development files (should not be committed to portfolio repo)
