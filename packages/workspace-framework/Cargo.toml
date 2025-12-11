@@ -1,0 +1,107 @@
+[package]
+name = "render-native"
+version = "0.1.0"
+edition = "2021"
+description = "RENDER Native Compositor - Ruin your F*cking at door"
+authors = ["SandikoDev <sandikodev@gmail.com>"]
+license = "MIT"
+repository = "https://github.com/sandikodev/workspace-framework"
+keywords = ["wayland", "compositor", "desktop", "revolution", "anti-windows"]
+categories = ["gui", "os", "graphics"]
+
+[lib]
+name = "render_native"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+# Wayland ecosystem
+wayland-client = "0.31"
+wayland-protocols = "0.31"
+wayland-scanner = "0.31"
+
+# Graphics and rendering
+wgpu = "0.19"
+winit = "0.29"
+raw-window-handle = "0.6"
+
+# System integration
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1.0", features = ["full"] }
+anyhow = "1.0"
+thiserror = "1.0"
+
+# Performance and utilities
+parking_lot = "0.12"
+dashmap = "5.5"
+once_cell = "1.19"
+tracing = "0.1"
+tracing-subscriber = "0.3"
+
+# Cross-platform support
+[target.'cfg(target_os = "linux")'.dependencies]
+wayland-client = "0.31"
+x11 = { version = "2.21", features = ["xlib", "xrandr"] }
+
+[target.'cfg(target_os = "redox")'.dependencies]
+# Future: RedoxOS Orbital integration
+orbital = { git = "https://gitlab.redox-os.org/redox-os/orbital", optional = true }
+
+[target.'cfg(target_os = "windows")'.dependencies]
+# Windows support (reluctantly)
+windows = { version = "0.52", features = [
+    "Win32_Foundation",
+    "Win32_Graphics_Gdi",
+    "Win32_UI_WindowsAndMessaging",
+] }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+# macOS support
+cocoa = "0.25"
+core-graphics = "0.23"
+objc = "0.2"
+
+[features]
+default = ["wayland", "performance"]
+wayland = ["wayland-client", "wayland-protocols"]
+x11 = ["x11"]
+orbital = ["dep:orbital"]
+performance = [] # Maximum performance mode
+ludicrous = ["performance"] # Ludicrous speed mode
+anti-bloat = [] # Remove all unnecessary features
+revolution = ["ludicrous", "anti-bloat"] # Full revolutionary mode
+
+[profile.release]
+# Maximum performance - No compromises
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+
+[profile.dev]
+# Fast development builds
+opt-level = 1
+debug = true
+overflow-checks = true
+
+# Shame Windows with our superior build times
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
+[[bin]]
+name = "render-compositor"
+path = "src/bin/compositor.rs"
+
+[[bin]]
+name = "render-benchmark"
+path = "src/bin/benchmark.rs"
+
+[[example]]
+name = "hello-render"
+path = "examples/hello_render.rs"
+
+[[example]]
+name = "shame-windows"
+path = "examples/shame_windows.rs"
