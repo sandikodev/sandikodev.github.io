@@ -12,7 +12,7 @@ import ReadingTime from "@/components/ReadingTime.astro";
 import PrevNext from "@/components/PrevNext.astro";
 import SocialShare from "@/components/SocialShare.astro";
 import Comments from "@/components/Comments.astro";
-import SEO from "@/components/SEO.astro";
+import SEOOptimized from "@/components/SEOOptimized.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import dateFormat from "@/lib/utils/dateFormat";
 import similerItems from "@/lib/utils/similarItems";
@@ -32,7 +32,7 @@ const readingTime = Math.ceil(words / 200);
 const relatedPosts = similerItems(post, allPosts, post.slug);
 ---
 
-<SEO 
+<SEOOptimized 
   title={title}
   description={description}
   type="article"
