@@ -1,14 +1,17 @@
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
+import svelte from "@astrojs/svelte";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import AutoImport from "astro-auto-import";
+import astroDeck from "@sandikodev/astro-deck";
 import { defineConfig } from "astro/config";
 import remarkCollapse from "remark-collapse";
 import remarkToc from "remark-toc";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import serviceWorker from "astrojs-service-worker";
+import icon from "astro-icon";
 import config from "./src/config/config.json";
 
 // https://astro.build/config
@@ -20,6 +23,7 @@ export default defineConfig({
     react({
       include: ["**/react-components/*", "**/layouts/components/*", "**/partials/*", "**/components/*"]
     }),
+    svelte(),
     sitemap(),
     tailwind({
       config: {
@@ -39,6 +43,8 @@ export default defineConfig({
     }),
     mdx(),
     serviceWorker(),
+    icon(),
+    astroDeck(),
   ],
   markdown: {
     remarkPlugins: [

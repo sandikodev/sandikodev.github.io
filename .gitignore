@@ -31,6 +31,9 @@ package-lock.json
 packages/
 pnpm-workspace.yaml
 
+# Astro-deck development files (should not be committed to portfolio repo)
+# These are developed separately in @sandikodev/astro-deck package
+
 # CMS Admin (development only)
 public/admin/
 

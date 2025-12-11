@@ -1,0 +1,93 @@
+---
+import { SEO } from "astro-seo";
+import config from "@/config/config.json";
+
+export interface Props {
+  title?: string;
+  meta_title?: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+  canonical?: string;
+}
+
+const {
+  title,
+  meta_title,
+  description,
+  image,
+  noindex,
+  canonical,
+} = Astro.props;
+
+const make_title = meta_title ? meta_title : title ? title : config.site.title;
+const make_description = description ? description : config.metadata.meta_description;
+const make_image = image ? image : config.metadata.meta_image;
+
+// Construct full URLs
+const site_url = config.site.base_url || Astro.site?.href || "http://localhost:4321";
+const full_image_url = make_image.startsWith('http') ? make_image : `${site_url}${make_image}`;
+const canonical_url = canonical || `${site_url}${Astro.url.pathname}`;
+---
+
+<SEO
+  title={make_title}
+  description={make_description}
+  canonical={canonical_url}
+  noindex={noindex}
+  openGraph={{
+    basic: {
+      title: make_title,
+      type: "website",
+      image: full_image_url,
+      url: canonical_url,
+    },
+    optional: {
+      description: make_description,
+      siteName: config.site.title,
+    },
+    image: {
+      url: full_image_url,
+      alt: make_title,
+    },
+  }}
+  twitter={{
+    card: "summary_large_image",
+    site: config.metadata.meta_author,
+    creator: config.metadata.meta_author,
+    title: make_title,
+    description: make_description,
+    image: full_image_url,
+    imageAlt: make_title,
+  }}
+  extend={{
+    link: [
+      { rel: "icon", href: "/favicon.ico" },
+      { rel: "sitemap", href: "/sitemap-index.xml" },
+    ],
+    meta: [
+      { name: "author", content: config.metadata.meta_author },
+      { name: "generator", content: Astro.generator },
+      { property: "og:locale", content: "en_US" },
+      { name: "twitter:site", content: config.metadata.meta_author },
+    ],
+  }}
+/>
+
+<!-- Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": config.site.title,
+  "url": site_url,
+  "description": config.metadata.meta_description,
+  "author": {
+    "@type": "Person",
+    "name": config.metadata.meta_author,
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": `${site_url}/search?q={search_term_string}`,
+    "query-input": "required name=search_term_string"
+  }
+})} />
