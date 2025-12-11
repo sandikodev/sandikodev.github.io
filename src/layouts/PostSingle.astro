@@ -1,14 +1,18 @@
 ---
 import { Image } from "astro:assets";
 import ReadingProgress from "@/components/ReadingProgress.astro";
+import ReadingProgressBar from "@/components/ReadingProgressBar.astro";
 import TableOfContents from "@/components/TableOfContents.astro";
 import RelatedPosts from "@/components/RelatedPosts.astro";
+import RelatedPostsEnhanced from "@/components/RelatedPostsEnhanced.astro";
 import CodeBlockEnhancer from "@/components/CodeBlockEnhancer.astro";
 import DevStats from "@/components/DevStats.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
 import ReadingTime from "@/components/ReadingTime.astro";
 import PrevNext from "@/components/PrevNext.astro";
 import SocialShare from "@/components/SocialShare.astro";
+import Comments from "@/components/Comments.astro";
+import SEO from "@/components/SEO.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import dateFormat from "@/lib/utils/dateFormat";
 import similerItems from "@/lib/utils/similarItems";
@@ -28,7 +32,21 @@ const readingTime = Math.ceil(words / 200);
 const relatedPosts = similerItems(post, allPosts, post.slug);
 ---
 
+<SEO 
+  title={title}
+  description={description}
+  type="article"
+  image={image}
+  article={{
+    publishedTime: new Date(date).toISOString(),
+    author: "Sandikodev",
+    section: categories[0] || "Blog",
+    tags: tags || []
+  }}
+/>
+
 <ReadingProgress />
+<ReadingProgressBar />
   
   <style>
     .article-layout {
@@ -295,5 +313,14 @@ const relatedPosts = similerItems(post, allPosts, post.slug);
     <PrevNext currentSlug={post.slug} />
   </article>
 
-  <RelatedPosts posts={relatedPosts} />
+  <!-- Enhanced Related Posts -->
+  <RelatedPostsEnhanced 
+    currentSlug={post.slug}
+    currentTags={tags || []}
+    currentCategories={categories || []}
+  />
+  
+  <!-- Comments -->
+  <Comments />
+  
   <CodeBlockEnhancer />

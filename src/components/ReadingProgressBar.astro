@@ -1,0 +1,141 @@
+---
+// Reading Progress Bar - Shows scroll progress and estimated time left
+---
+
+<div id="reading-progress-bar" class="reading-progress-bar">
+  <div class="progress-fill"></div>
+  <div class="progress-info">
+    <span id="progress-text">0%</span>
+    <span id="time-left">3 min left</span>
+  </div>
+</div>
+
+<style>
+  .reading-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .reading-progress-bar.visible {
+    opacity: 1;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    background: var(--accent, #3b82f6);
+    width: 0%;
+    transition: width 0.1s ease;
+  }
+  
+  .progress-info {
+    position: absolute;
+    top: 8px;
+    right: 1rem;
+    display: flex;
+    gap: 1rem;
+    font-size: 0.75rem;
+    color: var(--text-secondary, #6b7280);
+    background: var(--bg-primary, #fff);
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+  }
+  
+  .reading-progress-bar.visible .progress-info {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Dev Mode styling */
+  [data-theme-mode="terminal"] .progress-fill {
+    background: #7aa2f7;
+  }
+  
+  [data-theme-mode="terminal"] .progress-info {
+    background: #1a1b26;
+    color: #c0caf5;
+    border: 1px solid #414868;
+  }
+  
+  @media (max-width: 768px) {
+    .progress-info {
+      right: 0.5rem;
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+    }
+  }
+</style>
+
+<script>
+  function initReadingProgress() {
+    const progressBar = document.getElementById('reading-progress-bar');
+    const progressFill = progressBar?.querySelector('.progress-fill');
+    const progressText = document.getElementById('progress-text');
+    const timeLeft = document.getElementById('time-left');
+    
+    if (!progressBar || !progressFill || !progressText || !timeLeft) return;
+    
+    // Calculate reading time from content
+    const content = document.querySelector('article, main, .article-content');
+    if (!content) return;
+    
+    const text = content.textContent || '';
+    const words = text.trim().split(/\s+/).length;
+    const totalReadingTime = Math.ceil(words / 200); // 200 WPM
+    
+    function updateProgress() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = Math.min(Math.max(scrollTop / docHeight, 0), 1);
+      
+      // Update progress bar
+      progressFill.style.width = `${scrollPercent * 100}%`;
+      progressText.textContent = `${Math.round(scrollPercent * 100)}%`;
+      
+      // Calculate time left
+      const timeRemaining = Math.max(1, Math.ceil(totalReadingTime * (1 - scrollPercent)));
+      timeLeft.textContent = `${timeRemaining} min left`;
+      
+      // Show/hide progress bar
+      if (scrollPercent > 0.05) {
+        progressBar.classList.add('visible');
+      } else {
+        progressBar.classList.remove('visible');
+      }
+    }
+    
+    // Throttled scroll handler
+    let ticking = false;
+    function handleScroll() {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          updateProgress();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+    
+    window.addEventListener('scroll', handleScroll);
+    updateProgress(); // Initial call
+  }
+  
+  // Init
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initReadingProgress);
+  } else {
+    initReadingProgress();
+  }
+  
+  document.addEventListener('astro:page-load', initReadingProgress);
+</script>
