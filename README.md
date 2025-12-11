@@ -96,6 +96,15 @@ i3wm/sway-inspired tiling window manager interface with retro terminal aesthetic
 
 **User Preference:** The selected design system is saved in browser localStorage, allowing visitors to choose their preferred experience.
 
+## 🔬 Experimental: RENDER Framework
+
+The `/workspace` interface serves as a preview for **RENDER** - an experimental desktop framework project:
+- **Philosophy**: "Tunneling the door at everything"
+- **Goal**: Revolutionary desktop development with web DX
+- **Repository**: [workspace-framework](https://github.com/workspace-framework) organization
+
+*This is an ongoing experiment in desktop environment innovation.*
+
 <!-- reporting issue -->
 ## 🐞Reporting Issues
 
