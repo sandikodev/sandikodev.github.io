@@ -1,0 +1,104 @@
+---
+// Back to Top Button - Smooth scroll to top
+---
+
+<button
+  id="back-to-top"
+  class="back-to-top"
+  aria-label="Back to top"
+  title="Back to top"
+>
+  ↑
+</button>
+
+<style>
+  .back-to-top {
+    position: fixed;
+    bottom: 6rem;
+    right: 2rem;
+    z-index: 9998;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    background: var(--bg-primary, #fff);
+    color: var(--text-primary, #1f2937);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: bold;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .back-to-top:hover {
+    transform: scale(1.1) translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Dev Mode styling */
+  [data-theme-mode="terminal"] .back-to-top {
+    background: #1a1b26;
+    color: #c0caf5;
+    border-color: #7aa2f7;
+  }
+
+  @media (max-width: 768px) {
+    .back-to-top {
+      bottom: 5rem;
+      right: 1rem;
+      width: 2.5rem;
+      height: 2.5rem;
+      font-size: 1rem;
+    }
+  }
+</style>
+
+<script>
+  function initBackToTop() {
+    const button = document.getElementById('back-to-top');
+    if (!button) return;
+
+    // Show/hide based on scroll position
+    function toggleVisibility() {
+      if (window.scrollY > 300) {
+        button.classList.add('visible');
+      } else {
+        button.classList.remove('visible');
+      }
+    }
+
+    // Smooth scroll to top
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    // Event listeners
+    window.addEventListener('scroll', toggleVisibility);
+    button.addEventListener('click', scrollToTop);
+
+    // Initial check
+    toggleVisibility();
+  }
+
+  // Init
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBackToTop);
+  } else {
+    initBackToTop();
+  }
+
+  document.addEventListener('astro:page-load', initBackToTop);
+</script>
