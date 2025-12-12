@@ -34,7 +34,7 @@
 - [x] Add `humans.txt` - ✅ Done (public/humans.txt)
 - [x] Add security.txt - ✅ Done (public/.well-known/security.txt)
 - [x] Implement breadcrumb schema - ✅ Done (Breadcrumb.astro)
-- [ ] Add article schema for blog posts
+- [x] Add article schema for blog posts - ✅ Done (SEO.astro BlogPosting)
 - [x] Add WebSite schema with search action - ✅ Done (Base.astro, SEO.astro)
 - [ ] Implement AMP (optional)
 
@@ -46,10 +46,10 @@
 - [x] Add resource hints (dns-prefetch, preconnect) - ✅ Done (layouts)
 
 ### Content
-- [ ] Add FAQ schema
-- [ ] Create comprehensive about page
+- [x] Add FAQ schema - ✅ Done (FAQ.astro with FAQPage schema)
+- [x] Create comprehensive about page - ✅ Done (about.astro 10KB)
 - [ ] Add author bio to posts
-- [ ] Implement related posts
+- [x] Implement related posts - ✅ Done (2 versions: RelatedPosts.astro, RelatedPostsEnhanced.astro)
 - [ ] Add estimated reading time
 - [ ] Create content calendar
 
