@@ -299,7 +299,7 @@ Visit `/design-preview` to see all design system elements in action:
 - [ ] Reading history (localStorage)
 
 ### Polish
-- [x] Custom 404 page - ✅ Done (404.astro with terminal theme)
+- [ ] Custom 404 page
 - [ ] Loading states / skeleton loaders
 - [ ] Print stylesheet
 
