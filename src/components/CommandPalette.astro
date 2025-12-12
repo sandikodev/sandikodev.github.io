@@ -268,7 +268,7 @@
       if (filtered.length > 0) {
         searchSection!.style.display = 'block';
         searchItems!.innerHTML = filtered.map((post: any) => `
-          <div class="command-item" data-url="/${post.slug}">
+          <div class="command-item" data-url="/${post.id}">
             <span class="command-icon">📄</span>
             <span class="command-text">${post.title}</span>
           </div>
