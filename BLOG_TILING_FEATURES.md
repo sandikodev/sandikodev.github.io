@@ -228,14 +228,14 @@ src/
 
 ### Phase 1: Content
 - [x] Add search functionality - ✅ Done (search.astro, SearchBar.tsx, search.json.ts)
-- [ ] Add filters (by category/tag)
-- [ ] Add pagination
+- [x] Add filters (by category/tag) - ✅ Done (taxonomyFilter.ts)
+- [x] Add pagination - ✅ Done (Pagination.astro)
 - [ ] Add post preview on hover
 
 ### Phase 2: Interactions
 - [x] Add command palette (Ctrl+K) - ✅ Done (3 versions available)
 - [ ] Add workspace switching (1-9 keys)
-- [ ] Add floating window toggle
+- [x] Add floating window toggle - ✅ Done (i3-utils.ts toggleFloat)
 - [ ] Add scratchpad
 
 ### Phase 3: Effects
