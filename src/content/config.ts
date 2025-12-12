@@ -1,7 +1,28 @@
 import { defineCollection, z } from "astro:content";
+import { glob } from "astro/loaders";
 
-// Post collection schema
+// Post collection schema - uses glob loader for external content
 const postsCollection = defineCollection({
+  loader: glob({
+    pattern: "**/*.md",
+    base: "./content/posts"  // Submodule directory
+  }),
+  schema: z.object({
+    id: z.string().optional(),
+    title: z.string(),
+    meta_title: z.string().optional(),
+    description: z.string().optional(),
+    date: z.date().optional(),
+    image: z.string().optional(),
+    authors: z.array(z.string()).default(["admin"]),
+    categories: z.array(z.string()).default(["others"]),
+    tags: z.array(z.string()).default(["others"]),
+    draft: z.boolean().optional(),
+  }),
+});
+
+// Templates collection - local templates in src/content/posts
+const templatesCollection = defineCollection({
   schema: z.object({
     id: z.string().optional(),
     title: z.string(),
@@ -60,7 +81,8 @@ const aboutCollection = defineCollection({
 
 // Export collections
 export const collections = {
-  posts: postsCollection,
+  posts: postsCollection,        // External submodule
+  templates: templatesCollection, // Local src/content/posts
   pages: pagesCollection,
   authors: authorsCollection,
   about: aboutCollection,
