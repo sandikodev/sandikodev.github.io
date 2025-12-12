@@ -1,0 +1,115 @@
+---
+// Reading History tracker for Blog Mode
+const { slug, title } = Astro.props;
+---
+
+<script define:vars={{ slug, title }}>
+  class ReadingHistoryTracker {
+    constructor() {
+      this.storageKey = 'blog-reading-history';
+      this.currentSlug = slug;
+      this.currentTitle = title;
+      this.init();
+    }
+
+    init() {
+      // Track page visit
+      this.trackVisit();
+      
+      // Track reading progress
+      this.trackReadingProgress();
+    }
+
+    trackVisit() {
+      if (!this.currentSlug) return;
+
+      const history = this.getHistory();
+      const now = new Date().toISOString();
+      
+      history[this.currentSlug] = {
+        title: this.currentTitle,
+        url: window.location.pathname,
+        lastVisited: now,
+        visitCount: (history[this.currentSlug]?.visitCount || 0) + 1,
+        readingProgress: history[this.currentSlug]?.readingProgress || 0
+      };
+
+      // Keep only last 50 articles
+      const entries = Object.entries(history);
+      if (entries.length > 50) {
+        const sorted = entries.sort((a, b) => 
+          new Date(b[1].lastVisited) - new Date(a[1].lastVisited)
+        );
+        const limited = Object.fromEntries(sorted.slice(0, 50));
+        localStorage.setItem(this.storageKey, JSON.stringify(limited));
+      } else {
+        localStorage.setItem(this.storageKey, JSON.stringify(history));
+      }
+    }
+
+    trackReadingProgress() {
+      let maxScroll = 0;
+      
+      const updateProgress = () => {
+        const scrollPercent = Math.round(
+          (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
+        );
+        
+        if (scrollPercent > maxScroll) {
+          maxScroll = Math.min(scrollPercent, 100);
+          this.updateReadingProgress(maxScroll);
+        }
+      };
+
+      // Throttled scroll listener
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            updateProgress();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+
+      // Save progress on page unload
+      window.addEventListener('beforeunload', () => {
+        this.updateReadingProgress(maxScroll);
+      });
+    }
+
+    updateReadingProgress(progress) {
+      if (!this.currentSlug) return;
+
+      const history = this.getHistory();
+      if (history[this.currentSlug]) {
+        history[this.currentSlug].readingProgress = Math.max(
+          history[this.currentSlug].readingProgress || 0,
+          progress
+        );
+        localStorage.setItem(this.storageKey, JSON.stringify(history));
+      }
+    }
+
+    getHistory() {
+      try {
+        return JSON.parse(localStorage.getItem(this.storageKey) || '{}');
+      } catch {
+        return {};
+      }
+    }
+
+    // Public method to get reading history for other components
+    static getReadingHistory() {
+      try {
+        return JSON.parse(localStorage.getItem('blog-reading-history') || '{}');
+      } catch {
+        return {};
+      }
+    }
+  }
+
+  // Initialize tracker
+  new ReadingHistoryTracker();
+</script>

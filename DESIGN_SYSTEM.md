@@ -279,9 +279,9 @@ Visit `/design-preview` to see all design system elements in action:
 
 ### Content Enhancement
 - [x] Estimated reading progress - "3 min left" indicator - ✅ Done (ReadingProgress.astro)
-- [ ] Bookmark/save article - localStorage
-- [ ] Text highlighting - select & save highlights
-- [ ] Font size toggle - A- A A+ accessibility
+- [x] Bookmark/save article - localStorage - ✅ Done (BookmarkArticle.astro)
+- [x] Text highlighting - select & save highlights - ✅ Done (TextHighlighter.astro)
+- [x] Font size toggle - A- A A+ accessibility - ✅ Done (FontSizeToggle.astro)
 
 ### Navigation
 - [x] Previous/Next post navigation - ✅ Done (PrevNext.astro)
@@ -290,18 +290,18 @@ Visit `/design-preview` to see all design system elements in action:
 
 ### Engagement
 - [x] Share buttons - Twitter, LinkedIn, copy link - ✅ Done (SocialShare.astro)
-- [ ] Newsletter signup form
+- [x] Newsletter signup form - ✅ Done (NewsletterSignup.astro)
 - [x] Comments via Giscus (GitHub discussions) - ✅ Done (Comments.astro)
 
 ### Developer Features
 - [x] Code snippet library page (/snippets) - ✅ Done (CodeSnippetLibrary.astro)
-- [ ] RSS feed optimization
-- [ ] Reading history (localStorage)
+- [x] RSS feed optimization - ✅ Done (rss.xml.ts)
+- [x] Reading history (localStorage) - ✅ Done (ReadingHistory.astro)
 
 ### Polish
-- [ ] Custom 404 page
-- [ ] Loading states / skeleton loaders
-- [ ] Print stylesheet
+- [x] Custom 404 page - ✅ Done (404-blog.astro for Blog Mode)
+- [x] Loading states / skeleton loaders - ✅ Done (LoadingStates.astro)
+- [x] Print stylesheet - ✅ Done (@media print in main.css)
 
 ---
 

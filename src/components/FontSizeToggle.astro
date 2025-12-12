@@ -1,0 +1,107 @@
+---
+// Font Size Toggle for Blog Mode (V1)
+// A- A A+ accessibility feature
+---
+
+<div class="font-size-toggle">
+  <button class="font-btn" data-size="small" title="Decrease font size">A-</button>
+  <button class="font-btn" data-size="normal" title="Normal font size">A</button>
+  <button class="font-btn" data-size="large" title="Increase font size">A+</button>
+</div>
+
+<style>
+  .font-size-toggle {
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0.375rem;
+    padding: 0.25rem;
+  }
+
+  .font-btn {
+    background: none;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    transition: all 150ms ease;
+  }
+
+  .font-btn:hover {
+    background: var(--color-bg-tertiary);
+    color: var(--color-text);
+  }
+
+  .font-btn.active {
+    background: var(--color-primary);
+    color: white;
+  }
+
+  .font-btn[data-size="small"] { font-size: 0.75rem; }
+  .font-btn[data-size="normal"] { font-size: 1rem; }
+  .font-btn[data-size="large"] { font-size: 1.25rem; }
+</style>
+
+<script>
+  class FontSizeToggle {
+    constructor() {
+      this.init();
+    }
+
+    init() {
+      // Load saved font size
+      const saved = localStorage.getItem('blog-font-size') || 'normal';
+      this.setFontSize(saved);
+      this.updateActiveButton(saved);
+
+      // Add event listeners
+      document.querySelectorAll('.font-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const size = e.target.dataset.size;
+          this.setFontSize(size);
+          this.updateActiveButton(size);
+          localStorage.setItem('blog-font-size', size);
+        });
+      });
+    }
+
+    setFontSize(size) {
+      const root = document.documentElement;
+      
+      switch(size) {
+        case 'small':
+          root.style.setProperty('--font-size-base', '0.875rem');
+          root.style.setProperty('--font-size-lg', '1rem');
+          root.style.setProperty('--font-size-xl', '1.125rem');
+          break;
+        case 'large':
+          root.style.setProperty('--font-size-base', '1.125rem');
+          root.style.setProperty('--font-size-lg', '1.25rem');
+          root.style.setProperty('--font-size-xl', '1.375rem');
+          break;
+        default: // normal
+          root.style.setProperty('--font-size-base', '1rem');
+          root.style.setProperty('--font-size-lg', '1.125rem');
+          root.style.setProperty('--font-size-xl', '1.25rem');
+      }
+    }
+
+    updateActiveButton(size) {
+      document.querySelectorAll('.font-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.size === size);
+      });
+    }
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new FontSizeToggle());
+  } else {
+    new FontSizeToggle();
+  }
+</script>

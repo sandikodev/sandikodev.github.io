@@ -1,0 +1,130 @@
+---
+// Bookmark/Save Article for Blog Mode
+const { slug, title } = Astro.props;
+---
+
+<button class="bookmark-btn" data-slug={slug} data-title={title} title="Bookmark this article">
+  <svg class="bookmark-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+    <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>
+  </svg>
+  <span class="bookmark-text">Save</span>
+</button>
+
+<style>
+  .bookmark-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: none;
+    border: 1px solid var(--color-border);
+    border-radius: 0.375rem;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all 150ms ease;
+    font-size: 0.875rem;
+  }
+
+  .bookmark-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .bookmark-btn.bookmarked {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: white;
+  }
+
+  .bookmark-btn.bookmarked .bookmark-icon {
+    fill: currentColor;
+  }
+
+  .bookmark-icon {
+    transition: fill 150ms ease;
+  }
+</style>
+
+<script>
+  class BookmarkManager {
+    constructor() {
+      this.storageKey = 'blog-bookmarks';
+      this.init();
+    }
+
+    init() {
+      document.querySelectorAll('.bookmark-btn').forEach(btn => {
+        const slug = btn.dataset.slug;
+        
+        // Set initial state
+        if (this.isBookmarked(slug)) {
+          this.setBookmarked(btn, true);
+        }
+
+        // Add click handler
+        btn.addEventListener('click', () => this.toggleBookmark(btn));
+      });
+    }
+
+    toggleBookmark(btn) {
+      const slug = btn.dataset.slug;
+      const title = btn.dataset.title;
+      
+      if (this.isBookmarked(slug)) {
+        this.removeBookmark(slug);
+        this.setBookmarked(btn, false);
+      } else {
+        this.addBookmark(slug, title);
+        this.setBookmarked(btn, true);
+      }
+    }
+
+    addBookmark(slug, title) {
+      const bookmarks = this.getBookmarks();
+      bookmarks[slug] = {
+        title,
+        date: new Date().toISOString(),
+        url: `/blog/${slug}/`
+      };
+      localStorage.setItem(this.storageKey, JSON.stringify(bookmarks));
+    }
+
+    removeBookmark(slug) {
+      const bookmarks = this.getBookmarks();
+      delete bookmarks[slug];
+      localStorage.setItem(this.storageKey, JSON.stringify(bookmarks));
+    }
+
+    isBookmarked(slug) {
+      const bookmarks = this.getBookmarks();
+      return bookmarks.hasOwnProperty(slug);
+    }
+
+    getBookmarks() {
+      try {
+        return JSON.parse(localStorage.getItem(this.storageKey) || '{}');
+      } catch {
+        return {};
+      }
+    }
+
+    setBookmarked(btn, isBookmarked) {
+      const text = btn.querySelector('.bookmark-text');
+      
+      if (isBookmarked) {
+        btn.classList.add('bookmarked');
+        text.textContent = 'Saved';
+      } else {
+        btn.classList.remove('bookmarked');
+        text.textContent = 'Save';
+      }
+    }
+  }
+
+  // Initialize
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new BookmarkManager());
+  } else {
+    new BookmarkManager();
+  }
+</script>

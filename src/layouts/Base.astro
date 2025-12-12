@@ -5,6 +5,8 @@ import CommandPalette from "@/components/CommandPalette.astro";
 import DesignSystemToggle from "@/components/DesignSystemToggle.astro";
 import BackToTop from "@/components/BackToTop.astro";
 import PerformanceOptimizer from "@/components/PerformanceOptimizer.astro";
+import FontSizeToggle from "@/components/FontSizeToggle.astro";
+import LoadingStates from "@/components/LoadingStates.astro";
 import config from "@/config/config.json";
 import theme from "@/config/theme.json";
 import { plainify } from "@/lib/utils/textConverter";
@@ -258,6 +260,8 @@ const { title, meta_title, description, image, noindex, canonical } =
     <CommandPalette />
     <DesignSystemToggle />
     <BackToTop />
+    <FontSizeToggle />
+    <LoadingStates />
     <PerformanceOptimizer />
     <Header />
     <main id="main-content" class="min-h-[60vh]">
