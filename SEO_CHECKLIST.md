@@ -50,11 +50,11 @@
 - [x] Create comprehensive about page - ✅ Done (about.astro 10KB)
 - [ ] Add author bio to posts
 - [x] Implement related posts - ✅ Done (2 versions: RelatedPosts.astro, RelatedPostsEnhanced.astro)
-- [ ] Add estimated reading time
+- [x] Add estimated reading time - ✅ Done (ReadingTime.astro)
 - [ ] Create content calendar
 
 ### Social Media
-- [ ] Twitter Card optimization
+- [x] Twitter Card optimization - ✅ Done (Base.astro, TerminalLayout.astro)
 - [ ] Facebook Open Graph optimization
 - [ ] LinkedIn optimization
 - [x] Add social share buttons - ✅ Done (SocialShare.astro)

@@ -407,7 +407,7 @@ function showIndicator(text) {
 - [x] Add search bar - ✅ Done (SearchBar.tsx)
 - [x] Filter by category - ✅ Done (taxonomyFilter.ts)
 - [x] Filter by tag - ✅ Done (taxonomyFilter.ts)
-- [ ] Sort options
+- [x] Sort options - ✅ Done (sortFunctions.ts)
 
 ### Phase 2: Advanced Keyboard
 - [x] Command palette (Ctrl+K) - ✅ Done (3 versions)
