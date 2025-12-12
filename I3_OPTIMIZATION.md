@@ -423,7 +423,7 @@ window.i3wm.closeFocused();
 - [x] Floating windows draggable - ✅ Done (I3Window.astro with drag handlers)
 - [x] Resize handles work - ✅ Done (i3-resize-handles in I3Window.astro)
 - [x] Keyboard shortcuts work - ✅ Done (Ctrl+H/J/K/L, Ctrl+Shift+Q in i3-utils.ts)
-- [ ] Minimize/Maximize work
+- [x] Minimize/Maximize work - ✅ Done (minimize/maximize/restore methods in i3-utils.ts)
 
 ### Performance
 - [ ] Smooth scrolling (60fps)
