@@ -278,7 +278,7 @@ Visit `/design-preview` to see all design system elements in action:
 ## 🔲 Roadmap (v1.x)
 
 ### Content Enhancement
-- [ ] Estimated reading progress - "3 min left" indicator
+- [x] Estimated reading progress - "3 min left" indicator - ✅ Done (ReadingProgress.astro)
 - [ ] Bookmark/save article - localStorage
 - [ ] Text highlighting - select & save highlights
 - [ ] Font size toggle - A- A A+ accessibility

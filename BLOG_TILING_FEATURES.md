@@ -233,16 +233,16 @@ src/
 - [ ] Add post preview on hover
 
 ### Phase 2: Interactions
-- [ ] Add command palette (Ctrl+K)
+- [x] Add command palette (Ctrl+K) - ✅ Done (3 versions available)
 - [ ] Add workspace switching (1-9 keys)
 - [ ] Add floating window toggle
 - [ ] Add scratchpad
 
 ### Phase 3: Effects
-- [ ] Add scan lines (CRT effect)
-- [ ] Add matrix rain background
-- [ ] Add typing animations
-- [ ] Add boot sequence
+- [x] Add scan lines (CRT effect) - ✅ Done (TerminalEffects.astro)
+- [x] Add matrix rain background - ✅ Done (animations.css)
+- [x] Add typing animations - ✅ Done (TypingAnimation.astro)
+- [x] Add boot sequence - ✅ Done (terminal layouts)
 
 ### Phase 4: Performance
 - [ ] Add virtual scrolling for large lists
