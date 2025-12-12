@@ -5,7 +5,6 @@ import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import partytown from "@astrojs/partytown";
 import AutoImport from "astro-auto-import";
-import astroDeck from "@sandikodev/astro-deck";
 import { defineConfig } from "astro/config";
 import remarkCollapse from "remark-collapse";
 import remarkToc from "remark-toc";
@@ -13,6 +12,18 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import serviceWorker from "astrojs-service-worker";
 import icon from "astro-icon";
+
+// Development-only imports
+const isDev = process.env.NODE_ENV === 'development';
+let astroDeck = null;
+
+if (isDev) {
+  try {
+    astroDeck = (await import("./packages/astro-deck/index.js")).default;
+  } catch (error) {
+    console.warn("⚠️ Astro-deck not available in development mode");
+  }
+}
 import config from "./src/config/config.json";
 
 // https://astro.build/config
@@ -50,7 +61,8 @@ export default defineConfig({
     mdx(),
     serviceWorker(),
     icon(),
-    astroDeck(),
+    // Development-only: Astro-deck admin panel
+    ...(isDev && astroDeck ? [astroDeck()] : []),
   ],
   markdown: {
     remarkPlugins: [
