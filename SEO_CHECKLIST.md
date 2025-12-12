@@ -31,19 +31,19 @@
 ## 🔄 To Do
 
 ### Technical SEO
-- [ ] Add `humans.txt`
-- [ ] Add security.txt
+- [x] Add `humans.txt` - ✅ Done (public/humans.txt)
+- [x] Add security.txt - ✅ Done (public/.well-known/security.txt)
 - [x] Implement breadcrumb schema - ✅ Done (Breadcrumb.astro)
 - [ ] Add article schema for blog posts
-- [ ] Add WebSite schema with search action
+- [x] Add WebSite schema with search action - ✅ Done (Base.astro, SEO.astro)
 - [ ] Implement AMP (optional)
 
 ### Performance
-- [ ] Add service worker for offline support
-- [ ] Implement lazy loading for images
-- [ ] Add preload for critical resources
-- [ ] Optimize web fonts loading
-- [ ] Add resource hints (dns-prefetch, preconnect)
+- [x] Add service worker for offline support - ✅ Done (service-worker.js)
+- [x] Implement lazy loading for images - ✅ Done (LazyImage.astro)
+- [x] Add preload for critical resources - ✅ Done (preconnect in layouts)
+- [x] Optimize web fonts loading - ✅ Done (display=swap)
+- [x] Add resource hints (dns-prefetch, preconnect) - ✅ Done (layouts)
 
 ### Content
 - [ ] Add FAQ schema
