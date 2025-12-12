@@ -412,7 +412,7 @@ function showIndicator(text) {
 ### Phase 2: Advanced Keyboard
 - [x] Command palette (Ctrl+K) - ✅ Done (3 versions)
 - [ ] Workspace switching (1-9)
-- [ ] Window focus (h/j/k/l)
+- [x] Window focus (h/j/k/l) - ✅ Done (Ctrl+H/J/K/L in i3-utils.ts focusDirection)
 - [x] Floating toggle - ✅ Done (i3-utils.ts toggleFloat)
 
 ### Phase 3: Visual Effects
