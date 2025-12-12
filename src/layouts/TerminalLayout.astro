@@ -4,6 +4,8 @@ import TabBar from "@/components/terminal/TabBar.astro";
 import StatusBar from "@/components/terminal/StatusBar.astro";
 import CommandPalette from "@/components/terminal/CommandPalette.astro";
 import KeyboardHelp from "@/components/terminal/KeyboardHelp.astro";
+import GlitchEffect from "@/components/workspace/effects/GlitchEffect.astro";
+import EasterEggs from "@/components/workspace/effects/EasterEggs.astro";
 import config from "@/config/config.json";
 import { ViewTransitions } from "astro:transitions";
 
@@ -297,3 +299,7 @@ const currentPath = Astro.url.pathname;
     }
   }
 </style>
+
+<!-- Dev Mode Effects -->
+<GlitchEffect />
+<EasterEggs />

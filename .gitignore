@@ -52,3 +52,6 @@ src/layouts/PostSingle.astro.backup
 # Development tools
 commit-changes.sh
 backups/
+# Allow RENDER ecosystem submodules
+!packages/astro-terminal-code/
+!packages/workspace-framework/

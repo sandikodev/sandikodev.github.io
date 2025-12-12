@@ -9,6 +9,8 @@ import CommandPaletteEnhanced from "@/components/terminal/CommandPaletteEnhanced
 import CursorEffects from "@/components/terminal/CursorEffects.astro";
 import TerminalEffects from "@/components/terminal/TerminalEffects.astro";
 import SoundEffects from "@/components/terminal/SoundEffects.astro";
+import GlitchEffect from "@/components/workspace/effects/GlitchEffect.astro";
+import EasterEggs from "@/components/workspace/effects/EasterEggs.astro";
 import PerformanceOptimizer from "@/components/PerformanceOptimizer.astro";
 import config from "@/config/config.json";
 import { ViewTransitions } from "astro:transitions";
@@ -211,5 +213,9 @@ const {
         console.error('Unhandled rejection:', e.reason);
       });
     </script>
+
+    <!-- Dev Mode Effects -->
+    <GlitchEffect />
+    <EasterEggs />
   </body>
 </html>
