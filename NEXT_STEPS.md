@@ -26,7 +26,7 @@ http://localhost:4321/blog-tiling
 - [ ] Theme switcher works
 - [ ] No theme flash on reload
 - [ ] Loading bar shows during navigation
-- [ ] 404 page displays (visit `/test`)
+- [x] 404 page displays (visit `/test`) - ✅ Done (terminal-themed)
 - [ ] Skip link works (press Tab)
 - [ ] Mobile responsive (resize browser)
 
