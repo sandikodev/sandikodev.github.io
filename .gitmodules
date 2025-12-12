@@ -1,3 +1,6 @@
 [submodule "packages/astro-terminal-code"]
 	path = packages/astro-terminal-code
 	url = git@github.com:workspace-framework/terminal-code.git
+[submodule "content"]
+	path = content
+	url = git@github.com:sandikodev/content.git

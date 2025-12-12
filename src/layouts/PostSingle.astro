@@ -21,7 +21,8 @@ import { humanize, slugify } from "@/lib/utils/textConverter";
 const allAuthors = await getSinglePage("authors");
 const allPosts = await getSinglePage("posts");
 const { post } = Astro.props;
-const { Content, headings } = await post.render();
+import { render } from "astro:content";
+const { Content, headings } = await render(post);
 const { title, description, authors, categories, image, date, tags } = post.data;
 
 // Calculate reading time
@@ -29,7 +30,7 @@ const words = post.body.trim().split(/\s+/).length;
 const readingTime = Math.ceil(words / 200);
 
 // Get related posts
-const relatedPosts = similerItems(post, allPosts, post.slug);
+const relatedPosts = similerItems(post, allPosts, post.id);
 ---
 
 <SEOOptimized 
@@ -310,12 +311,12 @@ const relatedPosts = similerItems(post, allPosts, post.slug);
     </div>
     
     <!-- Previous/Next Navigation -->
-    <PrevNext currentSlug={post.slug} />
+    <PrevNext currentSlug={post.id} />
   </article>
 
   <!-- Enhanced Related Posts -->
   <RelatedPostsEnhanced 
-    currentSlug={post.slug}
+    currentSlug={post.id}
     currentTags={tags || []}
     currentCategories={categories || []}
   />
