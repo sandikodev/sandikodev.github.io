@@ -2,33 +2,50 @@
 import I3Layout from "@/layouts/I3Layout.astro";
 import I3Window from "@/components/terminal/I3Window.astro";
 import Prompt from "@/components/terminal/Prompt.astro";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("posts");
-  const pages = await getCollection("pages");
-  
-  const paths = [
-    // Mirror blog posts: /workspace/blog/[slug]
-    ...posts
-      .filter((post) => !post.data.draft)
-      .map((post) => ({
-        params: { slug: `blog/${post.slug}` },
-        props: { entry: post, type: "post" }
-      })),
+  try {
+    const posts = await getCollection("posts");
+    const templates = await getCollection("templates");
+    const pages = await getCollection("pages");
     
-    // Mirror pages: /workspace/[slug]
-    ...pages.map((page) => ({
-      params: { slug: page.slug },
-      props: { entry: page, type: "page" }
-    }))
-  ];
-  
-  return paths;
+    const allPosts = [...posts, ...templates];
+    
+    const paths = [
+      // Mirror blog posts: /workspace/blog/[slug]
+      ...allPosts
+        .filter((post) => !post.data.draft)
+        .map((post) => ({
+          params: { slug: `blog/${post.id}` },
+          props: { entry: post, type: "post" }
+        })),
+      
+      // Mirror pages: /workspace/[slug]
+      ...pages.map((page) => ({
+        params: { slug: page.id },
+        props: { entry: page, type: "page" }
+      }))
+    ];
+    
+    return paths;
+  } catch (error) {
+    console.error("Error generating static paths:", error);
+    return [];
+  }
 }
 
 const { entry, type } = Astro.props;
-const { Content } = await entry.render();
+
+// Handle content rendering with error handling
+let Content;
+try {
+  const rendered = await render(entry);
+  Content = rendered.Content;
+} catch (error) {
+  console.error("Error rendering content:", error);
+  Content = () => `<p>Error loading content</p>`;
+}
 
 // Canonical URL points to blog mode (primary)
 const blogPath = Astro.url.pathname.replace("/workspace", "") || "/";
@@ -46,9 +63,9 @@ const description = entry.data.description || entry.data.excerpt || "";
     
     <!-- Main content (70%) -->
     <div style="flex: 2;">
-      <I3Window title={`nvim — ${entry.slug}.md`} focused={true}>
+      <I3Window title={`nvim — ${entry.id}.md`} focused={true}>
         <div class="content-wrapper">
-          <Prompt command={`cat ${entry.slug}.md`} showCursor={false} />
+          <Prompt command={`cat ${entry.id}.md`} showCursor={false} />
           
           <article class="workspace-article">
             <header class="article-header">

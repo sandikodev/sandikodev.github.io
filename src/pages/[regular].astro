@@ -2,31 +2,38 @@
 import Base from "@/layouts/Base.astro";
 import Default from "@/layouts/Default.astro";
 import PostSingle from "@/layouts/PostSingle.astro";
-import { getSinglePage } from "@/lib/contentParser.astro";
-import type { TPost } from "@/types";
-
-const getPosts = (await getSinglePage("posts")) as TPost[];
-const postsSlug = getPosts.map((item) => item.slug);
+import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
-  const posts = await getSinglePage("posts");
-  const pages = await getSinglePage("pages");
-  const allPages = [...pages, ...posts];
+  try {
+    const posts = await getCollection("posts");
+    const templates = await getCollection("templates");
+    const pages = await getCollection("pages");
+    const allPages = [...pages, ...posts, ...templates];
 
-  const excludedSlugs = ['404', 'contact'];
-  const paths = allPages
-    .filter((page: any) => !excludedSlugs.includes(page.slug))
-    .map((page: any) => ({
-      params: {
-        regular: page.slug,
-      },
-      props: { page },
-    }));
-  return paths;
+    const excludedSlugs = ['404', 'contact'];
+    const paths = allPages
+      .filter((page) => !excludedSlugs.includes(page.id))
+      .map((page) => ({
+        params: {
+          regular: page.id,
+        },
+        props: { page },
+      }));
+    return paths;
+  } catch (error) {
+    console.error("Error generating static paths:", error);
+    return [];
+  }
 }
 
 const { page } = Astro.props;
 const { title, meta_title, description, image } = page.data;
+
+// Check if this is a post by looking at both collections
+const posts = await getCollection("posts");
+const templates = await getCollection("templates");
+const isPost = posts.some(post => post.id === page.id) || templates.some(template => template.id === page.id);
 ---
 
 <Base
@@ -36,7 +43,7 @@ const { title, meta_title, description, image } = page.data;
   image={image}
 >
   {
-    postsSlug.includes(page.slug) ? (
+    isPost ? (
       <PostSingle post={page} />
     ) : (
       <Default data={page} />

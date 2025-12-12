@@ -2,12 +2,11 @@
 import config from "@/config/config.json";
 import Base from "@/layouts/Base.astro";
 import Posts from "@/layouts/Posts.astro";
-import { getSinglePage } from "@/lib/contentParser.astro";
+import { getAllPosts } from "@/lib/contentParser.astro";
 import { sortByDate } from "@/lib/utils/sortFunctions";
 
-const posts = await getSinglePage("posts");
-const sortedPosts = sortByDate(posts);
-const featuredPosts = sortedPosts.slice(0, 6);
+const posts = await getAllPosts();
+const featuredPosts = posts.slice(0, 6);
 ---
 
 <Base>

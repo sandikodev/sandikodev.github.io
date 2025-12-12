@@ -3,13 +3,12 @@ import config from "@/config/config.json";
 import Base from "@/layouts/Base.astro";
 import Pagination from "@/layouts/components/Pagination.astro";
 import Posts from "@/layouts/Posts.astro";
-import { getSinglePage } from "@/lib/contentParser.astro";
+import { getAllPosts } from "@/lib/contentParser.astro";
 import { sortByDate } from "@/lib/utils/sortFunctions";
 
-const posts = await getSinglePage("posts");
-const sortedPosts = sortByDate(posts);
+const posts = await getAllPosts();
 const totalPages = Math.ceil(posts.length / config.settings.pagination);
-const currentPosts = sortedPosts.slice(0, config.settings.pagination);
+const currentPosts = posts.slice(0, config.settings.pagination);
 ---
 
 <Base title="Blog" description="Articles about web development, infrastructure, and continuous learning">
