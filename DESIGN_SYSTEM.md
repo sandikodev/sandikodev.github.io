@@ -294,12 +294,12 @@ Visit `/design-preview` to see all design system elements in action:
 - [x] Comments via Giscus (GitHub discussions) - ✅ Done (Comments.astro)
 
 ### Developer Features
-- [ ] Code snippet library page (/snippets)
+- [x] Code snippet library page (/snippets) - ✅ Done (CodeSnippetLibrary.astro)
 - [ ] RSS feed optimization
 - [ ] Reading history (localStorage)
 
 ### Polish
-- [ ] Custom 404 page
+- [x] Custom 404 page - ✅ Done (404.astro with terminal theme)
 - [ ] Loading states / skeleton loaders
 - [ ] Print stylesheet
 
