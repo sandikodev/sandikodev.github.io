@@ -48,7 +48,7 @@
 ### Content
 - [x] Add FAQ schema - ✅ Done (FAQ.astro with FAQPage schema)
 - [x] Create comprehensive about page - ✅ Done (about.astro 10KB)
-- [ ] Add author bio to posts
+- [x] Add author bio to posts - ✅ Done (authors in PostSingle.astro + content/authors/)
 - [x] Implement related posts - ✅ Done (2 versions: RelatedPosts.astro, RelatedPostsEnhanced.astro)
 - [x] Add estimated reading time - ✅ Done (ReadingTime.astro)
 - [ ] Create content calendar
@@ -65,14 +65,14 @@
 - [ ] Setup Google Search Console
 - [ ] Setup Bing Webmaster Tools
 - [ ] Implement error tracking (Sentry)
-- [ ] Add performance monitoring
+- [x] Add performance monitoring - ✅ Done (PerformanceOptimizer.astro with Core Web Vitals)
 
 ### Accessibility (SEO Impact)
-- [ ] ARIA labels
-- [ ] Keyboard navigation
-- [ ] Screen reader optimization
+- [x] ARIA labels - ✅ Done (70+ aria-label instances across components)
+- [x] Keyboard navigation - ✅ Done (KeyboardShortcuts.astro, KeyboardHandler.astro)
+- [x] Screen reader optimization - ✅ Done (sr-only classes, semantic HTML)
 - [ ] Color contrast compliance (WCAG AA)
-- [ ] Focus indicators
+- [x] Focus indicators - ✅ Done (:focus-visible, focus-ring classes)
 
 ## 📊 SEO Metrics to Track
 
