@@ -262,11 +262,11 @@ Visit `/design-preview` to see all design system elements in action:
 ## ✅ Implemented Features (v1.0)
 
 - Reading progress bar (2px monochrome)
-- Table of Contents (sidebar, desktop only)
+- Table of Contents (sidebar, desktop only) - ✅ Done (TableOfContents.astro)
 - DevStats (words, min read, code blocks)
-- Related posts
+- Related posts - ✅ Done (2 versions: RelatedPosts.astro, RelatedPostsEnhanced.astro)
 - Keyboard shortcuts (vim j/k, g+h, g+b)
-- Command palette (Cmd+K)
+- Command palette (Cmd+K) - ✅ Done (3 versions)
 - Code block enhancements (copy button)
 - /now page
 - Glassmorphism header
@@ -285,13 +285,13 @@ Visit `/design-preview` to see all design system elements in action:
 
 ### Navigation
 - [x] Previous/Next post navigation - ✅ Done (PrevNext.astro)
-- [ ] Back to top button (smooth scroll)
-- [ ] Breadcrumbs - Home > Blog > Post Title
+- [x] Back to top button (smooth scroll) - ✅ Done (BackToTop.astro)
+- [x] Breadcrumbs - Home > Blog > Post Title - ✅ Done (Breadcrumb.astro with schema)
 
 ### Engagement
-- [ ] Share buttons - Twitter, LinkedIn, copy link
+- [x] Share buttons - Twitter, LinkedIn, copy link - ✅ Done (SocialShare.astro)
 - [ ] Newsletter signup form
-- [ ] Comments via Giscus (GitHub discussions)
+- [x] Comments via Giscus (GitHub discussions) - ✅ Done (Comments.astro)
 
 ### Developer Features
 - [ ] Code snippet library page (/snippets)

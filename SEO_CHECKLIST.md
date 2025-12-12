@@ -33,7 +33,7 @@
 ### Technical SEO
 - [ ] Add `humans.txt`
 - [ ] Add security.txt
-- [ ] Implement breadcrumb schema
+- [x] Implement breadcrumb schema - ✅ Done (Breadcrumb.astro)
 - [ ] Add article schema for blog posts
 - [ ] Add WebSite schema with search action
 - [ ] Implement AMP (optional)
@@ -57,7 +57,7 @@
 - [ ] Twitter Card optimization
 - [ ] Facebook Open Graph optimization
 - [ ] LinkedIn optimization
-- [ ] Add social share buttons
+- [x] Add social share buttons - ✅ Done (SocialShare.astro)
 - [ ] Create social media preview images
 
 ### Analytics & Monitoring
