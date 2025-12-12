@@ -284,7 +284,7 @@ Visit `/design-preview` to see all design system elements in action:
 - [ ] Font size toggle - A- A A+ accessibility
 
 ### Navigation
-- [ ] Previous/Next post navigation
+- [x] Previous/Next post navigation - ✅ Done (PrevNext.astro)
 - [ ] Back to top button (smooth scroll)
 - [ ] Breadcrumbs - Home > Blog > Post Title
 

@@ -227,7 +227,7 @@ src/
 ## 🎯 Next Steps (Optional)
 
 ### Phase 1: Content
-- [ ] Add search functionality
+- [x] Add search functionality - ✅ Done (search.astro, SearchBar.tsx, search.json.ts)
 - [ ] Add filters (by category/tag)
 - [ ] Add pagination
 - [ ] Add post preview on hover
@@ -246,8 +246,8 @@ src/
 
 ### Phase 4: Performance
 - [ ] Add virtual scrolling for large lists
-- [ ] Add image lazy loading
-- [ ] Add service worker
+- [x] Add image lazy loading - ✅ Done (LazyImage.astro)
+- [x] Add service worker - ✅ Done (service-worker.js built)
 - [ ] Add offline support
 
 ## 📝 Notes
