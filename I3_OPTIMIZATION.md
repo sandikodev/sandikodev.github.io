@@ -418,11 +418,11 @@ window.i3wm.closeFocused();
 ## ✅ Testing Checklist
 
 ### Functional
-- [ ] Windows render correctly
-- [ ] Focus changes on click
-- [ ] Floating windows draggable
-- [ ] Resize handles work
-- [ ] Keyboard shortcuts work
+- [x] Windows render correctly - ✅ Done (I3Window.astro)
+- [x] Focus changes on click - ✅ Done (i3-utils.ts focus system)
+- [x] Floating windows draggable - ✅ Done (I3Window.astro with drag handlers)
+- [x] Resize handles work - ✅ Done (i3-resize-handles in I3Window.astro)
+- [x] Keyboard shortcuts work - ✅ Done (Ctrl+H/J/K/L, Ctrl+Shift+Q in i3-utils.ts)
 - [ ] Minimize/Maximize work
 
 ### Performance
