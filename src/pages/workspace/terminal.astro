@@ -98,9 +98,9 @@ const skills = {
           </div>
           <div class="ranger-list">
             {recentPosts.map((post: any, i: number) => (
-              <a href={`/${post.slug}`} class={`ranger-item ${i === 0 ? 'selected' : ''}`}>
+              <a href={`/${post.id}`} class={`ranger-item ${i === 0 ? 'selected' : ''}`}>
                 <span class="ranger-icon">📄</span>
-                <span class="ranger-name">{post.slug}.md</span>
+                <span class="ranger-name">{post.id}.md</span>
                 <span class="ranger-date">{post.data.date?.toISOString().split('T')[0]}</span>
               </a>
             ))}

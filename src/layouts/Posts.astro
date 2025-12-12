@@ -13,7 +13,7 @@ const { posts } = Astro.props;
     return (
       <article class="post-card">
         {post.data.image && (
-          <a href={`/${post.slug}`} class="post-image">
+          <a href={`/${post.id}`} class="post-image">
             <Image
               src={post.data.image}
               alt={post.data.title}
@@ -31,7 +31,7 @@ const { posts } = Astro.props;
           </div>
           
           <h3 class="post-title">
-            <a href={`/${post.slug}`}>{post.data.title}</a>
+            <a href={`/${post.id}`}>{post.data.title}</a>
           </h3>
           
           {post.data.description && (

@@ -64,7 +64,7 @@ const canonicalUrl = "https://sandikodev.github.io/";
           <Prompt command="ls ~/blog" showCursor={false} />
           <div class="file-list">
             {recentPosts.map((post: any) => (
-              <a href={`/workspace/blog/${post.slug}`} class="file-item">
+              <a href={`/workspace/blog/${post.id}`} class="file-item">
                 <span class="file-icon">📄</span>
                 <span class="file-name">{post.data.title}</span>
               </a>

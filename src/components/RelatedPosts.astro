@@ -10,7 +10,7 @@ const { posts } = Astro.props;
     <h2>Related</h2>
     <div class="related-grid">
       {posts.slice(0, 3).map((post: any) => (
-        <a href={`/${post.slug}`} class="related-card">
+        <a href={`/${post.id}`} class="related-card">
           {post.data.image && (
             <Image
               src={post.data.image}
