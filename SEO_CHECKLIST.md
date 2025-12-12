@@ -55,8 +55,8 @@
 
 ### Social Media
 - [x] Twitter Card optimization - ✅ Done (Base.astro, TerminalLayout.astro)
-- [ ] Facebook Open Graph optimization
-- [ ] LinkedIn optimization
+- [x] Facebook Open Graph optimization - ✅ Done (og:title, og:description, og:image in Base.astro)
+- [x] LinkedIn optimization - ✅ Done (same Open Graph tags work for LinkedIn)
 - [x] Add social share buttons - ✅ Done (SocialShare.astro)
 - [ ] Create social media preview images
 

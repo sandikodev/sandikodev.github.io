@@ -248,7 +248,7 @@ src/
 - [ ] Add virtual scrolling for large lists
 - [x] Add image lazy loading - ✅ Done (LazyImage.astro)
 - [x] Add service worker - ✅ Done (service-worker.js built)
-- [ ] Add offline support
+- [x] Add offline support - ✅ Done (service-worker.js with precaching)
 
 ## 📝 Notes
 
