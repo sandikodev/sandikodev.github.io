@@ -12,8 +12,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout with submodules
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      
+      - name: Verify submodule content
+        run: |
+          echo "📁 Checking submodule content..."
+          ls -la content/
+          ls -la content/posts/ | head -5
+          echo "✅ Submodule content verified"
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -30,6 +40,13 @@ jobs:
       
       - name: Build with Astro
         run: pnpm build
+      
+      - name: Verify build output
+        run: |
+          echo "📊 Build statistics:"
+          find dist -name "*.html" | wc -l
+          echo "pages generated"
+          ls -la dist/ | head -10
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
