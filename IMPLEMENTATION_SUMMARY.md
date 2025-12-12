@@ -413,19 +413,19 @@ function showIndicator(text) {
 - [x] Command palette (Ctrl+K) - ✅ Done (3 versions)
 - [ ] Workspace switching (1-9)
 - [ ] Window focus (h/j/k/l)
-- [ ] Floating toggle
+- [x] Floating toggle - ✅ Done (i3-utils.ts toggleFloat)
 
 ### Phase 3: Visual Effects
-- [ ] Scan lines toggle
-- [ ] Matrix rain background
-- [ ] Boot sequence animation
-- [ ] Glitch effects
+- [x] Scan lines toggle - ✅ Done (TerminalEffects.astro)
+- [x] Matrix rain background - ✅ Done (animations.css)
+- [x] Boot sequence animation - ✅ Done (terminal layouts)
+- [x] Glitch effects - ✅ Done (GlitchEffect.astro)
 
 ### Phase 4: Content
 - [ ] Post preview on hover
-- [ ] Reading time
+- [x] Reading time - ✅ Done (ReadingTime.astro)
 - [ ] View count
-- [ ] Related posts
+- [x] Related posts - ✅ Done (2 versions: RelatedPosts.astro, RelatedPostsEnhanced.astro)
 
 ---
 
