@@ -126,7 +126,7 @@ dev@enigma:~/blog/posts/react-hooks $
 ### Phase 3 - Engagement
 - [ ] "Fork This Post"
 - [x] Code Snippet Library - ✅ Done (CodeSnippetLibrary.astro)
-- [ ] /now Page
+- [x] /now Page - ✅ Done (now.astro)
 - [ ] TIL Micro-posts
 
 ### Phase 4 - Advanced

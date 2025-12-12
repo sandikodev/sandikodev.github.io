@@ -404,13 +404,13 @@ function showIndicator(text) {
 ## 🚀 Next Steps (Optional)
 
 ### Phase 1: Search & Filter
-- [ ] Add search bar
-- [ ] Filter by category
-- [ ] Filter by tag
+- [x] Add search bar - ✅ Done (SearchBar.tsx)
+- [x] Filter by category - ✅ Done (taxonomyFilter.ts)
+- [x] Filter by tag - ✅ Done (taxonomyFilter.ts)
 - [ ] Sort options
 
 ### Phase 2: Advanced Keyboard
-- [ ] Command palette (Ctrl+K)
+- [x] Command palette (Ctrl+K) - ✅ Done (3 versions)
 - [ ] Workspace switching (1-9)
 - [ ] Window focus (h/j/k/l)
 - [ ] Floating toggle
