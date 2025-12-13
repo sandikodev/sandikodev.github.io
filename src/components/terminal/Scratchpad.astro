@@ -1,0 +1,345 @@
+---
+// Scratchpad - i3wm style floating terminal
+---
+
+<div id="scratchpad" class="scratchpad hidden">
+  <div class="scratchpad-window">
+    <div class="window-header">
+      <div class="window-title">
+        <span class="window-icon">📟</span>
+        <span>scratchpad</span>
+      </div>
+      <div class="window-controls">
+        <button class="control-btn minimize" onclick="toggleScratchpad()">−</button>
+        <button class="control-btn close" onclick="closeScratchpad()">×</button>
+      </div>
+    </div>
+    <div class="terminal-content">
+      <div class="terminal-header">
+        <span class="prompt">dev@portfolio:~$</span>
+        <span class="cursor">_</span>
+      </div>
+      <div class="terminal-output">
+        <div class="output-line">Welcome to scratchpad terminal</div>
+        <div class="output-line">Type 'help' for available commands</div>
+        <div class="output-line">Press Ctrl+` to toggle scratchpad</div>
+      </div>
+      <div class="terminal-input">
+        <span class="prompt">dev@portfolio:~$</span>
+        <input type="text" id="terminal-input" placeholder="Enter command..." />
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.scratchpad {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scratchpad.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, -60%);
+}
+
+.scratchpad-window {
+  width: 600px;
+  height: 400px;
+  background: var(--bg-primary);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.window-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.window-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Fira Code', monospace;
+  font-size: 12px;
+  color: var(--text-primary);
+}
+
+.window-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.control-btn {
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.minimize {
+  background: #f5c842;
+  color: #000;
+}
+
+.close {
+  background: #ff5f57;
+  color: #000;
+}
+
+.control-btn:hover {
+  transform: scale(1.1);
+}
+
+.terminal-content {
+  padding: 16px;
+  height: calc(100% - 40px);
+  display: flex;
+  flex-direction: column;
+  font-family: 'Fira Code', monospace;
+  font-size: 14px;
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.prompt {
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+.cursor {
+  animation: blink 1s infinite;
+  color: var(--text-primary);
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.terminal-output {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 12px;
+}
+
+.output-line {
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.terminal-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 8px;
+}
+
+#terminal-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-family: 'Fira Code', monospace;
+  font-size: 14px;
+}
+
+#terminal-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .scratchpad-window {
+    width: 90vw;
+    height: 70vh;
+    max-width: 400px;
+  }
+  
+  .terminal-content {
+    font-size: 12px;
+  }
+}
+
+/* Theme-specific colors */
+.theme-tokyo-night {
+  --bg-primary: #1a1b26;
+  --bg-secondary: #24283b;
+  --text-primary: #c0caf5;
+  --text-secondary: #9aa5ce;
+  --text-muted: #565f89;
+  --accent-color: #7aa2f7;
+  --border-color: #414868;
+}
+
+.theme-dracula {
+  --bg-primary: #282a36;
+  --bg-secondary: #44475a;
+  --text-primary: #f8f8f2;
+  --text-secondary: #6272a4;
+  --text-muted: #44475a;
+  --accent-color: #bd93f9;
+  --border-color: #6272a4;
+}
+
+.theme-gruvbox {
+  --bg-primary: #282828;
+  --bg-secondary: #3c3836;
+  --text-primary: #ebdbb2;
+  --text-secondary: #a89984;
+  --text-muted: #665c54;
+  --accent-color: #fabd2f;
+  --border-color: #504945;
+}
+
+.theme-nord {
+  --bg-primary: #2e3440;
+  --bg-secondary: #3b4252;
+  --text-primary: #eceff4;
+  --text-secondary: #d8dee9;
+  --text-muted: #4c566a;
+  --accent-color: #88c0d0;
+  --border-color: #434c5e;
+}
+
+.theme-matrix {
+  --bg-primary: #000000;
+  --bg-secondary: #001100;
+  --text-primary: #00ff00;
+  --text-secondary: #00cc00;
+  --text-muted: #006600;
+  --accent-color: #00ff00;
+  --border-color: #003300;
+}
+</style>
+
+<script>
+let scratchpadVisible = false;
+
+// Toggle scratchpad visibility
+function toggleScratchpad() {
+  const scratchpad = document.getElementById('scratchpad');
+  scratchpadVisible = !scratchpadVisible;
+  
+  if (scratchpadVisible) {
+    scratchpad.classList.remove('hidden');
+    document.getElementById('terminal-input').focus();
+  } else {
+    scratchpad.classList.add('hidden');
+  }
+}
+
+// Close scratchpad
+function closeScratchpad() {
+  const scratchpad = document.getElementById('scratchpad');
+  scratchpadVisible = false;
+  scratchpad.classList.add('hidden');
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+  // Ctrl+` to toggle scratchpad
+  if (e.ctrlKey && e.key === '`') {
+    e.preventDefault();
+    toggleScratchpad();
+  }
+  
+  // Escape to close scratchpad
+  if (e.key === 'Escape' && scratchpadVisible) {
+    e.preventDefault();
+    closeScratchpad();
+  }
+});
+
+// Simple terminal commands
+const commands = {
+  help: () => [
+    'Available commands:',
+    '  help     - Show this help',
+    '  clear    - Clear terminal',
+    '  theme    - Show current theme',
+    '  date     - Show current date',
+    '  whoami   - Show user info',
+    '  exit     - Close scratchpad'
+  ],
+  clear: () => {
+    document.querySelector('.terminal-output').innerHTML = '';
+    return [];
+  },
+  theme: () => [`Current theme: ${document.body.className.replace('theme-', '') || 'tokyo-night'}`],
+  date: () => [new Date().toLocaleString()],
+  whoami: () => ['dev@portfolio'],
+  exit: () => {
+    closeScratchpad();
+    return [];
+  }
+};
+
+// Handle terminal input
+document.addEventListener('DOMContentLoaded', () => {
+  const input = document.getElementById('terminal-input');
+  const output = document.querySelector('.terminal-output');
+  
+  input?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const command = input.value.trim();
+      
+      // Add command to output
+      const commandLine = document.createElement('div');
+      commandLine.className = 'output-line';
+      commandLine.innerHTML = `<span style="color: var(--accent-color)">dev@portfolio:~$</span> ${command}`;
+      output.appendChild(commandLine);
+      
+      // Execute command
+      if (commands[command]) {
+        const result = commands[command]();
+        result.forEach(line => {
+          const outputLine = document.createElement('div');
+          outputLine.className = 'output-line';
+          outputLine.textContent = line;
+          output.appendChild(outputLine);
+        });
+      } else if (command) {
+        const errorLine = document.createElement('div');
+        errorLine.className = 'output-line';
+        errorLine.textContent = `Command not found: ${command}`;
+        errorLine.style.color = '#ff6b6b';
+        output.appendChild(errorLine);
+      }
+      
+      // Clear input and scroll to bottom
+      input.value = '';
+      output.scrollTop = output.scrollHeight;
+    }
+  });
+});
+
+// Make functions global
+window.toggleScratchpad = toggleScratchpad;
+window.closeScratchpad = closeScratchpad;
+</script>
