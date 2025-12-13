@@ -1,0 +1,180 @@
+---
+// Workspace Switching (1-9 keys) for Terminal Mode
+---
+
+<div id="workspace-indicator" class="workspace-indicator">
+  <span class="workspace-text">Workspace:</span>
+  <span id="current-workspace" class="current-workspace">1</span>
+</div>
+
+<style>
+  .workspace-indicator {
+    position: fixed;
+    bottom: 1rem;
+    left: 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    padding: 0.5rem 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    z-index: 100;
+    
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+  }
+
+  .workspace-indicator.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .workspace-text {
+    color: var(--text-muted);
+    margin-right: 0.5rem;
+  }
+
+  .current-workspace {
+    color: var(--blue);
+    font-weight: 600;
+  }
+
+  /* Mobile - hide on small screens */
+  @media (max-width: 768px) {
+    .workspace-indicator {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  class WorkspaceSwitcher {
+    constructor() {
+      this.currentWorkspace = 1;
+      this.workspaces = {
+        1: { name: 'home', url: '/workspace/' },
+        2: { name: 'blog', url: '/workspace/blog/' },
+        3: { name: 'about', url: '/workspace/about' },
+        4: { name: 'terminal', url: '/workspace/terminal/' },
+        5: { name: 'projects', url: '/workspace/' },
+        6: { name: 'contact', url: '/workspace/contact' },
+        7: { name: 'now', url: '/workspace/now' },
+        8: { name: 'search', url: '/workspace/search' },
+        9: { name: 'admin', url: '/workspace/' }
+      };
+      
+      this.indicator = document.getElementById('workspace-indicator');
+      this.currentWorkspaceEl = document.getElementById('current-workspace');
+      
+      this.init();
+    }
+
+    init() {
+      // Detect current workspace from URL
+      this.detectCurrentWorkspace();
+      
+      // Setup keyboard shortcuts
+      this.setupKeyboardShortcuts();
+      
+      // Update indicator
+      this.updateIndicator();
+    }
+
+    detectCurrentWorkspace() {
+      const path = window.location.pathname;
+      
+      // Map current URL to workspace number
+      if (path === '/workspace/' || path === '/workspace') {
+        this.currentWorkspace = 1;
+      } else if (path.includes('/workspace/blog')) {
+        this.currentWorkspace = 2;
+      } else if (path.includes('/workspace/about')) {
+        this.currentWorkspace = 3;
+      } else if (path.includes('/workspace/terminal')) {
+        this.currentWorkspace = 4;
+      } else if (path.includes('/workspace/contact')) {
+        this.currentWorkspace = 6;
+      } else if (path.includes('/workspace/now')) {
+        this.currentWorkspace = 7;
+      } else if (path.includes('/workspace/search')) {
+        this.currentWorkspace = 8;
+      } else {
+        this.currentWorkspace = 1; // Default
+      }
+    }
+
+    setupKeyboardShortcuts() {
+      document.addEventListener('keydown', (e) => {
+        // Skip if typing in input/textarea
+        if (document.activeElement?.tagName === 'INPUT' || 
+            document.activeElement?.tagName === 'TEXTAREA') {
+          return;
+        }
+
+        // Check for number keys 1-9
+        const num = parseInt(e.key);
+        if (num >= 1 && num <= 9) {
+          e.preventDefault();
+          this.switchToWorkspace(num);
+        }
+      });
+    }
+
+    switchToWorkspace(num) {
+      if (num === this.currentWorkspace) {
+        // Already on this workspace, just show indicator
+        this.showIndicator();
+        return;
+      }
+
+      const workspace = this.workspaces[num];
+      if (workspace) {
+        // Show switching indicator
+        this.currentWorkspace = num;
+        this.updateIndicator();
+        this.showIndicator();
+        
+        // Navigate after short delay for visual feedback
+        setTimeout(() => {
+          window.location.href = workspace.url;
+        }, 200);
+      }
+    }
+
+    updateIndicator() {
+      if (this.currentWorkspaceEl) {
+        this.currentWorkspaceEl.textContent = this.currentWorkspace;
+      }
+    }
+
+    showIndicator() {
+      if (this.indicator) {
+        this.indicator.classList.add('show');
+        
+        // Auto-hide after 2 seconds
+        setTimeout(() => {
+          this.indicator.classList.remove('show');
+        }, 2000);
+      }
+    }
+
+    // Public method to get current workspace info
+    getCurrentWorkspace() {
+      return {
+        number: this.currentWorkspace,
+        ...this.workspaces[this.currentWorkspace]
+      };
+    }
+  }
+
+  // Initialize workspace switcher
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      window.workspaceSwitcher = new WorkspaceSwitcher();
+    });
+  } else {
+    window.workspaceSwitcher = new WorkspaceSwitcher();
+  }
+</script>

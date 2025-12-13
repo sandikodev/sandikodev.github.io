@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import dateFormat from "@/lib/utils/dateFormat";
 import { slugify } from "@/lib/utils/textConverter";
+import PostPreview from "@/components/PostPreview.astro";
 
 const { posts } = Astro.props;
 ---
@@ -31,7 +32,9 @@ const { posts } = Astro.props;
           </div>
           
           <h3 class="post-title">
-            <a href={`/${post.id}`}>{post.data.title}</a>
+            <PostPreview post={post}>
+              <a href={`/${post.id}`}>{post.data.title}</a>
+            </PostPreview>
           </h3>
           
           {post.data.description && (

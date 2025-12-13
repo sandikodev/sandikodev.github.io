@@ -230,11 +230,11 @@ src/
 - [x] Add search functionality - ✅ Done (search.astro, SearchBar.tsx, search.json.ts)
 - [x] Add filters (by category/tag) - ✅ Done (taxonomyFilter.ts)
 - [x] Add pagination - ✅ Done (Pagination.astro)
-- [ ] Add post preview on hover
+- [x] Add post preview on hover - ✅ Done (PostPreview.astro with tooltip)
 
 ### Phase 2: Interactions
 - [x] Add command palette (Ctrl+K) - ✅ Done (3 versions available)
-- [ ] Add workspace switching (1-9 keys)
+- [x] Add workspace switching (1-9 keys) - ✅ Done (WorkspaceSwitcher.astro)
 - [x] Add floating window toggle - ✅ Done (i3-utils.ts toggleFloat)
 - [ ] Add scratchpad
 

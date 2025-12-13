@@ -411,7 +411,7 @@ function showIndicator(text) {
 
 ### Phase 2: Advanced Keyboard
 - [x] Command palette (Ctrl+K) - ✅ Done (3 versions)
-- [ ] Workspace switching (1-9)
+- [x] Workspace switching (1-9) - ✅ Done (WorkspaceSwitcher.astro with 1-9 key navigation)
 - [x] Window focus (h/j/k/l) - ✅ Done (Ctrl+H/J/K/L in i3-utils.ts focusDirection)
 - [x] Floating toggle - ✅ Done (i3-utils.ts toggleFloat)
 
@@ -422,9 +422,9 @@ function showIndicator(text) {
 - [x] Glitch effects - ✅ Done (GlitchEffect.astro)
 
 ### Phase 4: Content
-- [ ] Post preview on hover
+- [x] Post preview on hover - ✅ Done (PostPreview.astro with tooltip)
 - [x] Reading time - ✅ Done (ReadingTime.astro)
-- [ ] View count
+- [x] View count - ✅ Done (ViewCounter.astro with localStorage tracking)
 - [x] Related posts - ✅ Done (2 versions: RelatedPosts.astro, RelatedPostsEnhanced.astro)
 
 ---

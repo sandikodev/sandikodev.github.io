@@ -1,0 +1,208 @@
+---
+// Post Preview on Hover
+const { post } = Astro.props;
+const { title, description, date, image, tags } = post.data;
+---
+
+<div class="post-preview-trigger" data-slug={post.slug}>
+  <slot />
+  
+  <div class="post-preview-tooltip" id={`preview-${post.slug}`}>
+    <div class="preview-content">
+      {image && (
+        <div class="preview-image">
+          <img src={image} alt={title} loading="lazy" />
+        </div>
+      )}
+      
+      <div class="preview-text">
+        <h4 class="preview-title">{title}</h4>
+        <p class="preview-description">{description}</p>
+        
+        <div class="preview-meta">
+          <span class="preview-date">{new Date(date).toLocaleDateString()}</span>
+          {tags && tags.length > 0 && (
+            <div class="preview-tags">
+              {tags.slice(0, 3).map(tag => (
+                <span class="preview-tag">#{tag}</span>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .post-preview-trigger {
+    position: relative;
+    display: inline-block;
+  }
+
+  .post-preview-tooltip {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    
+    width: 320px;
+    max-width: 90vw;
+    
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(-10px);
+    transition: all 0.2s ease;
+    
+    pointer-events: none;
+  }
+
+  .post-preview-trigger:hover .post-preview-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .preview-content {
+    padding: 1rem;
+  }
+
+  .preview-image {
+    margin-bottom: 0.75rem;
+    border-radius: 0.375rem;
+    overflow: hidden;
+  }
+
+  .preview-image img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+  }
+
+  .preview-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    color: #1f2937;
+    line-height: 1.4;
+  }
+
+  .preview-description {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin: 0 0 0.75rem 0;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .preview-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+  }
+
+  .preview-date {
+    color: #9ca3af;
+  }
+
+  .preview-tags {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .preview-tag {
+    background: #f3f4f6;
+    color: #6b7280;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+    font-size: 0.625rem;
+  }
+
+  /* Dark mode */
+  .dark .post-preview-tooltip {
+    background: #1f2937;
+    border-color: #374151;
+  }
+
+  .dark .preview-title {
+    color: #f9fafb;
+  }
+
+  .dark .preview-description {
+    color: #d1d5db;
+  }
+
+  .dark .preview-date {
+    color: #9ca3af;
+  }
+
+  .dark .preview-tag {
+    background: #374151;
+    color: #d1d5db;
+  }
+
+  /* Mobile - disable hover on touch devices */
+  @media (hover: none) {
+    .post-preview-tooltip {
+      display: none;
+    }
+  }
+
+  /* Responsive positioning */
+  @media (max-width: 640px) {
+    .post-preview-tooltip {
+      left: 0;
+      right: 0;
+      transform: none;
+      width: auto;
+      margin: 0 1rem;
+    }
+
+    .post-preview-trigger:hover .post-preview-tooltip {
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<script>
+  // Enhanced hover behavior with delay
+  document.addEventListener('DOMContentLoaded', () => {
+    const triggers = document.querySelectorAll('.post-preview-trigger');
+    
+    triggers.forEach(trigger => {
+      let hoverTimeout;
+      
+      trigger.addEventListener('mouseenter', () => {
+        // Small delay before showing preview
+        hoverTimeout = setTimeout(() => {
+          const tooltip = trigger.querySelector('.post-preview-tooltip');
+          if (tooltip) {
+            tooltip.style.opacity = '1';
+            tooltip.style.visibility = 'visible';
+            tooltip.style.transform = 'translateX(-50%) translateY(0)';
+          }
+        }, 300);
+      });
+      
+      trigger.addEventListener('mouseleave', () => {
+        clearTimeout(hoverTimeout);
+        const tooltip = trigger.querySelector('.post-preview-tooltip');
+        if (tooltip) {
+          tooltip.style.opacity = '0';
+          tooltip.style.visibility = 'hidden';
+          tooltip.style.transform = 'translateX(-50%) translateY(-10px)';
+        }
+      });
+    });
+  });
+</script>
