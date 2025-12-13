@@ -137,5 +137,14 @@
       window.location.href = '/blog-tiling';
       gPressed = false;
     }
+
+    // Scratchpad toggle (Ctrl+`)
+    if (e.ctrlKey && key === '`') {
+      e.preventDefault();
+      if (window.toggleScratchpad) {
+        window.toggleScratchpad();
+        showIndicator('<span class="kbd-key">Ctrl</span>+<span class="kbd-key">`</span> Scratchpad');
+      }
+    }
   });
 </script>
