@@ -236,7 +236,7 @@ src/
 - [x] Add command palette (Ctrl+K) - ✅ Done (3 versions available)
 - [x] Add workspace switching (1-9 keys) - ✅ Done (WorkspaceSwitcher.astro)
 - [x] Add floating window toggle - ✅ Done (i3-utils.ts toggleFloat)
-- [ ] Add scratchpad
+- [x] Add scratchpad - ✅ Done (Scratchpad.astro with Ctrl+` toggle)
 
 ### Phase 3: Effects
 - [x] Add scan lines (CRT effect) - ✅ Done (TerminalEffects.astro)
@@ -245,7 +245,7 @@ src/
 - [x] Add boot sequence - ✅ Done (terminal layouts)
 
 ### Phase 4: Performance
-- [ ] Add virtual scrolling for large lists
+- [x] Add virtual scrolling for large lists - ✅ Done (VirtualScroll.astro with 120px items)
 - [x] Add image lazy loading - ✅ Done (LazyImage.astro)
 - [x] Add service worker - ✅ Done (service-worker.js built)
 - [x] Add offline support - ✅ Done (service-worker.js with precaching)
