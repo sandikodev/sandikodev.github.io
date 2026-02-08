@@ -21,7 +21,9 @@
     "meta_author": "Sandikodev",
     "meta_image": "/images/og-image.png",
     "meta_description": "Portfolio dan blog Sandikodev - Full Stack Developer yang berfokus pada web development, mobile apps, dan teknologi terbaru. Temukan proyek-proyek menarik dan artikel teknologi.",
-    "meta_keywords": "sandikodev, full stack developer, web developer indonesia, react developer, node.js developer, mobile app developer, javascript, typescript, python, portfolio developer, tech blog indonesia, software engineer"
+    "meta_keywords": "sandikodev, full stack developer, web developer indonesia, react developer, node.js developer, mobile app developer, javascript, typescript, python, portfolio developer, tech blog indonesia, software engineer",
+    "job_title": "Full Stack Developer",
+    "tagline": "Full Stack Developer · Tech Writer"
   },
   "params": {
     "contact_form_action": "#",

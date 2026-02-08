@@ -1,20 +1,40 @@
 ---
 // dmenu style launcher - triggered by mod+d (Alt+d or Ctrl+d)
+import config from "@/config/config.json";
 ---
 
 <div id="dmenu" class="dmenu-overlay hidden">
   <div class="dmenu">
     <span class="dmenu-prompt">run:</span>
-    <input type="text" class="dmenu-input" id="dmenu-input" placeholder="" autocomplete="off" />
+    <input
+      type="text"
+      class="dmenu-input"
+      id="dmenu-input"
+      placeholder=""
+      autocomplete="off"
+    />
     <div class="dmenu-items" id="dmenu-items">
       <a href="/" class="dmenu-item" data-cat="nav">🏠 home</a>
       <a href="/blog" class="dmenu-item" data-cat="nav">📝 blog</a>
       <a href="/about" class="dmenu-item" data-cat="nav">👤 about</a>
-      <a href="/workspace/terminal" class="dmenu-item" data-cat="nav">💻 terminal</a>
-      <a href="/terminal-features" class="dmenu-item" data-cat="nav">⚡ features</a>
-      <button class="dmenu-item" data-cat="action" data-action="theme">🎨 theme</button>
-      <button class="dmenu-item" data-cat="action" data-action="scratchpad">📋 scratchpad</button>
-      <a href="https://github.com/sandikodev" target="_blank" class="dmenu-item" data-cat="link">🔗 github</a>
+      <a href="/workspace/terminal" class="dmenu-item" data-cat="nav"
+        >💻 terminal</a
+      >
+      <a href="/terminal-features" class="dmenu-item" data-cat="nav"
+        >⚡ features</a
+      >
+      <button class="dmenu-item" data-cat="action" data-action="theme"
+        >🎨 theme</button
+      >
+      <button class="dmenu-item" data-cat="action" data-action="scratchpad"
+        >📋 scratchpad</button
+      >
+      <a
+        href={config.contactinfo.github}
+        target="_blank"
+        class="dmenu-item"
+        data-cat="link">🔗 github</a
+      >
     </div>
   </div>
 </div>
@@ -36,7 +56,9 @@
     padding: 8px;
   }
 
-  .dmenu-overlay.hidden { display: none; }
+  .dmenu-overlay.hidden {
+    display: none;
+  }
 
   .dmenu {
     display: flex;
@@ -80,7 +102,9 @@
     scrollbar-width: none;
   }
 
-  .dmenu-items::-webkit-scrollbar { display: none; }
+  .dmenu-items::-webkit-scrollbar {
+    display: none;
+  }
 
   .dmenu-item {
     padding: 0 12px;
@@ -98,7 +122,9 @@
     cursor: pointer;
   }
 
-  .dmenu-item:first-child { border-left: none; }
+  .dmenu-item:first-child {
+    border-left: none;
+  }
 
   .dmenu-item:hover,
   .dmenu-item.selected {
@@ -106,7 +132,9 @@
     color: var(--i3-bg);
   }
 
-  .dmenu-item.hidden { display: none; }
+  .dmenu-item.hidden {
+    display: none;
+  }
 
   /* Notification */
   .i3-notify {
@@ -123,115 +151,135 @@
     animation: notify-in 0.2s ease;
   }
 
-  .i3-notify.hidden { display: none; }
+  .i3-notify.hidden {
+    display: none;
+  }
 
   @keyframes notify-in {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 </style>
 
 <script>
-  const dmenu = document.getElementById('dmenu');
-  const input = document.getElementById('dmenu-input') as HTMLInputElement;
-  const items = document.querySelectorAll('.dmenu-item');
-  const notify = document.getElementById('i3-notify');
-  const notifyText = document.getElementById('notify-text');
+  const dmenu = document.getElementById("dmenu");
+  const input = document.getElementById("dmenu-input") as HTMLInputElement;
+  const items = document.querySelectorAll(".dmenu-item");
+  const notify = document.getElementById("i3-notify");
+  const notifyText = document.getElementById("notify-text");
   let selectedIndex = 0;
 
   function showNotify(msg: string) {
     if (notifyText) notifyText.textContent = msg;
-    notify?.classList.remove('hidden');
-    setTimeout(() => notify?.classList.add('hidden'), 2000);
+    notify?.classList.remove("hidden");
+    setTimeout(() => notify?.classList.add("hidden"), 2000);
   }
 
   // Open with mod+d
-  document.addEventListener('keydown', (e) => {
-    if ((e.altKey || e.ctrlKey) && e.key === 'd') {
+  document.addEventListener("keydown", (e) => {
+    if ((e.altKey || e.ctrlKey) && e.key === "d") {
       e.preventDefault();
-      const isHidden = dmenu?.classList.contains('hidden');
-      dmenu?.classList.toggle('hidden');
+      const isHidden = dmenu?.classList.contains("hidden");
+      dmenu?.classList.toggle("hidden");
       if (isHidden) {
         input?.focus();
-        input!.value = '';
-        filterItems('');
+        input!.value = "";
+        filterItems("");
         selectedIndex = 0;
         updateSelection();
       }
     }
-    
-    if (e.key === 'Escape') {
-      dmenu?.classList.add('hidden');
+
+    if (e.key === "Escape") {
+      dmenu?.classList.add("hidden");
     }
   });
 
   // Filter
-  input?.addEventListener('input', () => {
+  input?.addEventListener("input", () => {
     filterItems(input.value.toLowerCase());
     selectedIndex = 0;
     updateSelection();
   });
 
   function filterItems(q: string) {
-    items.forEach(item => {
-      const text = item.textContent?.toLowerCase() || '';
-      item.classList.toggle('hidden', !text.includes(q) && q !== '');
+    items.forEach((item) => {
+      const text = item.textContent?.toLowerCase() || "";
+      item.classList.toggle("hidden", !text.includes(q) && q !== "");
     });
   }
 
   // Keyboard nav
-  input?.addEventListener('keydown', (e) => {
-    const visible = Array.from(items).filter(i => !i.classList.contains('hidden'));
-    
-    if (e.key === 'Tab' || e.key === 'ArrowRight') {
+  input?.addEventListener("keydown", (e) => {
+    const visible = Array.from(items).filter(
+      (i) => !i.classList.contains("hidden"),
+    );
+
+    if (e.key === "Tab" || e.key === "ArrowRight") {
       e.preventDefault();
       selectedIndex = (selectedIndex + 1) % visible.length;
       updateSelection();
     }
-    
-    if (e.key === 'ArrowLeft') {
+
+    if (e.key === "ArrowLeft") {
       e.preventDefault();
       selectedIndex = (selectedIndex - 1 + visible.length) % visible.length;
       updateSelection();
     }
-    
-    if (e.key === 'Enter') {
+
+    if (e.key === "Enter") {
       e.preventDefault();
       const selected = visible[selectedIndex] as HTMLElement;
       if (selected) {
         selected.click();
-        dmenu?.classList.add('hidden');
+        dmenu?.classList.add("hidden");
       }
     }
   });
 
   function updateSelection() {
-    const visible = Array.from(items).filter(i => !i.classList.contains('hidden'));
-    items.forEach(i => i.classList.remove('selected'));
-    visible[selectedIndex]?.classList.add('selected');
-    visible[selectedIndex]?.scrollIntoView({ inline: 'center', block: 'nearest' });
+    const visible = Array.from(items).filter(
+      (i) => !i.classList.contains("hidden"),
+    );
+    items.forEach((i) => i.classList.remove("selected"));
+    visible[selectedIndex]?.classList.add("selected");
+    visible[selectedIndex]?.scrollIntoView({
+      inline: "center",
+      block: "nearest",
+    });
   }
 
   // Actions
-  items.forEach(item => {
-    item.addEventListener('click', () => {
-      const action = item.getAttribute('data-action');
-      
-      if (action === 'theme') {
-        const themes = ['tokyo-night', 'dracula', 'gruvbox', 'nord', 'matrix'];
-        const current = document.documentElement.getAttribute('data-theme') || 'tokyo-night';
+  items.forEach((item) => {
+    item.addEventListener("click", () => {
+      const action = item.getAttribute("data-action");
+
+      if (action === "theme") {
+        const themes = ["tokyo-night", "dracula", "gruvbox", "nord", "matrix"];
+        const current =
+          document.documentElement.getAttribute("data-theme") || "tokyo-night";
         const next = themes[(themes.indexOf(current) + 1) % themes.length];
-        document.documentElement.setAttribute('data-theme', next);
+        document.documentElement.setAttribute("data-theme", next);
         showNotify(`Theme: ${next}`);
       }
-      
-      if (action === 'scratchpad') {
-        const sp = document.getElementById('scratchpad');
-        sp?.classList.toggle('visible');
-        showNotify(sp?.classList.contains('visible') ? 'Scratchpad shown' : 'Scratchpad hidden');
+
+      if (action === "scratchpad") {
+        const sp = document.getElementById("scratchpad");
+        sp?.classList.toggle("visible");
+        showNotify(
+          sp?.classList.contains("visible")
+            ? "Scratchpad shown"
+            : "Scratchpad hidden",
+        );
       }
-      
-      dmenu?.classList.add('hidden');
+
+      dmenu?.classList.add("hidden");
     });
   });
 </script>

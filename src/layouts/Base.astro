@@ -113,52 +113,45 @@ const { title, meta_title, description, image, noindex, canonical } =
     <meta name="rating" content="general" />
     
     <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
+    <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "Person",
-      "name": "Sandikodev",
-      "jobTitle": "Full Stack Developer",
-      "description": "Full Stack Developer yang passionate tentang web development, mobile apps, dan teknologi terbaru",
-      "url": "https://sandikodev.github.io",
+      "name": config.metadata.meta_author,
+      "jobTitle": config.metadata.job_title,
+      "description": config.metadata.meta_description,
+      "url": config.site.base_url,
       "sameAs": [
-        "https://github.com/sandikodev",
-        "https://linkedin.com/in/sandikodev",
-        "https://twitter.com/sandikodev"
+        config.contactinfo.github,
+        config.contactinfo.linkedin,
+        config.contactinfo.twitter
       ],
-      "knowsAbout": [
+      "knowsAbout": config.portfolio.skills || [
         "JavaScript",
         "TypeScript", 
         "React",
-        "Node.js",
-        "Python",
-        "Mobile Development",
-        "Web Development"
+        "Node.js"
       ],
       "address": {
         "@type": "PostalAddress",
-        "addressCountry": "ID"
+        "addressCountry": config.contactinfo.address
       }
-    }
-    </script>
+    })} />
     
-    <script type="application/ld+json">
-    {
+    <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "WebSite",
-      "name": "Sandikodev",
-      "url": "https://sandikodev.github.io",
-      "description": "Portfolio dan blog Sandikodev - Full Stack Developer",
+      "name": config.metadata.meta_author,
+      "url": config.site.base_url,
+      "description": config.site.title,
       "potentialAction": {
         "@type": "SearchAction",
         "target": {
           "@type": "EntryPoint",
-          "urlTemplate": "https://sandikodev.github.io/search?q={search_term_string}"
+          "urlTemplate": `${config.site.base_url}/search?q={search_term_string}`
         },
         "query-input": "required name=search_term_string"
       }
-    }
-    </script>
+    })} />
 
     <!-- google font css -->
     <AstroFont
