@@ -14,7 +14,7 @@ export default function ContactForm() {
     subject: '',
     message: ''
   });
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
@@ -30,10 +30,10 @@ export default function ContactForm() {
     try {
       // Simulate form submission
       await new Promise(resolve => setTimeout(resolve, 2000));
-      
+
       // Here you would typically send the data to your backend
       console.log('Form submitted:', formData);
-      
+
       setSubmitStatus('success');
       setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (error) {
@@ -45,7 +45,7 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div class="grid md:grid-cols-2 gap-6">
+      <div className="grid md:grid-cols-2 gap-6">
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Nama
@@ -60,7 +60,7 @@ export default function ContactForm() {
             placeholder="Masukkan nama Anda"
           />
         </div>
-        
+
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Email

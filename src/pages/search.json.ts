@@ -1,16 +1,16 @@
-import { getSinglePage } from "@/lib/contentParser.astro";
+import { getCollection } from 'astro:content';
 
 export async function GET() {
-  const posts = await getSinglePage("posts");
-  
-  const searchData = posts.map((post) => ({
+  const posts = await getCollection('posts');
+
+  const searchData = posts.map((post: any) => ({
     title: post.data.title,
     description: post.data.description || "",
-    slug: post.slug,
+    slug: post.id,
     categories: post.data.categories || [],
     tags: post.data.tags || [],
   }));
-  
+
   return new Response(JSON.stringify(searchData), {
     status: 200,
     headers: {
