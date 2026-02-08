@@ -42,16 +42,30 @@
 
   .toggle-icon {
     position: absolute;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
   }
 
   /* Blog mode: show dev icon (💻) */
-  [data-theme-mode="blog"] .blog-icon { opacity: 0; transform: scale(0.5); }
-  [data-theme-mode="blog"] .dev-icon { opacity: 1; transform: scale(1); }
+  [data-theme-mode="blog"] .blog-icon {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  [data-theme-mode="blog"] .dev-icon {
+    opacity: 1;
+    transform: scale(1);
+  }
 
   /* Dev mode: show blog icon (📝) */
-  [data-theme-mode="terminal"] .blog-icon { opacity: 1; transform: scale(1); }
-  [data-theme-mode="terminal"] .dev-icon { opacity: 0; transform: scale(0.5); }
+  [data-theme-mode="terminal"] .blog-icon {
+    opacity: 1;
+    transform: scale(1);
+  }
+  [data-theme-mode="terminal"] .dev-icon {
+    opacity: 0;
+    transform: scale(0.5);
+  }
 
   /* Dev Mode styling */
   [data-theme-mode="terminal"] .design-toggle {
@@ -61,43 +75,74 @@
   }
 
   @media (max-width: 768px) {
-    .design-toggle { bottom: 1rem; right: 1rem; width: 3rem; height: 3rem; font-size: 1.25rem; }
+    .design-toggle {
+      bottom: 1rem;
+      right: 1rem;
+      width: 3rem;
+      height: 3rem;
+      font-size: 1.25rem;
+    }
   }
 </style>
 
 <script>
   function initDesignToggle() {
-    const toggle = document.getElementById('design-toggle');
+    const toggle = document.getElementById("design-toggle");
     if (!toggle) return;
 
     function getTargetUrl() {
       const path = window.location.pathname;
-      const isWorkspace = path.startsWith('/workspace');
-      
+      const isWorkspace = path.startsWith("/workspace");
+
       if (isWorkspace) {
-        return path.replace('/workspace', '') || '/';
+        // Dev Mode -> Blog Mode: strip /workspace prefix
+        return path.replace("/workspace", "") || "/";
       } else {
-        return '/workspace' + (path === '/' ? '' : path);
+        // Blog Mode -> Dev Mode: redirect articles to workspace home
+        // Blog articles (single posts) don't have workspace equivalents
+        const isBlogArticle =
+          path.match(/^\/[a-z0-9-]+$/) &&
+          !["/", "/blog", "/about", "/now", "/tags", "/categories"].includes(
+            path,
+          );
+
+        if (
+          isBlogArticle ||
+          path.startsWith("/tags/") ||
+          path.startsWith("/categories/")
+        ) {
+          // Redirect to workspace home for article pages
+          return "/workspace";
+        }
+        return "/workspace" + (path === "/" ? "" : path);
       }
     }
 
-    toggle.addEventListener('click', (e) => {
+    toggle.addEventListener("click", (e) => {
       e.preventDefault();
       const target = getTargetUrl();
-      localStorage.setItem('design-mode', target.startsWith('/workspace') ? 'dev' : 'blog');
-      toggle.style.opacity = '0.5';
-      setTimeout(() => { window.location.href = target; }, 150);
+      localStorage.setItem(
+        "design-mode",
+        target.startsWith("/workspace") ? "dev" : "blog",
+      );
+      toggle.style.opacity = "0.5";
+      setTimeout(() => {
+        window.location.href = target;
+      }, 150);
     });
 
-    toggle.addEventListener('keydown', (e) => {
-      if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggle.click(); }
+    toggle.addEventListener("keydown", (e) => {
+      if (e.key === " " || e.key === "Enter") {
+        e.preventDefault();
+        toggle.click();
+      }
     });
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initDesignToggle);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initDesignToggle);
   } else {
     initDesignToggle();
   }
-  document.addEventListener('astro:page-load', initDesignToggle);
+  document.addEventListener("astro:page-load", initDesignToggle);
 </script>

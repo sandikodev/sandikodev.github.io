@@ -6,7 +6,7 @@ image: "/images/posts/astro-portfolio.jpg"
 categories: ["web-development"]
 authors: ["Sandikodev"]
 tags: ["astro", "tailwind", "portfolio", "web-development"]
-draft: false
+draft: true
 ---
 
 Portfolio website adalah salah satu cara terbaik untuk memamerkan karya dan keahlian sebagai developer. Dalam artikel ini, saya akan membagikan pengalaman membangun portfolio website menggunakan Astro dan Tailwind CSS.

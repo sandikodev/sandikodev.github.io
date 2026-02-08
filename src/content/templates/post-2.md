@@ -6,7 +6,7 @@ image: "/images/posts/react-native-flutter.jpg"
 categories: ["mobile-development"]
 authors: ["Sandikodev"]
 tags: ["react-native", "flutter", "mobile", "cross-platform"]
-draft: false
+draft: true
 ---
 
 Dalam dunia mobile development, ada dua framework utama yang populer untuk cross-platform development: React Native dan Flutter. Keduanya memiliki keunggulan masing-masing. Mari kita bandingkan!
