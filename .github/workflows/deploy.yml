@@ -17,37 +17,37 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-      
+
       - name: Verify submodule content
         run: |
           echo "📁 Checking submodule content..."
           ls -la content/
           ls -la content/posts/ | head -5
           echo "✅ Submodule content verified"
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-      
+          node-version: "20"
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 9
-      
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      
+
       - name: Build with Astro
         run: pnpm build
-      
+
       - name: Verify build output
         run: |
           echo "📊 Build statistics:"
           find dist -name "*.html" | wc -l
           echo "pages generated"
           ls -la dist/ | head -10
-      
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

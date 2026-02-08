@@ -3,12 +3,14 @@
 ## Dual Design System
 
 ### Blog Mode (📝)
+
 - **Layout**: `src/layouts/Base.astro`
 - **Attribute**: `data-theme-mode="blog"`
 - **Fonts**: Inter + Georgia + JetBrains Mono
 - **Routes**: `/`, `/blog/*`, `/about`, `/contact`, `/now`
 
 ### Dev Mode (💻)
+
 - **Layout**: `src/layouts/I3Layout.astro`
 - **Attribute**: `data-theme-mode="dev"`
 - **Fonts**: Fira Code (monospace)
@@ -28,12 +30,14 @@ Blog Mode (/)                    Dev Mode (/workspace)
 ```
 
 ### Why Route Mirroring (bukan CSS toggle)?
+
 - Static site = no runtime layout switching
 - SEO friendly = different URLs, double indexing
 - Performance = load only needed assets
 - Clear separation = easier maintenance
 
 ### Implementation
+
 - `src/pages/workspace/[...slug].astro` - Catch-all mirror route
 - Single content source (`src/content/`)
 - Same markdown, different layout
@@ -41,22 +45,26 @@ Blog Mode (/)                    Dev Mode (/workspace)
 ## Toggle Button
 
 ### Behavior
+
 Context-aware navigation (same page, different mode):
+
 ```
 /about           → toggle → /workspace/about
 /workspace/about → toggle → /about
 ```
 
 ### Logic
+
 ```js
 const path = window.location.pathname;
-const isWorkspace = path.startsWith('/workspace');
-const target = isWorkspace 
-  ? path.replace('/workspace', '') || '/'
-  : '/workspace' + path;
+const isWorkspace = path.startsWith("/workspace");
+const target = isWorkspace
+  ? path.replace("/workspace", "") || "/"
+  : "/workspace" + path;
 ```
 
 ### Persistence
+
 - `localStorage.getItem('design-mode')` → 'blog' | 'dev'
 - FOUC prevention script in `<head>`
 

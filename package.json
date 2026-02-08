@@ -20,6 +20,7 @@
     "@astrojs/tailwind": "^6.0.2",
     "@iconify-json/mdi": "^1.2.3",
     "@sandikodev/astro-deck": "link:packages/astro-deck",
+    "@types/three": "^0.182.0",
     "astro": "^5.16.4",
     "astro-auto-import": "^0.4.2",
     "astro-expressive-code": "^0.41.3",
@@ -42,7 +43,8 @@
     "remark-math": "^6.0.0",
     "remark-toc": "^9.0.0",
     "sonda": "^0.10.1",
-    "svelte": "^5.45.8"
+    "svelte": "^5.45.8",
+    "three": "^0.182.0"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.7",
@@ -66,5 +68,6 @@
     "@parcel/watcher",
     "esbuild",
     "sharp"
-  ]
+  ],
+  "packageManager": "pnpm@10.29.1+sha512.48dae233635a645768a3028d19545cacc1688639eeb1f3734e42d6d6b971afbf22aa1ac9af52a173d9c3a20c15857cfa400f19994d79a2f626fcc73fccda9bbc"
 }

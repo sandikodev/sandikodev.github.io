@@ -3,6 +3,7 @@
 ## Status: ✅ Complete
 
 ## Implementation
+
 - [x] Component created: `src/components/DesignSystemToggle.astro`
 - [x] Added to Base.astro (Blog Mode)
 - [x] Added to I3Layout.astro (Dev Mode)
@@ -13,6 +14,7 @@
 ## Behavior
 
 ### Current (Working)
+
 ```
 /about → toggle → /workspace/about
 /workspace/about → toggle → /about
@@ -23,30 +25,32 @@
 ## Implementation
 
 ### Toggle Logic (Target)
+
 ```js
 function getTargetUrl() {
   const path = window.location.pathname;
-  const isWorkspace = path.startsWith('/workspace');
-  
+  const isWorkspace = path.startsWith("/workspace");
+
   if (isWorkspace) {
-    return path.replace('/workspace', '') || '/';
+    return path.replace("/workspace", "") || "/";
   } else {
-    return '/workspace' + (path === '/' ? '' : path);
+    return "/workspace" + (path === "/" ? "" : path);
   }
 }
 ```
 
 ### FOUC Prevention
+
 ```js
 // In <head> of both layouts
-(function() {
-  const saved = localStorage.getItem('design-mode');
-  const isWorkspace = location.pathname.startsWith('/workspace');
-  
-  if (saved === 'dev' && !isWorkspace) {
-    location.href = '/workspace' + location.pathname;
-  } else if (saved === 'blog' && isWorkspace) {
-    location.href = location.pathname.replace('/workspace', '') || '/';
+(function () {
+  const saved = localStorage.getItem("design-mode");
+  const isWorkspace = location.pathname.startsWith("/workspace");
+
+  if (saved === "dev" && !isWorkspace) {
+    location.href = "/workspace" + location.pathname;
+  } else if (saved === "blog" && isWorkspace) {
+    location.href = location.pathname.replace("/workspace", "") || "/";
   }
 })();
 ```
@@ -54,6 +58,7 @@ function getTargetUrl() {
 ## Styling
 
 ### Blog Mode
+
 ```css
 .design-toggle {
   position: fixed;
@@ -66,6 +71,7 @@ function getTargetUrl() {
 ```
 
 ### Dev Mode
+
 ```css
 [data-theme-mode="dev"] .design-toggle {
   background: #1a1b26;

@@ -8,16 +8,17 @@
 
 ## Dual Design System
 
-| Mode | Route | Layout | Description |
-|------|-------|--------|-------------|
-| Blog Mode (📝) | `/` | Base.astro | Clean blog, default |
-| Dev Mode (💻) | `/workspace/*` | I3Layout.astro | Terminal/i3wm aesthetic |
+| Mode           | Route          | Layout         | Description             |
+| -------------- | -------------- | -------------- | ----------------------- |
+| Blog Mode (📝) | `/`            | Base.astro     | Clean blog, default     |
+| Dev Mode (💻)  | `/workspace/*` | I3Layout.astro | Terminal/i3wm aesthetic |
 
 ## Current Sprint
 
 **Route Mirroring** - Mirror semua blog routes ke `/workspace/*`
 
 ### Priority Tasks
+
 1. Create `/workspace/[...slug].astro`
 2. Update toggle button (context-aware)
 3. Add canonical tags
@@ -25,28 +26,28 @@
 
 ## Key Files
 
-| File | Purpose |
-|------|---------|
-| `src/layouts/Base.astro` | Blog Mode layout |
-| `src/layouts/I3Layout.astro` | Dev Mode layout |
-| `src/components/DesignSystemToggle.astro` | Mode switcher |
-| `src/pages/workspace/` | Dev Mode routes (to be created) |
+| File                                      | Purpose                         |
+| ----------------------------------------- | ------------------------------- |
+| `src/layouts/Base.astro`                  | Blog Mode layout                |
+| `src/layouts/I3Layout.astro`              | Dev Mode layout                 |
+| `src/components/DesignSystemToggle.astro` | Mode switcher                   |
+| `src/pages/workspace/`                    | Dev Mode routes (to be created) |
 
 ## Steering Documents
 
-| Priority | File | Content |
-|----------|------|---------|
-| 1 | `.kiro/specs/route-mirroring.md` | Current feature spec |
-| 2 | `.kiro/steering/architecture.md` | Technical decisions |
-| 3 | `.kiro/steering/product.md` | Vision & goals |
-| 4 | `.kiro/steering/design-system.md` | UI/UX specs |
+| Priority | File                              | Content              |
+| -------- | --------------------------------- | -------------------- |
+| 1        | `.kiro/specs/route-mirroring.md`  | Current feature spec |
+| 2        | `.kiro/steering/architecture.md`  | Technical decisions  |
+| 3        | `.kiro/steering/product.md`       | Vision & goals       |
+| 4        | `.kiro/steering/design-system.md` | UI/UX specs          |
 
 ## Working Notes
 
-| File | Purpose |
-|------|---------|
-| `.notes/TODOS.md` | Current sprint tasks |
-| `.notes/WORKFLOW.md` | Iteration procedure |
+| File                 | Purpose              |
+| -------------------- | -------------------- |
+| `.notes/TODOS.md`    | Current sprint tasks |
+| `.notes/WORKFLOW.md` | Iteration procedure  |
 
 ## Commands
 

@@ -13,12 +13,12 @@ Portfolio blog dengan dual design system yang memperkenalkan "geek world" kepada
 
 ## Target Audience
 
-| Audience | Mode | Needs |
-|----------|------|-------|
-| General readers | Blog Mode (📝) | Clean, readable content |
-| Developers | Dev Mode (💻) | Terminal aesthetic, keyboard-driven |
-| Linux enthusiasts | Dev Mode (💻) | i3wm experience, ricing |
-| Recruiters | Blog Mode (📝) | Professional portfolio |
+| Audience          | Mode           | Needs                               |
+| ----------------- | -------------- | ----------------------------------- |
+| General readers   | Blog Mode (📝) | Clean, readable content             |
+| Developers        | Dev Mode (💻)  | Terminal aesthetic, keyboard-driven |
+| Linux enthusiasts | Dev Mode (💻)  | i3wm experience, ricing             |
+| Recruiters        | Blog Mode (📝) | Professional portfolio              |
 
 ## Core Features
 
