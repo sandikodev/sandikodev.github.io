@@ -1,6 +1,5 @@
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
-import svelte from "@astrojs/svelte";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import partytown from "@astrojs/partytown";
@@ -40,7 +39,6 @@ export default defineConfig({
         "**/components/*",
       ],
     }),
-    svelte(),
     sitemap(),
     tailwind({
       config: {

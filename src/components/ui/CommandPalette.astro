@@ -5,20 +5,27 @@
 <div id="command-palette" class="command-palette">
   <div class="command-modal">
     <div class="command-input-wrapper">
-      <svg class="search-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="9" cy="9" r="7"/>
-        <path d="M14 14l5 5"/>
+      <svg
+        class="search-icon"
+        width="20"
+        height="20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <circle cx="9" cy="9" r="7"></circle>
+        <path d="M14 14l5 5"></path>
       </svg>
-      <input 
-        type="text" 
-        id="command-input" 
-        class="command-input" 
+      <input
+        type="text"
+        id="command-input"
+        class="command-input"
         placeholder="Type a command or search..."
         autocomplete="off"
       />
       <kbd class="esc-hint">Esc</kbd>
     </div>
-    
+
     <div id="command-results" class="command-results">
       <div class="command-section">
         <div class="section-title">Quick Actions</div>
@@ -42,7 +49,7 @@
           <kbd>g a</kbd>
         </div>
       </div>
-      
+
       <div class="command-section">
         <div class="section-title">Terminal Commands</div>
         <div class="command-item" data-cmd="ls posts">
@@ -66,7 +73,7 @@
           <span class="command-desc">Go to home</span>
         </div>
       </div>
-      
+
       <div id="search-results" class="command-section" style="display: none;">
         <div class="section-title">Search Results</div>
         <div id="search-items"></div>
@@ -176,7 +183,7 @@
   .command-text {
     flex: 1;
     font-weight: 500;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
     font-size: 0.9375rem;
   }
   .command-desc {
@@ -188,152 +195,177 @@
     border-radius: 0.25rem;
     padding: 0.25rem 0.5rem;
     font-size: 0.75rem;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
   }
 </style>
 
 <script>
-  const palette = document.getElementById('command-palette');
-  const input = document.getElementById('command-input') as HTMLInputElement;
-  const results = document.getElementById('command-results');
-  const searchSection = document.getElementById('search-results');
-  const searchItems = document.getElementById('search-items');
-  
+  const palette = document.getElementById("command-palette");
+  const input = document.getElementById("command-input") as HTMLInputElement;
+  const results = document.getElementById("command-results");
+  const searchSection = document.getElementById("search-results");
+  const searchItems = document.getElementById("search-items");
+
   let selectedIndex = 0;
   let allItems: NodeListOf<Element>;
-  
+
   // Show palette
   function showPalette() {
-    palette?.classList.add('active');
+    palette?.classList.add("active");
     input?.focus();
     updateSelection();
   }
-  
+
   // Hide palette
   function hidePalette() {
-    palette?.classList.remove('active');
-    if (input) input.value = '';
-    searchSection!.style.display = 'none';
+    palette?.classList.remove("active");
+    if (input) input.value = "";
+    searchSection!.style.display = "none";
     selectedIndex = 0;
   }
-  
+
   // Update selection
   function updateSelection() {
-    allItems = document.querySelectorAll('.command-item');
+    allItems = document.querySelectorAll(".command-item");
     allItems.forEach((item, i) => {
       if (i === selectedIndex) {
-        item.classList.add('selected');
-        item.scrollIntoView({ block: 'nearest' });
+        item.classList.add("selected");
+        item.scrollIntoView({ block: "nearest" });
       } else {
-        item.classList.remove('selected');
+        item.classList.remove("selected");
       }
     });
   }
-  
+
   // Execute command
   function executeCommand(item: Element) {
-    const action = item.getAttribute('data-action');
-    const cmd = item.getAttribute('data-cmd');
-    const url = item.getAttribute('data-url');
-    
-    if (action === 'home') window.location.href = '/';
-    else if (action === 'blog') window.location.href = '/blog';
-    else if (action === 'now') window.location.href = '/now';
-    else if (action === 'about') window.location.href = '/about';
-    else if (cmd === 'ls posts') window.location.href = '/blog';
-    else if (cmd === 'ls tags') window.location.href = '/tags';
-    else if (cmd === 'cat about.md') window.location.href = '/about';
-    else if (cmd === 'cd ~') window.location.href = '/';
+    const action = item.getAttribute("data-action");
+    const cmd = item.getAttribute("data-cmd");
+    const url = item.getAttribute("data-url");
+
+    if (action === "home") window.location.href = "/";
+    else if (action === "blog") window.location.href = "/blog";
+    else if (action === "now") window.location.href = "/now";
+    else if (action === "about") window.location.href = "/about";
+    else if (cmd === "ls posts") window.location.href = "/blog";
+    else if (cmd === "ls tags") window.location.href = "/tags";
+    else if (cmd === "cat about.md") window.location.href = "/about";
+    else if (cmd === "cd ~") window.location.href = "/";
     else if (url) window.location.href = url;
-    
+
     hidePalette();
   }
-  
+
   // Search posts
-  async function searchPosts(query: string) {
+  let cachedPosts = null;
+
+  // Search posts
+  async function searchPosts(query) {
     if (query.length < 2) {
-      searchSection!.style.display = 'none';
+      searchSection.style.display = "none";
       return;
     }
-    
+
     try {
-      const response = await fetch('/search.json');
-      const posts = await response.json();
-      
-      const filtered = posts.filter((post: any) => 
-        post.title.toLowerCase().includes(query.toLowerCase()) ||
-        post.description?.toLowerCase().includes(query.toLowerCase())
-      ).slice(0, 5);
-      
+      if (!cachedPosts) {
+        const response = await fetch("/search.json");
+        cachedPosts = await response.json();
+      }
+
+      const filtered = cachedPosts
+        .filter(
+          (post) =>
+            post.title.toLowerCase().includes(query.toLowerCase()) ||
+            (post.description &&
+              post.description.toLowerCase().includes(query.toLowerCase())),
+        )
+        .slice(0, 5);
+
       if (filtered.length > 0) {
-        searchSection!.style.display = 'block';
-        searchItems!.innerHTML = filtered.map((post: any) => `
+        searchSection.style.display = "block";
+        searchItems.innerHTML = filtered
+          .map(
+            (post) => `
           <div class="command-item" data-url="/${post.id}">
             <span class="command-icon">📄</span>
             <span class="command-text">${post.title}</span>
           </div>
-        `).join('');
-        updateSelection();
+        `,
+          )
+          .join("");
+
+        // Re-attach click listeners to new items
+        const newItems = searchItems.querySelectorAll(".command-item");
+        newItems.forEach((item) => {
+          item.addEventListener("click", () => executeCommand(item));
+        });
+
+        // Initialize selection to first item if just searched
+        // But don't override if user is navigating result list
+        if (!document.querySelector(".command-item.selected")) {
+          selectedIndex = 0;
+          updateSelection();
+        }
       } else {
-        searchSection!.style.display = 'none';
+        searchSection.style.display = "none";
       }
     } catch (e) {
-      console.error('Search failed:', e);
+      console.error("Search failed:", e);
     }
   }
-  
+
   // Keyboard shortcuts
-  document.addEventListener('keydown', (e) => {
+  document.addEventListener("keydown", (e) => {
     // Cmd+K or Ctrl+K to open
-    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    if ((e.metaKey || e.ctrlKey) && e.key === "k") {
       e.preventDefault();
       showPalette();
       return;
     }
-    
+
     // Only handle these if palette is open
-    if (!palette?.classList.contains('active')) return;
-    
+    if (!palette?.classList.contains("active")) return;
+
     // Escape to close
-    if (e.key === 'Escape') {
+    if (e.key === "Escape") {
       e.preventDefault();
       hidePalette();
       return;
     }
-    
+
     // Arrow navigation
-    if (e.key === 'ArrowDown') {
+    if (e.key === "ArrowDown") {
       e.preventDefault();
       selectedIndex = Math.min(selectedIndex + 1, allItems.length - 1);
       updateSelection();
-    } else if (e.key === 'ArrowUp') {
+    } else if (e.key === "ArrowUp") {
       e.preventDefault();
       selectedIndex = Math.max(selectedIndex - 1, 0);
       updateSelection();
     }
-    
+
     // Enter to execute
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       e.preventDefault();
       const selected = allItems[selectedIndex];
       if (selected) executeCommand(selected);
     }
   });
-  
+
   // Input search
-  input?.addEventListener('input', (e) => {
+  input?.addEventListener("input", (e) => {
     const query = (e.target as HTMLInputElement).value;
     searchPosts(query);
   });
-  
+
   // Click handlers
-  results?.addEventListener('click', (e) => {
-    const item = (e.target as Element).closest('.command-item');
+  results?.addEventListener("click", (e) => {
+    const item = (e.target as Element).closest(".command-item");
     if (item) executeCommand(item);
   });
-  
+
   // Close on backdrop click
-  palette?.addEventListener('click', (e) => {
+  palette?.addEventListener("click", (e) => {
     if (e.target === palette) hidePalette();
   });
 </script>
