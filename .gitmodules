@@ -7,3 +7,6 @@
 [submodule "packages/astro-deck"]
 	path = packages/astro-deck
 	url = git@github.com:sandikodev/astro-deck.git
+[submodule "packages/workspace-framework"]
+	path = packages/workspace-framework
+	url = git@github.com:sandikodev/workspace-framework.git
