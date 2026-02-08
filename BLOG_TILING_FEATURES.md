@@ -7,6 +7,7 @@ Halaman `/blog-tiling` adalah implementasi lengkap dari design system tiling win
 ## ✨ Features Implemented
 
 ### 1. **Tiling Layout** ✅
+
 - **3-column layout**: Sidebar kiri (20%), Main content (55%), Sidebar kanan (25%)
 - **i3wm-style windows**: Setiap section dalam window terpisah dengan title bar
 - **Responsive tiling**: Auto-stack pada mobile, side-by-side pada desktop
@@ -14,23 +15,28 @@ Halaman `/blog-tiling` adalah implementasi lengkap dari design system tiling win
 ### 2. **Enhanced Keyboard Navigation** ✅
 
 #### Scrolling
+
 - `j` - Scroll down
 - `k` - Scroll up
 - `g g` - Go to top
 - `G` (Shift+g) - Go to bottom
 
 #### Navigation
+
 - `g h` - Go to home
 - `g b` - Go to blog
 
 #### Theme
+
 - `t` - Cycle through themes (Tokyo Night → Dracula → Gruvbox → Nord → Matrix)
 
 #### Help
+
 - `?` (Shift+/) - Show keyboard shortcuts modal
 - `Esc` - Close modal
 
 #### Visual Feedback
+
 - Keyboard indicator muncul di bottom-right saat shortcut digunakan
 - Smooth scroll animations
 - Indicator auto-hide setelah 1.5 detik
@@ -38,6 +44,7 @@ Halaman `/blog-tiling` adalah implementasi lengkap dari design system tiling win
 ### 3. **Theme Switcher** ✅
 
 #### UI Component
+
 - **Location**: Top bar, sebelah kanan
 - **Icon**: 🎨 Theme button
 - **Dropdown menu** dengan 5 themes:
@@ -48,6 +55,7 @@ Halaman `/blog-tiling` adalah implementasi lengkap dari design system tiling win
   - 💚 Matrix
 
 #### Features
+
 - Click button untuk toggle menu
 - Click outside untuk close
 - Active theme ditandai dengan ✓
@@ -57,12 +65,14 @@ Halaman `/blog-tiling` adalah implementasi lengkap dari design system tiling win
 ### 4. **Mobile Responsive** ✅
 
 #### Breakpoints
+
 - **Desktop (>1024px)**: 3-column layout
 - **Tablet (768-1024px)**: 2-column (hide right sidebar)
 - **Mobile (<768px)**: 1-column stack
 - **Small Mobile (<480px)**: Compact UI
 
 #### Mobile Optimizations
+
 - Touch-friendly targets (min 32px)
 - Swipe-friendly scrolling
 - Reduced animations
@@ -72,6 +82,7 @@ Halaman `/blog-tiling` adalah implementasi lengkap dari design system tiling win
 - Landscape mode support
 
 #### Touch Improvements
+
 - Larger tap targets
 - No hover effects on touch devices
 - Smooth scrolling with momentum
@@ -80,10 +91,12 @@ Halaman `/blog-tiling` adalah implementasi lengkap dari design system tiling win
 ### 5. **Content Features** ✅
 
 #### Left Sidebar
+
 - **Categories tree view**: Folder-style dengan count
 - **Tags cloud**: Clickable tags dengan hover effects
 
 #### Main Content
+
 - **Post cards**: Hover effects, selected state
 - **Post metadata**: Date, author, description
 - **Tags preview**: First 3 tags per post
@@ -91,11 +104,13 @@ Halaman `/blog-tiling` adalah implementasi lengkap dari design system tiling win
 - **Post count**: Dynamic count display
 
 #### Right Sidebar
+
 - **Stats grid**: Posts, Categories, Tags, Views
 - **Activity feed**: Recent 5 posts
 - **Quick links**: Home, About, Terminal
 
 ### 6. **Help Modal** ✅
+
 - Keyboard shortcuts reference
 - Organized by category
 - Visual key indicators
@@ -104,6 +119,7 @@ Halaman `/blog-tiling` adalah implementasi lengkap dari design system tiling win
 - Mobile responsive
 
 ### 7. **Animations** ✅
+
 - Fade in effects
 - Slide in animations
 - Hover transitions
@@ -114,6 +130,7 @@ Halaman `/blog-tiling` adalah implementasi lengkap dari design system tiling win
 ## 🎨 Design System Compliance
 
 ### Colors
+
 - ✅ Tokyo Night (default)
 - ✅ Dracula
 - ✅ Gruvbox
@@ -121,12 +138,14 @@ Halaman `/blog-tiling` adalah implementasi lengkap dari design system tiling win
 - ✅ Matrix
 
 ### Typography
+
 - ✅ Fira Code with ligatures
 - ✅ Monospace everywhere
 - ✅ Proper font sizes
 - ✅ Line heights
 
 ### Components
+
 - ✅ i3 Windows
 - ✅ Polybar
 - ✅ Theme Switcher
@@ -136,6 +155,7 @@ Halaman `/blog-tiling` adalah implementasi lengkap dari design system tiling win
 ## 📱 Mobile Experience
 
 ### Layout Changes
+
 ```
 Desktop:
 ┌─────────┬──────────────┬─────────┐
@@ -158,6 +178,7 @@ Mobile:
 ```
 
 ### Performance
+
 - Minimal JavaScript
 - CSS-only animations
 - Lazy loading ready
@@ -166,6 +187,7 @@ Mobile:
 ## 🚀 Usage
 
 ### Navigate to Blog
+
 ```bash
 # Via URL
 /blog-tiling
@@ -178,6 +200,7 @@ g b
 ```
 
 ### Change Theme
+
 ```bash
 # Via Keyboard
 Press 't' to cycle
@@ -187,6 +210,7 @@ Click 🎨 Theme button → Select theme
 ```
 
 ### View Help
+
 ```bash
 # Via Keyboard
 Press '?'
@@ -198,6 +222,7 @@ Press 'Esc'
 ## 🔧 Technical Details
 
 ### Files Created
+
 ```
 src/
 ├── pages/
@@ -214,11 +239,13 @@ src/
 ```
 
 ### Dependencies
+
 - Astro (existing)
 - No additional packages needed
 - Pure CSS + minimal JS
 
 ### Browser Support
+
 - Chrome/Edge: ✅
 - Firefox: ✅
 - Safari: ✅
@@ -227,24 +254,28 @@ src/
 ## 🎯 Next Steps (Optional)
 
 ### Phase 1: Content
+
 - [x] Add search functionality - ✅ Done (search.astro, SearchBar.tsx, search.json.ts)
 - [x] Add filters (by category/tag) - ✅ Done (taxonomyFilter.ts)
 - [x] Add pagination - ✅ Done (Pagination.astro)
 - [x] Add post preview on hover - ✅ Done (PostPreview.astro with tooltip)
 
 ### Phase 2: Interactions
+
 - [x] Add command palette (Ctrl+K) - ✅ Done (3 versions available)
 - [x] Add workspace switching (1-9 keys) - ✅ Done (WorkspaceSwitcher.astro)
 - [x] Add floating window toggle - ✅ Done (i3-utils.ts toggleFloat)
 - [x] Add scratchpad - ✅ Done (Scratchpad.astro with Ctrl+` toggle)
 
 ### Phase 3: Effects
+
 - [x] Add scan lines (CRT effect) - ✅ Done (TerminalEffects.astro)
 - [x] Add matrix rain background - ✅ Done (animations.css)
 - [x] Add typing animations - ✅ Done (TypingAnimation.astro)
 - [x] Add boot sequence - ✅ Done (terminal layouts)
 
 ### Phase 4: Performance
+
 - [x] Add virtual scrolling for large lists - ✅ Done (VirtualScroll.astro with 120px items)
 - [x] Add image lazy loading - ✅ Done (LazyImage.astro)
 - [x] Add service worker - ✅ Done (service-worker.js built)

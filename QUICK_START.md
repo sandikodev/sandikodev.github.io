@@ -10,17 +10,17 @@ Then visit: `http://localhost:4321/blog-tiling`
 
 ## ⌨️ Keyboard Shortcuts
 
-| Key | Action |
-|-----|--------|
-| `j` | Scroll down |
-| `k` | Scroll up |
-| `g g` | Go to top |
-| `G` | Go to bottom |
-| `g h` | Go home |
-| `g b` | Go to blog |
-| `t` | Cycle themes |
-| `?` | Show help |
-| `Esc` | Close modal |
+| Key   | Action       |
+| ----- | ------------ |
+| `j`   | Scroll down  |
+| `k`   | Scroll up    |
+| `g g` | Go to top    |
+| `G`   | Go to bottom |
+| `g h` | Go home      |
+| `g b` | Go to blog   |
+| `t`   | Cycle themes |
+| `?`   | Show help    |
+| `Esc` | Close modal  |
 
 ## 🎨 Themes Available
 
@@ -33,16 +33,19 @@ Then visit: `http://localhost:4321/blog-tiling`
 ## 📱 Test Responsive
 
 ### Desktop
+
 - Full 3-column layout
 - All features visible
 - Hover effects active
 
 ### Tablet (768-1024px)
+
 - 2-column layout
 - Right sidebar hidden
 - Touch-friendly
 
 ### Mobile (<768px)
+
 - 1-column stack
 - Main content first
 - Compact UI
@@ -64,6 +67,7 @@ Then visit: `http://localhost:4321/blog-tiling`
 ## 🎯 Key Features
 
 ### ✅ Implemented
+
 - Tiling window layout
 - Keyboard navigation (j/k/gg/G)
 - Theme switcher UI
@@ -73,6 +77,7 @@ Then visit: `http://localhost:4321/blog-tiling`
 - Touch optimizations
 
 ### 🎨 Visual Elements
+
 - i3wm-style windows
 - Polybar top bar
 - Tree view sidebar
@@ -82,6 +87,7 @@ Then visit: `http://localhost:4321/blog-tiling`
 - Post cards with hover
 
 ### 📱 Mobile Optimizations
+
 - Stack layout
 - Touch targets (32px min)
 - Reduced animations
@@ -92,25 +98,30 @@ Then visit: `http://localhost:4321/blog-tiling`
 ## 🔧 Customization
 
 ### Change Default Theme
+
 Edit `src/layouts/I3Layout.astro`:
+
 ```html
-<html lang="en" data-theme="dracula">
+<html lang="en" data-theme="dracula"></html>
 ```
 
 ### Adjust Layout Ratios
+
 Edit `src/pages/blog-tiling.astro`:
+
 ```html
 <!-- Sidebar: 20% -->
 <div style="flex: 0.6;">
-
-<!-- Main: 55% -->
-<div style="flex: 1.6;">
-
-<!-- Right: 25% -->
-<div style="flex: 0.8;">
+  <!-- Main: 55% -->
+  <div style="flex: 1.6;">
+    <!-- Right: 25% -->
+    <div style="flex: 0.8;"></div>
+  </div>
+</div>
 ```
 
 ### Add More Keyboard Shortcuts
+
 Edit `src/components/terminal/KeyboardHandler.astro`
 
 ## 📂 File Structure
@@ -136,19 +147,23 @@ src/
 ## 🐛 Troubleshooting
 
 ### Theme not persisting?
+
 - Check browser localStorage
 - Clear cache and reload
 
 ### Keyboard shortcuts not working?
+
 - Make sure you're not in an input field
 - Check browser console for errors
 
 ### Layout broken on mobile?
+
 - Clear browser cache
 - Check viewport meta tag
 - Test in different browsers
 
 ### Animations too slow?
+
 - Check `prefers-reduced-motion` setting
 - Adjust animation durations in CSS
 
@@ -170,6 +185,7 @@ src/
 ## 📞 Support
 
 Issues? Check:
+
 1. `BLOG_TILING_FEATURES.md` - Full feature list
 2. `DESIGN_SYSTEM_V2.md` - Design reference
 3. Browser console - Error messages

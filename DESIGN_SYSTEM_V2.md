@@ -1,4 +1,5 @@
 # Design System V2: "dev@enigma"
+
 ## i3wm / Sway Tiling Window Manager Theme
 
 ---
@@ -14,6 +15,7 @@ Memperkenalkan dunia geek (Linux, terminal, tiling WM) kepada awam dengan cara y
 **Goal**: Membuktikan bahwa "geek world" tidak menakutkan - justru powerful, estetis, dan accessible untuk siapa saja. Memberikan playground untuk ricing tanpa perlu install Linux.
 
 Design ini terinspirasi dari:
+
 - **i3wm / Sway** - Tiling window manager layout
 - **Polybar / Waybar** - Status bar
 - **dmenu / rofi** - Application launcher
@@ -21,6 +23,7 @@ Design ini terinspirasi dari:
 - **Alacritty / Kitty** - Terminal emulator
 
 ### Core Principles
+
 1. **Tiling Layout** - Windows auto-arrange dalam grid
 2. **Keyboard-First** - Semua bisa diakses via keyboard
 3. **Minimal Chrome** - Focus pada content
@@ -61,23 +64,27 @@ Design ini terinspirasi dari:
 ## 🎨 Components
 
 ### 1. Polybar (Top Bar)
+
 - Workspaces (1:home, 2:blog, etc)
 - Center: hostname
 - Right: time, date
 
 ### 2. dmenu (Launcher)
+
 - Triggered by `Mod+d` (Alt+d or Ctrl+d)
 - Filter items by typing
 - Tab/Arrow to navigate
 - Enter to select
 
 ### 3. I3Window (Tiling Window)
+
 - Title bar dengan window title
 - Float/Tile toggle button
 - Close button
 - Content area
 
 ### 4. Tiling Layouts
+
 - `i3-split-h` - Horizontal split
 - `i3-split-v` - Vertical split
 - Nested splits untuk complex layouts
@@ -86,20 +93,21 @@ Design ini terinspirasi dari:
 
 ## ⌨️ Keybindings
 
-| Key | Action |
-|-----|--------|
-| `Mod+d` | Open dmenu |
-| `j/k` | Scroll down/up |
-| `gg` | Go to top |
-| `G` | Go to bottom |
-| `t` | Cycle theme |
-| `?` | Show help |
+| Key     | Action         |
+| ------- | -------------- |
+| `Mod+d` | Open dmenu     |
+| `j/k`   | Scroll down/up |
+| `gg`    | Go to top      |
+| `G`     | Go to bottom   |
+| `t`     | Cycle theme    |
+| `?`     | Show help      |
 
 ---
 
 ## 🎨 Color Themes
 
 ### Tokyo Night (Default)
+
 ```css
 --i3-bg: #1a1b26;
 --i3-border-focused: #7aa2f7;
@@ -108,6 +116,7 @@ Design ini terinspirasi dari:
 ```
 
 ### Also Available
+
 - Dracula
 - Gruvbox
 - Nord
@@ -121,28 +130,28 @@ Design ini terinspirasi dari:
 
 ```css
 /* Tokyo Night Storm */
---bg-primary: #1a1b26;      /* Deep blue-black */
---bg-secondary: #24283b;    /* Slightly lighter */
---bg-tertiary: #414868;     /* Selection/hover */
+--bg-primary: #1a1b26; /* Deep blue-black */
+--bg-secondary: #24283b; /* Slightly lighter */
+--bg-tertiary: #414868; /* Selection/hover */
 
 /* Text */
---text-primary: #c0caf5;    /* Soft blue-white */
---text-secondary: #9aa5ce;  /* Muted */
---text-muted: #565f89;      /* Comments */
+--text-primary: #c0caf5; /* Soft blue-white */
+--text-secondary: #9aa5ce; /* Muted */
+--text-muted: #565f89; /* Comments */
 
 /* Accent Colors (Terminal ANSI) */
---red: #f7768e;             /* Errors, important */
---green: #9ece6a;           /* Success, strings */
---yellow: #e0af68;          /* Warnings, types */
---blue: #7aa2f7;            /* Functions, links */
---magenta: #bb9af7;         /* Keywords */
---cyan: #7dcfff;            /* Classes, special */
---orange: #ff9e64;          /* Numbers, constants */
+--red: #f7768e; /* Errors, important */
+--green: #9ece6a; /* Success, strings */
+--yellow: #e0af68; /* Warnings, types */
+--blue: #7aa2f7; /* Functions, links */
+--magenta: #bb9af7; /* Keywords */
+--cyan: #7dcfff; /* Classes, special */
+--orange: #ff9e64; /* Numbers, constants */
 
 /* Special */
---cursor: #c0caf5;          /* Blinking cursor */
---selection: #33467c;       /* Text selection */
---border: #3b4261;          /* Subtle borders */
+--cursor: #c0caf5; /* Blinking cursor */
+--selection: #33467c; /* Text selection */
+--border: #3b4261; /* Subtle borders */
 --glow: rgba(122, 162, 247, 0.3); /* Neon glow effect */
 ```
 
@@ -183,20 +192,23 @@ Design ini terinspirasi dari:
 
 ```css
 /* Primary - Everything Monospace */
---font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', 'Cascadia Code', monospace;
+--font-mono:
+  "JetBrains Mono", "Fira Code", "SF Mono", "Cascadia Code", monospace;
 
 /* With Ligatures */
-font-feature-settings: "liga" 1, "calt" 1;
+font-feature-settings:
+  "liga" 1,
+  "calt" 1;
 
 /* Font Sizes - Terminal Scale */
---text-xs: 0.75rem;    /* 12px - metadata */
---text-sm: 0.875rem;   /* 14px - secondary */
---text-base: 1rem;     /* 16px - body */
---text-lg: 1.125rem;   /* 18px - emphasis */
---text-xl: 1.25rem;    /* 20px - h3 */
---text-2xl: 1.5rem;    /* 24px - h2 */
---text-3xl: 2rem;      /* 32px - h1 */
---text-4xl: 2.5rem;    /* 40px - hero */
+--text-xs: 0.75rem; /* 12px - metadata */
+--text-sm: 0.875rem; /* 14px - secondary */
+--text-base: 1rem; /* 16px - body */
+--text-lg: 1.125rem; /* 18px - emphasis */
+--text-xl: 1.25rem; /* 20px - h3 */
+--text-2xl: 1.5rem; /* 24px - h2 */
+--text-3xl: 2rem; /* 32px - h1 */
+--text-4xl: 2.5rem; /* 40px - hero */
 
 /* Line Heights */
 --leading-tight: 1.25;
@@ -209,17 +221,28 @@ font-feature-settings: "liga" 1, "calt" 1;
 
 ```css
 /* Heading - Like vim section headers */
-h1::before { content: "# "; color: var(--magenta); }
-h2::before { content: "## "; color: var(--blue); }
-h3::before { content: "### "; color: var(--cyan); }
+h1::before {
+  content: "# ";
+  color: var(--magenta);
+}
+h2::before {
+  content: "## ";
+  color: var(--blue);
+}
+h3::before {
+  content: "### ";
+  color: var(--cyan);
+}
 
 /* Code Comments Style */
-.muted::before { content: "// "; }
+.muted::before {
+  content: "// ";
+}
 
 /* Terminal Prompt Style */
-.prompt::before { 
-  content: "❯ "; 
-  color: var(--green); 
+.prompt::before {
+  content: "❯ ";
+  color: var(--green);
 }
 ```
 
@@ -266,9 +289,9 @@ h3::before { content: "### "; color: var(--cyan); }
 --col-12: 100%;
 
 /* Max widths */
---max-content: 80ch;      /* 80 character width */
---max-wide: 120ch;        /* Wide content */
---max-full: 100%;         /* Full width */
+--max-content: 80ch; /* 80 character width */
+--max-wide: 120ch; /* Wide content */
+--max-full: 100%; /* Full width */
 ```
 
 ---
@@ -402,8 +425,14 @@ h3::before { content: "### "; color: var(--cyan); }
 
 ```css
 @keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
 }
 
 .cursor {
@@ -416,8 +445,12 @@ h3::before { content: "### "; color: var(--cyan); }
 
 ```css
 @keyframes typing {
-  from { width: 0; }
-  to { width: 100%; }
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
 }
 
 .typing {
@@ -449,14 +482,14 @@ h3::before { content: "### "; color: var(--cyan); }
 
 ```css
 .glow {
-  text-shadow: 
+  text-shadow:
     0 0 5px var(--glow),
     0 0 10px var(--glow),
     0 0 20px var(--glow);
 }
 
 .glow-box {
-  box-shadow: 
+  box-shadow:
     0 0 5px var(--glow),
     0 0 10px var(--glow),
     inset 0 0 5px var(--glow);
@@ -467,11 +500,11 @@ h3::before { content: "### "; color: var(--cyan); }
 
 ```css
 .matrix-bg {
-  background: 
-    linear-gradient(180deg, 
-      rgba(0, 255, 0, 0.03) 0%, 
-      transparent 100%
-    );
+  background: linear-gradient(
+    180deg,
+    rgba(0, 255, 0, 0.03) 0%,
+    transparent 100%
+  );
 }
 ```
 
@@ -479,12 +512,24 @@ h3::before { content: "### "; color: var(--cyan); }
 
 ```css
 @keyframes glitch {
-  0% { transform: translate(0); }
-  20% { transform: translate(-2px, 2px); }
-  40% { transform: translate(-2px, -2px); }
-  60% { transform: translate(2px, 2px); }
-  80% { transform: translate(2px, -2px); }
-  100% { transform: translate(0); }
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
 }
 
 .glitch:hover {
@@ -547,16 +592,19 @@ dev@enigma:~ $ _
 ## 📱 Responsive Behavior
 
 ### Desktop (>1024px)
+
 - Full terminal experience
 - Side panels visible
 - All effects enabled
 
 ### Tablet (768px - 1024px)
+
 - Simplified layout
 - Collapsible sidebar
 - Reduced effects
 
 ### Mobile (<768px)
+
 - Single column
 - Bottom navigation (like mobile terminal apps)
 - Touch-friendly targets
@@ -655,7 +703,7 @@ Mobile Layout:
 
 ### Single Post
 
-```
+````
 ┌─────────────────────────────────────────────────────────────┐
 │ ● ○ ○  vim ~/blog/posts/terminal-blog.md               ─ □ × │
 ├─────────────────────────────────────────────────────────────┤
@@ -686,37 +734,42 @@ Mobile Layout:
 ├─────────────────────────────────────────────────────────────┤
 │ NORMAL │ terminal-blog.md │ markdown │ 22L │ 50% │ 18:49    │
 └─────────────────────────────────────────────────────────────┘
-```
+````
 
 ---
 
 ## 🚀 Implementation Priority
 
 ### Phase 1: Foundation ✅ COMPLETE
+
 1. [x] Base CSS variables (colors, fonts, spacing)
 2. [x] Terminal window component
 3. [x] Typography styles with prefixes
 4. [x] Basic layout structure
 
 ### Phase 2: Core Components ✅ COMPLETE
+
 5. [x] Navigation (tmux-style tabs)
 6. [x] Status bar (vim-style)
 7. [x] Blog post cards
 8. [x] Code blocks with line numbers
 
 ### Phase 3: Interactions ✅ COMPLETE
+
 9. [x] Command palette (Ctrl+K) - ✅ Done (3 versions)
 10. [x] Keyboard navigation
 11. [x] Theme switcher
 12. [x] Cursor effects - ✅ Done (CursorEffects.astro)
 
 ### Phase 4: Polish ✅ COMPLETE
+
 13. [x] Scan lines effect - ✅ Done (TerminalEffects.astro)
 14. [x] Glow effects - ✅ Done (animations.css)
 15. [x] Typing animations - ✅ Done (TypingAnimation.astro)
 16. [x] Boot sequence - ✅ Done (terminal layouts)
 
 ### Phase 5: Advanced ✅ COMPLETE
+
 17. [x] Matrix rain background - ✅ Done (animations.css)
 18. [x] Glitch effects - ✅ Done (GlitchEffect.astro)
 19. [x] Sound effects - ✅ Done (SoundEffects.astro)
@@ -747,6 +800,6 @@ Mobile Layout:
 
 ---
 
-*"In a world of generic blogs, be a terminal."*
+_"In a world of generic blogs, be a terminal."_
 
 — dev@enigma

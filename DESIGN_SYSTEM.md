@@ -3,6 +3,7 @@
 ## 🎨 Design Philosophy
 
 **Reader-First Blog Design**
+
 - Typography optimized for long-form reading
 - Soft, comfortable color palette
 - Generous whitespace
@@ -16,16 +17,19 @@
 ### Font Families
 
 **Heading Font: Inter**
+
 - Modern, professional sans-serif
 - Excellent readability at all sizes
 - Used for: Headings, UI elements, buttons
 
 **Body Font: Georgia**
+
 - Classic serif typeface
 - Optimized for long-form reading
 - Used for: Article content, paragraphs
 
 **Code Font: JetBrains Mono**
+
 - Monospace with ligatures
 - Clear distinction between characters
 - Used for: Code blocks, inline code
@@ -139,12 +143,12 @@ Slow:   500ms ease  - Complex animations
 <article class="content-container">
   <h1>Article Title</h1>
   <p class="text-muted">Published on Dec 9, 2025</p>
-  
+
   <p>
-    Body text with comfortable line-height (1.75) 
-    for optimal reading experience...
+    Body text with comfortable line-height (1.75) for optimal reading
+    experience...
   </p>
-  
+
   <h2>Section Heading</h2>
   <p>More content...</p>
 </article>
@@ -278,27 +282,32 @@ Visit `/design-preview` to see all design system elements in action:
 ## 🔲 Roadmap (v1.x)
 
 ### Content Enhancement
+
 - [x] Estimated reading progress - "3 min left" indicator - ✅ Done (ReadingProgress.astro)
 - [x] Bookmark/save article - localStorage - ✅ Done (BookmarkArticle.astro)
 - [x] Text highlighting - select & save highlights - ✅ Done (TextHighlighter.astro)
 - [x] Font size toggle - A- A A+ accessibility - ✅ Done (FontSizeToggle.astro)
 
 ### Navigation
+
 - [x] Previous/Next post navigation - ✅ Done (PrevNext.astro)
 - [x] Back to top button (smooth scroll) - ✅ Done (BackToTop.astro)
 - [x] Breadcrumbs - Home > Blog > Post Title - ✅ Done (Breadcrumb.astro with schema)
 
 ### Engagement
+
 - [x] Share buttons - Twitter, LinkedIn, copy link - ✅ Done (SocialShare.astro)
 - [x] Newsletter signup form - ✅ Done (NewsletterSignup.astro)
 - [x] Comments via Giscus (GitHub discussions) - ✅ Done (Comments.astro)
 
 ### Developer Features
+
 - [x] Code snippet library page (/snippets) - ✅ Done (CodeSnippetLibrary.astro)
 - [x] RSS feed optimization - ✅ Done (rss.xml.ts)
 - [x] Reading history (localStorage) - ✅ Done (ReadingHistory.astro)
 
 ### Polish
+
 - [x] Custom 404 page - ✅ Done (404-blog.astro for Blog Mode)
 - [x] Loading states / skeleton loaders - ✅ Done (LoadingStates.astro)
 - [x] Print stylesheet - ✅ Done (@media print in main.css)
@@ -308,6 +317,7 @@ Visit `/design-preview` to see all design system elements in action:
 ## 📝 Notes
 
 This design system is specifically optimized for:
+
 - Long-form blog content
 - Technical articles with code
 - Reader comfort and engagement

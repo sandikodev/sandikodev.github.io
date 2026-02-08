@@ -3,6 +3,7 @@
 ## 🎨 Design System V1 (Blog Mode) - Page Layouts
 
 ### Homepage Layout (`src/pages/index.astro`)
+
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                      Header.astro                           │
@@ -40,6 +41,7 @@ Fixed Position Components:
 ```
 
 ### Blog Post Layout (`src/layouts/PostSingle.astro`)
+
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                      Header.astro                           │
@@ -82,6 +84,7 @@ Fixed Position Components:
 ```
 
 ### Blog List Layout (`src/layouts/Posts.astro`)
+
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                      Header.astro                           │
@@ -110,6 +113,7 @@ Fixed Position Components:
 ## 🖥️ Design System V2 (Terminal Mode) - Page Layouts
 
 ### Terminal Homepage Layout (`src/pages/workspace/index.astro`)
+
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                    Polybar.astro                            │
@@ -148,6 +152,7 @@ Fixed Position Components:
 ```
 
 ### Terminal Blog Layout (`src/pages/blog-tiling.astro`)
+
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                    Polybar.astro                            │
@@ -184,7 +189,8 @@ Fixed Position Components:
 ```
 
 ### Terminal Post Layout (`src/pages/workspace/blog/[slug].astro`)
-```
+
+````
 ┌─────────────────────────────────────────────────────────────┐
 │                    Polybar.astro                            │
 └─────────────────────────────────────────────────────────────┘
@@ -209,11 +215,12 @@ Fixed Position Components:
 │  │  └─────────────────────────────────────────────────────┘││
 │  └─────────────────────────────────────────────────────────┘│
 └─────────────────────────────────────────────────────────────┘
-```
+````
 
 ## 🔄 Component Flow Analysis
 
 ### V1 (Blog Mode) Component Hierarchy
+
 ```
 Base.astro
 ├── Header.astro
@@ -248,6 +255,7 @@ Base.astro
 ```
 
 ### V2 (Terminal Mode) Component Hierarchy
+
 ```
 I3Layout.astro
 ├── Polybar.astro
@@ -279,32 +287,35 @@ I3Layout.astro
 
 ## 📊 Layout Complexity Comparison
 
-| Aspect | V1 (Blog Mode) | V2 (Terminal Mode) |
-|--------|----------------|-------------------|
-| **Layout Paradigm** | Traditional Web | i3wm Tiling |
-| **Navigation** | Header + Footer | Polybar + Workspaces |
-| **Content Structure** | Semantic HTML | Terminal Windows |
-| **Responsive Strategy** | CSS Grid/Flexbox | Custom Tiling Logic |
-| **Component Count** | 15+ per page | 8-12 per page |
-| **CSS Complexity** | High (responsive) | Medium (fixed layout) |
-| **JavaScript Logic** | Medium | High (interactions) |
-| **Accessibility** | Full WCAG | Basic (terminal-focused) |
+| Aspect                  | V1 (Blog Mode)    | V2 (Terminal Mode)       |
+| ----------------------- | ----------------- | ------------------------ |
+| **Layout Paradigm**     | Traditional Web   | i3wm Tiling              |
+| **Navigation**          | Header + Footer   | Polybar + Workspaces     |
+| **Content Structure**   | Semantic HTML     | Terminal Windows         |
+| **Responsive Strategy** | CSS Grid/Flexbox  | Custom Tiling Logic      |
+| **Component Count**     | 15+ per page      | 8-12 per page            |
+| **CSS Complexity**      | High (responsive) | Medium (fixed layout)    |
+| **JavaScript Logic**    | Medium            | High (interactions)      |
+| **Accessibility**       | Full WCAG         | Basic (terminal-focused) |
 
 ## 🎯 Key Findings
 
 ### Strengths of Current Architecture
+
 1. **Clear Separation**: No layout component mixing between systems
 2. **Focused Experience**: Each system optimized for its use case
 3. **Maintainable**: Components grouped by design system
 4. **Performance**: Minimal cross-system dependencies
 
 ### Areas for Optimization
+
 1. **SEO Parity**: Terminal mode needs better meta tags
 2. **Shared Utilities**: Common functions could be abstracted
 3. **Component Documentation**: Better prop interfaces
 4. **Testing Coverage**: Both systems need comprehensive tests
 
 ### Recommended Next Steps
+
 1. Create shared SEO component for I3Layout
 2. Abstract common keyboard handling logic
 3. Implement comprehensive TypeScript interfaces

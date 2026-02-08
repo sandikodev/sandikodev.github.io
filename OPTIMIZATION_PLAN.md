@@ -3,6 +3,7 @@
 ## 🎯 Current State Analysis
 
 ### ✅ Strengths
+
 - Clean component structure
 - Minimal dependencies
 - Good separation of concerns
@@ -16,9 +17,11 @@
 ## 🔧 Priority 1: Critical Optimizations
 
 ### 1. **CSS Import Optimization** 🔴 HIGH
+
 **Issue**: `animations.css` belum di-import di layout
 
 **Fix**:
+
 ```astro
 // src/layouts/I3Layout.astro
 import "@/styles/terminal-theme.css";
@@ -31,14 +34,20 @@ import "@/styles/animations.css";  // ← Add this
 ---
 
 ### 2. **Font Loading Optimization** 🔴 HIGH
+
 **Issue**: Fira Code loaded via Google Fonts (blocking)
 
 **Current**:
+
 ```html
-<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link
+  href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap"
+  rel="stylesheet"
+/>
 ```
 
 **Better**:
+
 ```astro
 ---
 import { AstroFont } from "astro-font";
@@ -69,7 +78,8 @@ import { AstroFont } from "astro-font";
 />
 ```
 
-**Impact**: 
+**Impact**:
+
 - Faster font loading
 - No external request
 - Better performance
@@ -77,17 +87,19 @@ import { AstroFont } from "astro-font";
 ---
 
 ### 3. **Theme Flash Prevention** 🟡 MEDIUM
+
 **Issue**: Theme flash on page load (FOUC)
 
 **Current**: Theme loaded after page render
 
 **Fix**:
+
 ```html
 <!-- Add to <head> BEFORE any styles -->
 <script is:inline>
-  (function() {
-    const theme = localStorage.getItem('theme') || 'tokyo-night';
-    document.documentElement.setAttribute('data-theme', theme);
+  (function () {
+    const theme = localStorage.getItem("theme") || "tokyo-night";
+    document.documentElement.setAttribute("data-theme", theme);
   })();
 </script>
 ```
@@ -97,9 +109,11 @@ import { AstroFont } from "astro-font";
 ---
 
 ### 4. **Scroll Performance** 🟡 MEDIUM
+
 **Issue**: Keyboard scroll bisa jadi janky pada list panjang
 
 **Fix**:
+
 ```javascript
 // KeyboardHandler.astro
 function scrollBy(amount) {
@@ -108,19 +122,19 @@ function scrollBy(amount) {
   const target = start + amount;
   const duration = 200;
   const startTime = performance.now();
-  
+
   function animate(currentTime) {
     const elapsed = currentTime - startTime;
     const progress = Math.min(elapsed / duration, 1);
     const easeProgress = 1 - Math.pow(1 - progress, 3); // easeOut
-    
+
     window.scrollTo(0, start + (target - start) * easeProgress);
-    
+
     if (progress < 1) {
       requestAnimationFrame(animate);
     }
   }
-  
+
   requestAnimationFrame(animate);
 }
 ```
@@ -132,15 +146,17 @@ function scrollBy(amount) {
 ## 🚀 Priority 2: Performance Optimizations
 
 ### 5. **Image Optimization** 🟢 LOW
+
 **Issue**: Images tidak di-optimize
 
 **Recommendation**:
+
 ```astro
 ---
 import { Image } from 'astro:assets';
 ---
 
-<Image 
+<Image
   src={post.data.image}
   alt={post.data.title}
   width={800}
@@ -155,14 +171,16 @@ import { Image } from 'astro:assets';
 ---
 
 ### 6. **Code Splitting** 🟢 LOW
+
 **Issue**: All JS loaded upfront
 
 **Recommendation**:
+
 ```astro
 <!-- Load help modal only when needed -->
 <script>
   let helpModalLoaded = false;
-  
+
   document.addEventListener('keydown', async (e) => {
     if (e.key === '?' && !helpModalLoaded) {
       const { default: HelpModal } = await import('./HelpModal.astro');
@@ -177,17 +195,17 @@ import { Image } from 'astro:assets';
 ---
 
 ### 7. **CSS Purging** 🟢 LOW
+
 **Issue**: Unused CSS dari Tailwind
 
 **Check**: Tailwind config sudah benar?
+
 ```javascript
 // tailwind.config.js
 module.exports = {
-  content: [
-    "./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"
-  ],
+  content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   // ...
-}
+};
 ```
 
 **Impact**: Smaller CSS bundle
@@ -197,9 +215,11 @@ module.exports = {
 ## 🎨 Priority 3: UX Improvements
 
 ### 8. **Loading States** 🟡 MEDIUM
+
 **Issue**: No loading indicator saat navigate
 
 **Add**:
+
 ```astro
 <!-- Loading bar -->
 <div id="loading-bar" class="loading-bar"></div>
@@ -215,7 +235,7 @@ module.exports = {
     transition: width 0.3s;
     z-index: 9999;
   }
-  
+
   .loading-bar.active {
     width: 100%;
   }
@@ -225,7 +245,7 @@ module.exports = {
   document.addEventListener('astro:before-preparation', () => {
     document.getElementById('loading-bar')?.classList.add('active');
   });
-  
+
   document.addEventListener('astro:page-load', () => {
     document.getElementById('loading-bar')?.classList.remove('active');
   });
@@ -237,9 +257,11 @@ module.exports = {
 ---
 
 ### 9. **Error Boundaries** 🟡 MEDIUM
+
 **Issue**: No error handling
 
 **Add**:
+
 ```astro
 <!-- 404 page with terminal theme -->
 // src/pages/404.astro
@@ -257,7 +279,7 @@ Available commands:
   cd /          # Go home
   cd /blog      # View blog
   cd /about     # About me
-  
+
 Type 'help' for more information.
     </pre>
   </I3Window>
@@ -269,7 +291,9 @@ Type 'help' for more information.
 ---
 
 ### 10. **Accessibility Audit** 🟡 MEDIUM
+
 **Issues to check**:
+
 - [ ] All interactive elements have focus states
 - [ ] Color contrast meets WCAG AA
 - [ ] Keyboard navigation works everywhere
@@ -277,6 +301,7 @@ Type 'help' for more information.
 - [ ] Skip to content link
 
 **Quick wins**:
+
 ```astro
 <!-- Add skip link -->
 <a href="#main-content" class="skip-link">
@@ -293,7 +318,7 @@ Type 'help' for more information.
     padding: 8px;
     z-index: 100;
   }
-  
+
   .skip-link:focus {
     top: 0;
   }
@@ -307,6 +332,7 @@ Type 'help' for more information.
 ## 📊 Priority 4: Monitoring & Analytics
 
 ### 11. **Performance Monitoring** 🟢 LOW
+
 **Add**: Web Vitals tracking
 
 ```astro
@@ -332,16 +358,17 @@ Type 'help' for more information.
 ---
 
 ### 12. **Error Tracking** 🟢 LOW
+
 **Add**: Console error tracking
 
 ```javascript
-window.addEventListener('error', (e) => {
-  console.error('Global error:', e.error);
+window.addEventListener("error", (e) => {
+  console.error("Global error:", e.error);
   // Send to error tracking service
 });
 
-window.addEventListener('unhandledrejection', (e) => {
-  console.error('Unhandled promise rejection:', e.reason);
+window.addEventListener("unhandledrejection", (e) => {
+  console.error("Unhandled promise rejection:", e.reason);
 });
 ```
 
@@ -352,7 +379,9 @@ window.addEventListener('unhandledrejection', (e) => {
 ## 🧪 Priority 5: Testing & Quality
 
 ### 13. **Browser Testing** 🟡 MEDIUM
+
 **Test on**:
+
 - [ ] Chrome (latest)
 - [ ] Firefox (latest)
 - [ ] Safari (latest)
@@ -361,6 +390,7 @@ window.addEventListener('unhandledrejection', (e) => {
 - [ ] Chrome Mobile (Android)
 
 **Focus areas**:
+
 - Theme switching
 - Keyboard shortcuts
 - Smooth scrolling
@@ -370,13 +400,16 @@ window.addEventListener('unhandledrejection', (e) => {
 ---
 
 ### 14. **Lighthouse Audit** 🟡 MEDIUM
+
 **Run**:
+
 ```bash
 npm run build
 npx lighthouse http://localhost:4321/blog-tiling --view
 ```
 
 **Target scores**:
+
 - Performance: 90+
 - Accessibility: 95+
 - Best Practices: 95+
@@ -385,7 +418,9 @@ npx lighthouse http://localhost:4321/blog-tiling --view
 ---
 
 ### 15. **Bundle Analysis** 🟢 LOW
+
 **Check bundle size**:
+
 ```bash
 npm run build
 du -sh dist/
@@ -393,6 +428,7 @@ du -sh dist/_astro/
 ```
 
 **Target**:
+
 - Total: < 500KB
 - JS: < 100KB
 - CSS: < 50KB
@@ -402,6 +438,7 @@ du -sh dist/_astro/
 ## 📝 Implementation Checklist
 
 ### Must Do (Before New Features) 🔴
+
 - [ ] Import animations.css in I3Layout
 - [ ] Add theme flash prevention script
 - [ ] Optimize font loading
@@ -411,6 +448,7 @@ du -sh dist/_astro/
 - [ ] Test on all major browsers
 
 ### Should Do (Soon) 🟡
+
 - [ ] Optimize scroll performance
 - [ ] Add error boundaries
 - [ ] Run Lighthouse audit
@@ -418,6 +456,7 @@ du -sh dist/_astro/
 - [ ] Add Web Vitals tracking
 
 ### Nice to Have (Later) 🟢
+
 - [ ] Image optimization
 - [ ] Code splitting
 - [ ] CSS purging
@@ -429,29 +468,33 @@ du -sh dist/_astro/
 ## 🎯 Quick Wins (Do Now)
 
 ### 1. Import animations.css
+
 ```astro
 // src/layouts/I3Layout.astro - Line 2
 import "@/styles/animations.css";
 ```
 
 ### 2. Prevent theme flash
+
 ```html
 <!-- src/layouts/I3Layout.astro - In <head> before styles -->
 <script is:inline>
-  (function() {
-    const theme = localStorage.getItem('theme') || 'tokyo-night';
-    document.documentElement.setAttribute('data-theme', theme);
+  (function () {
+    const theme = localStorage.getItem("theme") || "tokyo-night";
+    document.documentElement.setAttribute("data-theme", theme);
   })();
 </script>
 ```
 
 ### 3. Add loading bar
+
 ```astro
 <!-- src/layouts/I3Layout.astro - After <body> -->
 <div id="loading-bar" class="loading-bar"></div>
 ```
 
 ### 4. Add skip link
+
 ```astro
 <!-- src/layouts/I3Layout.astro - First in <body> -->
 <a href="#main-content" class="skip-link">Skip to content</a>
@@ -462,17 +505,20 @@ import "@/styles/animations.css";
 ## 📈 Expected Impact
 
 ### Performance
+
 - **Before**: ~2s load time
 - **After**: ~1s load time
 - **Improvement**: 50% faster
 
 ### User Experience
+
 - No theme flash
 - Smooth scrolling
 - Better loading feedback
 - Accessible navigation
 
 ### Code Quality
+
 - Better error handling
 - Proper monitoring
 - Browser compatibility
@@ -493,18 +539,21 @@ import "@/styles/animations.css";
 ## 💡 Recommendations Summary
 
 ### Do Now (Critical)
+
 1. Import animations.css
 2. Prevent theme flash
 3. Add loading states
 4. Create 404 page
 
 ### Do Soon (Important)
+
 5. Optimize fonts
 6. Improve scroll
 7. Add skip link
 8. Browser testing
 
 ### Do Later (Nice to have)
+
 9. Image optimization
 10. Code splitting
 11. Analytics

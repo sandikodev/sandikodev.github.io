@@ -5,11 +5,13 @@
 Kita memiliki 2 design system yang berbeda dengan tujuan yang jelas:
 
 ### Design System V1 (Default) - Blog Theme
+
 **Target**: Pembaca umum, profesional, fokus konten
 **Fonts**: Inter + Georgia + JetBrains Mono
 **Style**: Clean, modern, readable blog interface
 
-### Design System V2 - Terminal Theme  
+### Design System V2 - Terminal Theme
+
 **Target**: Enthusiast, developer, ricing community
 **Fonts**: Fira Code (monospace everything)
 **Style**: i3wm/sway tiling WM, retro terminal aesthetic
@@ -23,13 +25,16 @@ Kita memiliki 2 design system yang berbeda dengan tujuan yang jelas:
 ## 📊 Current State Analysis
 
 ### Design System V1 (Blog Theme)
+
 **Used by**:
+
 - `Base.astro` → Most blog pages
 - `PostSingle.astro` → Blog post detail
 - `Posts.astro` → Blog listing
 - Regular pages (about, contact, etc)
 
 **Fonts**:
+
 - Heading: Inter
 - Body: Georgia (serif)
 - Code: JetBrains Mono
@@ -39,12 +44,15 @@ Kita memiliki 2 design system yang berbeda dengan tujuan yang jelas:
 ---
 
 ### Design System V2 (Terminal Theme)
+
 **Used by**:
+
 - `I3Layout.astro` → Terminal pages
 - `TerminalLayout.astro` → Terminal features
 - `/terminal`, `/blog-tiling`, `/404`
 
 **Fonts**:
+
 - Everything: Fira Code (monospace)
 
 **Style**: i3wm, hacker aesthetic, terminal vibes
@@ -89,10 +97,11 @@ src/
 ### Phase 1: Isolate V2 Styles (DONE ✅)
 
 #### 1.1 Scope Terminal Theme
+
 ```css
 /* terminal-theme.css - All content wrapped with scope */
 [data-theme-mode="terminal"] {
-  --font-mono: 'Fira Code', monospace;
+  --font-mono: "Fira Code", monospace;
   --bg-primary: #1a1b26;
   /* ... all V2 variables */
 }
@@ -103,11 +112,13 @@ src/
 ```
 
 #### 1.2 I3Layout with Scoping (DONE ✅)
+
 ```astro
 <html data-theme-mode="terminal" data-theme="tokyo-night">
 ```
 
 #### 1.3 Base Layout with Scoping (DONE ✅)
+
 ```astro
 <html data-theme-mode="blog">
 ```
@@ -117,6 +128,7 @@ src/
 ### Phase 2: Add Toggle Button (TODO 🔲)
 
 #### 2.1 Create DesignSystemToggle Component
+
 ```astro
 ---
 // src/components/DesignSystemToggle.astro
@@ -129,18 +141,18 @@ src/
 <script>
   // Load preference from localStorage
   const saved = localStorage.getItem('design-mode') || 'blog';
-  
+
   // Apply on page load
   document.documentElement.setAttribute('data-theme-mode', saved);
-  
+
   // Toggle handler
   document.getElementById('design-toggle')?.addEventListener('click', () => {
     const current = document.documentElement.getAttribute('data-theme-mode');
     const next = current === 'blog' ? 'terminal' : 'blog';
-    
+
     document.documentElement.setAttribute('data-theme-mode', next);
     localStorage.setItem('design-mode', next);
-    
+
     // Reload to apply layout changes
     window.location.reload();
   });
@@ -148,6 +160,7 @@ src/
 ```
 
 #### 2.2 Add Toggle to Both Layouts
+
 ```astro
 // Base.astro & I3Layout.astro
 import DesignSystemToggle from '@/components/DesignSystemToggle.astro';
@@ -162,17 +175,20 @@ import DesignSystemToggle from '@/components/DesignSystemToggle.astro';
 **Separate Font Loading** (Current Implementation):
 
 **Base.astro** (V1):
+
 ```astro
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet" />
 ```
 
 **I3Layout.astro** (V2):
+
 ```astro
 <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet" />
 ```
 
 **Pros**:
+
 - ✅ Clean separation
 - ✅ No conflicts
 - ✅ Each page loads only what it needs
@@ -182,6 +198,7 @@ import DesignSystemToggle from '@/components/DesignSystemToggle.astro';
 ### Phase 4: CSS Variable Namespacing (DONE ✅)
 
 #### V1 Variables (main.css)
+
 ```css
 :root {
   --blog-primary: #3b82f6;
@@ -191,6 +208,7 @@ import DesignSystemToggle from '@/components/DesignSystemToggle.astro';
 ```
 
 #### V2 Variables (terminal-theme.css)
+
 ```css
 [data-theme-mode="terminal"] {
   --terminal-bg: #1a1b26;
@@ -204,6 +222,7 @@ import DesignSystemToggle from '@/components/DesignSystemToggle.astro';
 ## 🎨 User Experience Flow
 
 ### Scenario 1: First-Time Visitor
+
 ```
 1. Lands on homepage
 2. Sees V1 (blog theme) - default
@@ -213,6 +232,7 @@ import DesignSystemToggle from '@/components/DesignSystemToggle.astro';
 ```
 
 ### Scenario 2: Returning Visitor (Saved V2)
+
 ```
 1. Lands on homepage
 2. localStorage has 'terminal'
@@ -221,6 +241,7 @@ import DesignSystemToggle from '@/components/DesignSystemToggle.astro';
 ```
 
 ### Scenario 3: Page Navigation
+
 ```
 1. User on blog page (V1)
 2. Clicks terminal link
@@ -233,12 +254,14 @@ import DesignSystemToggle from '@/components/DesignSystemToggle.astro';
 ## 🚀 Implementation Checklist
 
 ### Phase 1: Isolation (DONE ✅)
+
 - [x] Add `data-theme-mode="terminal"` to I3Layout
 - [x] Add `data-theme-mode="blog"` to Base.astro
 - [x] Wrap V2 CSS with `[data-theme-mode="terminal"]`
 - [x] Separate font loading
 
 ### Phase 2: Toggle ✅ COMPLETE
+
 - [x] Create DesignSystemToggle component
 - [x] Add localStorage persistence
 - [x] Add toggle to both layouts
@@ -246,6 +269,7 @@ import DesignSystemToggle from '@/components/DesignSystemToggle.astro';
 - [x] Context-aware navigation (same page, different mode)
 
 ### Phase 3: Testing ✅ COMPLETE
+
 - [x] Test V1 → V2 switch
 - [x] Test V2 → V1 switch
 - [x] Test localStorage persistence
@@ -258,6 +282,7 @@ import DesignSystemToggle from '@/components/DesignSystemToggle.astro';
 ## 🧪 Testing Checklist
 
 ### V1 (Blog Theme)
+
 - [x] Homepage uses Inter + Georgia
 - [x] Blog posts readable
 - [x] Code blocks use JetBrains Mono
@@ -265,6 +290,7 @@ import DesignSystemToggle from '@/components/DesignSystemToggle.astro';
 - [x] No terminal styles applied
 
 ### V2 (Terminal Theme)
+
 - [x] Terminal pages use Fira Code
 - [x] i3wm layout works
 - [x] Theme switching works (Tokyo Night, Dracula, etc)
@@ -272,6 +298,7 @@ import DesignSystemToggle from '@/components/DesignSystemToggle.astro';
 - [x] Keyboard shortcuts work
 
 ### Toggle Functionality ✅ COMPLETE
+
 - [x] Toggle button visible on both themes
 - [x] Click switches theme
 - [x] Preference saved to localStorage
@@ -293,6 +320,7 @@ import DesignSystemToggle from '@/components/DesignSystemToggle.astro';
 ## 🎉 Expected Result
 
 ### Current State (Phase 1 Complete)
+
 ```
 ✅ Clean separation via data-theme-mode
 ✅ No style conflicts
@@ -301,6 +329,7 @@ import DesignSystemToggle from '@/components/DesignSystemToggle.astro';
 ```
 
 ### After Phase 2 (Toggle)
+
 ```
 ✅ User can switch V1 ↔ V2
 ✅ Preference persists
@@ -310,7 +339,8 @@ import DesignSystemToggle from '@/components/DesignSystemToggle.astro';
 
 ---
 
-**Priority**: 
+**Priority**:
+
 1. HIGH - Commit current state ✅
 2. HIGH - Implement toggle button 🔲
 3. MEDIUM - Add smooth transitions 🔲
@@ -321,13 +351,16 @@ import DesignSystemToggle from '@/components/DesignSystemToggle.astro';
 ## 📊 Current State Analysis
 
 ### Design System V1 (Blog Theme)
+
 **Used by**:
+
 - `Base.astro` → Most blog pages
 - `PostSingle.astro` → Blog post detail
 - `Posts.astro` → Blog listing
 - Regular pages (about, contact, etc)
 
 **Fonts**:
+
 - Heading: Inter
 - Body: Georgia (serif)
 - Code: JetBrains Mono
@@ -337,12 +370,15 @@ import DesignSystemToggle from '@/components/DesignSystemToggle.astro';
 ---
 
 ### Design System V2 (Terminal Theme)
+
 **Used by**:
+
 - `I3Layout.astro` → Terminal pages
 - `TerminalLayout.astro` → Terminal features
 - `/terminal`, `/blog-tiling`, `/404`
 
 **Fonts**:
+
 - Everything: Fira Code (monospace)
 
 **Style**: i3wm, hacker aesthetic, terminal vibes
@@ -380,11 +416,12 @@ src/
 ### Phase 1: Isolate V2 Styles (CRITICAL)
 
 #### 1.1 Scope Terminal Theme
+
 ```css
 /* terminal-theme.css - Wrap ALL content with scope */
 [data-theme-mode="terminal"] {
   /* All V2 variables here */
-  --font-mono: 'Fira Code', monospace;
+  --font-mono: "Fira Code", monospace;
   --bg-primary: #1a1b26;
   /* ... all other variables */
 }
@@ -403,6 +440,7 @@ src/
 ```
 
 #### 1.2 Update I3Layout
+
 ```astro
 ---
 // I3Layout.astro
@@ -417,6 +455,7 @@ import "@/styles/animations.css";
 ```
 
 #### 1.3 Keep Base Layout Clean
+
 ```astro
 ---
 // Base.astro
@@ -436,22 +475,26 @@ import "@/styles/main.css";
 #### Option A: **Separate Font Loading** (Recommended)
 
 **Base.astro** (V1):
+
 ```astro
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet" />
 ```
 
 **I3Layout.astro** (V2):
+
 ```astro
 <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet" />
 ```
 
 **Pros**:
+
 - ✅ Clean separation
 - ✅ No conflicts
 - ✅ Each page loads only what it needs
 
 **Cons**:
+
 - ⚠️ Duplicate requests if user visits both types
 
 ---
@@ -466,26 +509,33 @@ body {
   font-family: Georgia, serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Inter', sans-serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Inter", sans-serif;
 }
 
 code {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: "JetBrains Mono", monospace;
 }
 
 /* terminal-theme.css (V2) */
 [data-theme-mode="terminal"] body,
 [data-theme-mode="terminal"] * {
-  font-family: 'Fira Code', monospace !important;
+  font-family: "Fira Code", monospace !important;
 }
 ```
 
 **Pros**:
+
 - ✅ Fonts cached across pages
 - ✅ Faster subsequent loads
 
 **Cons**:
+
 - ⚠️ Larger initial load
 - ⚠️ Need `!important` (not ideal)
 
@@ -494,13 +544,14 @@ code {
 ### Phase 3: CSS Variable Namespacing
 
 #### V1 Variables (main.css)
+
 ```css
 :root {
   /* Blog theme variables */
   --blog-primary: #3b82f6;
   --blog-text: #1f2937;
   --blog-bg: #ffffff;
-  
+
   /* Keep generic names for V1 (backward compat) */
   --primary: var(--blog-primary);
   --text: var(--blog-text);
@@ -509,13 +560,14 @@ code {
 ```
 
 #### V2 Variables (terminal-theme.css)
+
 ```css
 [data-theme-mode="terminal"] {
   /* Terminal theme variables */
   --terminal-bg: #1a1b26;
   --terminal-text: #c0caf5;
   --terminal-accent: #7aa2f7;
-  
+
   /* Override generic names in terminal mode */
   --bg-primary: var(--terminal-bg);
   --text-primary: var(--terminal-text);
@@ -551,6 +603,7 @@ src/styles/
 ## 🎨 Theme Switching Strategy
 
 ### Scenario 1: User on Blog Page
+
 ```html
 <html data-theme-mode="blog">
   <!-- V1 styles active -->
@@ -559,6 +612,7 @@ src/styles/
 ```
 
 ### Scenario 2: User on Terminal Page
+
 ```html
 <html data-theme-mode="terminal" data-theme="tokyo-night">
   <!-- V2 styles active -->
@@ -567,12 +621,13 @@ src/styles/
 ```
 
 ### Scenario 3: User Navigates Between
+
 ```javascript
 // On page transition
-document.addEventListener('astro:page-load', () => {
+document.addEventListener("astro:page-load", () => {
   const mode = document.documentElement.dataset.themeMode;
-  
-  if (mode === 'terminal') {
+
+  if (mode === "terminal") {
     // Load terminal fonts if not loaded
     loadTerminalFonts();
   }
@@ -584,6 +639,7 @@ document.addEventListener('astro:page-load', () => {
 ## 🚀 Implementation Steps
 
 ### Step 1: Reorganize Styles (30 min)
+
 ```bash
 # Create new structure
 mkdir -p src/styles/{v1,v2,shared}
@@ -599,12 +655,15 @@ mv src/styles/i3wm-theme.css src/styles/v2/
 # Keep shared
 mv src/styles/animations.css src/styles/shared/
 ```
+
 mv src/styles/terminal-theme.css src/styles/v2/
 mv src/styles/i3wm-theme.css src/styles/v2/
 
 # Keep shared
+
 mv src/styles/animations.css src/styles/shared/
-```
+
+````
 
 ### Step 2: Update Imports (15 min)
 ```astro
@@ -615,9 +674,10 @@ import "@/styles/v1/main.css";
 import "@/styles/v2/terminal-base.css";
 import "@/styles/v2/i3wm.css";
 import "@/styles/shared/animations.css";
-```
+````
 
 ### Step 3: Add Scoping (20 min)
+
 ```css
 /* Wrap all V2 styles */
 [data-theme-mode="terminal"] {
@@ -626,6 +686,7 @@ import "@/styles/shared/animations.css";
 ```
 
 ### Step 4: Test (15 min)
+
 - Visit blog pages → Should use V1
 - Visit terminal pages → Should use V2
 - No style conflicts
@@ -640,11 +701,13 @@ import "@/styles/shared/animations.css";
 If you want the FASTEST solution with minimal refactoring:
 
 ### 1. Add Scope to I3Layout
+
 ```astro
 <html data-theme-mode="terminal" data-theme="tokyo-night">
 ```
 
 ### 2. Scope V2 CSS
+
 ```css
 /* terminal-theme.css - Add wrapper */
 [data-theme-mode="terminal"] {
@@ -653,6 +716,7 @@ If you want the FASTEST solution with minimal refactoring:
 ```
 
 ### 3. Keep Fonts Separate
+
 - Base.astro: Inter + Georgia + JetBrains Mono
 - I3Layout.astro: Fira Code only
 
@@ -663,13 +727,13 @@ If you want the FASTEST solution with minimal refactoring:
 
 ## 📊 Comparison Matrix
 
-| Strategy | Pros | Cons | Time | Recommended |
-|----------|------|------|------|-------------|
-| **Scoped Isolation** | Clean, no conflicts | Need scoping | 30min | ✅ YES |
-| **Separate Files** | Very clean | More files | 1.5hr | ⭐ BEST |
-| **Namespace Variables** | Flexible | Complex | 1hr | 🟡 OK |
-| **Separate Fonts** | No conflicts | Duplicate loads | 15min | ✅ YES |
-| **Unified Fonts** | Cached | Larger bundle | 20min | 🟡 OK |
+| Strategy                | Pros                | Cons            | Time  | Recommended |
+| ----------------------- | ------------------- | --------------- | ----- | ----------- |
+| **Scoped Isolation**    | Clean, no conflicts | Need scoping    | 30min | ✅ YES      |
+| **Separate Files**      | Very clean          | More files      | 1.5hr | ⭐ BEST     |
+| **Namespace Variables** | Flexible            | Complex         | 1hr   | 🟡 OK       |
+| **Separate Fonts**      | No conflicts        | Duplicate loads | 15min | ✅ YES      |
+| **Unified Fonts**       | Cached              | Larger bundle   | 20min | 🟡 OK       |
 
 ---
 
@@ -678,6 +742,7 @@ If you want the FASTEST solution with minimal refactoring:
 ### **Hybrid Approach**: Scoped + Separate Fonts
 
 #### What to Do:
+
 1. ✅ Add `data-theme-mode="terminal"` to I3Layout
 2. ✅ Wrap V2 CSS with `[data-theme-mode="terminal"]`
 3. ✅ Keep fonts separate (load in respective layouts)
@@ -685,6 +750,7 @@ If you want the FASTEST solution with minimal refactoring:
 5. ✅ Test both themes
 
 #### Benefits:
+
 - ✅ Minimal code changes
 - ✅ No conflicts
 - ✅ Clean separation
@@ -696,6 +762,7 @@ If you want the FASTEST solution with minimal refactoring:
 ## 🧪 Testing Checklist
 
 ### V1 (Blog Theme)
+
 - [x] Homepage uses Inter + Georgia
 - [x] Blog posts readable
 - [x] Code blocks use JetBrains Mono
@@ -703,6 +770,7 @@ If you want the FASTEST solution with minimal refactoring:
 - [x] No terminal styles applied
 
 ### V2 (Terminal Theme)
+
 - [x] Terminal pages use Fira Code
 - [x] i3wm layout works
 - [x] Theme switching works
@@ -710,6 +778,7 @@ If you want the FASTEST solution with minimal refactoring:
 - [x] Keyboard shortcuts work
 
 ### Cross-Navigation
+
 - [x] Blog → Terminal (styles switch)
 - [x] Terminal → Blog (styles switch)
 - [x] No flash of unstyled content
@@ -732,6 +801,7 @@ If you want the FASTEST solution with minimal refactoring:
 ## 🎉 Expected Result
 
 ### Before
+
 ```
 ❌ Fonts conflict
 ❌ Styles override each other
@@ -740,6 +810,7 @@ If you want the FASTEST solution with minimal refactoring:
 ```
 
 ### After
+
 ```
 ✅ Clean separation
 ✅ No conflicts

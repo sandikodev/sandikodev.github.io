@@ -3,6 +3,7 @@
 ## ✅ Completed
 
 ### Technical SEO
+
 - [x] Sitemap XML generated (`sitemap-index.xml`)
 - [x] Robots.txt configured
 - [x] Favicon (ICO + SVG)
@@ -15,6 +16,7 @@
 - [x] Generator meta tag
 
 ### Performance
+
 - [x] Static site generation (Astro)
 - [x] Image optimization (Sharp)
 - [x] CSS optimization (Tailwind)
@@ -22,6 +24,7 @@
 - [x] Code splitting (Vite)
 
 ### Content
+
 - [x] Semantic HTML structure
 - [x] Heading hierarchy (H1-H6)
 - [x] Alt text for images
@@ -31,6 +34,7 @@
 ## 🔄 To Do
 
 ### Technical SEO
+
 - [x] Add `humans.txt` - ✅ Done (public/humans.txt)
 - [x] Add security.txt - ✅ Done (public/.well-known/security.txt)
 - [x] Implement breadcrumb schema - ✅ Done (Breadcrumb.astro)
@@ -39,6 +43,7 @@
 - [ ] Implement AMP (optional)
 
 ### Performance
+
 - [x] Add service worker for offline support - ✅ Done (service-worker.js)
 - [x] Implement lazy loading for images - ✅ Done (LazyImage.astro)
 - [x] Add preload for critical resources - ✅ Done (preconnect in layouts)
@@ -46,6 +51,7 @@
 - [x] Add resource hints (dns-prefetch, preconnect) - ✅ Done (layouts)
 
 ### Content
+
 - [x] Add FAQ schema - ✅ Done (FAQ.astro with FAQPage schema)
 - [x] Create comprehensive about page - ✅ Done (about.astro 10KB)
 - [x] Add author bio to posts - ✅ Done (authors in PostSingle.astro + content/authors/)
@@ -54,6 +60,7 @@
 - [ ] Create content calendar
 
 ### Social Media
+
 - [x] Twitter Card optimization - ✅ Done (Base.astro, TerminalLayout.astro)
 - [x] Facebook Open Graph optimization - ✅ Done (og:title, og:description, og:image in Base.astro)
 - [x] LinkedIn optimization - ✅ Done (same Open Graph tags work for LinkedIn)
@@ -61,6 +68,7 @@
 - [ ] Create social media preview images
 
 ### Analytics & Monitoring
+
 - [ ] Setup Google Analytics 4
 - [ ] Setup Google Search Console
 - [ ] Setup Bing Webmaster Tools
@@ -68,6 +76,7 @@
 - [x] Add performance monitoring - ✅ Done (PerformanceOptimizer.astro with Core Web Vitals)
 
 ### Accessibility (SEO Impact)
+
 - [x] ARIA labels - ✅ Done (70+ aria-label instances across components)
 - [x] Keyboard navigation - ✅ Done (KeyboardShortcuts.astro, KeyboardHandler.astro)
 - [x] Screen reader optimization - ✅ Done (sr-only classes, semantic HTML)
@@ -77,11 +86,13 @@
 ## 📊 SEO Metrics to Track
 
 ### Core Web Vitals
+
 - LCP (Largest Contentful Paint): < 2.5s
 - FID (First Input Delay): < 100ms
 - CLS (Cumulative Layout Shift): < 0.1
 
 ### Other Metrics
+
 - Time to First Byte (TTFB): < 600ms
 - First Contentful Paint (FCP): < 1.8s
 - Speed Index: < 3.4s
@@ -90,12 +101,14 @@
 ## 🔍 Keywords Strategy
 
 ### Primary Keywords
+
 - sandikodev
 - full stack developer indonesia
 - web developer portfolio
 - tech blog indonesia
 
 ### Secondary Keywords
+
 - react developer
 - node.js developer
 - mobile app developer
@@ -103,6 +116,7 @@
 - web development tips
 
 ### Long-tail Keywords
+
 - cara membuat aplikasi web dengan react
 - tutorial node.js untuk pemula
 - best practices web development
@@ -111,6 +125,7 @@
 ## 📝 Content Strategy
 
 ### Blog Categories
+
 - Web Development
 - Mobile Development
 - DevOps & Cloud
@@ -119,6 +134,7 @@
 - Career & Learning
 
 ### Content Types
+
 - Tutorial (How-to)
 - Case Study
 - Opinion/Analysis
@@ -129,12 +145,14 @@
 ## 🔗 Link Building Strategy
 
 ### Internal Linking
+
 - Link related posts
 - Link to category/tag pages
 - Link to author page
 - Link to portfolio projects
 
 ### External Linking
+
 - GitHub repositories
 - LinkedIn profile
 - Social media profiles

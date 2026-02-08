@@ -68,6 +68,7 @@ portfolio/
 ## 🎨 Components Usage
 
 ### Breadcrumb
+
 ```astro
 <Breadcrumb items={[
   { name: "Home", url: "/" },
@@ -77,29 +78,33 @@ portfolio/
 ```
 
 ### Reading Time
+
 ```astro
 <ReadingTime minutes={5} words={1000} />
 ```
 
 ### Social Share
+
 ```astro
-<SocialShare 
-  title="My Blog Post" 
-  url="https://sandikodev.github.io/post-1" 
+<SocialShare
+  title="My Blog Post"
+  url="https://sandikodev.github.io/post-1"
 />
 ```
 
 ### Lazy Image
+
 ```astro
-<LazyImage 
-  src="/images/photo.jpg" 
-  alt="Description" 
-  width={800} 
-  height={600} 
+<LazyImage
+  src="/images/photo.jpg"
+  alt="Description"
+  width={800}
+  height={600}
 />
 ```
 
 ### FAQ
+
 ```astro
 <FAQ items={[
   {
@@ -112,8 +117,10 @@ portfolio/
 ## 📝 Content Creation
 
 ### New Blog Post
+
 1. Create file: `src/content/posts/my-post.mdx`
 2. Add frontmatter:
+
 ```yaml
 ---
 title: "My Post Title"
@@ -126,30 +133,36 @@ tags: ["react", "typescript"]
 draft: false
 ---
 ```
+
 3. Write content in MDX
 4. Build and deploy
 
 ### New Page
+
 1. Create file: `src/content/pages/my-page.md`
 2. Add frontmatter:
+
 ```yaml
 ---
 title: "Page Title"
 description: "Page description"
 ---
 ```
+
 3. Write content
 4. Build and deploy
 
 ## 🔧 Configuration
 
 ### Site Config (`src/config/config.json`)
+
 - `site.base_url` - Your domain
 - `site.title` - Site title
 - `metadata.meta_description` - Default description
 - `metadata.meta_keywords` - SEO keywords
 
 ### Theme Config (`src/config/theme.json`)
+
 - Font families
 - Colors
 - Spacing
@@ -158,6 +171,7 @@ description: "Page description"
 ## 🎯 SEO URLs
 
 ### Important Files
+
 - `/robots.txt` - Search engine rules
 - `/humans.txt` - Human info
 - `/manifest.json` - PWA manifest
@@ -165,6 +179,7 @@ description: "Page description"
 - `/.well-known/security.txt` - Security contact
 
 ### Submit To
+
 1. **Google Search Console**
    - https://search.google.com/search-console
    - Submit sitemap: `https://sandikodev.github.io/sitemap-index.xml`
@@ -176,6 +191,7 @@ description: "Page description"
 ## 🧪 Testing
 
 ### Structured Data
+
 ```bash
 # Test in browser
 https://search.google.com/test/rich-results
@@ -183,12 +199,14 @@ https://validator.schema.org/
 ```
 
 ### Performance
+
 ```bash
 # Test in browser
 https://pagespeed.web.dev/
 ```
 
 ### Accessibility
+
 ```bash
 # Test in browser
 https://wave.webaim.org/
@@ -197,17 +215,20 @@ https://wave.webaim.org/
 ## 🎨 Design System
 
 ### Colors
+
 - Primary: `#2563eb` (Blue)
 - Accent: `#60a5fa` (Light Blue)
 - Dark BG: `#0f0f0f`
 - Dark Surface: `#1a1a1a`
 
 ### Fonts
+
 - Heading: Inter
 - Body: Georgia (Serif)
 - Code: JetBrains Mono
 
 ### Preview
+
 Visit `/design-preview` to see design system
 
 ## 🔑 Keyboard Shortcuts (Planned)
@@ -228,6 +249,7 @@ Visit `/design-preview` to see design system
 ## 🚀 Deployment
 
 ### GitHub Pages
+
 ```bash
 # Build
 pnpm run build
@@ -237,6 +259,7 @@ git push origin main
 ```
 
 ### Manual Deploy
+
 ```bash
 # Build
 pnpm run build
@@ -267,6 +290,7 @@ pnpm run build
 ## 🆘 Troubleshooting
 
 ### Build fails
+
 ```bash
 rm -rf .astro dist node_modules
 pnpm install
@@ -274,18 +298,21 @@ pnpm run build
 ```
 
 ### Sitemap not updating
+
 ```bash
 rm -rf dist
 pnpm run build
 ```
 
 ### Styles not applying
+
 ```bash
 rm -rf .astro
 pnpm run dev
 ```
 
 ### Port already in use
+
 ```bash
 # Kill process on port 4321
 lsof -ti:4321 | xargs kill -9

@@ -5,11 +5,13 @@
 ### Design Strategy Implementation: **PARTIALLY DONE** ⚠️
 
 **What's Implemented**:
+
 - ✅ `data-theme-mode` attribute added to layouts
 - ✅ Font scoping in I3Layout.astro
 - ✅ Separate font loading per layout
 
 **What's NOT Implemented**:
+
 - ❌ CSS files not scoped yet (terminal-theme.css, i3wm-theme.css)
 - ❌ Files not reorganized into v1/v2/shared structure
 - ❌ No proper CSS variable namespacing
@@ -21,15 +23,19 @@
 ## 🎯 Commit Strategy: Iterative Approach
 
 ### Phase 1: Foundation & Documentation (Commits 1-3)
+
 **Goal**: Commit documentation and base changes
 
 ### Phase 2: Terminal Theme (Commits 4-7)
+
 **Goal**: Add terminal/i3wm features
 
 ### Phase 3: Optimizations (Commits 8-10)
+
 **Goal**: Performance and UX improvements
 
 ### Phase 4: Design Separation (Commits 11-12)
+
 **Goal**: Implement full design system separation
 
 ---
@@ -37,6 +43,7 @@
 ## 📝 Detailed Commit Plan
 
 ### **Commit 1: Add project documentation**
+
 ```bash
 git add *.md
 git commit -m "docs: add comprehensive project documentation
@@ -59,6 +66,7 @@ These docs provide complete reference for:
 ---
 
 ### **Commit 2: Add terminal theme base styles**
+
 ```bash
 git add src/styles/terminal-theme.css src/styles/i3wm-theme.css src/styles/animations.css
 git commit -m "feat(styles): add terminal theme and i3wm styles
@@ -79,6 +87,7 @@ Supports terminal/hacker aesthetic with:
 ---
 
 ### **Commit 3: Add terminal components**
+
 ```bash
 git add src/components/terminal/
 git commit -m "feat(components): add terminal UI components
@@ -98,12 +107,13 @@ Includes window manager utilities (i3-utils.ts) for:
 - Keyboard navigation (Ctrl+H/J/K/L)"
 ```
 
-**Files**: src/components/terminal/* (14 files)
+**Files**: src/components/terminal/\* (14 files)
 **Why separate**: Complete feature set
 
 ---
 
 ### **Commit 4: Add I3Layout for terminal pages**
+
 ```bash
 git add src/layouts/I3Layout.astro
 git commit -m "feat(layouts): add I3Layout for terminal theme pages
@@ -123,6 +133,7 @@ Used by: /terminal, /blog-tiling, /404"
 ---
 
 ### **Commit 5: Add terminal pages**
+
 ```bash
 git add src/pages/terminal.astro src/pages/terminal-features.astro src/pages/blog-tiling.astro
 git commit -m "feat(pages): add terminal-themed pages
@@ -145,6 +156,7 @@ Features:
 ---
 
 ### **Commit 6: Update 404 page with terminal theme**
+
 ```bash
 git add src/pages/404.astro
 git commit -m "feat(pages): redesign 404 page with terminal theme
@@ -163,6 +175,7 @@ Improves error UX with actionable next steps"
 ---
 
 ### **Commit 7: Add design system separation to Base layout**
+
 ```bash
 git add src/layouts/Base.astro
 git commit -m "feat(layouts): add design system separation to Base layout
@@ -180,6 +193,7 @@ Part of design system V1/V2 separation strategy"
 ---
 
 ### **Commit 8: Add enhanced blog components**
+
 ```bash
 git add src/components/Breadcrumb.astro \
         src/components/ReadingTime.astro \
@@ -207,6 +221,7 @@ Improves blog UX and engagement"
 ---
 
 ### **Commit 9: Add code enhancement components**
+
 ```bash
 git add src/components/CodeBlockEnhancer.astro \
         src/components/CodeSnippetLibrary.astro \
@@ -226,6 +241,7 @@ Improves code readability and developer experience"
 ---
 
 ### **Commit 10: Add utility components**
+
 ```bash
 git add src/components/KeyboardShortcuts.astro \
         src/components/CommandPalette.astro \
@@ -247,6 +263,7 @@ Improves performance and UX"
 ---
 
 ### **Commit 11: Update configuration files**
+
 ```bash
 git add src/config/config.json \
         src/config/menu.json \
@@ -268,6 +285,7 @@ Reflects new terminal theme and pages"
 ---
 
 ### **Commit 12: Update existing pages for compatibility**
+
 ```bash
 git add src/pages/index.astro \
         src/pages/blog.astro \
@@ -292,6 +310,7 @@ Maintains compatibility with design system separation"
 ---
 
 ### **Commit 13: Update layout components**
+
 ```bash
 git add src/layouts/Posts.astro \
         src/layouts/PostSingle.astro \
@@ -311,6 +330,7 @@ Improves blog presentation and adds layout flexibility"
 ---
 
 ### **Commit 14: Update layout partials**
+
 ```bash
 git add src/layouts/partials/Header.astro \
         src/layouts/partials/Footer.astro
@@ -329,6 +349,7 @@ Maintains consistency across themes"
 ---
 
 ### **Commit 15: Add public assets**
+
 ```bash
 git add public/favicon.ico \
         public/logo.svg \
@@ -352,6 +373,7 @@ Improves SEO and site metadata"
 ---
 
 ### **Commit 16: Add additional styles**
+
 ```bash
 git add src/styles/design-system.css \
         src/styles/preview.css
@@ -369,6 +391,7 @@ Supports design system documentation and testing"
 ---
 
 ### **Commit 17: Update content configuration**
+
 ```bash
 git add src/content/config.ts
 git commit -m "chore(content): update content collection schema
@@ -386,6 +409,7 @@ Supports new blog components and features"
 ---
 
 ### **Commit 18: Update build configuration**
+
 ```bash
 git add astro.config.mjs \
         package.json \
@@ -408,6 +432,7 @@ Supports new features and improves build process"
 ---
 
 ### **Commit 19: Clean up deleted files**
+
 ```bash
 git add -u
 git commit -m "chore: remove unused components and files
@@ -426,6 +451,7 @@ Cleanup for better maintainability"
 ## 🚀 Execution Plan
 
 ### Step 1: Review Changes
+
 ```bash
 # See what will be committed
 git status
@@ -434,12 +460,14 @@ git diff src/layouts/I3Layout.astro
 ```
 
 ### Step 2: Execute Commits (One by One)
+
 ```bash
 # Run each commit command from above
 # Test after each commit if needed
 ```
 
 ### Step 3: Verify
+
 ```bash
 # Check commit history
 git log --oneline -20
@@ -449,6 +477,7 @@ git status
 ```
 
 ### Step 4: Push (Optional)
+
 ```bash
 git push origin main
 ```
@@ -457,12 +486,12 @@ git push origin main
 
 ## 📊 Commit Summary
 
-| Phase | Commits | Focus | Files |
-|-------|---------|-------|-------|
-| **Phase 1** | 1-3 | Foundation | Docs + Base Styles |
-| **Phase 2** | 4-7 | Terminal Theme | Layouts + Pages |
-| **Phase 3** | 8-10 | Enhancements | Components |
-| **Phase 4** | 11-19 | Integration | Config + Cleanup |
+| Phase       | Commits | Focus          | Files              |
+| ----------- | ------- | -------------- | ------------------ |
+| **Phase 1** | 1-3     | Foundation     | Docs + Base Styles |
+| **Phase 2** | 4-7     | Terminal Theme | Layouts + Pages    |
+| **Phase 3** | 8-10    | Enhancements   | Components         |
+| **Phase 4** | 11-19   | Integration    | Config + Cleanup   |
 
 **Total**: 19 commits
 **Time**: ~30-45 minutes
@@ -530,6 +559,7 @@ Backward compatible: Yes"
 ## 💡 Recommendation
 
 **Use iterative strategy (19 commits)** for:
+
 - ✅ Better code review
 - ✅ Clear history
 - ✅ Easy debugging
@@ -537,6 +567,7 @@ Backward compatible: Yes"
 - ✅ Team collaboration
 
 **Use squash strategy (1 commit)** for:
+
 - ✅ Personal project
 - ✅ Quick deployment
 - ✅ Simple history

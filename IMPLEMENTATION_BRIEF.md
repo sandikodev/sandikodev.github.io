@@ -4,10 +4,10 @@
 
 ## Naming Convention
 
-| Mode | Icon | Description |
-|------|------|-------------|
-| **Blog Mode** | 📝 | Clean blog interface (default) |
-| **Dev Mode** | 💻 | Terminal/i3wm interface |
+| Mode          | Icon | Description                    |
+| ------------- | ---- | ------------------------------ |
+| **Blog Mode** | 📝   | Clean blog interface (default) |
+| **Dev Mode**  | 💻   | Terminal/i3wm interface        |
 
 ## URL Architecture
 
@@ -26,22 +26,26 @@ Blog Mode (/)                    Dev Mode (/workspace)
 ## Key Decisions
 
 ### 1. Route Mirroring (bukan CSS toggle)
+
 - **Why**: Static site tidak bisa switch layout runtime
 - **How**: `/workspace/[...slug].astro` mirrors semua pages
 - **Benefit**: SEO friendly, double indexing, clear separation
 
 ### 2. Single Content Source
+
 - Content tetap di `src/content/`
 - Tidak ada duplikasi markdown
 - Same content, different layout
 
 ### 3. Context-Aware Toggle
+
 ```
 /about          → toggle → /workspace/about
 /workspace/about → toggle → /about
 ```
 
 ### 4. SEO Strategy
+
 - Canonical URL → Blog Mode (primary)
 - OG URL → Current page (accurate sharing)
 - Both indexed dengan context berbeda
@@ -49,27 +53,30 @@ Blog Mode (/)                    Dev Mode (/workspace)
 ## Critical Implementation
 
 ### Toggle Button Logic
+
 ```js
 const path = window.location.pathname;
-const isWorkspace = path.startsWith('/workspace');
+const isWorkspace = path.startsWith("/workspace");
 
-const target = isWorkspace 
-  ? path.replace('/workspace', '') || '/'
-  : '/workspace' + path;
+const target = isWorkspace
+  ? path.replace("/workspace", "") || "/"
+  : "/workspace" + path;
 ```
 
 ### FOUC Prevention
+
 ```js
 // Redirect based on saved preference
-const saved = localStorage.getItem('design-mode');
-const isWorkspace = location.pathname.startsWith('/workspace');
+const saved = localStorage.getItem("design-mode");
+const isWorkspace = location.pathname.startsWith("/workspace");
 
-if (saved === 'dev' && !isWorkspace) {
-  location.href = '/workspace' + location.pathname;
+if (saved === "dev" && !isWorkspace) {
+  location.href = "/workspace" + location.pathname;
 }
 ```
 
 ### Canonical Tags (Dev Mode pages)
+
 ```html
 <link rel="canonical" href="https://sandikodev.github.io/blog/post" />
 ```
@@ -92,4 +99,4 @@ if (saved === 'dev' && !isWorkspace) {
 
 ---
 
-*Reference: DESIGN_PHILOSOPHY.md, DESIGN_STRATEGY.md*
+_Reference: DESIGN_PHILOSOPHY.md, DESIGN_STRATEGY.md_

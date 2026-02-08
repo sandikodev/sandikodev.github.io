@@ -43,6 +43,7 @@ Personal portfolio website of a full-stack developer showcasing technical expert
 - 🔍 SEO Friendly
 
 <!-- installation -->
+
 ## 🔧Installation
 
 After downloading the template, you have some prerequisites to install. Then you can run it on your localhost. You can view the package.json file to see which scripts are included.
@@ -83,10 +84,13 @@ pnpm build
 This portfolio features two distinct design systems that users can toggle between:
 
 ### Design System V1 (Blog Mode) - Default
+
 Clean, modern blog interface with Inter + Georgia fonts. Perfect for reading articles and professional content.
 
 ### Design System V2 (Terminal Mode) - /workspace
+
 i3wm/sway-inspired tiling window manager interface with retro terminal aesthetics. Features:
+
 - Simulates minimal Linux desktop environment
 - Customizable themes (Tokyo Night, Dracula, Gruvbox, Nord, Matrix)
 - Keyboard-driven navigation (vim-style shortcuts)
@@ -99,19 +103,22 @@ i3wm/sway-inspired tiling window manager interface with retro terminal aesthetic
 ## 🔬 Experimental: RENDER Framework
 
 The `/workspace` interface serves as a preview for **RENDER** - an experimental desktop framework project:
+
 - **Philosophy**: "Tunneling the door at everything"
 - **Goal**: Revolutionary desktop development with web DX
 - **Repository**: [workspace-framework](https://github.com/workspace-framework) organization
 
-*This is an ongoing experiment in desktop environment innovation.*
+_This is an ongoing experiment in desktop environment innovation._
 
 <!-- reporting issue -->
+
 ## 🐞Reporting Issues
 
 We use GitHub Issues as the official bug tracker for this Portfolio. Please Search [existing issues](https://github.com/sandikodev/sandikodev.github.io/issues). It’s possible someone has already reported the same problem.
 If your problem or idea has not been addressed yet, feel free to [open a new issue](https://github.com/sandikodev/sandikodev.github.io/issues).
 
 <!-- licence -->
+
 ## 📄License
 
 Copyright (c) 2023 - Present, Designed & Developed by [SandikoDev](https://sandikodev.github.io)

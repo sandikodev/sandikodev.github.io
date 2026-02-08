@@ -12,6 +12,7 @@
 ## 🚀 Immediate Actions (Do Now)
 
 ### 1. Test Everything (30 min)
+
 ```bash
 # Start dev server
 npm run dev
@@ -21,6 +22,7 @@ http://localhost:4321/blog-tiling
 ```
 
 **Test**:
+
 - [ ] All pages load
 - [ ] Keyboard shortcuts work (j/k/gg/G/t/?)
 - [ ] Theme switcher works
@@ -31,6 +33,7 @@ http://localhost:4321/blog-tiling
 - [ ] Mobile responsive (resize browser)
 
 ### 2. Run Lighthouse (10 min)
+
 ```bash
 # Build first
 npm run build
@@ -40,12 +43,14 @@ npx lighthouse http://localhost:4321/blog-tiling --view
 ```
 
 **Target Scores**:
+
 - Performance: 90+
 - Accessibility: 95+
 - Best Practices: 95+
 - SEO: 95+
 
 ### 3. Fix Critical Issues (if any)
+
 - Check console for errors
 - Fix any broken features
 - Improve low Lighthouse scores
@@ -57,6 +62,7 @@ npx lighthouse http://localhost:4321/blog-tiling --view
 Use `TESTING_CHECKLIST.md` for comprehensive testing:
 
 ### Quick Test (5 min)
+
 - [ ] Homepage works
 - [ ] Blog tiling works
 - [ ] Keyboard nav works
@@ -64,6 +70,7 @@ Use `TESTING_CHECKLIST.md` for comprehensive testing:
 - [ ] Mobile responsive
 
 ### Full Test (30 min)
+
 - [ ] All features functional
 - [ ] All browsers tested
 - [ ] Mobile devices tested
@@ -75,6 +82,7 @@ Use `TESTING_CHECKLIST.md` for comprehensive testing:
 ## 🎨 Optional Improvements
 
 ### High Priority (Recommended)
+
 1. **Self-host Fira Code** (15 min)
    - Download font files
    - Add to `/public/fonts/`
@@ -94,6 +102,7 @@ Use `TESTING_CHECKLIST.md` for comprehensive testing:
    - Monitor errors
 
 ### Medium Priority (Nice to Have)
+
 4. **Improve Scroll Performance** (20 min)
    - Use requestAnimationFrame
    - Debounce scroll events
@@ -111,6 +120,7 @@ Use `TESTING_CHECKLIST.md` for comprehensive testing:
    - Reduce initial bundle
 
 ### Low Priority (Later)
+
 7. **PWA Features** (1 hour)
    - Service worker
    - Offline support
@@ -136,6 +146,7 @@ Use `TESTING_CHECKLIST.md` for comprehensive testing:
 ### If Lighthouse < 90
 
 #### Performance Issues
+
 - [ ] Optimize images (WebP, lazy load)
 - [ ] Self-host fonts
 - [ ] Minify CSS/JS
@@ -143,6 +154,7 @@ Use `TESTING_CHECKLIST.md` for comprehensive testing:
 - [ ] Reduce bundle size
 
 #### Accessibility Issues
+
 - [ ] Add ARIA labels
 - [ ] Fix color contrast
 - [ ] Improve focus indicators
@@ -150,6 +162,7 @@ Use `TESTING_CHECKLIST.md` for comprehensive testing:
 - [ ] Fix heading hierarchy
 
 #### Best Practices Issues
+
 - [ ] Use HTTPS
 - [ ] Fix console errors
 - [ ] Update dependencies
@@ -157,6 +170,7 @@ Use `TESTING_CHECKLIST.md` for comprehensive testing:
 - [ ] Fix mixed content
 
 #### SEO Issues
+
 - [ ] Add meta descriptions
 - [ ] Fix title tags
 - [ ] Add Open Graph tags
@@ -168,22 +182,27 @@ Use `TESTING_CHECKLIST.md` for comprehensive testing:
 ## 🐛 Common Issues & Fixes
 
 ### Theme Flash on Load
+
 **Symptom**: White flash before theme loads
 **Fix**: Already fixed! Script in `<head>` loads theme immediately
 
 ### Keyboard Shortcuts Not Working
+
 **Symptom**: j/k/t keys don't work
 **Fix**: Check if KeyboardHandler is imported in page
 
 ### Animations Not Working
+
 **Symptom**: No fade/slide effects
 **Fix**: Already fixed! animations.css imported in layout
 
 ### Loading Bar Not Showing
+
 **Symptom**: No blue bar during navigation
 **Fix**: Already fixed! Added to I3Layout
 
 ### 404 Page Not Showing
+
 **Symptom**: Generic error page
 **Fix**: Already fixed! Custom 404.astro created
 
@@ -192,12 +211,14 @@ Use `TESTING_CHECKLIST.md` for comprehensive testing:
 ## 📚 Documentation Reference
 
 ### For Development
+
 - `OPTIMIZATION_PLAN.md` - What can be optimized
 - `OPTIMIZATION_DONE.md` - What was optimized
 - `TESTING_CHECKLIST.md` - How to test
 - `NEXT_STEPS.md` - This file
 
 ### For Features
+
 - `BLOG_TILING_FEATURES.md` - Feature list
 - `QUICK_START.md` - Quick reference
 - `IMPLEMENTATION_SUMMARY.md` - Technical details
@@ -208,8 +229,9 @@ Use `TESTING_CHECKLIST.md` for comprehensive testing:
 ## 🎯 Decision Tree
 
 ### Ready to Add Features?
+
 ```
-Are all tests passing? 
+Are all tests passing?
 ├─ Yes → Are Lighthouse scores 90+?
 │  ├─ Yes → Ready for new features! 🎉
 │  └─ No → Optimize performance first
@@ -217,6 +239,7 @@ Are all tests passing?
 ```
 
 ### What Feature to Add Next?
+
 ```
 What's most important?
 ├─ Search → Add fuzzy search
@@ -231,6 +254,7 @@ What's most important?
 ## 🚀 Feature Ideas (After Testing)
 
 ### Content Features
+
 - [ ] Search functionality
 - [ ] Filter by category/tag
 - [ ] Sort options
@@ -241,6 +265,7 @@ What's most important?
 - [ ] Comments
 
 ### Navigation Features
+
 - [ ] Command palette (Ctrl+K)
 - [ ] Workspace switching (1-9)
 - [ ] Window focus (h/j/k/l)
@@ -249,6 +274,7 @@ What's most important?
 - [ ] Back to top button
 
 ### Visual Features
+
 - [ ] Scan lines toggle
 - [ ] Matrix rain background
 - [ ] Boot sequence animation
@@ -258,6 +284,7 @@ What's most important?
 - [ ] Parallax scrolling
 
 ### Interactive Features
+
 - [ ] Floating windows
 - [ ] Scratchpad (Mod+-)
 - [ ] Split window controls
@@ -266,6 +293,7 @@ What's most important?
 - [ ] Window stacking
 
 ### Social Features
+
 - [ ] Share buttons
 - [ ] Social links
 - [ ] Newsletter signup
@@ -278,18 +306,21 @@ What's most important?
 ## 📈 Success Metrics
 
 ### Performance
+
 - Load time < 1.5s
 - Interactive < 2s
 - Lighthouse 90+
 - No console errors
 
 ### User Experience
+
 - Keyboard nav works
 - Theme switching smooth
 - Mobile responsive
 - Accessible
 
 ### Code Quality
+
 - Clean code
 - Well documented
 - No bugs
@@ -300,6 +331,7 @@ What's most important?
 ## ✅ Launch Checklist
 
 ### Pre-Launch
+
 - [ ] All tests pass
 - [ ] Lighthouse 90+
 - [ ] Browser compatible
@@ -310,6 +342,7 @@ What's most important?
 - [ ] Error tracking setup
 
 ### Launch
+
 - [ ] Build production
 - [ ] Deploy to hosting
 - [ ] Test live site
@@ -317,6 +350,7 @@ What's most important?
 - [ ] Check analytics
 
 ### Post-Launch
+
 - [ ] Monitor performance
 - [ ] Fix any issues
 - [ ] Gather feedback
@@ -327,6 +361,7 @@ What's most important?
 ## 🎉 Summary
 
 ### What's Done ✅
+
 - Blog tiling page
 - Keyboard navigation
 - Theme switcher
@@ -339,6 +374,7 @@ What's most important?
 - Documentation
 
 ### What's Next ⏳
+
 1. Test everything
 2. Run Lighthouse
 3. Fix issues
