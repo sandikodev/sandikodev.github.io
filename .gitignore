@@ -56,3 +56,4 @@ backups/
 # Allow RENDER ecosystem submodules
 !packages/astro-terminal-code/
 !packages/workspace-framework/
+tsconfig.tsbuildinfo
