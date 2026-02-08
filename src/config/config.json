@@ -10,24 +10,23 @@
     "logo_height": "34",
     "logo_text": "Sandikodev"
   },
-
   "settings": {
     "pagination": 6,
-    "summary_length": 150
+    "summary_length": 150,
+    "analytics": {
+      "google_analytics_id": ""
+    }
   },
-
   "metadata": {
     "meta_author": "Sandikodev",
     "meta_image": "/images/og-image.png",
     "meta_description": "Portfolio dan blog Sandikodev - Full Stack Developer yang berfokus pada web development, mobile apps, dan teknologi terbaru. Temukan proyek-proyek menarik dan artikel teknologi.",
     "meta_keywords": "sandikodev, full stack developer, web developer indonesia, react developer, node.js developer, mobile app developer, javascript, typescript, python, portfolio developer, tech blog indonesia, software engineer"
   },
-
   "params": {
     "contact_form_action": "#",
     "copyright": "Copyright © 2024 [Sandikodev](https://github.com/sandikodev) - All rights reserved"
   },
-
   "contactinfo": {
     "address": "Indonesia",
     "email": "sandikodev@gmail.com",
@@ -36,7 +35,6 @@
     "linkedin": "https://linkedin.com/in/sandikodev",
     "twitter": "https://twitter.com/sandikodev"
   },
-
   "portfolio": {
     "skills": [
       "JavaScript/TypeScript",
@@ -52,7 +50,12 @@
       {
         "title": "E-Commerce Platform",
         "description": "Full-stack e-commerce dengan React, Node.js, dan PostgreSQL",
-        "tech": ["React", "Node.js", "PostgreSQL", "Stripe"],
+        "tech": [
+          "React",
+          "Node.js",
+          "PostgreSQL",
+          "Stripe"
+        ],
         "image": "/images/projects/ecommerce.jpg",
         "github": "https://github.com/sandikodev/ecommerce",
         "demo": "https://ecommerce-demo.com"
@@ -60,7 +63,12 @@
       {
         "title": "Mobile Banking App",
         "description": "Aplikasi mobile banking dengan React Native dan Firebase",
-        "tech": ["React Native", "Firebase", "Redux", "TypeScript"],
+        "tech": [
+          "React Native",
+          "Firebase",
+          "Redux",
+          "TypeScript"
+        ],
         "image": "/images/projects/banking.jpg",
         "github": "https://github.com/sandikodev/banking-app",
         "demo": "https://banking-demo.com"
@@ -68,7 +76,12 @@
       {
         "title": "AI Chatbot Platform",
         "description": "Platform chatbot AI dengan integrasi OpenAI dan webhook",
-        "tech": ["Python", "FastAPI", "OpenAI", "WebSocket"],
+        "tech": [
+          "Python",
+          "FastAPI",
+          "OpenAI",
+          "WebSocket"
+        ],
         "image": "/images/projects/chatbot.jpg",
         "github": "https://github.com/sandikodev/chatbot-platform",
         "demo": "https://chatbot-demo.com"
