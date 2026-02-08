@@ -1,12 +1,12 @@
-import type { 
-  WorkspaceConfig, 
-  WorkspaceCore, 
-  WorkspaceWindow, 
+import type {
+  WorkspaceConfig,
+  WorkspaceCore,
+  WorkspaceWindow,
   WorkspaceApp,
   WorkspaceEvent,
   EventHandler,
-  WorkspacePlugin
-} from '../types/index.js';
+  WorkspacePlugin,
+} from "../types/index.js";
 
 export class SandikoWorkspace implements WorkspaceCore {
   public config: WorkspaceConfig;
@@ -14,7 +14,7 @@ export class SandikoWorkspace implements WorkspaceCore {
   public apps: AppManager;
   public events: EventManager;
   public compositor: Compositor;
-  
+
   private plugins: Map<string, WorkspacePlugin> = new Map();
   private initialized = false;
 
@@ -29,8 +29,8 @@ export class SandikoWorkspace implements WorkspaceCore {
   async initialize(): Promise<void> {
     if (this.initialized) return;
 
-    console.log('🚀 SandikoOS Workspace initializing...');
-    
+    console.log("🚀 SandikoOS Workspace initializing...");
+
     // Initialize core systems
     await this.compositor.initialize();
     await this.windows.initialize();
@@ -44,19 +44,19 @@ export class SandikoWorkspace implements WorkspaceCore {
     }
 
     this.initialized = true;
-    this.events.emit('workspace:initialized', {});
-    
-    console.log('✅ SandikoOS Workspace ready!');
+    this.events.emit("workspace:initialized", {});
+
+    console.log("✅ SandikoOS Workspace ready!");
   }
 
   async loadPlugin(name: string): Promise<void> {
     try {
       const plugin = await import(`../plugins/${name}.js`);
       const instance = new plugin.default();
-      
+
       await instance.init(this);
       this.plugins.set(name, instance);
-      
+
       console.log(`📦 Plugin loaded: ${name}`);
     } catch (error) {
       console.error(`❌ Failed to load plugin: ${name}`, error);
@@ -70,14 +70,14 @@ export class SandikoWorkspace implements WorkspaceCore {
         await plugin.destroy();
       }
     }
-    
+
     // Cleanup core systems
     await this.compositor.destroy();
     await this.windows.destroy();
     await this.apps.destroy();
-    
+
     this.initialized = false;
-    console.log('🛑 SandikoOS Workspace destroyed');
+    console.log("🛑 SandikoOS Workspace destroyed");
   }
 }
 
@@ -88,14 +88,14 @@ export class WindowManager {
   constructor(private events: EventManager) {}
 
   async initialize(): Promise<void> {
-    console.log('🪟 Window Manager initialized');
+    console.log("🪟 Window Manager initialized");
   }
 
   createWindow(config: Partial<WorkspaceWindow>): WorkspaceWindow {
     const window: WorkspaceWindow = {
       id: crypto.randomUUID(),
-      title: config.title || 'Untitled',
-      appId: config.appId || 'unknown',
+      title: config.title || "Untitled",
+      appId: config.appId || "unknown",
       geometry: config.geometry || { x: 0, y: 0, width: 800, height: 600 },
       state: {
         focused: false,
@@ -103,7 +103,7 @@ export class WindowManager {
         minimized: false,
         fullscreen: false,
         floating: false,
-        ...config.state
+        ...config.state,
       },
       properties: {
         resizable: true,
@@ -111,13 +111,13 @@ export class WindowManager {
         closable: true,
         minimizable: true,
         maximizable: true,
-        ...config.properties
-      }
+        ...config.properties,
+      },
     };
 
     this.windows.set(window.id, window);
-    this.events.emit('window:created', window);
-    
+    this.events.emit("window:created", window);
+
     return window;
   }
 
@@ -130,14 +130,14 @@ export class WindowManager {
       const prevWindow = this.windows.get(this.focusedWindow);
       if (prevWindow) {
         prevWindow.state.focused = false;
-        this.events.emit('window:unfocused', prevWindow);
+        this.events.emit("window:unfocused", prevWindow);
       }
     }
 
     // Focus new window
     window.state.focused = true;
     this.focusedWindow = id;
-    this.events.emit('window:focused', window);
+    this.events.emit("window:focused", window);
   }
 
   closeWindow(id: string): void {
@@ -148,8 +148,8 @@ export class WindowManager {
     if (this.focusedWindow === id) {
       this.focusedWindow = null;
     }
-    
-    this.events.emit('window:closed', window);
+
+    this.events.emit("window:closed", window);
   }
 
   getWindows(): WorkspaceWindow[] {
@@ -157,7 +157,9 @@ export class WindowManager {
   }
 
   getFocusedWindow(): WorkspaceWindow | null {
-    return this.focusedWindow ? this.windows.get(this.focusedWindow) || null : null;
+    return this.focusedWindow
+      ? this.windows.get(this.focusedWindow) || null
+      : null;
   }
 
   async destroy(): Promise<void> {
@@ -172,12 +174,12 @@ export class AppManager {
   constructor(private events: EventManager) {}
 
   async initialize(): Promise<void> {
-    console.log('📱 App Manager initialized');
+    console.log("📱 App Manager initialized");
   }
 
   registerApp(app: WorkspaceApp): void {
     this.apps.set(app.id, app);
-    this.events.emit('app:registered', app);
+    this.events.emit("app:registered", app);
   }
 
   launchApp(appId: string): Promise<WorkspaceWindow> {
@@ -189,10 +191,10 @@ export class AppManager {
     // Create window for the app
     const window = new WindowManager(this.events).createWindow({
       title: app.name,
-      appId: app.id
+      appId: app.id,
     });
 
-    this.events.emit('app:launched', { app, window });
+    this.events.emit("app:launched", { app, window });
     return Promise.resolve(window);
   }
 
@@ -231,11 +233,11 @@ export class EventManager {
       const workspaceEvent: WorkspaceEvent = {
         type: event,
         timestamp: Date.now(),
-        source: 'workspace',
-        data
+        source: "workspace",
+        data,
       };
 
-      handlers.forEach(handler => {
+      handlers.forEach((handler) => {
         try {
           handler(workspaceEvent);
         } catch (error) {
@@ -252,18 +254,18 @@ export class Compositor {
 
   constructor(
     private config: any,
-    private events: EventManager
+    private events: EventManager,
   ) {}
 
   async initialize(): Promise<void> {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       // Web environment
-      this.canvas = document.createElement('canvas');
-      this.context = this.canvas.getContext('2d');
-      console.log('🎨 Web Compositor initialized');
+      this.canvas = document.createElement("canvas");
+      this.context = this.canvas.getContext("2d");
+      console.log("🎨 Web Compositor initialized");
     } else {
       // Future: Native compositor initialization
-      console.log('🎨 Native Compositor initialized');
+      console.log("🎨 Native Compositor initialized");
     }
   }
 
@@ -272,9 +274,9 @@ export class Compositor {
 
     // Clear canvas
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    
+
     // Render workspace elements
-    this.events.emit('compositor:render', { context: this.context });
+    this.events.emit("compositor:render", { context: this.context });
   }
 
   async destroy(): Promise<void> {

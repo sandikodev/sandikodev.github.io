@@ -1,9 +1,11 @@
 # RENDER Development Setup
-**"Ruin your F*cking at door" - Tunneling the door at everything**
+
+**"Ruin your F\*cking at door" - Tunneling the door at everything**
 
 ## 🌍 Cross-Platform Support
 
 ### Linux (Primary)
+
 ```bash
 # Native Wayland development
 sudo apt install wayland-protocols libwayland-dev
@@ -11,6 +13,7 @@ cargo install tauri-cli
 ```
 
 ### Windows (WSL2)
+
 ```bash
 # WSL2 with GUI support
 wsl --install
@@ -23,6 +26,7 @@ sudo apt update && sudo apt install -y \
 ```
 
 ### macOS
+
 ```bash
 # Homebrew setup
 brew install rust nodejs pnpm
@@ -33,6 +37,7 @@ brew install --cask tauri
 ## 🚀 Quick Start
 
 ### 1. Clone & Setup
+
 ```bash
 git clone https://github.com/sandikodev/workspace-framework
 cd workspace-framework
@@ -40,6 +45,7 @@ pnpm install
 ```
 
 ### 2. Development Mode
+
 ```bash
 # Web development (all platforms)
 pnpm dev
@@ -53,6 +59,7 @@ pnpm dev:wsl
 ```
 
 ### 3. Build & Test
+
 ```bash
 # Web build
 pnpm build
@@ -67,12 +74,14 @@ pnpm test:all
 ## 🎯 Philosophy Implementation
 
 ### "Tunneling the door at everything"
+
 - **Web → Native** seamless transition
 - **Framework agnostic** - React, Vue, Svelte, Astro
 - **Platform agnostic** - Linux, Windows, macOS, RedoxOS
 - **Performance first** - No compromises
 
 ### Anti-Capitalist Tech
+
 - **Open Source** - Forever free
 - **Community driven** - No corporate control
 - **Resource efficient** - Runs on old hardware

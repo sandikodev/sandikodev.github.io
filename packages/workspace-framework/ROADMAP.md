@@ -11,10 +11,12 @@ Create a native desktop environment where developers can build applications usin
 ## 📅 Development Phases
 
 ### Phase 1: Foundation ✅ **COMPLETE**
+
 **Timeline**: Q4 2024  
 **Package**: `@sandikodev/astro-terminal-code`
 
 **Achievements**:
+
 - ✅ Terminal-style code highlighting
 - ✅ Workspace compatibility layer
 - ✅ Plugin architecture foundation
@@ -25,10 +27,12 @@ Create a native desktop environment where developers can build applications usin
 ---
 
 ### Phase 2: Framework 🚧 **IN PROGRESS**
+
 **Timeline**: Q1 2025  
 **Package**: `@sandikodev/workspace-framework`
 
 **Current Goals**:
+
 - 🚧 Desktop environment core
 - 🚧 Window management system
 - 🚧 Application launcher
@@ -37,6 +41,7 @@ Create a native desktop environment where developers can build applications usin
 - 🚧 Web-based compositor
 
 **Milestones**:
+
 - [ ] Alpha release (v0.1.0)
 - [ ] Plugin API stabilization
 - [ ] Performance benchmarks
@@ -44,6 +49,7 @@ Create a native desktop environment where developers can build applications usin
 - [ ] Beta release (v0.2.0)
 
 **Success Metrics**:
+
 - 100+ GitHub stars
 - 10+ community plugins
 - 5+ production deployments
@@ -52,10 +58,12 @@ Create a native desktop environment where developers can build applications usin
 ---
 
 ### Phase 3: Native Integration 🔮 **PLANNED**
+
 **Timeline**: Q2-Q3 2025  
 **Package**: `@sandikodev/sandikoos-native`
 
 **Planned Features**:
+
 - 🔮 Wayland compositor integration
 - 🔮 Rust-based window manager
 - 🔮 Native application bindings
@@ -64,6 +72,7 @@ Create a native desktop environment where developers can build applications usin
 - 🔮 Hardware acceleration
 
 **Technical Stack**:
+
 - **Compositor**: Wayland + wgpu (Rust)
 - **Runtime**: Tauri + WebView
 - **IPC**: Protocol Buffers
@@ -71,6 +80,7 @@ Create a native desktop environment where developers can build applications usin
 - **Platform**: Linux, RedoxOS, Windows, macOS
 
 **Milestones**:
+
 - [ ] Wayland compositor prototype
 - [ ] Native window management
 - [ ] Application sandboxing
@@ -81,10 +91,12 @@ Create a native desktop environment where developers can build applications usin
 ---
 
 ### Phase 4: Ecosystem 🌟 **VISION**
+
 **Timeline**: Q4 2025 - 2026  
 **Scope**: Complete desktop environment
 
 **Vision Goals**:
+
 - 🌟 Full desktop environment
 - 🌟 Application marketplace
 - 🌟 Developer tools suite
@@ -93,6 +105,7 @@ Create a native desktop environment where developers can build applications usin
 - 🌟 Educational programs
 
 **Ecosystem Components**:
+
 - **SandikoOS Desktop** - Complete DE
 - **SandikoStore** - Application marketplace
 - **SandikoIDE** - Integrated development environment
@@ -104,6 +117,7 @@ Create a native desktop environment where developers can build applications usin
 ## 🛠 Technical Architecture
 
 ### Current Architecture (Phase 2)
+
 ```
 ┌─────────────────────────────────────┐
 │           Web Browser               │
@@ -119,6 +133,7 @@ Create a native desktop environment where developers can build applications usin
 ```
 
 ### Target Architecture (Phase 3)
+
 ```
 ┌─────────────────────────────────────┐
 │        Native Applications          │
@@ -136,6 +151,7 @@ Create a native desktop environment where developers can build applications usin
 ## 🎨 Design Philosophy
 
 ### Core Principles
+
 1. **Developer Experience First** - Make it as easy as React
 2. **Performance Native** - No compromises on speed
 3. **Component-Based** - Everything is a reusable component
@@ -143,6 +159,7 @@ Create a native desktop environment where developers can build applications usin
 5. **Community-Driven** - Open source, collaborative development
 
 ### Visual Identity
+
 - **Terminal Aesthetic** - Inspired by i3wm, sway, hyprland
 - **Tokyo Night Theme** - Modern, developer-friendly colors
 - **Minimalist Design** - Clean, functional, distraction-free
@@ -151,6 +168,7 @@ Create a native desktop environment where developers can build applications usin
 ## 📊 Success Metrics
 
 ### Phase 2 Targets
+
 - **GitHub Stars**: 500+
 - **NPM Downloads**: 1,000+/month
 - **Community Plugins**: 25+
@@ -159,6 +177,7 @@ Create a native desktop environment where developers can build applications usin
 - **Bundle Size**: <100KB gzipped
 
 ### Phase 3 Targets
+
 - **Desktop Installations**: 1,000+
 - **Native Applications**: 100+
 - **Platform Support**: Linux, RedoxOS, Windows, macOS
@@ -166,6 +185,7 @@ Create a native desktop environment where developers can build applications usin
 - **Memory Usage**: <50MB base system
 
 ### Phase 4 Vision
+
 - **Active Users**: 10,000+
 - **Developer Ecosystem**: 1,000+ developers
 - **Enterprise Adoption**: 10+ companies
@@ -175,6 +195,7 @@ Create a native desktop environment where developers can build applications usin
 ## 🤝 Community & Contribution
 
 ### How to Contribute
+
 1. **Code Contributions** - Core framework, plugins, applications
 2. **Documentation** - Tutorials, guides, API docs
 3. **Design** - UI/UX, themes, icons, branding
@@ -183,6 +204,7 @@ Create a native desktop environment where developers can build applications usin
 6. **Funding** - GitHub Sponsors, corporate partnerships
 
 ### Community Channels
+
 - **GitHub**: [sandikodev/workspace-framework](https://github.com/sandikodev/workspace-framework)
 - **Discord**: [SandikoOS Community](https://discord.gg/sandikoos)
 - **Twitter**: [@sandikodev](https://twitter.com/sandikodev)
@@ -191,7 +213,9 @@ Create a native desktop environment where developers can build applications usin
 ## 🔮 Long-term Vision
 
 ### 5-Year Goal: Desktop Revolution
+
 Transform how developers think about desktop applications:
+
 - **Web-like DX** for native desktop development
 - **Component marketplace** for desktop UI
 - **Cross-platform** by default
@@ -199,7 +223,9 @@ Transform how developers think about desktop applications:
 - **Community-driven** ecosystem
 
 ### 10-Year Vision: Computing Platform
+
 Become a major computing platform:
+
 - **Alternative to traditional DEs** (GNOME, KDE, Windows)
 - **Educational standard** for CS programs
 - **Enterprise adoption** for developer workstations
@@ -210,4 +236,4 @@ Become a major computing platform:
 
 **"The future of computing is component-based, reactive, and beautiful."** ✨
 
-*Join us in building the next generation of desktop environments.*
+_Join us in building the next generation of desktop environments._
