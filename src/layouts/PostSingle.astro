@@ -25,7 +25,8 @@ const allPosts = await getSinglePage("posts");
 const { post } = Astro.props;
 import { render } from "astro:content";
 const { Content, headings } = await render(post);
-const { title, description, authors, categories, image, date, tags } = post.data;
+const { title, description, authors, categories, image, date, tags } =
+  post.data;
 
 // Calculate reading time using utility
 const readingTime = calculateReadingTime(post.body);
@@ -34,7 +35,7 @@ const readingTime = calculateReadingTime(post.body);
 const relatedPosts = similerItems(post, allPosts, post.id);
 ---
 
-<SEOOptimized 
+<SEOOptimized
   title={title}
   description={description}
   type="article"
@@ -43,287 +44,291 @@ const relatedPosts = similerItems(post, allPosts, post.id);
     publishedTime: new Date(date).toISOString(),
     author: "Sandikodev",
     section: categories[0] || "Blog",
-    tags: tags || []
+    tags: tags || [],
   }}
 />
 
-<ReadingProgressUnified 
+<ReadingProgressUnified
   variant="enhanced"
   showTimeEstimate={true}
   showPercentage={true}
   content={post.body}
 />
-  
-  <style>
-    .article-layout {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 2rem;
-      max-width: 1400px;
+
+<style>
+  .article-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+  .article-header {
+    max-width: 680px;
+    margin: 0 auto;
+    position: relative;
+    padding: 2rem 0;
+  }
+
+  .article-header-content {
+    position: relative;
+  }
+
+  /* Position FontSizeToggle in top-right of article */
+  .article-header :global(.font-size-toggle) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+  }
+
+  @media (max-width: 768px) {
+    .article-header :global(.font-size-toggle) {
+      position: fixed;
+      top: 80px;
+      right: 1rem;
+      z-index: 1000;
+    }
+  }
+
+  .article-title {
+    font-size: 2.5rem;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+  }
+  .article-meta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-bottom: 2rem;
+    font-family: Inter, sans-serif;
+  }
+  .article-meta a {
+    color: #2563eb;
+    text-decoration: none;
+  }
+  .article-meta a:hover {
+    text-decoration: underline;
+  }
+  .article-image {
+    max-width: 1000px;
+    margin: 0 auto 3rem;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 0.75rem;
+  }
+  .article-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.75rem;
+  }
+  .article-main {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  .article-content {
+    max-width: 680px;
+    margin: 0 auto;
+    font-family: Georgia, serif;
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: #1a1a1a;
+  }
+  .article-content :global(h2),
+  .article-content :global(h3),
+  .article-content :global(h4) {
+    font-family: Inter, sans-serif;
+    scroll-margin-top: 5rem;
+  }
+  .article-content :global(h2) {
+    font-size: 1.875rem;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+  }
+  .article-content :global(h3) {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  .article-content :global(h4) {
+    font-size: 1.25rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .article-content :global(p) {
+    margin-bottom: 1.5rem;
+  }
+  .article-content :global(a) {
+    color: #2563eb;
+    text-decoration: underline;
+  }
+  .article-content :global(code) {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.9em;
+    background: #f3f4f6;
+    padding: 0.2em 0.4em;
+    border-radius: 0.25rem;
+  }
+  .article-content :global(pre) {
+    background: #1f2937;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    overflow-x: auto;
+    margin: 2rem 0;
+  }
+  .article-content :global(pre code) {
+    background: none;
+    color: #e5e7eb;
+    padding: 0;
+  }
+  .article-content :global(blockquote) {
+    border-left: 4px solid #2563eb;
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: #6b7280;
+  }
+  .article-content :global(ul),
+  .article-content :global(ol) {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+  }
+  .article-content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+  .article-content :global(img) {
+    border-radius: 0.75rem;
+    margin: 2rem 0;
+  }
+  .article-footer {
+    max-width: 680px;
+    margin: 3rem auto 0;
+    padding-top: 2rem;
+    border-top: 1px solid #e5e7eb;
+  }
+  .tags {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .tag {
+    background: #f3f4f6;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    color: #1a1a1a;
+    text-decoration: none;
+    font-family: Inter, sans-serif;
+    transition: background 0.2s;
+  }
+  .tag:hover {
+    background: #e5e7eb;
+  }
+  @media (min-width: 768px) {
+    .article-title {
+      font-size: 3rem;
+    }
+  }
+  @media (min-width: 1200px) {
+    .article-main {
+      grid-template-columns: 1fr 250px;
+      max-width: 1100px;
       margin: 0 auto;
       padding: 0 1.5rem;
     }
-    .article-header {
-      max-width: 680px;
-      margin: 0 auto;
-      position: relative;
-      padding: 2rem 0;
-    }
-    
-    .article-header-content {
-      position: relative;
-    }
-    
-    /* Position FontSizeToggle in top-right of article */
-    .article-header :global(.font-size-toggle) {
-      position: absolute;
-      top: 0;
-      right: 0;
-      z-index: 10;
-    }
-    
-    @media (max-width: 768px) {
-      .article-header :global(.font-size-toggle) {
-        position: fixed;
-        top: 80px;
-        right: 1rem;
-        z-index: 1000;
-      }
-    }
-    
-    .article-title {
-      font-size: 2.5rem;
-      line-height: 1.2;
-      margin-bottom: 1.5rem;
-      font-weight: 700;
-    }
-    .article-meta {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      color: #6b7280;
-      font-size: 0.875rem;
-      margin-bottom: 2rem;
-      font-family: Inter, sans-serif;
-    }
-    .article-meta a {
-      color: #2563eb;
-      text-decoration: none;
-    }
-    .article-meta a:hover {
-      text-decoration: underline;
-    }
-    .article-image {
-      max-width: 1000px;
-      margin: 0 auto 3rem;
-    }
-    .article-image img {
-      width: 100%;
-      border-radius: 0.75rem;
-    }
-    .article-main {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 3rem;
-      align-items: start;
-    }
     .article-content {
-      max-width: 680px;
-      margin: 0 auto;
-      font-family: Georgia, serif;
-      font-size: 1.125rem;
-      line-height: 1.75;
-      color: #1a1a1a;
+      margin: 0;
     }
-    .article-content :global(h2),
-    .article-content :global(h3),
-    .article-content :global(h4) {
-      font-family: Inter, sans-serif;
-      scroll-margin-top: 5rem;
-    }
-    .article-content :global(h2) {
-      font-size: 1.875rem;
-      margin-top: 3rem;
-      margin-bottom: 1rem;
-    }
-    .article-content :global(h3) {
-      font-size: 1.5rem;
-      margin-top: 2rem;
-      margin-bottom: 0.75rem;
-    }
-    .article-content :global(h4) {
-      font-size: 1.25rem;
-      margin-top: 1.5rem;
-      margin-bottom: 0.5rem;
-    }
-    .article-content :global(p) {
-      margin-bottom: 1.5rem;
-    }
-    .article-content :global(a) {
-      color: #2563eb;
-      text-decoration: underline;
-    }
-    .article-content :global(code) {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.9em;
-      background: #f3f4f6;
-      padding: 0.2em 0.4em;
-      border-radius: 0.25rem;
-    }
-    .article-content :global(pre) {
-      background: #1f2937;
-      padding: 1.5rem;
-      border-radius: 0.75rem;
-      overflow-x: auto;
-      margin: 2rem 0;
-    }
-    .article-content :global(pre code) {
-      background: none;
-      color: #e5e7eb;
-      padding: 0;
-    }
-    .article-content :global(blockquote) {
-      border-left: 4px solid #2563eb;
-      padding-left: 1.5rem;
-      margin: 2rem 0;
-      font-style: italic;
-      color: #6b7280;
-    }
-    .article-content :global(ul),
-    .article-content :global(ol) {
-      margin-bottom: 1.5rem;
-      padding-left: 2rem;
-    }
-    .article-content :global(li) {
-      margin-bottom: 0.5rem;
-    }
-    .article-content :global(img) {
-      border-radius: 0.75rem;
-      margin: 2rem 0;
-    }
-    .article-footer {
-      max-width: 680px;
-      margin: 3rem auto 0;
-      padding-top: 2rem;
-      border-top: 1px solid #e5e7eb;
-    }
-    .tags {
-      display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-    }
-    .tag {
-      background: #f3f4f6;
-      padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
-      font-size: 0.875rem;
-      color: #1a1a1a;
-      text-decoration: none;
-      font-family: Inter, sans-serif;
-      transition: background 0.2s;
-    }
-    .tag:hover {
-      background: #e5e7eb;
-    }
-    @media (min-width: 768px) {
-      .article-title {
-        font-size: 3rem;
-      }
-    }
-    @media (min-width: 1200px) {
-      .article-main {
-        grid-template-columns: 1fr 250px;
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 0 1.5rem;
-      }
-      .article-content {
-        margin: 0;
-      }
-    }
+  }
+  .article-sidebar {
+    display: none;
+  }
+  @media (min-width: 1200px) {
     .article-sidebar {
-      display: none;
+      display: block;
+      position: sticky;
+      top: 80px;
     }
-    @media (min-width: 1200px) {
-      .article-sidebar {
-        display: block;
-        position: sticky;
-        top: 80px;
-      }
-    }
-  </style>
+  }
+</style>
 
-  <article class="article-layout">
-    
-    <!-- Breadcrumb -->
-    <Breadcrumb />
-    
-    <header class="article-header">
-      <div class="article-header-content">
-        <h1 class="article-title">{title}</h1>
-        
-        <div class="article-meta">
-          <span>{dateFormat(date)}</span>
-          <span>•</span>
-          <ReadingTime content={post.body} />
-          <span>•</span>
-          <ViewCounter slug={post.slug} />
-          {authors.length > 0 && (
+<article class="article-layout">
+  <!-- Breadcrumb -->
+  <Breadcrumb />
+
+  <header class="article-header">
+    <div class="article-header-content">
+      <h1 class="article-title">{title}</h1>
+
+      <div class="article-meta">
+        <span>{dateFormat(date)}</span>
+        <span>•</span>
+        <ReadingTime content={post.body} />
+        <span>•</span>
+        <ViewCounter slug={post.slug} />
+        {
+          authors.length > 0 && (
             <>
               <span>•</span>
               <span>
-              {allAuthors
-                .filter((author) =>
-                  authors
-                    .map((a: string) => slugify(a))
-                    .includes(slugify(author.data.title))
-                )
-                .map((author) => (
-                  <a href={`/authors/${slugify(author.slug)}`}>
-                    {author.data.title}
-                  </a>
+                {allAuthors
+                  .filter((author) =>
+                    authors
+                      .map((a: string) => slugify(a))
+                      .includes(slugify(author.data.title)),
+                  )
+                  .map((author) => (
+                    <a href={`/authors/${slugify(author.slug)}`}>
+                      {author.data.title}
+                    </a>
+                  ))}
+              </span>
+            </>
+          )
+        }
+        {
+          categories.length > 0 && (
+            <>
+              <span>•</span>
+              <span>
+                {categories.map((cat: string, i: number) => (
+                  <>
+                    <a href={`/categories/${slugify(cat)}`}>{humanize(cat)}</a>
+                    {i < categories.length - 1 && ", "}
+                  </>
                 ))}
-            </span>
-          </>
-        )}
-        {categories.length > 0 && (
-          <>
-            <span>•</span>
-            <span>
-              {categories.map((cat: string, i: number) => (
-                <>
-                  <a href={`/categories/${slugify(cat)}`}>
-                    {humanize(cat)}
-                  </a>
-                  {i < categories.length - 1 && ", "}
-                </>
-              ))}
-            </span>
-          </>
-        )}
+              </span>
+            </>
+          )
+        }
       </div>
-      
+
       <!-- Font Size Toggle for article reading -->
       <FontSizeToggle />
     </div>
-    </header>
+  </header>
 
-    {image && (
+  {
+    image && (
       <div class="article-image">
-        <Image
-          src={image}
-          alt={title}
-          width={1000}
-          height={500}
-        />
+        <Image src={image} alt={title} width={1000} height={500} />
       </div>
-    )}
+    )
+  }
 
-    <div class="article-main">
-      <div class="article-content">
-        <Content />
-        
-        {tags && tags.length > 0 && (
+  <div class="article-main">
+    <div class="article-content">
+      <Content />
+
+      {
+        tags && tags.length > 0 && (
           <footer class="article-footer">
             <div class="tags">
               {tags.map((tag: string) => (
@@ -333,34 +338,35 @@ const relatedPosts = similerItems(post, allPosts, post.id);
               ))}
             </div>
           </footer>
-        )}
-        
-        <!-- Social Share -->
-        <SocialShare title={title} />
-      </div>
+        )
+      }
 
-      <aside class="article-sidebar">
-        <DevStats content={post.body} readingTime={readingTime} />
-        <TableOfContents headings={headings} />
-      </aside>
+      <!-- Social Share -->
+      <SocialShare title={title} />
     </div>
-    
-    <!-- Previous/Next Navigation -->
-    <PrevNext currentSlug={post.id} />
-  </article>
 
-  <!-- Enhanced Related Posts -->
-  <RelatedPostsUnified 
-    currentSlug={post.id}
-    currentTags={tags || []}
-    currentCategories={categories || []}
-    algorithm="similarity"
-  />
-  
-  <!-- Comments -->
-  <Comments />
-  
-  <!-- Keyboard Shortcuts for article reading -->
-  <KeyboardShortcuts />
-  
-  <CodeBlockEnhancer />
+    <aside class="article-sidebar">
+      <DevStats content={post.body} readingTime={readingTime} />
+      <TableOfContents headings={headings} />
+    </aside>
+  </div>
+
+  <!-- Previous/Next Navigation -->
+  <PrevNext currentSlug={post.id} />
+</article>
+
+<!-- Enhanced Related Posts -->
+<RelatedPostsUnified
+  currentSlug={post.id}
+  currentTags={tags || []}
+  currentCategories={categories || []}
+  algorithm="similarity"
+/>
+
+<!-- Comments -->
+<Comments />
+
+<!-- Keyboard Shortcuts for article reading -->
+<KeyboardShortcuts />
+
+<CodeBlockEnhancer />
