@@ -1,10 +1,14 @@
 ---
 import Base from "@/layouts/Base.astro";
+import config from "@/config/config.json";
 
 const lastUpdated = "December 9, 2025";
 ---
 
-<Base title="Now" description="What I'm currently working on and learning">
+<Base
+  title={`Now - ${config.metadata.meta_author}`}
+  description="What I'm currently working on and learning"
+>
   <article class="now-page">
     <header class="now-header">
       <h1>Now</h1>
@@ -16,7 +20,8 @@ const lastUpdated = "December 9, 2025";
       <h2>🚀 Current Projects</h2>
       <ul>
         <li>
-          <strong>HyperFocus Documentation</strong> — 10-year journey gift untuk web technology community
+          <strong>HyperFocus Documentation</strong> — 10-year journey gift untuk web
+          technology community
         </li>
         <li>
           <strong>Personal Blog</strong> — Redesign dengan reader-first approach
@@ -52,13 +57,17 @@ const lastUpdated = "December 9, 2025";
       <h2>📖 Reading</h2>
       <ul>
         <li><em>The Pragmatic Programmer</em> — David Thomas & Andrew Hunt</li>
-        <li><em>Designing Data-Intensive Applications</em> — Martin Kleppmann</li>
+        <li>
+          <em>Designing Data-Intensive Applications</em> — Martin Kleppmann
+        </li>
       </ul>
     </section>
 
     <footer class="now-footer">
       <p>
-        Inspired by <a href="https://nownownow.com/about" target="_blank">nownownow.com</a>
+        Inspired by <a href="https://nownownow.com/about" target="_blank"
+          >nownownow.com</a
+        >
       </p>
     </footer>
   </article>
@@ -70,61 +79,61 @@ const lastUpdated = "December 9, 2025";
     margin: 0 auto;
     padding: 3rem 1.5rem 4rem;
   }
-  
+
   .now-header {
     margin-bottom: 3rem;
   }
-  
+
   .now-header h1 {
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
     font-size: 2.5rem;
     font-weight: 700;
     letter-spacing: -0.02em;
     margin-bottom: 0.5rem;
     color: #0a0a0a;
   }
-  
+
   :global(.dark) .now-header h1 {
     color: #fafafa;
   }
-  
+
   .subtitle {
     font-size: 1.125rem;
     color: #525252;
     margin-bottom: 0.5rem;
   }
-  
+
   :global(.dark) .subtitle {
     color: #a3a3a3;
   }
-  
+
   .updated {
     font-size: 0.875rem;
     color: #737373;
   }
-  
+
   .now-section {
     margin-bottom: 2.5rem;
   }
-  
+
   .now-section h2 {
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
     font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 1rem;
     color: #0a0a0a;
   }
-  
+
   :global(.dark) .now-section h2 {
     color: #fafafa;
   }
-  
+
   .now-section ul {
     list-style: none;
     padding: 0;
     margin: 0;
   }
-  
+
   .now-section li {
     font-family: Georgia, serif;
     font-size: 1rem;
@@ -133,64 +142,64 @@ const lastUpdated = "December 9, 2025";
     padding: 0.5rem 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   }
-  
+
   :global(.dark) .now-section li {
     color: #a3a3a3;
     border-bottom-color: rgba(255, 255, 255, 0.06);
   }
-  
+
   .now-section li:last-child {
     border-bottom: none;
   }
-  
+
   .now-section strong {
     color: #0a0a0a;
   }
-  
+
   :global(.dark) .now-section strong {
     color: #fafafa;
   }
-  
+
   .tech-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
   }
-  
+
   .tech-tags span {
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
     font-size: 0.875rem;
     padding: 0.375rem 0.75rem;
     background: rgba(0, 0, 0, 0.04);
     border-radius: 6px;
     color: #525252;
   }
-  
+
   :global(.dark) .tech-tags span {
     background: rgba(255, 255, 255, 0.08);
     color: #a3a3a3;
   }
-  
+
   .now-footer {
     margin-top: 3rem;
     padding-top: 2rem;
     border-top: 1px solid rgba(0, 0, 0, 0.06);
   }
-  
+
   :global(.dark) .now-footer {
     border-top-color: rgba(255, 255, 255, 0.06);
   }
-  
+
   .now-footer p {
     font-size: 0.875rem;
     color: #737373;
   }
-  
+
   .now-footer a {
     color: #0a0a0a;
     text-decoration: underline;
   }
-  
+
   :global(.dark) .now-footer a {
     color: #fafafa;
   }
