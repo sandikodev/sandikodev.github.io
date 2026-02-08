@@ -1,0 +1,205 @@
+---
+import { Image } from "astro:assets";
+import { calculateReadingTime, formatReadingTime } from "@/lib/utils/readingTime";
+import dateFormat from "@/lib/utils/dateFormat";
+
+interface Props {
+  post: any;
+  variant?: 'grid' | 'list' | 'related';
+  showImage?: boolean;
+  showReadingTime?: boolean;
+  showExcerpt?: boolean;
+  imageSize?: { width: number; height: number };
+}
+
+const { 
+  post, 
+  variant = 'grid',
+  showImage = true,
+  showReadingTime = true,
+  showExcerpt = false,
+  imageSize = { width: 400, height: 225 }
+} = Astro.props;
+
+const readingTime = calculateReadingTime(post.body);
+const { title, description, image, date, tags } = post.data;
+---
+
+<article class={`post-card post-card--${variant}`}>
+  <a href={`/${post.id}`} class="post-link">
+    {showImage && image && (
+      <div class="post-image">
+        <Image
+          src={image}
+          alt={title}
+          width={imageSize.width}
+          height={imageSize.height}
+        />
+      </div>
+    )}
+    
+    <div class="post-content">
+      <div class="post-meta">
+        <time>{dateFormat(date)}</time>
+        {showReadingTime && (
+          <>
+            <span>·</span>
+            <span>{formatReadingTime(readingTime)}</span>
+          </>
+        )}
+      </div>
+      
+      <h3 class="post-title">{title}</h3>
+      
+      {showExcerpt && description && (
+        <p class="post-excerpt">{description}</p>
+      )}
+      
+      {tags && tags.length > 0 && (
+        <div class="post-tags">
+          {tags.slice(0, 3).map((tag: string) => (
+            <span class="tag">#{tag}</span>
+          ))}
+        </div>
+      )}
+    </div>
+  </a>
+</article>
+
+<style>
+  .post-card {
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .post-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  .post-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  /* Grid variant */
+  .post-card--grid {
+    background: var(--bg-secondary, #fff);
+    border: 1px solid var(--border, #e5e7eb);
+  }
+  
+  .post-card--grid .post-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .post-card--grid .post-content {
+    padding: 1.5rem;
+  }
+  
+  /* List variant */
+  .post-card--list {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border, #e5e7eb);
+  }
+  
+  .post-card--list .post-image {
+    flex-shrink: 0;
+  }
+  
+  .post-card--list .post-image img {
+    width: 120px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+  
+  /* Related variant */
+  .post-card--related {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem;
+    margin: -0.5rem;
+    border-radius: 8px;
+    transition: background 0.15s ease;
+  }
+  
+  .post-card--related:hover {
+    background: rgba(0, 0, 0, 0.03);
+    transform: none;
+    box-shadow: none;
+  }
+  
+  :global(.dark) .post-card--related:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .post-card--related .post-image img {
+    width: 80px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+  
+  /* Common styles */
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-muted, #6b7280);
+    margin-bottom: 0.5rem;
+  }
+  
+  .post-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary, #111827);
+  }
+  
+  :global(.dark) .post-title {
+    color: var(--text-primary-dark, #f9fafb);
+  }
+  
+  .post-excerpt {
+    font-size: 0.875rem;
+    color: var(--text-secondary, #6b7280);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+  
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .tag {
+    font-size: 0.75rem;
+    color: var(--accent, #3b82f6);
+    background: var(--accent-bg, rgba(59, 130, 246, 0.1));
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .post-card--list {
+      flex-direction: column;
+    }
+    
+    .post-card--list .post-image img {
+      width: 100%;
+      height: 160px;
+    }
+  }
+</style>

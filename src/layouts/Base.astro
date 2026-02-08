@@ -1,11 +1,9 @@
 ---
 import TwSizeIndicator from "@/components/TwSizeIndicator.astro";
-import KeyboardShortcuts from "@/components/KeyboardShortcuts.astro";
 import CommandPalette from "@/components/CommandPalette.astro";
 import DesignSystemToggle from "@/components/DesignSystemToggle.astro";
 import BackToTop from "@/components/BackToTop.astro";
 import PerformanceOptimizer from "@/components/PerformanceOptimizer.astro";
-import FontSizeToggle from "@/components/FontSizeToggle.astro";
 import LoadingStates from "@/components/LoadingStates.astro";
 import config from "@/config/config.json";
 import theme from "@/config/theme.json";
@@ -255,12 +253,10 @@ const { title, meta_title, description, image, noindex, canonical } =
     <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
-    <TwSizeIndicator />
-    <KeyboardShortcuts />
+    {import.meta.env.DEV && <TwSizeIndicator />}
     <CommandPalette />
     <DesignSystemToggle />
     <BackToTop />
-    <FontSizeToggle />
     <LoadingStates />
     <PerformanceOptimizer />
     <Header />

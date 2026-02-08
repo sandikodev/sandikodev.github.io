@@ -68,8 +68,18 @@
     const button = document.getElementById('back-to-top');
     if (!button) return;
 
-    // Show/hide based on scroll position
+    // Check if page is scrollable (content longer than viewport)
+    function isPageScrollable() {
+      return document.body.scrollHeight > window.innerHeight + 200; // 200px buffer
+    }
+
+    // Show/hide based on scroll position and page length
     function toggleVisibility() {
+      if (!isPageScrollable()) {
+        button.classList.remove('visible');
+        return;
+      }
+
       if (window.scrollY > 300) {
         button.classList.add('visible');
       } else {
@@ -87,6 +97,7 @@
 
     // Event listeners
     window.addEventListener('scroll', toggleVisibility);
+    window.addEventListener('resize', toggleVisibility); // Check on resize
     button.addEventListener('click', scrollToTop);
 
     // Initial check

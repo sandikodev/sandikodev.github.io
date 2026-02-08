@@ -1,137 +1,31 @@
 ---
-import { Image } from "astro:assets";
-import dateFormat from "@/lib/utils/dateFormat";
-import { slugify } from "@/lib/utils/textConverter";
+import PostCard from "@/components/PostCard.astro";
 import PostPreview from "@/components/PostPreview.astro";
+import KeyboardShortcuts from "@/components/KeyboardShortcuts.astro";
 
 const { posts } = Astro.props;
 ---
 
 <div class="posts-grid">
-  {posts.map((post: any) => {
-    const readingTime = Math.ceil(post.body.trim().split(/\s+/).length / 200);
-    
-    return (
-      <article class="post-card">
-        {post.data.image && (
-          <a href={`/${post.id}`} class="post-image">
-            <Image
-              src={post.data.image}
-              alt={post.data.title}
-              width={400}
-              height={225}
-            />
-          </a>
-        )}
-        
-        <div class="post-content">
-          <div class="post-meta">
-            <time>{dateFormat(post.data.date)}</time>
-            <span>·</span>
-            <span>{readingTime} min read</span>
-          </div>
-          
-          <h3 class="post-title">
-            <PostPreview post={post}>
-              <a href={`/${post.id}`}>{post.data.title}</a>
-            </PostPreview>
-          </h3>
-          
-          {post.data.description && (
-            <p class="post-excerpt">{post.data.description}</p>
-          )}
-        </div>
-      </article>
-    );
-  })}
+  {posts.map((post: any) => (
+    <PostCard 
+      post={post} 
+      variant="grid"
+      showImage={true}
+      showReadingTime={true}
+      showExcerpt={true}
+    />
+  ))}
 </div>
+
+<!-- Keyboard Shortcuts for blog navigation -->
+<KeyboardShortcuts />
 
 <style>
   .posts-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 2.5rem;
-  }
-  
-  .post-card {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .post-image {
-    display: block;
-    border-radius: 12px;
-    overflow: hidden;
-    aspect-ratio: 16/9;
-  }
-  
-  .post-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-  }
-  
-  .post-card:hover .post-image img {
-    transform: scale(1.03);
-  }
-  
-  .post-content {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .post-meta {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.875rem;
-    color: #737373;
-  }
-  
-  :global(.dark) .post-meta {
-    color: #737373;
-  }
-  
-  .post-title {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.25rem;
-    font-weight: 600;
-    line-height: 1.4;
-    margin: 0;
-  }
-  
-  .post-title a {
-    color: #0a0a0a;
-    text-decoration: none;
-    transition: color 0.15s ease;
-  }
-  
-  :global(.dark) .post-title a {
-    color: #fafafa;
-  }
-  
-  .post-title a:hover {
-    color: #525252;
-  }
-  
-  :global(.dark) .post-title a:hover {
-    color: #a3a3a3;
-  }
-  
-  .post-excerpt {
-    font-family: Georgia, serif;
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #525252;
-    margin: 0;
-  }
-  
-  :global(.dark) .post-excerpt {
-    color: #a3a3a3;
   }
   
   @media (min-width: 640px) {

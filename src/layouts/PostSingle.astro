@@ -1,10 +1,8 @@
 ---
 import { Image } from "astro:assets";
-import ReadingProgress from "@/components/ReadingProgress.astro";
-import ReadingProgressBar from "@/components/ReadingProgressBar.astro";
+import ReadingProgressUnified from "@/components/ReadingProgressUnified.astro";
 import TableOfContents from "@/components/TableOfContents.astro";
-import RelatedPosts from "@/components/RelatedPosts.astro";
-import RelatedPostsEnhanced from "@/components/RelatedPostsEnhanced.astro";
+import RelatedPostsUnified from "@/components/RelatedPostsUnified.astro";
 import CodeBlockEnhancer from "@/components/CodeBlockEnhancer.astro";
 import DevStats from "@/components/DevStats.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
@@ -14,7 +12,10 @@ import PrevNext from "@/components/PrevNext.astro";
 import SocialShare from "@/components/SocialShare.astro";
 import Comments from "@/components/Comments.astro";
 import SEOOptimized from "@/components/SEOOptimized.astro";
+import FontSizeToggle from "@/components/FontSizeToggle.astro";
+import KeyboardShortcuts from "@/components/KeyboardShortcuts.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
+import { calculateReadingTime } from "@/lib/utils/readingTime";
 import dateFormat from "@/lib/utils/dateFormat";
 import similerItems from "@/lib/utils/similarItems";
 import { humanize, slugify } from "@/lib/utils/textConverter";
@@ -26,9 +27,8 @@ import { render } from "astro:content";
 const { Content, headings } = await render(post);
 const { title, description, authors, categories, image, date, tags } = post.data;
 
-// Calculate reading time
-const words = post.body.trim().split(/\s+/).length;
-const readingTime = Math.ceil(words / 200);
+// Calculate reading time using utility
+const readingTime = calculateReadingTime(post.body);
 
 // Get related posts
 const relatedPosts = similerItems(post, allPosts, post.id);
@@ -47,8 +47,12 @@ const relatedPosts = similerItems(post, allPosts, post.id);
   }}
 />
 
-<ReadingProgress />
-<ReadingProgressBar />
+<ReadingProgressUnified 
+  variant="enhanced"
+  showTimeEstimate={true}
+  showPercentage={true}
+  content={post.body}
+/>
   
   <style>
     .article-layout {
@@ -62,8 +66,31 @@ const relatedPosts = similerItems(post, allPosts, post.id);
     .article-header {
       max-width: 680px;
       margin: 0 auto;
+      position: relative;
       padding: 2rem 0;
     }
+    
+    .article-header-content {
+      position: relative;
+    }
+    
+    /* Position FontSizeToggle in top-right of article */
+    .article-header :global(.font-size-toggle) {
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 10;
+    }
+    
+    @media (max-width: 768px) {
+      .article-header :global(.font-size-toggle) {
+        position: fixed;
+        top: 80px;
+        right: 1rem;
+        z-index: 1000;
+      }
+    }
+    
     .article-title {
       font-size: 2.5rem;
       line-height: 1.2;
@@ -232,18 +259,19 @@ const relatedPosts = similerItems(post, allPosts, post.id);
     <Breadcrumb />
     
     <header class="article-header">
-      <h1 class="article-title">{title}</h1>
-      
-      <div class="article-meta">
-        <span>{dateFormat(date)}</span>
-        <span>•</span>
-        <ReadingTime content={post.body} />
-        <span>•</span>
-        <ViewCounter slug={post.slug} />
-        {authors.length > 0 && (
-          <>
-            <span>•</span>
-            <span>
+      <div class="article-header-content">
+        <h1 class="article-title">{title}</h1>
+        
+        <div class="article-meta">
+          <span>{dateFormat(date)}</span>
+          <span>•</span>
+          <ReadingTime content={post.body} />
+          <span>•</span>
+          <ViewCounter slug={post.slug} />
+          {authors.length > 0 && (
+            <>
+              <span>•</span>
+              <span>
               {allAuthors
                 .filter((author) =>
                   authors
@@ -274,6 +302,10 @@ const relatedPosts = similerItems(post, allPosts, post.id);
           </>
         )}
       </div>
+      
+      <!-- Font Size Toggle for article reading -->
+      <FontSizeToggle />
+    </div>
     </header>
 
     {image && (
@@ -318,13 +350,17 @@ const relatedPosts = similerItems(post, allPosts, post.id);
   </article>
 
   <!-- Enhanced Related Posts -->
-  <RelatedPostsEnhanced 
+  <RelatedPostsUnified 
     currentSlug={post.id}
     currentTags={tags || []}
     currentCategories={categories || []}
+    algorithm="similarity"
   />
   
   <!-- Comments -->
   <Comments />
+  
+  <!-- Keyboard Shortcuts for article reading -->
+  <KeyboardShortcuts />
   
   <CodeBlockEnhancer />

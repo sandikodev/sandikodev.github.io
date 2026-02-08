@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 
 interface AnimatedCounterProps {
   end: number;
@@ -18,7 +18,7 @@ export default function AnimatedCounter(props: AnimatedCounterProps) {
     const animate = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const progress = Math.min((timestamp - startTime) / duration, 1);
-      
+
       // Easing function for smooth animation
       const easeOutQuart = 1 - Math.pow(1 - progress, 4);
       setCount(Math.floor(easeOutQuart * props.end));
@@ -39,7 +39,8 @@ export default function AnimatedCounter(props: AnimatedCounterProps) {
 
   return (
     <span className={props.className}>
-      {count}{props.suffix}
+      {count}
+      {props.suffix}
     </span>
   );
 }
