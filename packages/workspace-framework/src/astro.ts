@@ -1,8 +1,8 @@
-import type { AstroIntegration } from 'astro';
-import type { WorkspaceConfig } from './types/index.js';
+import type { AstroIntegration } from "astro";
+import type { WorkspaceConfig } from "./types/index.js";
 
 export interface WorkspaceIntegrationConfig {
-  workspace: Partial<WorkspaceConfig>;
+  workspace?: Partial<WorkspaceConfig>;
   features?: {
     devMode?: boolean;
     hotReload?: boolean;
@@ -17,7 +17,7 @@ export interface WorkspaceIntegrationConfig {
 }
 
 export default function workspaceFramework(
-  config: WorkspaceIntegrationConfig = {}
+  config: WorkspaceIntegrationConfig = {},
 ): AstroIntegration {
   const {
     workspace = {},
@@ -28,35 +28,35 @@ export default function workspaceFramework(
       nativePreview: false,
     },
     routes = {
-      workspace: '/workspace',
-      admin: '/workspace/admin',
-      preview: '/workspace/preview',
+      workspace: "/workspace",
+      admin: "/workspace/admin",
+      preview: "/workspace/preview",
     },
   } = config;
 
   return {
-    name: '@sandikodev/workspace-framework',
+    name: "@sandikodev/workspace-framework",
     hooks: {
-      'astro:config:setup': ({ updateConfig, addRenderer, injectRoute }) => {
-        console.log('🚀 SandikoOS Workspace Framework initializing...');
+      "astro:config:setup": ({ updateConfig, addRenderer, injectRoute }) => {
+        console.log("🚀 SandikoOS Workspace Framework initializing...");
 
         // Add workspace routes
         if (features.devMode) {
           injectRoute({
             pattern: routes.admin!,
-            entryPoint: '@sandikodev/workspace-framework/pages/admin.astro',
+            entrypoint: "@sandikodev/workspace-framework/pages/admin.astro",
           });
 
           injectRoute({
             pattern: routes.preview!,
-            entryPoint: '@sandikodev/workspace-framework/pages/preview.astro',
+            entrypoint: "@sandikodev/workspace-framework/pages/preview.astro",
           });
         }
 
         // Add workspace renderer
         addRenderer({
-          name: 'workspace-renderer',
-          serverEntrypoint: '@sandikodev/workspace-framework/renderer',
+          name: "workspace-renderer",
+          serverEntrypoint: "@sandikodev/workspace-framework/renderer",
         });
 
         // Update Astro config for workspace compatibility
@@ -67,53 +67,53 @@ export default function workspaceFramework(
               __WORKSPACE_FEATURES__: JSON.stringify(features),
             },
             optimizeDeps: {
-              include: ['@sandikodev/workspace-framework'],
+              include: ["@sandikodev/workspace-framework"],
             },
           },
         });
       },
 
-      'astro:config:done': ({ config }) => {
-        console.log('🖥️  Workspace Framework: Desktop environment ready');
-        
+      "astro:config:done": () => {
+        console.log("🖥️  Workspace Framework: Desktop environment ready");
+
         if (features.devMode) {
           console.log(`📊 Debug Panel: ${routes.admin}`);
           console.log(`👁️  Preview Mode: ${routes.preview}`);
         }
 
         if (features.nativePreview) {
-          console.log('🔮 Native Preview: Preparing for desktop integration');
+          console.log("🔮 Native Preview: Preparing for desktop integration");
         }
       },
 
-      'astro:server:setup': ({ server }) => {
+      "astro:server:setup": ({ server }) => {
         if (features.hotReload) {
           // Add workspace hot reload middleware
-          server.middlewares.use('/workspace-hmr', (req, res, next) => {
-            res.setHeader('Content-Type', 'text/event-stream');
-            res.setHeader('Cache-Control', 'no-cache');
-            res.setHeader('Connection', 'keep-alive');
-            
+          server.middlewares.use("/workspace-hmr", (req, res, next) => {
+            res.setHeader("Content-Type", "text/event-stream");
+            res.setHeader("Cache-Control", "no-cache");
+            res.setHeader("Connection", "keep-alive");
+
             // Send workspace updates
             const send = (data: any) => {
               res.write(`data: ${JSON.stringify(data)}\n\n`);
             };
 
-            send({ type: 'workspace:connected' });
-            
+            send({ type: "workspace:connected" });
+
             // Cleanup on disconnect
-            req.on('close', () => {
+            req.on("close", () => {
               res.end();
             });
           });
         }
       },
 
-      'astro:build:done': ({ dir }) => {
-        console.log('📦 Workspace build complete');
-        
+      "astro:build:done": ({ dir }) => {
+        console.log("📦 Workspace build complete");
+
         if (features.nativePreview) {
-          console.log('🔮 Generating native desktop preview...');
+          console.log("🔮 Generating native desktop preview...");
           // Future: Generate native app bundle
         }
       },
@@ -121,8 +121,8 @@ export default function workspaceFramework(
   };
 }
 
-// Export workspace components for Astro
-export { default as WorkspaceProvider } from './components/WorkspaceProvider.astro';
-export { default as WindowManager } from './components/WindowManager.astro';
-export { default as AppLauncher } from './components/AppLauncher.astro';
-export { default as DesktopEnvironment } from './components/DesktopEnvironment.astro';
+// TODO: Phase 2 - Create these components when workspace UI is ready
+// export { default as WorkspaceProvider } from "./components/WorkspaceProvider.astro";
+// export { default as WindowManager } from "./components/WindowManager.astro";
+// export { default as AppLauncher } from "./components/AppLauncher.astro";
+// export { default as DesktopEnvironment } from "./components/DesktopEnvironment.astro";

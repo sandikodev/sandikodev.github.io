@@ -27,9 +27,10 @@ package-lock.json
 # Working notes
 .notes/
 
-# Development packages (astro-deck trial)
-packages/astro-deck/
+# Development packages (now tracked as submodules)
+# packages/astro-deck/  # Removed: now a proper submodule
 # Allow SandikoOS ecosystem packages
+!packages/astro-deck/
 !packages/astro-terminal-code/
 !packages/workspace-framework/
 pnpm-workspace.yaml

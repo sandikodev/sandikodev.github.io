@@ -7,8 +7,8 @@ export interface WorkspaceConfig {
 }
 
 export interface CompositorConfig {
-  backend: 'wayland' | 'x11' | 'web' | 'native';
-  renderer: 'wgpu' | 'opengl' | 'software';
+  backend: "wayland" | "x11" | "web" | "native";
+  renderer: "wgpu" | "opengl" | "software";
   features: {
     animations: boolean;
     transparency: boolean;
@@ -18,7 +18,7 @@ export interface CompositorConfig {
 }
 
 export interface WindowManagerConfig {
-  layout: 'tiling' | 'floating' | 'hybrid';
+  layout: "tiling" | "floating" | "hybrid";
   gaps: {
     inner: number;
     outer: number;
@@ -33,12 +33,12 @@ export interface WindowManagerConfig {
 
 export interface KeyBinding {
   key: string;
-  modifiers: ('ctrl' | 'alt' | 'shift' | 'super')[];
+  modifiers: ("ctrl" | "alt" | "shift" | "super")[];
   action: WorkspaceAction;
 }
 
 export interface WorkspaceAction {
-  type: 'spawn' | 'focus' | 'move' | 'resize' | 'workspace' | 'custom';
+  type: "spawn" | "focus" | "move" | "resize" | "workspace" | "custom";
   target?: string;
   params?: Record<string, any>;
 }
@@ -133,15 +133,15 @@ export interface WorkspaceApp {
   metadata: AppMetadata;
 }
 
-export type AppCategory = 
-  | 'development'
-  | 'productivity' 
-  | 'media'
-  | 'games'
-  | 'system'
-  | 'network'
-  | 'graphics'
-  | 'office';
+export type AppCategory =
+  | "development"
+  | "productivity"
+  | "media"
+  | "games"
+  | "system"
+  | "network"
+  | "graphics"
+  | "office";
 
 export interface AppMetadata {
   description: string;
@@ -173,16 +173,47 @@ export interface WorkspacePlugin {
 
 export interface WorkspaceCore {
   config: WorkspaceConfig;
-  windows: WindowManager;
-  apps: AppManager;
-  events: EventManager;
-  compositor: Compositor;
+  windows: IWindowManager;
+  apps: IAppManager;
+  events: IEventManager;
+  compositor: ICompositor;
+}
+
+// Manager interfaces for proper typing
+export interface IWindowManager {
+  createWindow(config: Partial<WorkspaceWindow>): WorkspaceWindow;
+  focusWindow(id: string): void;
+  closeWindow(id: string): void;
+  getWindows(): WorkspaceWindow[];
+  getFocusedWindow(): WorkspaceWindow | null;
+  initialize(): Promise<void>;
+  destroy(): Promise<void>;
+}
+
+export interface IAppManager {
+  registerApp(app: WorkspaceApp): void;
+  launchApp(appId: string): Promise<WorkspaceWindow>;
+  getApps(): WorkspaceApp[];
+  initialize(): Promise<void>;
+  destroy(): Promise<void>;
+}
+
+export interface IEventManager {
+  on<T = any>(event: string, handler: EventHandler<T>): void;
+  off(event: string, handler: EventHandler): void;
+  emit(event: string, data: any): void;
+}
+
+export interface ICompositor {
+  initialize(): Promise<void>;
+  render(): void;
+  destroy(): Promise<void>;
 }
 
 // Future Native Integration Types
 export interface NativeBinding {
-  platform: 'linux' | 'windows' | 'macos' | 'redox';
-  backend: 'wayland' | 'x11' | 'win32' | 'cocoa' | 'orbital';
+  platform: "linux" | "windows" | "macos" | "redox";
+  backend: "wayland" | "x11" | "win32" | "cocoa" | "orbital";
   initialize(): Promise<void>;
   createWindow(config: WindowConfig): Promise<NativeWindow>;
 }

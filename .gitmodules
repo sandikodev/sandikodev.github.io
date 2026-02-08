@@ -4,3 +4,6 @@
 [submodule "content"]
 	path = content
 	url = git@github.com:sandikodev/content.git
+[submodule "packages/astro-deck"]
+	path = packages/astro-deck
+	url = git@github.com:sandikodev/astro-deck.git
