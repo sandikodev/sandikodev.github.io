@@ -1,11 +1,15 @@
 ---
 interface Props {
-  mode?: string;
   file?: string;
+  mode?: string;
 }
 
-const { mode = "NORMAL", file = "index" } = Astro.props;
-const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+const { file = "index", mode = "NORMAL" } = Astro.props;
+const time = new Date().toLocaleTimeString("en-US", {
+  hour: "2-digit",
+  hour12: false,
+  minute: "2-digit",
+});
 ---
 
 <footer class="status-bar">
@@ -35,8 +39,15 @@ const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '
     z-index: 100;
   }
 
-  .status-left, .status-right { display: flex; align-items: center; gap: var(--space-2); }
-  .sep { color: var(--text-muted); }
+  .status-left,
+  .status-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .sep {
+    color: var(--text-muted);
+  }
 
   .status-mode {
     padding: 2px 8px;
@@ -44,8 +55,18 @@ const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '
     font-weight: 700;
   }
 
-  .status-mode[data-mode="normal"] { background: var(--blue); color: var(--bg-primary); }
-  .status-mode[data-mode="insert"] { background: var(--green); color: var(--bg-primary); }
-  .status-file { color: var(--text-primary); }
-  .status-time { color: var(--text-muted); }
+  .status-mode[data-mode="normal"] {
+    background: var(--blue);
+    color: var(--bg-primary);
+  }
+  .status-mode[data-mode="insert"] {
+    background: var(--green);
+    color: var(--bg-primary);
+  }
+  .status-file {
+    color: var(--text-primary);
+  }
+  .status-time {
+    color: var(--text-muted);
+  }
 </style>

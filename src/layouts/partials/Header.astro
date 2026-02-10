@@ -7,58 +7,103 @@ const currentPath = Astro.url.pathname;
 
 <header class="header" id="header">
   <nav class="nav">
-    <a href="/" class="logo">
+    <a class="logo" href="/">
       <span class="logo-text">sandikodev</span>
     </a>
-    
+
     <div class="nav-center">
-      {main.map((item) => (
-        <a 
-          href={item.url}
-          class:list={["nav-link", { active: currentPath === item.url || (item.url !== '/' && currentPath.startsWith(item.url)) }]}
-        >
-          {item.name}
-        </a>
-      ))}
+      {
+        main.map((item) => (
+          <a
+            class:list={[
+              "nav-link",
+              {
+                active:
+                  currentPath === item.url ||
+                  (item.url !== "/" && currentPath.startsWith(item.url)),
+              },
+            ]}
+            href={item.url}
+          >
+            {item.name}
+          </a>
+        ))
+      }
     </div>
 
     <div class="nav-end">
-      <button class="icon-btn" id="search-btn" aria-label="Search" title="Search (/)">
-        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="8" cy="8" r="6"/>
-          <path d="M14 14l4 4"/>
+      <button
+        aria-label="Search"
+        class="icon-btn"
+        id="search-btn"
+        title="Search (/)"
+      >
+        <svg
+          fill="none"
+          height="18"
+          stroke="currentColor"
+          stroke-width="2"
+          width="18"
+        >
+          <circle cx="8" cy="8" r="6"></circle>
+          <path d="M14 14l4 4"></path>
         </svg>
       </button>
-      
-      <button class="icon-btn" id="theme-btn" aria-label="Toggle theme">
-        <svg class="sun" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="9" cy="9" r="4"/>
-          <path d="M9 1v2M9 15v2M1 9h2M15 9h2M3.5 3.5l1.5 1.5M13 13l1.5 1.5M3.5 14.5l1.5-1.5M13 5l1.5-1.5"/>
+
+      <button aria-label="Toggle theme" class="icon-btn" id="theme-btn">
+        <svg
+          class="sun"
+          fill="none"
+          height="18"
+          stroke="currentColor"
+          stroke-width="2"
+          width="18"
+        >
+          <circle cx="9" cy="9" r="4"></circle>
+          <path
+            d="M9 1v2M9 15v2M1 9h2M15 9h2M3.5 3.5l1.5 1.5M13 13l1.5 1.5M3.5 14.5l1.5-1.5M13 5l1.5-1.5"
+          >
+          </path>
         </svg>
-        <svg class="moon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M17 12.5A7.5 7.5 0 115.5 1a5.5 5.5 0 0011.5 11.5z"/>
+        <svg
+          class="moon"
+          fill="none"
+          height="18"
+          stroke="currentColor"
+          stroke-width="2"
+          width="18"
+        >
+          <path d="M17 12.5A7.5 7.5 0 115.5 1a5.5 5.5 0 0011.5 11.5z"></path>
         </svg>
       </button>
-      
-      <button class="mobile-btn" id="mobile-btn" aria-label="Menu">
-        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
-          <path class="line1" d="M4 6h12"/>
-          <path class="line2" d="M4 10h12"/>
-          <path class="line3" d="M4 14h12"/>
+
+      <button aria-label="Menu" class="mobile-btn" id="mobile-btn">
+        <svg
+          fill="none"
+          height="20"
+          stroke="currentColor"
+          stroke-width="2"
+          width="20"
+        >
+          <path class="line1" d="M4 6h12"></path>
+          <path class="line2" d="M4 10h12"></path>
+          <path class="line3" d="M4 14h12"></path>
         </svg>
       </button>
     </div>
   </nav>
-  
+
   <div class="mobile-menu" id="mobile-menu">
-    {main.map((item) => (
-      <a 
-        href={item.url}
-        class:list={["mobile-link", { active: currentPath === item.url }]}
-      >
-        {item.name}
-      </a>
-    ))}
+    {
+      main.map((item) => (
+        <a
+          class:list={["mobile-link", { active: currentPath === item.url }]}
+          href={item.url}
+        >
+          {item.name}
+        </a>
+      ))
+    }
   </div>
 </header>
 
@@ -69,90 +114,82 @@ const currentPath = Astro.url.pathname;
     left: 0;
     right: 0;
     z-index: 100;
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: saturate(180%) blur(20px);
-    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: saturate(180%) blur(16px);
+    -webkit-backdrop-filter: saturate(180%) blur(16px);
+    border-bottom: 1px solid var(--color-border);
   }
-  
+
   :global(.dark) .header {
-    background: rgba(10, 10, 10, 0.92);
+    background: rgba(15, 23, 42, 0.75);
+    border-bottom: 1px solid var(--color-border);
   }
-  
+
   .nav {
-    max-width: 1200px;
+    max-width: var(--max-width-container);
     margin: 0 auto;
-    padding: 0 1.5rem;
+    padding: 0 var(--spacing-6);
     height: 64px;
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
-  
+
   .logo {
     text-decoration: none;
     display: flex;
     align-items: center;
   }
-  
+
   .logo-text {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: #0a0a0a;
-    letter-spacing: -0.02em;
+    font-family: var(--font-primary);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--color-text-main);
+    letter-spacing: -0.04em;
   }
-  
-  :global(.dark) .logo-text {
-    color: #fafafa;
-  }
-  
+
   .nav-center {
     display: none;
     align-items: center;
-    gap: 0.25rem;
+    gap: var(--spacing-2);
   }
-  
+
   .nav-link {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9375rem;
+    font-family: var(--font-primary);
+    font-size: var(--text-sm);
     font-weight: 500;
-    color: #525252;
+    color: var(--color-text-muted);
     text-decoration: none;
-    padding: 0.5rem 0.875rem;
-    border-radius: 8px;
-    transition: all 0.15s ease;
+    padding: var(--spacing-2) var(--spacing-3);
+    border-radius: var(--radius-md);
+    transition: var(--transition-all);
   }
-  
-  :global(.dark) .nav-link {
-    color: #a3a3a3;
-  }
-  
+
   .nav-link:hover {
-    color: #0a0a0a;
-    background: rgba(0, 0, 0, 0.04);
+    color: var(--color-primary);
+    background: rgba(37, 99, 235, 0.05);
   }
-  
+
   :global(.dark) .nav-link:hover {
-    color: #fafafa;
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.05);
   }
-  
+
   .nav-link.active {
-    color: #0a0a0a;
-    background: rgba(0, 0, 0, 0.06);
+    color: var(--color-primary);
+    background: rgba(37, 99, 235, 0.08);
   }
-  
+
   :global(.dark) .nav-link.active {
-    color: #fafafa;
     background: rgba(255, 255, 255, 0.1);
   }
-  
+
   .nav-end {
     display: flex;
     align-items: center;
     gap: 0.25rem;
   }
-  
+
   .icon-btn {
     display: flex;
     align-items: center;
@@ -161,81 +198,86 @@ const currentPath = Astro.url.pathname;
     height: 36px;
     border: none;
     background: transparent;
-    color: #525252;
+    color: var(--color-text-muted);
     border-radius: 8px;
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: var(--transition-all);
   }
-  
+
   :global(.dark) .icon-btn {
-    color: #a3a3a3;
+    color: var(--color-text-muted);
   }
-  
+
   .icon-btn:hover {
-    background: rgba(0, 0, 0, 0.06);
-    color: #0a0a0a;
+    background: var(--color-bg-secondary);
+    color: var(--color-text-main);
   }
-  
+
   :global(.dark) .icon-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fafafa;
+    background: var(--color-bg-tertiary);
+    color: var(--color-text-main);
   }
-  
-  #theme-btn .moon { display: none; }
-  :global(.dark) #theme-btn .sun { display: none; }
-  :global(.dark) #theme-btn .moon { display: block; }
-  
+
+  #theme-btn .moon {
+    display: none;
+  }
+  :global(.dark) #theme-btn .sun {
+    display: none;
+  }
+  :global(.dark) #theme-btn .moon {
+    display: block;
+  }
+
   .mobile-btn {
     display: flex;
   }
-  
+
   .mobile-btn svg path {
     transition: all 0.2s ease;
     transform-origin: center;
   }
-  
+
   .mobile-menu {
     display: none;
     padding: 0.5rem 1rem 1rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    border-top: 1px solid var(--color-border);
   }
-  
+
   :global(.dark) .mobile-menu {
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid var(--color-border);
   }
-  
+
   .mobile-menu.open {
     display: block;
   }
-  
+
   .mobile-link {
     display: block;
-    font-family: 'Inter', sans-serif;
-    font-size: 1rem;
+    font-family: var(--font-primary);
+    font-size: var(--text-base);
     font-weight: 500;
-    color: #525252;
+    color: var(--color-text-muted);
     text-decoration: none;
     padding: 0.75rem 0.5rem;
-    border-radius: 8px;
-    transition: all 0.15s ease;
+    border-radius: var(--radius-md);
+    transition: var(--transition-all);
   }
-  
+
   :global(.dark) .mobile-link {
-    color: #a3a3a3;
+    color: var(--color-text-muted);
   }
-  
+
   .mobile-link:hover,
   .mobile-link.active {
-    color: #0a0a0a;
-    background: rgba(0, 0, 0, 0.04);
+    color: var(--color-text-main);
+    background: var(--color-bg-secondary);
   }
-  
+
   :global(.dark) .mobile-link:hover,
   :global(.dark) .mobile-link.active {
-    color: #fafafa;
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--color-bg-tertiary);
   }
-  
+
   @media (min-width: 768px) {
     .nav-center {
       display: flex;
@@ -247,47 +289,57 @@ const currentPath = Astro.url.pathname;
 </style>
 
 <script>
-  // Theme toggle
-  const themeBtn = document.getElementById('theme-btn');
+  // Theme toggle with smooth transition
+  const themeBtn = document.getElementById("theme-btn");
   const html = document.documentElement;
-  
-  // Check saved theme or system preference
-  const savedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  
-  if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-    html.classList.add('dark');
-  }
-  
-  themeBtn?.addEventListener('click', () => {
-    html.classList.toggle('dark');
-    localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+
+  themeBtn?.addEventListener("click", () => {
+    // Add transition class
+    html.classList.add("theme-transition");
+
+    html.classList.toggle("dark");
+    const isDark = html.classList.contains("dark");
+
+    // Save with the new key to avoid collision with Workspace themes
+    localStorage.setItem("appearance", isDark ? "dark" : "light");
+
+    // Dispatch event for other components to react
+    html.dispatchEvent(
+      new CustomEvent("theme-change", {
+        detail: { theme: isDark ? "dark" : "light" },
+      }),
+    );
+
+    // Remove transition class after animation completes
+    setTimeout(() => {
+      html.classList.remove("theme-transition");
+    }, 300);
   });
-  
+
   // Mobile menu
-  const mobileBtn = document.getElementById('mobile-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
-  
-  mobileBtn?.addEventListener('click', () => {
-    mobileMenu?.classList.toggle('open');
+  const mobileBtn = document.getElementById("mobile-btn");
+  const mobileMenu = document.getElementById("mobile-menu");
+
+  mobileBtn?.addEventListener("click", () => {
+    mobileMenu?.classList.toggle("open");
   });
-  
+
   // Search shortcut
-  const searchBtn = document.getElementById('search-btn');
-  searchBtn?.addEventListener('click', () => {
+  const searchBtn = document.getElementById("search-btn");
+  searchBtn?.addEventListener("click", () => {
     // Trigger command palette
-    const event = new KeyboardEvent('keydown', {
-      key: 'k',
+    const event = new KeyboardEvent("keydown", {
+      bubbles: true,
+      key: "k",
       metaKey: true,
-      bubbles: true
     });
     document.dispatchEvent(event);
   });
-  
+
   // Close mobile menu on link click
-  mobileMenu?.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      mobileMenu.classList.remove('open');
+  mobileMenu?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      mobileMenu.classList.remove("open");
     });
   });
 </script>

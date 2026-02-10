@@ -1,110 +1,119 @@
 ---
 import { getCollection } from "astro:content";
-import { slugify } from "@/lib/utils/textConverter";
+
 import PostCard from "@/components/blog/PostCard.astro";
+import { slugify } from "@/lib/utils/textConverter";
 
 interface Props {
+  algorithm?: "recent" | "similarity";
+  currentCategories?: string[];
   currentSlug: string;
   currentTags?: string[];
-  currentCategories?: string[];
-  algorithm?: 'recent' | 'similarity';
   limit?: number;
 }
 
-const { 
-  currentSlug, 
-  currentTags = [], 
-  currentCategories = [], 
-  algorithm = 'recent',
-  limit = 3 
+const {
+  algorithm = "recent",
+  currentCategories = [],
+  currentSlug,
+  currentTags = [],
+  limit = 3,
 } = Astro.props;
 
 // Get all posts
 const posts = await getCollection("posts");
-const publishedPosts = posts.filter(post => !post.data.draft);
+const publishedPosts = posts.filter((post) => !post.data.draft);
 
 let relatedPosts;
 
-if (algorithm === 'similarity') {
+if (algorithm === "similarity") {
   // Calculate similarity score
   function calculateSimilarity(post: any) {
     let score = 0;
-    
+
     // Tag similarity (higher weight)
     const postTags = post.data.tags || [];
-    const commonTags = postTags.filter((tag: string) => 
-      currentTags.some(currentTag => slugify(currentTag) === slugify(tag))
+    const commonTags = postTags.filter((tag: string) =>
+      currentTags.some((currentTag) => slugify(currentTag) === slugify(tag)),
     );
     score += commonTags.length * 3;
-    
+
     // Category similarity
     const postCategories = post.data.categories || [];
-    const commonCategories = postCategories.filter((cat: string) => 
-      currentCategories.some(currentCat => slugify(currentCat) === slugify(cat))
+    const commonCategories = postCategories.filter((cat: string) =>
+      currentCategories.some(
+        (currentCat) => slugify(currentCat) === slugify(cat),
+      ),
     );
     score += commonCategories.length * 2;
-    
+
     // Recency bonus (newer posts get slight boost)
     const daysSincePublished = Math.floor(
-      (Date.now() - new Date(post.data.date).getTime()) / (1000 * 60 * 60 * 24)
+      (Date.now() - new Date(post.data.date).getTime()) / (1000 * 60 * 60 * 24),
     );
     score += Math.max(0, 30 - daysSincePublished) * 0.1;
-    
+
     return score;
   }
 
   // Get related posts by similarity
   relatedPosts = publishedPosts
-    .filter(post => post.id !== currentSlug)
-    .map(post => ({
+    .filter((post) => post.id !== currentSlug)
+    .map((post) => ({
       ...post,
-      similarity: calculateSimilarity(post)
+      similarity: calculateSimilarity(post),
     }))
     .sort((a, b) => b.similarity - a.similarity)
     .slice(0, limit);
 } else {
   // Get recent posts
   relatedPosts = publishedPosts
-    .filter(post => post.id !== currentSlug)
-    .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+    .filter((post) => post.id !== currentSlug)
+    .sort(
+      (a, b) =>
+        new Date(b.data.date ?? 0).getTime() -
+        new Date(a.data.date ?? 0).getTime(),
+    )
     .slice(0, limit);
 }
 ---
 
-{relatedPosts && relatedPosts.length > 0 && (
-  <section class="related-posts">
-    <h2 class="related-title">
-      {algorithm === 'similarity' ? 'Related Posts' : 'Recent Posts'}
-    </h2>
-    <div class="related-grid">
-      {relatedPosts.map((post: any) => (
-        <PostCard 
-          post={post} 
-          variant="related"
-          showImage={true}
-          showReadingTime={false}
-          showExcerpt={false}
-          imageSize={{ width: 80, height: 50 }}
-        />
-      ))}
-    </div>
-  </section>
-)}
+{
+  relatedPosts && relatedPosts.length > 0 && (
+    <section class="related-posts">
+      <h2 class="related-title">
+        {algorithm === "similarity" ? "Related Posts" : "Recent Posts"}
+      </h2>
+      <div class="related-grid">
+        {relatedPosts.map((post: any) => (
+          <PostCard
+            imageSize={{ height: 50, width: 80 }}
+            post={post}
+            showExcerpt={false}
+            showImage={true}
+            showReadingTime={false}
+            variant="related"
+          />
+        ))}
+      </div>
+    </section>
+  )
+}
 
 <style>
   .related-posts {
-    max-width: 680px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 3rem 1.5rem;
+    padding: 4rem 1.5rem;
     border-top: 1px solid rgba(0, 0, 0, 0.06);
   }
-  
+
   :global(.dark) .related-posts {
     border-color: rgba(255, 255, 255, 0.06);
   }
-  
+
   .related-title {
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
     font-size: 0.875rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -112,10 +121,10 @@ if (algorithm === 'similarity') {
     color: #737373;
     margin-bottom: 1.5rem;
   }
-  
+
   .related-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
   }
 </style>

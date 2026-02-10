@@ -1,31 +1,33 @@
 ---
 const themes = [
-  { id: 'tokyo-night', name: 'Tokyo Night', icon: '🌃' },
-  { id: 'dracula', name: 'Dracula', icon: '🧛' },
-  { id: 'gruvbox', name: 'Gruvbox', icon: '🍂' },
-  { id: 'nord', name: 'Nord', icon: '❄️' },
-  { id: 'matrix', name: 'Matrix', icon: '💚' },
+  { icon: "🌃", id: "tokyo-night", name: "Tokyo Night" },
+  { icon: "🧛", id: "dracula", name: "Dracula" },
+  { icon: "🍂", id: "gruvbox", name: "Gruvbox" },
+  { icon: "❄️", id: "nord", name: "Nord" },
+  { icon: "💚", id: "matrix", name: "Matrix" },
 ];
 ---
 
 <div class="theme-switcher" id="theme-switcher">
-  <button class="theme-btn" id="theme-btn" aria-label="Switch theme">
+  <button aria-label="Switch theme" class="theme-btn" id="theme-btn">
     <span class="theme-icon">🎨</span>
     <span class="theme-name">Theme</span>
   </button>
-  
+
   <div class="theme-menu" id="theme-menu">
-    {themes.map((theme) => (
-      <button 
-        class="theme-option" 
-        data-theme={theme.id}
-        aria-label={`Switch to ${theme.name}`}
-      >
-        <span class="theme-option-icon">{theme.icon}</span>
-        <span class="theme-option-name">{theme.name}</span>
-        <span class="theme-check">✓</span>
-      </button>
-    ))}
+    {
+      themes.map((theme) => (
+        <button
+          aria-label={`Switch to ${theme.name}`}
+          class="theme-option"
+          data-theme={theme.id}
+        >
+          <span class="theme-option-icon">{theme.icon}</span>
+          <span class="theme-option-name">{theme.name}</span>
+          <span class="theme-check">✓</span>
+        </button>
+      ))
+    }
   </div>
 </div>
 
@@ -72,7 +74,7 @@ const themes = [
     flex-direction: column;
     gap: 2px;
     z-index: 1000;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 24px var(--color-overlay);
   }
 
   .theme-menu.open {
@@ -130,42 +132,42 @@ const themes = [
 </style>
 
 <script>
-  const btn = document.getElementById('theme-btn');
-  const menu = document.getElementById('theme-menu');
-  const options = document.querySelectorAll('.theme-option');
+  const btn = document.getElementById("theme-btn");
+  const menu = document.getElementById("theme-menu");
+  const options = document.querySelectorAll(".theme-option");
 
   // Load saved theme
-  const savedTheme = localStorage.getItem('theme') || 'tokyo-night';
-  document.documentElement.setAttribute('data-theme', savedTheme);
+  const savedTheme = localStorage.getItem("theme") || "tokyo-night";
+  document.documentElement.setAttribute("data-theme", savedTheme);
   updateActiveTheme(savedTheme);
 
   // Toggle menu
-  btn?.addEventListener('click', (e) => {
+  btn?.addEventListener("click", (e) => {
     e.stopPropagation();
-    menu?.classList.toggle('open');
+    menu?.classList.toggle("open");
   });
 
   // Close menu on outside click
-  document.addEventListener('click', () => {
-    menu?.classList.remove('open');
+  document.addEventListener("click", () => {
+    menu?.classList.remove("open");
   });
 
   // Theme selection
-  options.forEach(option => {
-    option.addEventListener('click', (e) => {
+  options.forEach((option) => {
+    option.addEventListener("click", (e) => {
       const theme = (e.currentTarget as HTMLElement).dataset.theme;
       if (theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("theme", theme);
         updateActiveTheme(theme);
-        menu?.classList.remove('open');
+        menu?.classList.remove("open");
       }
     });
   });
 
   function updateActiveTheme(theme: string) {
-    options.forEach(opt => {
-      opt.classList.toggle('active', opt.getAttribute('data-theme') === theme);
+    options.forEach((opt) => {
+      opt.classList.toggle("active", opt.getAttribute("data-theme") === theme);
     });
   }
 </script>

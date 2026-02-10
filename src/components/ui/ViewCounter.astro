@@ -4,11 +4,17 @@ const { slug } = Astro.props;
 ---
 
 <div class="view-counter">
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-    <circle cx="12" cy="12" r="3"/>
+  <svg
+    fill="none"
+    height="16"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    width="16"
+  >
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+    <circle cx="12" cy="12" r="3"></circle>
   </svg>
-  <span id={`view-count-${slug}`} class="view-count">0</span>
+  <span class="view-count" id={`view-count-${slug}`}>0</span>
   <span class="view-text">views</span>
 </div>
 
@@ -31,37 +37,21 @@ const { slug } = Astro.props;
   }
 </style>
 
-<script define:vars={{ slug }}>
+<script is:inline define:vars={{ slug }}>
   class ViewCounter {
     constructor() {
       this.slug = slug;
-      this.storageKey = 'post-views';
+      this.storageKey = "post-views";
       this.init();
     }
 
-    init() {
-      if (!this.slug) return;
-      
-      // Increment view count
-      this.incrementView();
-      
-      // Display current count
-      this.displayCount();
-    }
-
-    incrementView() {
-      const views = this.getViews();
-      const currentCount = views[this.slug] || 0;
-      
-      // Only increment if not viewed in last hour (prevent spam)
-      const lastViewed = localStorage.getItem(`last-viewed-${this.slug}`);
-      const now = Date.now();
-      const oneHour = 60 * 60 * 1000;
-      
-      if (!lastViewed || (now - parseInt(lastViewed)) > oneHour) {
-        views[this.slug] = currentCount + 1;
-        localStorage.setItem(this.storageKey, JSON.stringify(views));
-        localStorage.setItem(`last-viewed-${this.slug}`, now.toString());
+    // Static method to get view count for other components
+    static getViewCount(slug) {
+      try {
+        const views = JSON.parse(localStorage.getItem("post-views") || "{}");
+        return views[slug] || 0;
+      } catch {
+        return 0;
       }
     }
 
@@ -69,37 +59,53 @@ const { slug } = Astro.props;
       const views = this.getViews();
       const count = views[this.slug] || 0;
       const element = document.getElementById(`view-count-${this.slug}`);
-      
+
       if (element) {
         element.textContent = this.formatCount(count);
       }
     }
 
+    formatCount(count) {
+      if (count >= 1000000) {
+        return (count / 1000000).toFixed(1) + "M";
+      } else if (count >= 1000) {
+        return (count / 1000).toFixed(1) + "K";
+      }
+      return count.toString();
+    }
+
     getViews() {
       try {
-        return JSON.parse(localStorage.getItem(this.storageKey) || '{}');
+        return JSON.parse(localStorage.getItem(this.storageKey) || "{}");
       } catch {
         return {};
       }
     }
 
-    formatCount(count) {
-      if (count >= 1000000) {
-        return (count / 1000000).toFixed(1) + 'M';
-      } else if (count >= 1000) {
-        return (count / 1000).toFixed(1) + 'K';
+    incrementView() {
+      const views = this.getViews();
+      const currentCount = views[this.slug] || 0;
+
+      // Only increment if not viewed in last hour (prevent spam)
+      const lastViewed = localStorage.getItem(`last-viewed-${this.slug}`);
+      const now = Date.now();
+      const oneHour = 60 * 60 * 1000;
+
+      if (!lastViewed || now - parseInt(lastViewed) > oneHour) {
+        views[this.slug] = currentCount + 1;
+        localStorage.setItem(this.storageKey, JSON.stringify(views));
+        localStorage.setItem(`last-viewed-${this.slug}`, now.toString());
       }
-      return count.toString();
     }
 
-    // Static method to get view count for other components
-    static getViewCount(slug) {
-      try {
-        const views = JSON.parse(localStorage.getItem('post-views') || '{}');
-        return views[slug] || 0;
-      } catch {
-        return 0;
-      }
+    init() {
+      if (!this.slug) return;
+
+      // Increment view count
+      this.incrementView();
+
+      // Display current count
+      this.displayCount();
     }
   }
 

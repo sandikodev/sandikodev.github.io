@@ -4,9 +4,15 @@
 ---
 
 <div class="font-size-toggle">
-  <button class="font-btn" data-size="small" title="Decrease font size">A-</button>
-  <button class="font-btn" data-size="normal" title="Normal font size">A</button>
-  <button class="font-btn" data-size="large" title="Increase font size">A+</button>
+  <button class="font-btn" data-size="small" title="Decrease font size">
+    A-
+  </button>
+  <button class="font-btn" data-size="normal" title="Normal font size">
+    A
+  </button>
+  <button class="font-btn" data-size="large" title="Increase font size">
+    A+
+  </button>
 </div>
 
 <style>
@@ -17,57 +23,38 @@
   }
 
   .font-btn {
-    background: none;
-    border: none;
-    padding: 0.375rem 0.5rem;
+    background: transparent;
+    border: 1px solid var(--color-border-alpha);
+    padding: 0.25rem 0.6rem;
     border-radius: 0.25rem;
     cursor: pointer;
-    font-family: var(--font-heading);
+    font-family: var(--font-primary, inherit);
     font-weight: 500;
-    color: var(--color-text-muted, #6b7280);
-    transition: all 150ms ease;
-    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    transition: all 0.2s ease;
+    font-size: 0.75rem;
   }
 
   .font-btn:hover {
-    background: rgba(0, 0, 0, 0.05);
-    color: var(--color-text, #111827);
-  }
-
-  :global(.dark) .font-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--color-text-dark, #f9fafb);
+    background: var(--color-bg-tertiary);
+    border-color: var(--color-border-alpha-hover);
+    color: var(--color-text-main);
   }
 
   .font-btn.active {
-    background: var(--color-primary, #3b82f6);
-    color: white;
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #ffffff;
   }
 
-  .font-btn[data-size="small"] { 
-    font-size: 0.75rem; 
-    opacity: 0.8;
-  }
-  .font-btn[data-size="normal"] { 
-    font-size: 0.875rem; 
-  }
-  .font-btn[data-size="large"] { 
-    font-size: 1rem; 
-    font-weight: 600;
-  }
-
-  /* Mobile optimization */
+  /* Mobile/Floating fallback if absolutely positioned elsewhere */
   @media (max-width: 768px) {
     .font-size-toggle {
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(8px);
-      border-radius: 0.5rem;
+      background: var(--color-backdrop);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--color-border-alpha);
       padding: 0.25rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-    
-    :global(.dark) .font-size-toggle {
-      background: rgba(0, 0, 0, 0.8);
+      border-radius: 0.5rem;
     }
   }
 </style>
@@ -80,53 +67,58 @@
 
     init() {
       // Load saved font size
-      const saved = localStorage.getItem('blog-font-size') || 'normal';
+      const saved = localStorage.getItem("blog-font-size") || "normal";
       this.setFontSize(saved);
       this.updateActiveButton(saved);
 
       // Add event listeners
-      document.querySelectorAll('.font-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const size = e.target.dataset.size;
+      document.querySelectorAll(".font-btn").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          const target = e.currentTarget as HTMLButtonElement;
+          const size = target.dataset.size || "normal";
           this.setFontSize(size);
           this.updateActiveButton(size);
-          localStorage.setItem('blog-font-size', size);
+          localStorage.setItem("blog-font-size", size);
         });
       });
     }
 
-    setFontSize(size) {
+    setFontSize(size: string) {
       const root = document.documentElement;
-      
-      switch(size) {
-        case 'small':
-          root.style.setProperty('--font-size-base', '0.875rem');
-          root.style.setProperty('--font-size-lg', '1rem');
-          root.style.setProperty('--font-size-xl', '1.125rem');
+
+      switch (size) {
+        case "large":
+          root.style.setProperty("--font-scale", "1.15");
           break;
-        case 'large':
-          root.style.setProperty('--font-size-base', '1.125rem');
-          root.style.setProperty('--font-size-lg', '1.25rem');
-          root.style.setProperty('--font-size-xl', '1.375rem');
+        case "small":
+          root.style.setProperty("--font-scale", "0.9");
           break;
         default: // normal
-          root.style.setProperty('--font-size-base', '1rem');
-          root.style.setProperty('--font-size-lg', '1.125rem');
-          root.style.setProperty('--font-size-xl', '1.25rem');
+          root.style.setProperty("--font-scale", "1");
       }
     }
 
-    updateActiveButton(size) {
-      document.querySelectorAll('.font-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.size === size);
+    updateActiveButton(size: string) {
+      document.querySelectorAll(".font-btn").forEach((btn) => {
+        const button = btn as HTMLButtonElement;
+        button.classList.toggle("active", button.dataset.size === size);
       });
     }
   }
 
   // Initialize when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => new FontSizeToggle());
+  const init = () => {
+    if (document.querySelector(".font-size-toggle")) {
+      new FontSizeToggle();
+    }
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
   } else {
-    new FontSizeToggle();
+    init();
   }
+
+  // Re-init on view transitions
+  document.addEventListener("astro:after-swap", init);
 </script>

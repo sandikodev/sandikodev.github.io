@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface AnimatedCounterProps {
-  end: number;
-  duration?: number;
-  suffix?: string;
   className?: string;
+  duration?: number;
+  end: number;
+  suffix?: string;
 }
 
 export default function AnimatedCounter(props: AnimatedCounterProps) {

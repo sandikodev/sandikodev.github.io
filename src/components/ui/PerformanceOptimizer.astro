@@ -3,99 +3,141 @@
 ---
 
 <script>
-  // Performance optimizations
+  /**
+   * Performance Optimizer
+   * Works dynamically across all modes (Workspace & Standard Blog)
+   */
   function initPerformanceOptimizations() {
-    // Lazy load images
-    if ('IntersectionObserver' in window) {
-      const imageObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const img = entry.target;
-            if (img.dataset.src) {
-              img.src = img.dataset.src;
-              img.removeAttribute('data-src');
-              imageObserver.unobserve(img);
+    // 1. Critical CSS Loading State - Always apply to prevent FOUC
+    document.documentElement.classList.add("critical-css-loaded");
+
+    // 2. Intelligent Image Lazy Loading
+    if ("IntersectionObserver" in window) {
+      const imageObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const img = entry.target as HTMLImageElement;
+              if (img.dataset.src) {
+                img.src = img.dataset.src;
+                img.removeAttribute("data-src");
+                imageObserver.unobserve(img);
+              }
             }
-          }
-        });
-      });
-      
-      document.querySelectorAll('img[data-src]').forEach(img => {
+          });
+        },
+        {
+          rootMargin: "50px 0px", // Trigger slightly before it enters viewport
+          threshold: 0.01,
+        },
+      );
+
+      document.querySelectorAll("img[data-src]").forEach((img) => {
         imageObserver.observe(img);
       });
     }
-    
-    // Prefetch important pages on hover
+
+    // 3. Smart Link Prefetching (SPA-like navigation feel)
     const prefetchLinks = new Set();
-    document.addEventListener('mouseover', (e) => {
-      const link = e.target.closest('a[href^="/"]');
-      if (link && !prefetchLinks.has(link.href)) {
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const link = target.closest('a[href^="/"]') as HTMLAnchorElement | null;
+
+      // Don't prefetch if it's external, already prefetched, or the current page
+      if (
+        link &&
+        !prefetchLinks.has(link.href) &&
+        link.href !== window.location.href &&
+        !link.hasAttribute("download")
+      ) {
         prefetchLinks.add(link.href);
-        
-        const prefetchLink = document.createElement('link');
-        prefetchLink.rel = 'prefetch';
+
+        const prefetchLink = document.createElement("link");
+        prefetchLink.rel = "prefetch";
         prefetchLink.href = link.href;
         document.head.appendChild(prefetchLink);
       }
-    });
-    
-    // Mark critical CSS as loaded immediately
-    document.documentElement.classList.add('critical-css-loaded');
-    
-    // Web Vitals tracking (minimal)
-    if (typeof gtag !== 'undefined') {
-      // Track Core Web Vitals if GA is available
-      new PerformanceObserver((list) => {
-        list.getEntries().forEach((entry) => {
-          if (entry.entryType === 'largest-contentful-paint') {
-            gtag('event', 'web_vitals', {
-              name: 'LCP',
-              value: Math.round(entry.startTime),
-              event_category: 'performance'
-            });
-          }
-        });
-      }).observe({ entryTypes: ['largest-contentful-paint'] });
+    };
+
+    document.addEventListener("mouseover", handleMouseOver, { passive: true });
+
+    // 4. Core Web Vitals Monitoring (GA Integration if available)
+    if (typeof (window as any).gtag !== "undefined") {
+      try {
+        new PerformanceObserver((list) => {
+          list.getEntries().forEach((entry) => {
+            if (entry.entryType === "largest-contentful-paint") {
+              (window as any).gtag("event", "web_vitals", {
+                event_category: "performance",
+                name: "LCP",
+                value: Math.round(entry.startTime),
+                non_interaction: true,
+              });
+            }
+          });
+        }).observe({ type: "largest-contentful-paint", buffered: true });
+      } catch {
+        // Silently fail for older browsers
+      }
     }
   }
-  
-  // Init optimizations
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initPerformanceOptimizations);
+
+  // --- Initialization ---
+
+  // Handle Vanilla JS Load
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPerformanceOptimizations);
   } else {
     initPerformanceOptimizations();
   }
-  
-  document.addEventListener('astro:page-load', initPerformanceOptimizations);
+
+  // Handle Astro View Transitions
+  document.addEventListener("astro:page-load", initPerformanceOptimizations);
 </script>
 
-<style>
-  /* Critical CSS loading state */
+<style is:global>
+  /* ─── Optimization UI States ─── */
+
+  /* Critical CSS loading state - Prevent Flash of Unstyled Content */
   html:not(.critical-css-loaded) {
     visibility: hidden;
   }
-  
+
   html.critical-css-loaded {
     visibility: visible;
+    transition: visibility 0s;
   }
-  
-  /* Lazy loading placeholder */
+
+  /* Shimmer effect for lazy loading images */
   img[data-src] {
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background: linear-gradient(
+      90deg,
+      rgba(122, 162, 247, 0.05) 25%,
+      rgba(122, 162, 247, 0.1) 50%,
+      rgba(122, 162, 247, 0.05) 75%
+    );
     background-size: 200% 100%;
-    animation: loading 1.5s infinite;
+    animation: shimmer 1.5s infinite linear;
   }
-  
-  @keyframes loading {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
+
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
   }
-  
-  /* Reduce motion for accessibility */
+
+  /* ─── Accessibility Support ─── */
   @media (prefers-reduced-motion: reduce) {
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+
     img[data-src] {
-      animation: none;
-      background: #f0f0f0;
+      background: var(--bg-secondary, #24283b);
     }
   }
 </style>

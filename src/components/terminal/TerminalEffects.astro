@@ -4,36 +4,40 @@ interface Props {
   effects?: string[]; // ['scanlines', 'glow', 'matrix', 'glitch', 'boot']
 }
 
-const { effects = ['scanlines', 'glow'] } = Astro.props;
+const { effects = ["scanlines", "glow"] } = Astro.props;
 ---
 
-<div id="terminal-effects" class="terminal-effects" data-effects={effects.join(',')}>
+<div
+  class="terminal-effects"
+  data-effects={effects.join(",")}
+  id="terminal-effects"
+>
   <!-- Scan Lines -->
-  {effects.includes('scanlines') && (
-    <div class="effect-scanlines"></div>
-  )}
-  
+  {effects.includes("scanlines") && <div class="effect-scanlines" />}
+
   <!-- Matrix Rain -->
-  {effects.includes('matrix') && (
-    <canvas id="matrix-canvas" class="effect-matrix"></canvas>
-  )}
-  
+  {
+    effects.includes("matrix") && (
+      <canvas class="effect-matrix" id="matrix-canvas" />
+    )
+  }
+
   <!-- Glitch Overlay -->
-  {effects.includes('glitch') && (
-    <div class="effect-glitch"></div>
-  )}
-  
+  {effects.includes("glitch") && <div class="effect-glitch" />}
+
   <!-- Boot Sequence -->
-  {effects.includes('boot') && (
-    <div id="boot-sequence" class="effect-boot">
-      <div class="boot-text">
-        <div class="boot-line">BIOS v2.1.0</div>
-        <div class="boot-line">Loading kernel...</div>
-        <div class="boot-line">Starting services...</div>
-        <div class="boot-line">Welcome to dev@sandikodev</div>
+  {
+    effects.includes("boot") && (
+      <div class="effect-boot" id="boot-sequence">
+        <div class="boot-text">
+          <div class="boot-line">BIOS v2.1.0</div>
+          <div class="boot-line">Loading kernel...</div>
+          <div class="boot-line">Starting services...</div>
+          <div class="boot-line">Welcome to dev@sandikodev</div>
+        </div>
       </div>
-    </div>
-  )}
+    )
+  }
 </div>
 
 <style>
@@ -46,7 +50,7 @@ const { effects = ['scanlines', 'glow'] } = Astro.props;
     pointer-events: none;
     z-index: 1;
   }
-  
+
   /* Scan Lines Effect */
   .effect-scanlines {
     position: absolute;
@@ -54,20 +58,21 @@ const { effects = ['scanlines', 'glow'] } = Astro.props;
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(
-      transparent 50%,
-      rgba(0, 255, 0, 0.03) 50%
-    );
+    background: linear-gradient(transparent 50%, rgba(0, 255, 0, 0.03) 50%);
     background-size: 100% 4px;
     animation: scanlines 0.1s linear infinite;
     opacity: 0.8;
   }
-  
+
   @keyframes scanlines {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(4px); }
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(4px);
+    }
   }
-  
+
   /* Matrix Rain */
   .effect-matrix {
     position: absolute;
@@ -77,7 +82,7 @@ const { effects = ['scanlines', 'glow'] } = Astro.props;
     height: 100%;
     opacity: 0.1;
   }
-  
+
   /* Glitch Effect */
   .effect-glitch {
     position: absolute;
@@ -88,26 +93,28 @@ const { effects = ['scanlines', 'glow'] } = Astro.props;
     background: transparent;
     animation: glitch 3s infinite;
   }
-  
+
   @keyframes glitch {
-    0%, 90%, 100% { 
+    0%,
+    90%,
+    100% {
       transform: translate(0);
       filter: hue-rotate(0deg);
     }
-    91% { 
+    91% {
       transform: translate(2px, 0);
       filter: hue-rotate(90deg);
     }
-    92% { 
+    92% {
       transform: translate(-2px, 0);
       filter: hue-rotate(180deg);
     }
-    93% { 
+    93% {
       transform: translate(0, 2px);
       filter: hue-rotate(270deg);
     }
   }
-  
+
   /* Boot Sequence */
   .effect-boot {
     position: absolute;
@@ -123,50 +130,66 @@ const { effects = ['scanlines', 'glow'] } = Astro.props;
     opacity: 0;
     visibility: hidden;
   }
-  
+
   .effect-boot.active {
     opacity: 1;
     visibility: visible;
     animation: bootFade 4s ease-out forwards;
   }
-  
+
   @keyframes bootFade {
-    0%, 80% { opacity: 1; }
-    100% { opacity: 0; visibility: hidden; }
+    0%,
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      visibility: hidden;
+    }
   }
-  
+
   .boot-text {
     color: #00ff00;
-    font-family: 'Fira Code', monospace;
+    font-family: "Fira Code", monospace;
     font-size: 1rem;
     text-align: left;
   }
-  
+
   .boot-line {
     opacity: 0;
     animation: bootType 0.5s ease-out forwards;
   }
-  
-  .boot-line:nth-child(1) { animation-delay: 0s; }
-  .boot-line:nth-child(2) { animation-delay: 0.8s; }
-  .boot-line:nth-child(3) { animation-delay: 1.6s; }
-  .boot-line:nth-child(4) { animation-delay: 2.4s; }
-  
-  @keyframes bootType {
-    to { opacity: 1; }
+
+  .boot-line:nth-child(1) {
+    animation-delay: 0s;
   }
-  
+  .boot-line:nth-child(2) {
+    animation-delay: 0.8s;
+  }
+  .boot-line:nth-child(3) {
+    animation-delay: 1.6s;
+  }
+  .boot-line:nth-child(4) {
+    animation-delay: 2.4s;
+  }
+
+  @keyframes bootType {
+    to {
+      opacity: 1;
+    }
+  }
+
   /* Glow Effects */
   [data-effects*="glow"] .i3-window {
-    box-shadow: 
+    box-shadow:
       0 0 20px rgba(122, 162, 247, 0.3),
       inset 0 0 20px rgba(122, 162, 247, 0.1);
   }
-  
+
   [data-effects*="glow"] .polybar {
     box-shadow: 0 0 15px rgba(122, 162, 247, 0.4);
   }
-  
+
   /* Disable effects on mobile */
   @media (max-width: 768px) {
     .effect-scanlines,
@@ -175,7 +198,7 @@ const { effects = ['scanlines', 'glow'] } = Astro.props;
       display: none;
     }
   }
-  
+
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
     .effect-scanlines,
@@ -187,104 +210,16 @@ const { effects = ['scanlines', 'glow'] } = Astro.props;
 
 <script>
   class TerminalEffectsManager {
+    effects: Map<string, { interval: any }>;
+    isActive: boolean;
+
     constructor() {
       this.effects = new Map();
       this.isActive = false;
     }
-    
-    init() {
-      const container = document.getElementById('terminal-effects');
-      if (!container) return;
-      
-      const effectsList = container.dataset.effects?.split(',') || [];
-      
-      effectsList.forEach(effect => {
-        switch (effect) {
-          case 'matrix':
-            this.initMatrix();
-            break;
-          case 'boot':
-            this.initBoot();
-            break;
-          case 'glitch':
-            this.initGlitch();
-            break;
-        }
-      });
-      
-      this.isActive = true;
-    }
-    
-    initMatrix() {
-      const canvas = document.getElementById('matrix-canvas');
-      if (!canvas) return;
-      
-      const ctx = canvas.getContext('2d');
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      
-      const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789';
-      const charArray = chars.split('');
-      const fontSize = 14;
-      const columns = canvas.width / fontSize;
-      const drops = Array(Math.floor(columns)).fill(1);
-      
-      function draw() {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        ctx.fillStyle = '#00ff00';
-        ctx.font = `${fontSize}px 'Fira Code'`;
-        
-        drops.forEach((y, x) => {
-          const char = charArray[Math.floor(Math.random() * charArray.length)];
-          ctx.fillText(char, x * fontSize, y * fontSize);
-          
-          if (y * fontSize > canvas.height && Math.random() > 0.975) {
-            drops[x] = 0;
-          }
-          drops[x]++;
-        });
-      }
-      
-      const interval = setInterval(draw, 50);
-      this.effects.set('matrix', { interval });
-    }
-    
-    initBoot() {
-      const boot = document.getElementById('boot-sequence');
-      if (!boot) return;
-      
-      // Show boot sequence on first visit
-      const hasBooted = sessionStorage.getItem('terminal-booted');
-      if (!hasBooted) {
-        setTimeout(() => {
-          boot.classList.add('active');
-          sessionStorage.setItem('terminal-booted', 'true');
-        }, 500);
-      }
-    }
-    
-    initGlitch() {
-      // Random glitch trigger
-      const triggerGlitch = () => {
-        const container = document.getElementById('terminal-effects');
-        if (container) {
-          container.classList.add('glitching');
-          setTimeout(() => {
-            container.classList.remove('glitching');
-          }, 200);
-        }
-        
-        // Random interval between 10-30 seconds
-        setTimeout(triggerGlitch, Math.random() * 20000 + 10000);
-      };
-      
-      setTimeout(triggerGlitch, Math.random() * 10000 + 5000);
-    }
-    
+
     destroy() {
-      this.effects.forEach((effect, name) => {
+      this.effects.forEach((effect, _name) => {
         if (effect.interval) {
           clearInterval(effect.interval);
         }
@@ -292,11 +227,107 @@ const { effects = ['scanlines', 'glow'] } = Astro.props;
       this.effects.clear();
       this.isActive = false;
     }
-    
-    toggle(effectName, enabled) {
-      const container = document.getElementById('terminal-effects');
+
+    init() {
+      const container = document.getElementById("terminal-effects");
       if (!container) return;
-      
+
+      const effectsList = container.dataset.effects?.split(",") || [];
+
+      effectsList.forEach((effect) => {
+        switch (effect) {
+          case "boot":
+            this.initBoot();
+            break;
+          case "glitch":
+            this.initGlitch();
+            break;
+          case "matrix":
+            this.initMatrix();
+            break;
+        }
+      });
+
+      this.isActive = true;
+    }
+
+    initBoot() {
+      const boot = document.getElementById("boot-sequence");
+      if (!boot) return;
+
+      // Show boot sequence on first visit
+      const hasBooted = sessionStorage.getItem("terminal-booted");
+      if (!hasBooted) {
+        setTimeout(() => {
+          boot.classList.add("active");
+          sessionStorage.setItem("terminal-booted", "true");
+        }, 500);
+      }
+    }
+
+    initGlitch() {
+      // Random glitch trigger
+      const triggerGlitch = () => {
+        const container = document.getElementById("terminal-effects");
+        if (container) {
+          container.classList.add("glitching");
+          setTimeout(() => {
+            container.classList.remove("glitching");
+          }, 200);
+        }
+
+        // Random interval between 10-30 seconds
+        setTimeout(triggerGlitch, Math.random() * 20000 + 10000);
+      };
+
+      setTimeout(triggerGlitch, Math.random() * 10000 + 5000);
+    }
+
+    initMatrix() {
+      const canvas = document.getElementById(
+        "matrix-canvas",
+      ) as HTMLCanvasElement;
+      if (!canvas) return;
+
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const chars =
+        "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789";
+      const charArray = chars.split("");
+      const fontSize = 14;
+      const columns = canvas.width / fontSize;
+      const drops = Array(Math.floor(columns)).fill(1);
+
+      function draw() {
+        if (!ctx) return;
+        ctx.fillStyle = "var(--color-bg-tertiary)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = "#00ff00";
+        ctx.font = `${fontSize}px 'Fira Code'`;
+
+        drops.forEach((y, x) => {
+          const char = charArray[Math.floor(Math.random() * charArray.length)];
+          ctx.fillText(char, x * fontSize, y * fontSize);
+
+          if (y * fontSize > canvas.height && Math.random() > 0.975) {
+            drops[x] = 0;
+          }
+          drops[x]++;
+        });
+      }
+
+      const interval = setInterval(draw, 50);
+      this.effects.set("matrix", { interval });
+    }
+
+    toggle(effectName: string, enabled: boolean) {
+      const container = document.getElementById("terminal-effects");
+      if (!container) return;
+
       if (enabled) {
         container.classList.add(`effect-${effectName}-enabled`);
       } else {
@@ -304,33 +335,40 @@ const { effects = ['scanlines', 'glow'] } = Astro.props;
       }
     }
   }
-  
+
+  declare global {
+    interface Window {
+      terminalEffects: TerminalEffectsManager;
+    }
+  }
+
   // Global instance
   window.terminalEffects = new TerminalEffectsManager();
-  
+
   function initTerminalEffects() {
     // Only in terminal mode
-    const isTerminal = document.documentElement.getAttribute('data-theme-mode') === 'terminal';
+    const isTerminal =
+      document.documentElement.getAttribute("data-theme-mode") === "terminal";
     if (!isTerminal) return;
-    
+
     if (window.terminalEffects.isActive) {
       window.terminalEffects.destroy();
     }
-    
+
     window.terminalEffects.init();
   }
-  
+
   // Auto-init
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initTerminalEffects);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initTerminalEffects);
   } else {
     initTerminalEffects();
   }
-  
-  document.addEventListener('astro:page-load', initTerminalEffects);
-  
+
+  document.addEventListener("astro:page-load", initTerminalEffects);
+
   // Cleanup on page unload
-  window.addEventListener('beforeunload', () => {
+  window.addEventListener("beforeunload", () => {
     if (window.terminalEffects) {
       window.terminalEffects.destroy();
     }

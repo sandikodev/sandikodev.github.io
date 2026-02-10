@@ -1,150 +1,202 @@
 ---
-import "@/styles/terminal-theme.css";
-import TabBar from "@/components/terminal/TabBar.astro";
-import StatusBar from "@/components/terminal/StatusBar.astro";
+import { ClientRouter } from "astro:transitions";
+
 import CommandPalette from "@/components/terminal/CommandPalette.astro";
 import KeyboardHelp from "@/components/terminal/KeyboardHelp.astro";
-import GlitchEffect from "@/components/workspace/effects/GlitchEffect.astro";
+import StatusBar from "@/components/terminal/StatusBar.astro";
+import TabBar from "@/components/terminal/TabBar.astro";
 import EasterEggs from "@/components/workspace/effects/EasterEggs.astro";
+import GlitchEffect from "@/components/workspace/effects/GlitchEffect.astro";
 import config from "@/config/config.json";
-import { ViewTransitions } from "astro:transitions";
+
+import "@/styles/terminal-theme.css";
 
 interface Props {
-  title?: string;
   description?: string;
-  mode?: string;
   file?: string;
+  mode?: string;
+  title?: string;
 }
 
-const { 
-  title = config.site.title, 
+const {
   description = config.metadata.meta_description,
+  file = "index",
   mode = "NORMAL",
-  file = "index"
+  title = config.site.title,
 } = Astro.props;
-
-const currentPath = Astro.url.pathname;
 ---
 
-<!DOCTYPE html>
-<html lang="en" data-theme="tokyo-night">
+<!doctype html>
+<html data-theme="tokyo-night" lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
-    
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content={description} name="description" />
+
     <!-- Preconnect -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-    
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+    <link crossorigin href="https://cdn.jsdelivr.net" rel="preconnect" />
+
     <!-- Fira Code with Ligatures -->
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
     <!-- KaTeX for Math Equations -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous" />
-    
+    <link
+      crossorigin="anonymous"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+      rel="stylesheet"
+    />
+
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    
+    <link href="/logo.svg" rel="icon" type="image/svg+xml" />
+    <link href="/favicon.ico" rel="icon" type="image/x-icon" />
+
     <!-- SEO -->
     <title>{title}</title>
-    <meta name="author" content={config.metadata.meta_author} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    
-    <ViewTransitions />
+    <meta content={config.metadata.meta_author} name="author" />
+    <meta content={title} property="og:title" />
+    <meta content={description} property="og:description" />
+    <meta content="website" property="og:type" />
+    <meta content="summary_large_image" name="twitter:card" />
+
+    <!-- Theme Restore (Anti-Flicker) -->
+    <script is:inline>
+      {
+        const restoreTheme = () => {
+          const theme = localStorage.getItem("theme") || "tokyo-night";
+          document.documentElement.setAttribute("data-theme", theme);
+        };
+        restoreTheme();
+
+        if (!window.__terminalThemeInit) {
+          document.addEventListener("astro:after-swap", restoreTheme);
+          window.__terminalThemeInit = true;
+        }
+      }
+    </script>
+
+    <ClientRouter />
   </head>
-  
+
   <body class="terminal-body">
     <div class="terminal-container scanlines">
       <!-- Tab Bar (tmux style) -->
       <TabBar />
-      
+
       <!-- Main Content -->
       <main class="terminal-main">
         <slot />
       </main>
-      
+
       <!-- Status Bar (vim style) -->
-      <StatusBar mode={mode} file={file} />
+      <StatusBar file={file} mode={mode} />
     </div>
-    
+
     <!-- Command Palette -->
     <CommandPalette />
-    
+
     <!-- Keyboard Help -->
     <KeyboardHelp />
-    
+
     <!-- KaTeX Auto-render -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
-    
-    <!-- Mermaid for Flowcharts -->
-    <script type="module">
-      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-      
-      mermaid.initialize({
-        startOnLoad: true,
-        theme: 'dark',
-        themeVariables: {
-          primaryColor: '#7aa2f7',
-          primaryTextColor: '#c0caf5',
-          primaryBorderColor: '#3b4261',
-          lineColor: '#565f89',
-          secondaryColor: '#bb9af7',
-          tertiaryColor: '#24283b',
-          background: '#1a1b26',
-          mainBkg: '#24283b',
-          nodeBorder: '#3b4261',
-          clusterBkg: '#24283b',
-          clusterBorder: '#3b4261',
-          titleColor: '#c0caf5',
-          edgeLabelBackground: '#24283b'
-        },
-        flowchart: {
-          curve: 'basis',
-          padding: 20
-        }
-      });
-    </script>
-    
-    <!-- Initialize KaTeX after page load -->
-    <script is:inline>
-      document.addEventListener('DOMContentLoaded', () => {
-        if (typeof renderMathInElement !== 'undefined') {
-          renderMathInElement(document.body, {
-            delimiters: [
-              {left: '$$', right: '$$', display: true},
-              {left: '$', right: '$', display: false},
-              {left: '\\[', right: '\\]', display: true},
-              {left: '\\(', right: '\\)', display: false}
-            ],
-            throwOnError: false
+    <script
+      is:inline
+      crossorigin="anonymous"
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
+    ></script>
+    <script
+      is:inline
+      crossorigin="anonymous"
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    ></script>
+
+    <!-- Unified Initialization Script -->
+    <script is:inline type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+
+      function initMermaid() {
+        const blocks = document.querySelectorAll(
+          'pre[data-language="mermaid"], .mermaid',
+        );
+        if (blocks.length > 0) {
+          blocks.forEach((block) => {
+            if (block.tagName === "PRE") {
+              const div = document.createElement("div");
+              div.className = "mermaid";
+              div.textContent = block.textContent;
+              const header = block.previousElementSibling;
+              if (header && header.classList.contains("code-header"))
+                header.remove();
+              block.parentNode.replaceChild(div, block);
+            }
           });
+
+          mermaid.initialize({
+            startOnLoad: false,
+            theme: "base",
+            flowchart: { curve: "basis", padding: 20 },
+            sequence: {
+              actorMargin: 50,
+              boxMargin: 10,
+              boxTextMargin: 5,
+              diagramMarginX: 50,
+              diagramMarginY: 10,
+              messageMargin: 35,
+              mirrorActors: true,
+              useMaxWidth: true,
+              rightAngles: false,
+              showSequenceNumbers: false,
+              actorBkg: "var(--bg-tertiary)",
+              actorBorder: "var(--border)",
+              actorTextColor: "var(--text-primary)",
+              actorLineColor: "var(--text-muted)",
+              signalColor: "var(--blue)",
+              signalTextColor: "var(--text-primary)",
+              labelBoxBkgColor: "var(--bg-secondary)",
+              labelBoxBorderColor: "var(--border)",
+              labelTextColor: "var(--text-primary)",
+              loopTextColor: "var(--text-primary)",
+              noteBkgColor: "var(--yellow)",
+              noteTextColor: "var(--bg-primary)",
+            },
+            themeVariables: {
+              background: "transparent",
+              primaryColor: "var(--bg-tertiary)",
+              primaryTextColor: "var(--text-primary)",
+              primaryBorderColor: "var(--border)",
+              lineColor: "var(--text-primary)",
+              secondaryColor: "var(--magenta)",
+              tertiaryColor: "var(--bg-tertiary)",
+              mainBkg: "var(--bg-tertiary)",
+              nodeBorder: "var(--border)",
+              clusterBkg: "var(--bg-secondary)",
+              clusterBorder: "var(--border)",
+              edgeLabelBackground: "var(--bg-primary)",
+              textColor: "var(--text-primary)",
+            },
+          });
+
+          mermaid.run({ querySelector: ".mermaid" });
         }
-      });
-    </script>
-    
-    <!-- Add copy buttons to all code blocks -->
-    <script is:inline>
+      }
+
       function addCopyButtons() {
-        document.querySelectorAll('pre.astro-code:not(.enhanced)').forEach(pre => {
-          pre.classList.add('enhanced');
-          
-          const code = pre.querySelector('code');
-          if (!code) return;
-          
-          // Get language from data attribute or class
-          const lang = pre.getAttribute('data-language') || 'code';
-          
-          // Create header with language + copy button
-          const header = document.createElement('div');
-          header.className = 'code-header';
-          header.innerHTML = `
+        document
+          .querySelectorAll("pre.astro-code:not(.enhanced)")
+          .forEach((pre) => {
+            pre.classList.add("enhanced");
+            const code = pre.querySelector("code");
+            if (!code) return;
+            const lang = pre.getAttribute("data-language") || "code";
+            const header = document.createElement("div");
+            header.className = "code-header";
+            header.innerHTML = `
             <span class="code-lang">${lang}</span>
             <button class="code-copy" aria-label="Copy code">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -154,152 +206,94 @@ const currentPath = Astro.url.pathname;
               <span>Copy</span>
             </button>
           `;
-          
-          // Insert header before pre
-          pre.parentNode.insertBefore(header, pre);
-          
-          // Add click handler
-          const btn = header.querySelector('.code-copy');
-          btn.addEventListener('click', async () => {
-            try {
-              await navigator.clipboard.writeText(code.textContent);
-              btn.innerHTML = `
+            pre.parentNode.insertBefore(header, pre);
+            const btn = header.querySelector(".code-copy");
+            btn.addEventListener("click", async () => {
+              try {
+                await navigator.clipboard.writeText(code.textContent);
+                btn.innerHTML = `
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
                 <span>Copied!</span>
               `;
-              btn.classList.add('copied');
-              
-              setTimeout(() => {
-                btn.innerHTML = `
+                btn.classList.add("copied");
+                setTimeout(() => {
+                  btn.innerHTML = `
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <rect x="9" y="9" width="13" height="13" rx="2"></rect>
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                   </svg>
                   <span>Copy</span>
                 `;
-                btn.classList.remove('copied');
-              }, 2000);
-            } catch (err) {
-              console.error('Copy failed:', err);
-            }
+                  btn.classList.remove("copied");
+                }, 2000);
+              } catch (err) {
+                console.error("Copy failed:", err);
+              }
+            });
           });
-        });
       }
-      
-      document.addEventListener('DOMContentLoaded', addCopyButtons);
-      document.addEventListener('astro:after-swap', addCopyButtons);
+
+      function initPage() {
+        initMermaid();
+        addCopyButtons();
+        if (typeof renderMathInElement !== "undefined") {
+          renderMathInElement(document.body, {
+            delimiters: [
+              { display: true, left: "$$", right: "$$" },
+              { display: false, left: "$", right: "$" },
+              { display: true, left: "\\[", right: "\\]" },
+              { display: false, left: "\\(", right: "\\)" },
+            ],
+            throwOnError: false,
+          });
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", initPage);
+      document.addEventListener("astro:after-swap", initPage);
+      document.addEventListener("astro:page-load", initPage);
     </script>
-    
-    <!-- Keyboard Navigation Script -->
+
+    <!-- Keyboard Navigation & Shortcuts -->
     <script>
-      // Vim-style keyboard navigation
-      let gPressed = false;
-      
-      document.addEventListener('keydown', (e) => {
-        // Ignore if typing in input
-        if (document.activeElement?.tagName === 'INPUT' || 
-            document.activeElement?.tagName === 'TEXTAREA') {
-          return;
-        }
-        
-        // j/k scroll
-        if (e.key === 'j') {
-          window.scrollBy({ top: 100, behavior: 'smooth' });
-        }
-        if (e.key === 'k') {
-          window.scrollBy({ top: -100, behavior: 'smooth' });
-        }
-        
-        // gg - go to top
-        if (e.key === 'g') {
-          if (gPressed) {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            gPressed = false;
-          } else {
-            gPressed = true;
-            setTimeout(() => gPressed = false, 500);
-          }
-        }
-        
-        // G - go to bottom
-        if (e.key === 'G' && !e.shiftKey === false) {
-          window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-        }
-        
-        // g+h - go home
-        if (gPressed && e.key === 'h') {
-          window.location.href = '/';
-        }
-        
-        // g+b - go blog
-        if (gPressed && e.key === 'b') {
-          window.location.href = '/blog';
-        }
-        
-        // g+a - go about
-        if (gPressed && e.key === 'a') {
-          window.location.href = '/about';
-        }
-        
-        // ? - show help (open command palette)
-        if (e.key === '?') {
-          document.getElementById('command-palette')?.classList.remove('hidden');
-          document.getElementById('palette-input')?.focus();
-        }
-        
-        // t+t - toggle theme
-        if (e.key === 't') {
-          const themes = ['tokyo-night', 'dracula', 'gruvbox', 'nord', 'matrix'];
-          const current = document.documentElement.getAttribute('data-theme') || 'tokyo-night';
-          const currentIndex = themes.indexOf(current);
-          const nextIndex = (currentIndex + 1) % themes.length;
-          document.documentElement.setAttribute('data-theme', themes[nextIndex]);
-          localStorage.setItem('theme', themes[nextIndex]);
-        }
-      });
-      
-      // Load saved theme
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme) {
-        document.documentElement.setAttribute('data-theme', savedTheme);
-      }
+      import { keyboardManager } from "@/components/terminal/svelte/KeyboardManager.svelte";
+      console.log("⌨️ Keyboard Manager Status:", !!keyboardManager);
     </script>
+    <style is:global>
+      .terminal-body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background: var(--bg-primary);
+      }
+
+      .terminal-container {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .terminal-main {
+        flex: 1;
+        padding: var(--space-6);
+        padding-bottom: calc(var(--space-6) + 40px);
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      @media (max-width: 768px) {
+        .terminal-main {
+          padding: var(--space-4);
+          padding-bottom: calc(var(--space-4) + 40px);
+        }
+      }
+    </style>
+
+    <!-- Dev Mode Effects -->
+    <GlitchEffect />
+    <EasterEggs />
   </body>
 </html>
-
-<style is:global>
-  .terminal-body {
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    background: var(--bg-primary);
-  }
-
-  .terminal-container {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .terminal-main {
-    flex: 1;
-    padding: var(--space-6);
-    padding-bottom: calc(var(--space-6) + 40px); /* Space for status bar */
-    max-width: 1200px;
-    margin: 0 auto;
-    width: 100%;
-  }
-
-  @media (max-width: 768px) {
-    .terminal-main {
-      padding: var(--space-4);
-      padding-bottom: calc(var(--space-4) + 40px);
-    }
-  }
-</style>
-
-<!-- Dev Mode Effects -->
-<GlitchEffect />
-<EasterEggs />

@@ -1,5 +1,4 @@
 ---
-import config from "@/config/config.json";
 import {
   IoLogoFacebook,
   IoLogoLinkedin,
@@ -7,8 +6,10 @@ import {
   IoLogoTwitter,
 } from "react-icons/io5";
 
+import config from "@/config/config.json";
+
 const { base_url } = config.site;
-const { title, description, slug, className } = Astro.props;
+const { className, description, slug, title } = Astro.props;
 ---
 
 <ul class={`${className}`}>
@@ -16,8 +17,8 @@ const { title, description, slug, className } = Astro.props;
     <a
       aria-label="facebook share button"
       href={`https://facebook.com/sharer/sharer.php?u=${base_url}/${slug}`}
-      target="_blank"
       rel="noreferrer noopener"
+      target="_blank"
     >
       <IoLogoFacebook />
     </a>
@@ -26,8 +27,8 @@ const { title, description, slug, className } = Astro.props;
     <a
       aria-label="twitter share button"
       href={`https://twitter.com/intent/tweet/?text=${title}&amp;url=${base_url}/${slug}`}
-      target="_blank"
       rel="noreferrer noopener"
+      target="_blank"
     >
       <IoLogoTwitter />
     </a>
@@ -36,8 +37,8 @@ const { title, description, slug, className } = Astro.props;
     <a
       aria-label="linkedin share button"
       href={`https://www.linkedin.com/shareArticle?mini=true&url=${base_url}/${slug}&title=${title}&summary=${description}&source=${base_url}`}
-      target="_blank"
       rel="noreferrer noopener"
+      target="_blank"
     >
       <IoLogoLinkedin />
     </a>
@@ -46,8 +47,8 @@ const { title, description, slug, className } = Astro.props;
     <a
       aria-label="pinterest share button"
       href={`https://pinterest.com/pin/create/button/?url=${base_url}/${slug}&media=&description=${description}`}
-      target="_blank"
       rel="noreferrer noopener"
+      target="_blank"
     >
       <IoLogoPinterest />
     </a>

@@ -1,56 +1,71 @@
 ---
-import { Icon } from 'astro-icon/components';
+import { Icon } from "astro-icon/components";
 
 export interface Props {
-  lang?: string;
-  title?: string;
-  showLineNumbers?: boolean;
   highlightLines?: number[];
+  lang?: string;
+  showLineNumbers?: boolean;
+  title?: string;
 }
 
-const { lang, title, showLineNumbers = true, highlightLines = [] } = Astro.props;
+const {
+  highlightLines = [],
+  lang,
+  showLineNumbers = true,
+  title,
+} = Astro.props;
+void highlightLines;
+void showLineNumbers;
 ---
 
 <div class="code-container" data-language={lang}>
-  {title && (
-    <div class="code-header">
-      <span class="code-title">{title}</span>
-      <button class="code-copy" onclick="copyCode(this)">
-        <Icon name="mdi:content-copy" size={16} />
-        <span>Copy</span>
-      </button>
-    </div>
-  )}
+  {
+    title && (
+      <div class="code-header">
+        <span class="code-title">{title}</span>
+        <button class="code-copy" onclick="copyCode(this)">
+          <Icon name="mdi:content-copy" size={16} />
+          <span>Copy</span>
+        </button>
+      </div>
+    )
+  }
   <div class="code-content">
     <slot />
   </div>
 </div>
 
 <script>
-  function copyCode(button) {
-    const codeBlock = button.closest('.code-container').querySelector('pre code');
-    const text = codeBlock.textContent;
-    
+  function copyCode(btn: any) {
+    const button = btn as HTMLButtonElement;
+    const codeBlock = button
+      .closest(".code-container")
+      ?.querySelector("pre code");
+    if (!codeBlock) return;
+    const text = codeBlock.textContent || "";
+
     navigator.clipboard.writeText(text).then(() => {
-      const icon = button.querySelector('svg');
-      const span = button.querySelector('span');
-      
-      // Change to checkmark
-      icon.style.display = 'none';
-      span.textContent = '✓ Copied';
-      button.classList.add('copied');
-      
-      // Reset after 2 seconds
-      setTimeout(() => {
-        icon.style.display = 'block';
-        span.textContent = 'Copy';
-        button.classList.remove('copied');
-      }, 2000);
+      const icon = button.querySelector("svg");
+      const span = button.querySelector("span");
+
+      if (icon && span) {
+        // Change to checkmark
+        icon.style.display = "none";
+        span.textContent = "✓ Copied";
+        button.classList.add("copied");
+
+        // Reset after 2 seconds
+        setTimeout(() => {
+          icon.style.display = "block";
+          span.textContent = "Copy";
+          button.classList.remove("copied");
+        }, 2000);
+      }
     });
   }
-  
+
   // Make function globally available
-  window.copyCode = copyCode;
+  (window as any).copyCode = copyCode;
 </script>
 
 <style>
@@ -61,7 +76,7 @@ const { lang, title, showLineNumbers = true, highlightLines = [] } = Astro.props
     overflow: hidden;
     border: 1px solid var(--border);
   }
-  
+
   .code-header {
     display: flex;
     align-items: center;
@@ -70,14 +85,14 @@ const { lang, title, showLineNumbers = true, highlightLines = [] } = Astro.props
     background: var(--bg-tertiary);
     border-bottom: 1px solid var(--border);
   }
-  
+
   .code-title {
     font-family: var(--font-mono);
     font-size: 0.875rem;
     color: var(--text-secondary);
     font-weight: 500;
   }
-  
+
   .code-copy {
     display: flex;
     align-items: center;
@@ -91,24 +106,24 @@ const { lang, title, showLineNumbers = true, highlightLines = [] } = Astro.props
     cursor: pointer;
     transition: all 0.2s ease;
   }
-  
+
   .code-copy:hover {
     background: var(--bg-secondary);
     color: var(--text-secondary);
   }
-  
+
   .code-copy.copied {
     background: var(--green);
     color: white;
     border-color: var(--green);
   }
-  
+
   .code-content :global(pre) {
     margin: 0;
     border-radius: 0;
     border: none;
   }
-  
+
   /* Language badge for blocks without header */
   .code-container:not(:has(.code-header))[data-language]::before {
     content: attr(data-language);

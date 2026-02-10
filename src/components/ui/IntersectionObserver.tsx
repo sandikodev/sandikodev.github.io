@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 
 interface IntersectionObserverProps {
   children: React.ReactNode;
   className?: string;
-  threshold?: number;
   rootMargin?: string;
+  threshold?: number;
 }
 
 export default function IntersectionObserver(props: IntersectionObserverProps) {
@@ -20,30 +20,29 @@ export default function IntersectionObserver(props: IntersectionObserverProps) {
         }
       },
       {
+        rootMargin: props.rootMargin || "0px 0px -50px 0px",
         threshold: props.threshold || 0.1,
-        rootMargin: props.rootMargin || '0px 0px -50px 0px'
-      }
+      },
     );
 
-    if (elementRef.current) {
-      observer.observe(elementRef.current);
+    const currentElement = elementRef.current;
+    if (currentElement) {
+      observer.observe(currentElement);
     }
 
     return () => {
-      if (elementRef.current) {
-        observer.unobserve(elementRef.current);
+      if (currentElement) {
+        observer.unobserve(currentElement);
       }
     };
   }, [props.threshold, props.rootMargin]);
 
   return (
     <div
-      ref={elementRef}
       className={`transition-all duration-1000 ${
-        isVisible 
-          ? 'opacity-100 translate-y-0' 
-          : 'opacity-0 translate-y-8'
-      } ${props.className || ''}`}
+        isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+      } ${props.className || ""}`}
+      ref={elementRef}
     >
       {props.children}
     </div>

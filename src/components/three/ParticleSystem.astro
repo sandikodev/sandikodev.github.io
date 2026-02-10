@@ -2,7 +2,7 @@
 // Three.js Particle System for Hero Background
 ---
 
-<div id="particle-container" class="particle-container"></div>
+<div class="particle-container" id="particle-container"></div>
 
 <style>
   .particle-container {
@@ -19,60 +19,100 @@
   // Dynamic import for Three.js to ensure client-side compatibility
   async function initParticleSystem() {
     try {
-      const THREE = await import('three');
-      
+      const THREE = await import("three");
+
       class ParticleSystem {
-        constructor(containerId) {
+        container: HTMLElement | null;
+        scene: any;
+        camera: any;
+        renderer: any;
+        particles: any;
+        connections: any;
+
+        constructor(containerId: string) {
           this.container = document.getElementById(containerId);
           if (!this.container) return;
-          
+
           this.init(THREE);
           this.animate();
         }
-        
-        init(THREE) {
-          // Scene
-          this.scene = new THREE.Scene();
-          
-          // Camera
-          this.camera = new THREE.PerspectiveCamera(
-            75, 
-            this.container.clientWidth / this.container.clientHeight, 
-            0.1, 
-            1000
-          );
-          this.camera.position.z = 5;
-          
-          // Renderer
-          this.renderer = new THREE.WebGLRenderer({ 
-            alpha: true,
-            antialias: true 
-          });
-          this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
-          this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-          this.container.appendChild(this.renderer.domElement);
-          
-          // Create particles representing circuit connections
-          this.createParticles(THREE);
-          
-          // Handle resize
-          window.addEventListener('resize', () => this.onResize());
+
+        animate() {
+          requestAnimationFrame(() => this.animate());
+
+          if (this.particles) {
+            this.particles.rotation.x += 0.0005;
+            this.particles.rotation.y += 0.001;
+          }
+
+          if (this.connections) {
+            this.connections.rotation.x += 0.0003;
+            this.connections.rotation.y += 0.0007;
+          }
+
+          this.renderer.render(this.scene, this.camera);
         }
-        
-        createParticles(THREE) {
+
+        createConnections(THREE: any) {
           const geometry = new THREE.BufferGeometry();
           const vertices = [];
           const colors = [];
-          
+
+          // Create random connections between particles
+          for (let i = 0; i < 100; i++) {
+            const start = new THREE.Vector3(
+              (Math.random() - 0.5) * 20,
+              (Math.random() - 0.5) * 20,
+              (Math.random() - 0.5) * 20,
+            );
+
+            const end = new THREE.Vector3(
+              start.x + (Math.random() - 0.5) * 5,
+              start.y + (Math.random() - 0.5) * 5,
+              start.z + (Math.random() - 0.5) * 5,
+            );
+
+            vertices.push(start.x, start.y, start.z);
+            vertices.push(end.x, end.y, end.z);
+
+            // Cyan color for connections
+            colors.push(0.3, 0.9, 0.8);
+            colors.push(0.3, 0.9, 0.8);
+          }
+
+          geometry.setAttribute(
+            "position",
+            new THREE.Float32BufferAttribute(vertices, 3),
+          );
+          geometry.setAttribute(
+            "color",
+            new THREE.Float32BufferAttribute(colors, 3),
+          );
+
+          const material = new THREE.LineBasicMaterial({
+            opacity: 0.3,
+            transparent: true,
+            vertexColors: true,
+          });
+
+          this.connections = new THREE.LineSegments(geometry, material);
+          this.scene.add(this.connections);
+        }
+
+        createParticles(THREE: any) {
+          const geometry = new THREE.BufferGeometry();
+          const vertices = [];
+          const colors = [];
+
           // Create particle positions and colors
           for (let i = 0; i < 2000; i++) {
             // Position
             vertices.push(
               (Math.random() - 0.5) * 30,
               (Math.random() - 0.5) * 30,
-              (Math.random() - 0.5) * 30
+              (Math.random() - 0.5) * 30,
             );
-            
+
             // Colors (circuit-like: blue, cyan, white)
             const colorChoice = Math.random();
             if (colorChoice < 0.4) {
@@ -83,98 +123,84 @@
               colors.push(1, 1, 1); // White
             }
           }
-          
-          geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-          geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-          
+
+          geometry.setAttribute(
+            "position",
+            new THREE.Float32BufferAttribute(vertices, 3),
+          );
+          geometry.setAttribute(
+            "color",
+            new THREE.Float32BufferAttribute(colors, 3),
+          );
+
           // Material
           const material = new THREE.PointsMaterial({
+            blending: THREE.AdditiveBlending,
+            opacity: 0.8,
             size: 0.03,
             transparent: true,
-            opacity: 0.8,
             vertexColors: true,
-            blending: THREE.AdditiveBlending
           });
-          
+
           this.particles = new THREE.Points(geometry, material);
           this.scene.add(this.particles);
-          
+
           // Add connecting lines (circuit traces)
           this.createConnections(THREE);
         }
-        
-        createConnections(THREE) {
-          const geometry = new THREE.BufferGeometry();
-          const vertices = [];
-          const colors = [];
-          
-          // Create random connections between particles
-          for (let i = 0; i < 100; i++) {
-            const start = new THREE.Vector3(
-              (Math.random() - 0.5) * 20,
-              (Math.random() - 0.5) * 20,
-              (Math.random() - 0.5) * 20
-            );
-            
-            const end = new THREE.Vector3(
-              start.x + (Math.random() - 0.5) * 5,
-              start.y + (Math.random() - 0.5) * 5,
-              start.z + (Math.random() - 0.5) * 5
-            );
-            
-            vertices.push(start.x, start.y, start.z);
-            vertices.push(end.x, end.y, end.z);
-            
-            // Cyan color for connections
-            colors.push(0.3, 0.9, 0.8);
-            colors.push(0.3, 0.9, 0.8);
-          }
-          
-          geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-          geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-          
-          const material = new THREE.LineBasicMaterial({
-            vertexColors: true,
-            transparent: true,
-            opacity: 0.3
+
+        init(THREE: any) {
+          // Scene
+          this.scene = new THREE.Scene();
+
+          // Camera
+          this.camera = new THREE.PerspectiveCamera(
+            75,
+            this.container!.clientWidth / this.container!.clientHeight,
+            0.1,
+            1000,
+          );
+          this.camera.position.z = 5;
+
+          // Renderer
+          this.renderer = new THREE.WebGLRenderer({
+            alpha: true,
+            antialias: true,
           });
-          
-          this.connections = new THREE.LineSegments(geometry, material);
-          this.scene.add(this.connections);
+          this.renderer.setSize(
+            this.container!.clientWidth,
+            this.container!.clientHeight,
+          );
+          this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+          this.container!.appendChild(this.renderer.domElement);
+
+          // Create particles representing circuit connections
+          this.createParticles(THREE);
+
+          // Handle resize
+          window.addEventListener("resize", () => this.onResize());
         }
-        
-        animate() {
-          requestAnimationFrame(() => this.animate());
-          
-          if (this.particles) {
-            this.particles.rotation.x += 0.0005;
-            this.particles.rotation.y += 0.001;
-          }
-          
-          if (this.connections) {
-            this.connections.rotation.x += 0.0003;
-            this.connections.rotation.y += 0.0007;
-          }
-          
-          this.renderer.render(this.scene, this.camera);
-        }
-        
+
         onResize() {
           if (!this.container) return;
-          
-          this.camera.aspect = this.container.clientWidth / this.container.clientHeight;
+
+          this.camera.aspect =
+            this.container!.clientWidth / this.container!.clientHeight;
           this.camera.updateProjectionMatrix();
-          this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+          this.renderer.setSize(
+            this.container!.clientWidth,
+            this.container!.clientHeight,
+          );
         }
       }
-      
+
       // Initialize when DOM is ready
-      new ParticleSystem('particle-container');
+      new ParticleSystem("particle-container");
     } catch (error) {
-      console.warn('Three.js not available:', error);
+      console.warn("Three.js not available:", error);
     }
   }
-  
+
   // Initialize when DOM is ready
-  document.addEventListener('DOMContentLoaded', initParticleSystem);
+  document.addEventListener("DOMContentLoaded", initParticleSystem);
 </script>

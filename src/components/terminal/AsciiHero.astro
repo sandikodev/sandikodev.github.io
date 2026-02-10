@@ -3,20 +3,47 @@
 ---
 
 <div class="neofetch">
-  <pre class="ascii"><span class="c1">    ██████╗ ███████╗██╗   ██╗</span>
-<span class="c1">    ██╔══██╗██╔════╝██║   ██║</span>
-<span class="c2">    ██║  ██║█████╗  ██║   ██║</span>
-<span class="c2">    ██║  ██║██╔══╝  ╚██╗ ██╔╝</span>
-<span class="c3">    ██████╔╝███████╗ ╚████╔╝</span>
-<span class="c3">    ╚═════╝ ╚══════╝  ╚═══╝</span></pre>
+  <pre
+    class="ascii">
+    <span class="c1">    ██████╗ ███████╗██╗   ██╗</span>
+    <span class="c1">    ██╔══██╗██╔════╝██║   ██║</span>
+    <span class="c2">    ██║  ██║█████╗  ██║   ██║</span>
+    <span class="c2">    ██║  ██║██╔══╝  ╚██╗ ██╔╝</span>
+    <span class="c3">    ██████╔╝███████╗ ╚████╔╝</span>
+    <span class="c3">    ╚═════╝ ╚══════╝  ╚═══╝</span>
+  </pre>
   <div class="info">
-    <div class="info-header"><span class="user">dev</span><span class="at">@</span><span class="host">enigma</span></div>
+    <div class="info-header">
+      <span class="user">dev</span>
+      <span class="at">@</span>
+      <span class="host">enigma</span>
+    </div>
     <div class="sep">─────────────────</div>
-    <div class="line"><span class="label">🖥️ OS</span> <span class="value">Arch Linux x86_64</span></div>
-    <div class="line"><span class="label">🐚 Shell</span> <span class="value">zsh 5.9</span></div>
-    <div class="line"><span class="label">📝 Editor</span> <span class="value">NeoVim</span></div>
-    <div class="line"><span class="label">🪟 WM</span> <span class="value">i3-gaps</span></div>
-    <div class="line"><span class="label">💼 Role</span> <span class="value">Full Stack Dev</span></div>
+    <div class="line">
+      <span class="label">🖥️ OS</span>
+      {" "}
+      <span class="value">Arch Linux x86_64</span>
+    </div>
+    <div class="line">
+      <span class="label">🐚 Shell</span>
+      {" "}
+      <span class="value">zsh 5.9</span>
+    </div>
+    <div class="line">
+      <span class="label">📝 Editor</span>
+      {" "}
+      <span class="value">NeoVim</span>
+    </div>
+    <div class="line">
+      <span class="label">🪟 WM</span>
+      {" "}
+      <span class="value">i3-gaps</span>
+    </div>
+    <div class="line">
+      <span class="label">💼 Role</span>
+      {" "}
+      <span class="value">Full Stack Dev</span>
+    </div>
     <div class="colors">
       <span style="background:var(--red)"></span>
       <span style="background:var(--green)"></span>
@@ -43,18 +70,34 @@
     white-space: pre;
   }
 
-  .c1 { color: var(--blue); }
-  .c2 { color: var(--cyan); }
-  .c3 { color: var(--magenta); }
+  .c1 {
+    color: var(--blue);
+  }
+  .c2 {
+    color: var(--cyan);
+  }
+  .c3 {
+    color: var(--magenta);
+  }
 
   .info {
     line-height: 1.5;
   }
 
-  .info-header { font-weight: 600; }
-  .user, .host { color: var(--green); }
-  .at { color: var(--text-muted); }
-  .sep { color: var(--text-muted); margin: 4px 0; }
+  .info-header {
+    font-weight: 600;
+  }
+  .user,
+  .host {
+    color: var(--green);
+  }
+  .at {
+    color: var(--text-muted);
+  }
+  .sep {
+    color: var(--text-muted);
+    margin: 4px 0;
+  }
 
   .line {
     display: flex;
@@ -83,7 +126,12 @@
   }
 
   @media (max-width: 600px) {
-    .neofetch { flex-direction: column; gap: 12px; }
-    .ascii { font-size: 7px; }
+    .neofetch {
+      flex-direction: column;
+      gap: 12px;
+    }
+    .ascii {
+      font-size: 7px;
+    }
   }
 </style>

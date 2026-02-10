@@ -10,14 +10,18 @@
   }
 
   @keyframes rainbow-bg {
-    0% { filter: hue-rotate(0deg); }
-    100% { filter: hue-rotate(360deg); }
+    0% {
+      filter: hue-rotate(0deg);
+    }
+    100% {
+      filter: hue-rotate(360deg);
+    }
   }
 
   .matrix-mode .matrix-char {
     position: fixed;
     color: #00ff00;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     font-size: 14px;
     pointer-events: none;
     z-index: 1000;
@@ -25,8 +29,14 @@
   }
 
   @keyframes matrix-fall {
-    0% { transform: translateY(-100vh); opacity: 1; }
-    100% { transform: translateY(100vh); opacity: 0; }
+    0% {
+      transform: translateY(-100vh);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100vh);
+      opacity: 0;
+    }
   }
 
   .secret-message {
@@ -34,33 +44,80 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.9);
+    background: var(--color-backdrop);
     color: #00ff00;
     padding: 20px;
     border: 2px solid #00ff00;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     z-index: 10000;
     animation: glow 1s ease-in-out infinite alternate;
   }
 
   @keyframes glow {
-    from { box-shadow: 0 0 5px #00ff00; }
-    to { box-shadow: 0 0 20px #00ff00; }
+    from {
+      box-shadow: 0 0 5px #00ff00;
+    }
+    to {
+      box-shadow: 0 0 20px #00ff00;
+    }
   }
 </style>
 
 <script>
   class EasterEggs {
     private konamiCode = [
-      'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
-      'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight',
-      'KeyB', 'KeyA'
+      "ArrowUp",
+      "ArrowUp",
+      "ArrowDown",
+      "ArrowDown",
+      "ArrowLeft",
+      "ArrowRight",
+      "ArrowLeft",
+      "ArrowRight",
+      "KeyB",
+      "KeyA",
     ];
+
     private konamiIndex = 0;
-    private secretCommands: { [key: string]: () => void } = {};
+    private secretCommands: Record<string, () => void> = {};
 
     constructor() {
       this.init();
+    }
+
+    private activateKonamiMode() {
+      document.body.classList.add("konami-mode");
+      this.showSecretMessage("🎮 KONAMI CODE ACTIVATED! Rainbow mode enabled!");
+
+      setTimeout(() => {
+        document.body.classList.remove("konami-mode");
+      }, 10000);
+    }
+
+    private activateMatrixMode() {
+      document.body.classList.add("matrix-mode");
+
+      const chars =
+        "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン";
+
+      for (let i = 0; i < 50; i++) {
+        setTimeout(() => {
+          const char = document.createElement("div");
+          char.className = "matrix-char";
+          char.textContent = chars[Math.floor(Math.random() * chars.length)];
+          char.style.left = Math.random() * 100 + "vw";
+          char.style.animationDelay = Math.random() * 2 + "s";
+          document.body.appendChild(char);
+
+          setTimeout(() => {
+            char.remove();
+          }, 3000);
+        }, i * 100);
+      }
+
+      setTimeout(() => {
+        document.body.classList.remove("matrix-mode");
+      }, 5000);
     }
 
     private init() {
@@ -69,8 +126,46 @@
       this.setupClickEasterEggs();
     }
 
+    private setupClickEasterEggs() {
+      let clickCount = 0;
+      const logo = document.querySelector(".logo, [data-logo]");
+
+      if (logo) {
+        logo.addEventListener("click", () => {
+          clickCount++;
+          if (clickCount === 7) {
+            this.showSecretMessage(
+              "🎉 You found the secret! Welcome to RENDER!",
+            );
+            clickCount = 0;
+          }
+        });
+      }
+    }
+
+    private setupCommandListener() {
+      const commandInput = document.querySelector(
+        "[data-command-input]",
+      ) as HTMLInputElement;
+      if (!commandInput) return;
+
+      const handleCommand = () => {
+        const command = commandInput.value.toLowerCase().trim();
+        if (this.secretCommands[command]) {
+          this.secretCommands[command]();
+          commandInput.value = "";
+        }
+      };
+
+      commandInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          handleCommand();
+        }
+      });
+    }
+
     private setupKonamiCode() {
-      document.addEventListener('keydown', (e) => {
+      document.addEventListener("keydown", (e) => {
         if (e.code === this.konamiCode[this.konamiIndex]) {
           this.konamiIndex++;
           if (this.konamiIndex === this.konamiCode.length) {
@@ -85,90 +180,41 @@
 
     private setupSecretCommands() {
       this.secretCommands = {
-        'render': () => this.showSecretMessage('🚀 RENDER: Tunneling the door at everything!'),
-        'matrix': () => this.activateMatrixMode(),
-        'glitch': () => this.triggerGlitch(),
-        'konami': () => this.activateKonamiMode(),
-        'sudo': () => this.showSecretMessage('🔒 Access Denied: You are not in the sudoers file.'),
-        'hack': () => this.showSecretMessage('👨‍💻 Hacking in progress... Just kidding!'),
-        'coffee': () => this.showSecretMessage('☕ Error 418: I am a teapot'),
-        'portal': () => this.showSecretMessage('🌀 The cake is a lie'),
+        coffee: () => this.showSecretMessage("☕ Error 418: I am a teapot"),
+        glitch: () => this.triggerGlitch(),
+        hack: () =>
+          this.showSecretMessage("👨‍💻 Hacking in progress... Just kidding!"),
+        konami: () => this.activateKonamiMode(),
+        matrix: () => this.activateMatrixMode(),
+        portal: () => this.showSecretMessage("🌀 The cake is a lie"),
+        render: () =>
+          this.showSecretMessage(
+            "🚀 RENDER: Tunneling the door at everything!",
+          ),
+        sudo: () =>
+          this.showSecretMessage(
+            "🔒 Access Denied: You are not in the sudoers file.",
+          ),
       };
 
       // Listen for command palette inputs
-      document.addEventListener('keydown', (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      document.addEventListener("keydown", (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === "k") {
           setTimeout(() => this.setupCommandListener(), 100);
         }
       });
     }
 
-    private setupCommandListener() {
-      const commandInput = document.querySelector('[data-command-input]') as HTMLInputElement;
-      if (!commandInput) return;
+    private showSecretMessage(message: string) {
+      const messageEl = document.createElement("div");
+      messageEl.className = "secret-message";
+      messageEl.textContent = message;
 
-      const handleCommand = () => {
-        const command = commandInput.value.toLowerCase().trim();
-        if (this.secretCommands[command]) {
-          this.secretCommands[command]();
-          commandInput.value = '';
-        }
-      };
+      document.body.appendChild(messageEl);
 
-      commandInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          handleCommand();
-        }
-      });
-    }
-
-    private setupClickEasterEggs() {
-      let clickCount = 0;
-      const logo = document.querySelector('.logo, [data-logo]');
-      
-      if (logo) {
-        logo.addEventListener('click', () => {
-          clickCount++;
-          if (clickCount === 7) {
-            this.showSecretMessage('🎉 You found the secret! Welcome to RENDER!');
-            clickCount = 0;
-          }
-        });
-      }
-    }
-
-    private activateKonamiMode() {
-      document.body.classList.add('konami-mode');
-      this.showSecretMessage('🎮 KONAMI CODE ACTIVATED! Rainbow mode enabled!');
-      
       setTimeout(() => {
-        document.body.classList.remove('konami-mode');
-      }, 10000);
-    }
-
-    private activateMatrixMode() {
-      document.body.classList.add('matrix-mode');
-      
-      const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-      
-      for (let i = 0; i < 50; i++) {
-        setTimeout(() => {
-          const char = document.createElement('div');
-          char.className = 'matrix-char';
-          char.textContent = chars[Math.floor(Math.random() * chars.length)];
-          char.style.left = Math.random() * 100 + 'vw';
-          char.style.animationDelay = Math.random() * 2 + 's';
-          document.body.appendChild(char);
-          
-          setTimeout(() => {
-            char.remove();
-          }, 3000);
-        }, i * 100);
-      }
-      
-      setTimeout(() => {
-        document.body.classList.remove('matrix-mode');
-      }, 5000);
+        messageEl.remove();
+      }, 3000);
     }
 
     private triggerGlitch() {
@@ -176,26 +222,15 @@
       if (glitchEffect) {
         glitchEffect.trigger(500);
       }
-      this.showSecretMessage('⚡ GLITCH TRIGGERED!');
-    }
-
-    private showSecretMessage(message: string) {
-      const messageEl = document.createElement('div');
-      messageEl.className = 'secret-message';
-      messageEl.textContent = message;
-      
-      document.body.appendChild(messageEl);
-      
-      setTimeout(() => {
-        messageEl.remove();
-      }, 3000);
+      this.showSecretMessage("⚡ GLITCH TRIGGERED!");
     }
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const isDevMode = document.body.classList.contains('dev-mode') || 
-                     window.location.pathname.startsWith('/workspace');
-    
+  document.addEventListener("DOMContentLoaded", () => {
+    const isDevMode =
+      document.body.classList.contains("dev-mode") ||
+      window.location.pathname.startsWith("/workspace");
+
     if (isDevMode) {
       new EasterEggs();
     }

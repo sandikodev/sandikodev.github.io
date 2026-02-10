@@ -1,6 +1,6 @@
 ---
 interface Props {
-  items?: Array<{ label: string; href?: string }>;
+  items?: { href?: string; label: string }[];
 }
 
 const { items = [] } = Astro.props;
@@ -8,57 +8,67 @@ const { items = [] } = Astro.props;
 // Auto-generate breadcrumbs from URL if not provided
 function generateBreadcrumbs() {
   const path = Astro.url.pathname;
-  const segments = path.split('/').filter(Boolean);
-  
-  const breadcrumbs = [{ label: 'Home', href: '/' }];
-  
-  let currentPath = '';
+  const segments = path.split("/").filter(Boolean);
+
+  const breadcrumbs: { href?: string; label: string }[] = [
+    { href: "/", label: "Home" },
+  ];
+
+  let currentPath = "";
   segments.forEach((segment, index) => {
     currentPath += `/${segment}`;
-    
+
     // Format segment name
-    let label = segment.replace(/-/g, ' ');
+    let label = segment.replace(/-/g, " ");
     label = label.charAt(0).toUpperCase() + label.slice(1);
-    
+
     // Last segment is current page (no link)
     if (index === segments.length - 1) {
       breadcrumbs.push({ label });
     } else {
-      breadcrumbs.push({ label, href: currentPath });
+      breadcrumbs.push({ href: currentPath, label });
     }
   });
-  
+
   return breadcrumbs;
 }
 
 const breadcrumbs = items.length > 0 ? items : generateBreadcrumbs();
 ---
 
-{breadcrumbs.length > 1 && (
-  <nav class="breadcrumb" aria-label="Breadcrumb">
-    <ol class="breadcrumb-list">
-      {breadcrumbs.map((item, index) => (
-        <li class="breadcrumb-item">
-          {item.href ? (
-            <a href={item.href} class="breadcrumb-link">{item.label}</a>
-          ) : (
-            <span class="breadcrumb-current" aria-current="page">{item.label}</span>
-          )}
-          {index < breadcrumbs.length - 1 && (
-            <span class="breadcrumb-separator" aria-hidden="true">/</span>
-          )}
-        </li>
-      ))}
-    </ol>
-  </nav>
-)}
+{
+  breadcrumbs.length > 1 && (
+    <nav aria-label="Breadcrumb" class="breadcrumb">
+      <ol class="breadcrumb-list">
+        {breadcrumbs.map((item, index) => (
+          <li class="breadcrumb-item">
+            {item.href ? (
+              <a class="breadcrumb-link" href={item.href}>
+                {item.label}
+              </a>
+            ) : (
+              <span aria-current="page" class="breadcrumb-current">
+                {item.label}
+              </span>
+            )}
+            {index < breadcrumbs.length - 1 && (
+              <span aria-hidden="true" class="breadcrumb-separator">
+                /
+              </span>
+            )}
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )
+}
 
 <style>
   .breadcrumb {
     margin-bottom: 1.5rem;
     font-size: 0.875rem;
   }
-  
+
   .breadcrumb-list {
     display: flex;
     flex-wrap: wrap;
@@ -68,60 +78,64 @@ const breadcrumbs = items.length > 0 ? items : generateBreadcrumbs();
     margin: 0;
     padding: 0;
   }
-  
+
   .breadcrumb-item {
     display: flex;
     align-items: center;
     gap: 0.5rem;
   }
-  
+
   .breadcrumb-link {
     color: var(--text-secondary, #6b7280);
     text-decoration: none;
     transition: color 0.2s;
   }
-  
+
   .breadcrumb-link:hover {
     color: var(--text-primary, #1f2937);
     text-decoration: underline;
   }
-  
+
   .breadcrumb-current {
     color: var(--text-primary, #1f2937);
     font-weight: 500;
   }
-  
+
   .breadcrumb-separator {
     color: var(--text-secondary, #6b7280);
     opacity: 0.6;
   }
-  
+
   /* Dev Mode styling */
   [data-theme-mode="terminal"] .breadcrumb-link {
-    color: #7aa2f7;
+    color: var(--color-terminal-accent);
   }
-  
+
   [data-theme-mode="terminal"] .breadcrumb-link:hover {
-    color: #c0caf5;
+    color: var(--color-terminal-text);
   }
-  
+
   [data-theme-mode="terminal"] .breadcrumb-current {
-    color: #c0caf5;
+    color: var(--color-terminal-text);
   }
-  
+
   [data-theme-mode="terminal"] .breadcrumb-separator {
-    color: #565f89;
+    color: var(--color-terminal-muted);
   }
 </style>
 
 <!-- Structured Data for SEO -->
-<script type="application/ld+json" set:html={JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": breadcrumbs.map((item, index) => ({
-    "@type": "ListItem",
-    "position": index + 1,
-    "name": item.label,
-    ...(item.href && { "item": `https://sandikodev.github.io${item.href}` })
-  }))
-})} />
+<script
+  is:inline
+  set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: breadcrumbs.map((item, index) => ({
+      "@type": "ListItem",
+      name: item.label,
+      position: index + 1,
+      ...(item.href && { item: `https://sandikodev.github.io${item.href}` }),
+    })),
+  })}
+  type="application/ld+json"
+/>

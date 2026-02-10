@@ -5,16 +5,19 @@ i3wm / Tiling Window Manager themed components for the blog.
 ## Components
 
 ### Core Layout
+
 - **`Polybar.astro`** - Top status bar (i3wm style)
 - **`I3Window.astro`** - Tiling window container
 - **`Dmenu.astro`** - Application launcher
 
 ### Navigation
+
 - **`KeyboardHandler.astro`** - Global keyboard shortcuts
 - **`HelpModal.astro`** - Keyboard shortcuts reference
 - **`ThemeSwitcher.astro`** - Theme picker UI
 
 ### Content
+
 - **`Prompt.astro`** - Terminal prompt (user@host:~$)
 - **`AsciiHero.astro`** - ASCII art hero section
 - **`BlogCard.astro`** - Blog post card
@@ -22,6 +25,7 @@ i3wm / Tiling Window Manager themed components for the blog.
 - **`TabBar.astro`** - Tab navigation (tmux style)
 
 ### Utilities
+
 - **`TerminalWindow.astro`** - Simple terminal window
 - **`CommandPalette.astro`** - Command search (Ctrl+K)
 - **`KeyboardHelp.astro`** - Keyboard help overlay
@@ -29,10 +33,11 @@ i3wm / Tiling Window Manager themed components for the blog.
 ## Usage
 
 ### Basic Layout
+
 ```astro
 ---
-import I3Layout from '@/layouts/I3Layout.astro';
-import I3Window from '@/components/terminal/I3Window.astro';
+import I3Layout from "@/layouts/I3Layout.astro";
+import I3Window from "@/components/terminal/I3Window.astro";
 ---
 
 <I3Layout title="My Page">
@@ -45,10 +50,11 @@ import I3Window from '@/components/terminal/I3Window.astro';
 ```
 
 ### With Keyboard Navigation
+
 ```astro
 ---
-import KeyboardHandler from '@/components/terminal/KeyboardHandler.astro';
-import HelpModal from '@/components/terminal/HelpModal.astro';
+import KeyboardHandler from "@/components/terminal/KeyboardHandler.astro";
+import HelpModal from "@/components/terminal/HelpModal.astro";
 ---
 
 <KeyboardHandler />
@@ -56,9 +62,10 @@ import HelpModal from '@/components/terminal/HelpModal.astro';
 ```
 
 ### With Theme Switcher
+
 ```astro
 ---
-import ThemeSwitcher from '@/components/terminal/ThemeSwitcher.astro';
+import ThemeSwitcher from "@/components/terminal/ThemeSwitcher.astro";
 ---
 
 <ThemeSwitcher />
@@ -66,14 +73,14 @@ import ThemeSwitcher from '@/components/terminal/ThemeSwitcher.astro';
 
 ## Keyboard Shortcuts
 
-| Key | Action |
-|-----|--------|
-| `j` | Scroll down |
-| `k` | Scroll up |
-| `g g` | Go to top |
-| `G` | Go to bottom |
-| `t` | Cycle themes |
-| `?` | Show help |
+| Key   | Action       |
+| ----- | ------------ |
+| `j`   | Scroll down  |
+| `k`   | Scroll up    |
+| `g g` | Go to top    |
+| `G`   | Go to bottom |
+| `t`   | Cycle themes |
+| `?`   | Show help    |
 
 ## Themes
 
@@ -86,6 +93,7 @@ import ThemeSwitcher from '@/components/terminal/ThemeSwitcher.astro';
 ## Styling
 
 All components use CSS variables from:
+
 - `src/styles/terminal-theme.css`
 - `src/styles/i3wm-theme.css`
 - `src/styles/animations.css`
@@ -93,5 +101,6 @@ All components use CSS variables from:
 ## Examples
 
 See:
+
 - `/terminal` - Terminal demo
 - `/blog-tiling` - Blog with tiling layout

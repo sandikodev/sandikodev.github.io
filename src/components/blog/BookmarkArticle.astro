@@ -3,9 +3,21 @@
 const { slug, title } = Astro.props;
 ---
 
-<button class="bookmark-btn" data-slug={slug} data-title={title} title="Bookmark this article">
-  <svg class="bookmark-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-    <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>
+<button
+  class="bookmark-btn"
+  data-slug={slug}
+  data-title={title}
+  title="Bookmark this article"
+>
+  <svg
+    class="bookmark-icon"
+    fill="none"
+    height="20"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    width="20"
+  >
+    <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
   </svg>
   <span class="bookmark-text">Save</span>
 </button>
@@ -46,30 +58,87 @@ const { slug, title } = Astro.props;
 </style>
 
 <script>
+  interface Bookmark {
+    date: string;
+    title: string;
+    url: string;
+  }
+
+  type Bookmarks = Record<string, Bookmark>;
+
   class BookmarkManager {
+    private storageKey = "blog-bookmarks";
+
     constructor() {
-      this.storageKey = 'blog-bookmarks';
       this.init();
     }
 
+    addBookmark(slug: string, title: string) {
+      const bookmarks = this.getBookmarks();
+      bookmarks[slug] = {
+        date: new Date().toISOString(),
+        title,
+        url: `/blog/${slug}/`,
+      };
+      localStorage.setItem(this.storageKey, JSON.stringify(bookmarks));
+    }
+
+    getBookmarks(): Bookmarks {
+      try {
+        return JSON.parse(localStorage.getItem(this.storageKey) || "{}");
+      } catch {
+        return {};
+      }
+    }
+
     init() {
-      document.querySelectorAll('.bookmark-btn').forEach(btn => {
+      document.querySelectorAll(".bookmark-btn").forEach((element) => {
+        const btn = element as HTMLButtonElement;
         const slug = btn.dataset.slug;
-        
+
+        if (!slug) return;
+
         // Set initial state
         if (this.isBookmarked(slug)) {
           this.setBookmarked(btn, true);
         }
 
         // Add click handler
-        btn.addEventListener('click', () => this.toggleBookmark(btn));
+        btn.addEventListener("click", () => this.toggleBookmark(btn));
       });
     }
 
-    toggleBookmark(btn) {
+    isBookmarked(slug: string): boolean {
+      const bookmarks = this.getBookmarks();
+      return Object.prototype.hasOwnProperty.call(bookmarks, slug);
+    }
+
+    removeBookmark(slug: string) {
+      const bookmarks = this.getBookmarks();
+      delete bookmarks[slug];
+      localStorage.setItem(this.storageKey, JSON.stringify(bookmarks));
+    }
+
+    setBookmarked(btn: HTMLButtonElement, isBookmarked: boolean) {
+      const text = btn.querySelector(".bookmark-text");
+
+      if (text) {
+        if (isBookmarked) {
+          btn.classList.add("bookmarked");
+          text.textContent = "Saved";
+        } else {
+          btn.classList.remove("bookmarked");
+          text.textContent = "Save";
+        }
+      }
+    }
+
+    toggleBookmark(btn: HTMLButtonElement) {
       const slug = btn.dataset.slug;
       const title = btn.dataset.title;
-      
+
+      if (!slug || !title) return;
+
       if (this.isBookmarked(slug)) {
         this.removeBookmark(slug);
         this.setBookmarked(btn, false);
@@ -78,52 +147,11 @@ const { slug, title } = Astro.props;
         this.setBookmarked(btn, true);
       }
     }
-
-    addBookmark(slug, title) {
-      const bookmarks = this.getBookmarks();
-      bookmarks[slug] = {
-        title,
-        date: new Date().toISOString(),
-        url: `/blog/${slug}/`
-      };
-      localStorage.setItem(this.storageKey, JSON.stringify(bookmarks));
-    }
-
-    removeBookmark(slug) {
-      const bookmarks = this.getBookmarks();
-      delete bookmarks[slug];
-      localStorage.setItem(this.storageKey, JSON.stringify(bookmarks));
-    }
-
-    isBookmarked(slug) {
-      const bookmarks = this.getBookmarks();
-      return bookmarks.hasOwnProperty(slug);
-    }
-
-    getBookmarks() {
-      try {
-        return JSON.parse(localStorage.getItem(this.storageKey) || '{}');
-      } catch {
-        return {};
-      }
-    }
-
-    setBookmarked(btn, isBookmarked) {
-      const text = btn.querySelector('.bookmark-text');
-      
-      if (isBookmarked) {
-        btn.classList.add('bookmarked');
-        text.textContent = 'Saved';
-      } else {
-        btn.classList.remove('bookmarked');
-        text.textContent = 'Save';
-      }
-    }
   }
 
   // Initialize
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => new BookmarkManager());
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => new BookmarkManager());
   } else {
     new BookmarkManager();
   }

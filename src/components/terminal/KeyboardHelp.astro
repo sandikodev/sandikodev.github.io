@@ -2,7 +2,7 @@
 // Keyboard shortcuts help - Press ?
 ---
 
-<div id="keyboard-help" class="help hidden">
+<div class="help hidden" id="keyboard-help">
   <div class="backdrop"></div>
   <div class="container">
     <div class="header">
@@ -11,48 +11,151 @@
     </div>
     <div class="body">
       <div class="section">
-        <h3>Navigation</h3>
-        <div class="shortcut"><kbd>j</kbd>/<kbd>k</kbd> <span>Scroll</span></div>
-        <div class="shortcut"><kbd>g</kbd><kbd>g</kbd> <span>Top</span></div>
-        <div class="shortcut"><kbd>G</kbd> <span>Bottom</span></div>
-        <div class="shortcut"><kbd>g</kbd><kbd>h</kbd> <span>Home</span></div>
+        <h3>Window</h3>
+        <div class="shortcut">
+          <kbd>Mod</kbd>+<kbd>Enter</kbd>
+          <span>Term</span>
+        </div>
+        <div class="shortcut">
+          <kbd>Mod</kbd>+<kbd>Sh</kbd>+<kbd>q</kbd>
+          <span>Kill</span>
+        </div>
+        <div class="shortcut">
+          <kbd>Mod</kbd>+<kbd>f</kbd>
+          <span>Full</span>
+        </div>
+        <div class="shortcut">
+          <kbd>Mod</kbd>+<kbd>v</kbd>/<kbd>s</kbd>
+          <span>Split</span>
+        </div>
+        <div class="shortcut">
+          <kbd>Mod</kbd>+<kbd>1-9</kbd>
+          <span>Work</span>
+        </div>
       </div>
+
       <div class="section">
-        <h3>Actions</h3>
-        <div class="shortcut"><kbd>/</kbd> <span>Search</span></div>
-        <div class="shortcut"><kbd>Ctrl</kbd>+<kbd>K</kbd> <span>Palette</span></div>
-        <div class="shortcut"><kbd>t</kbd> <span>Theme</span></div>
-        <div class="shortcut"><kbd>?</kbd> <span>This help</span></div>
+        <h3>Navigation</h3>
+        <div class="shortcut">
+          <kbd>j</kbd>/<kbd>k</kbd>
+          <span>Scroll</span>
+        </div>
+        <div class="shortcut">
+          <kbd>gg</kbd>/<kbd>G</kbd>
+          <span>Top/Bot</span>
+        </div>
+        <div class="shortcut">
+          <kbd>g</kbd>+<kbd>h</kbd>/<kbd>b</kbd>/<kbd>a</kbd>
+          <span>Go To</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>System</h3>
+        <div class="shortcut">
+          <kbd>Mod</kbd>+<kbd>t</kbd>
+          <span>Theme</span>
+        </div>
+        <div class="shortcut">
+          <kbd>Mod</kbd>+<kbd>d</kbd>
+          <span>Run</span>
+        </div>
+        <div class="shortcut">
+          <kbd>Mod</kbd>+<kbd>/</kbd>
+          <span>Help</span>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <style>
-  .help { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; }
-  .help.hidden { display: none; }
-  .backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.8); }
-  .container { position: relative; width: 100%; max-width: 500px; margin: var(--space-4); background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-lg); }
-  .header { display: flex; justify-content: space-between; padding: var(--space-4); background: var(--bg-tertiary); border-bottom: 1px solid var(--border); font-weight: bold; }
-  .close { background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; }
-  .close:hover { color: var(--red); }
-  .body { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); padding: var(--space-4); }
-  .section h3 { font-size: 0.875rem; color: var(--cyan); margin-bottom: var(--space-3); }
-  .section h3::before { content: "## "; color: var(--blue); }
-  .shortcut { display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: var(--space-2); }
-  .shortcut kbd { padding: 2px 6px; background: var(--bg-primary); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--yellow); font-size: 0.75rem; }
-  .shortcut span { color: var(--text-secondary); }
+  .help {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .help.hidden {
+    display: none;
+  }
+  .backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+  }
+  .container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin: var(--space-4);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-4);
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border);
+    font-weight: bold;
+  }
+  .close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  .close:hover {
+    color: var(--red);
+  }
+  .body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    padding: var(--space-4);
+  }
+  .section h3 {
+    font-size: 0.875rem;
+    color: var(--cyan);
+    margin-bottom: var(--space-3);
+  }
+  .section h3::before {
+    content: "## ";
+    color: var(--blue);
+  }
+  .shortcut {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    margin-bottom: var(--space-2);
+  }
+  .shortcut kbd {
+    padding: 2px 6px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--yellow);
+    font-size: 0.75rem;
+  }
+  .shortcut span {
+    color: var(--text-secondary);
+  }
 </style>
 
 <script>
-  const help = document.getElementById('keyboard-help');
-  document.addEventListener('keydown', (e) => {
-    if (e.key === '?' && document.activeElement?.tagName !== 'INPUT') {
-      e.preventDefault();
-      help?.classList.toggle('hidden');
-    }
-    if (e.key === 'Escape') help?.classList.add('hidden');
-  });
-  help?.querySelector('.close')?.addEventListener('click', () => help?.classList.add('hidden'));
-  help?.querySelector('.backdrop')?.addEventListener('click', () => help?.classList.add('hidden'));
+  // Logic handled by KeyboardManager.ts
+  const help = document.getElementById("keyboard-help");
+
+  // Only handle click events here (interactive UI)
+  help
+    ?.querySelector(".close")
+    ?.addEventListener("click", () => help?.classList.add("hidden"));
+  help
+    ?.querySelector(".backdrop")
+    ?.addEventListener("click", () => help?.classList.add("hidden"));
 </script>

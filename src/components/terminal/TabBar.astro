@@ -2,25 +2,32 @@
 const currentPath = Astro.url.pathname;
 
 const tabs = [
-  { id: 1, name: "home", href: "/" },
-  { id: 2, name: "blog", href: "/blog" },
-  { id: 3, name: "about", href: "/about" },
+  { href: "/", id: 1, name: "home" },
+  { href: "/blog", id: 2, name: "blog" },
+  { href: "/about", id: 3, name: "about" },
 ];
 
-const isActive = (href: string) => currentPath === href || (href !== "/" && currentPath.startsWith(href));
+const isActive = (href: string) =>
+  currentPath === href || (href !== "/" && currentPath.startsWith(href));
 ---
 
 <nav class="tab-bar">
   <div class="tab-list">
-    {tabs.map(tab => (
-      <a href={tab.href} class={`tab ${isActive(tab.href) ? 'active' : ''}`}>
-        <span class="tab-id">[{tab.id}]</span>
-        <span class="tab-name">{tab.name}</span>
-        {isActive(tab.href) && <span class="tab-indicator">*</span>}
-      </a>
-    ))}
+    {
+      tabs.map((tab) => (
+        <a class={`tab ${isActive(tab.href) ? "active" : ""}`} href={tab.href}>
+          <span class="tab-id">[{tab.id}]</span>
+          <span class="tab-name">{tab.name}</span>
+          {isActive(tab.href) && <span class="tab-indicator">*</span>}
+        </a>
+      ))
+    }
   </div>
-  <div class="tab-help"><kbd>?</kbd> help</div>
+  <div class="tab-help">
+    <kbd>?</kbd>
+    {" "}
+    help
+  </div>
 </nav>
 
 <style>
@@ -36,7 +43,10 @@ const isActive = (href: string) => currentPath === href || (href !== "/" && curr
     z-index: 50;
   }
 
-  .tab-list { display: flex; gap: var(--space-1); }
+  .tab-list {
+    display: flex;
+    gap: var(--space-1);
+  }
 
   .tab {
     display: flex;
@@ -49,15 +59,38 @@ const isActive = (href: string) => currentPath === href || (href !== "/" && curr
     font-size: 0.875rem;
   }
 
-  .tab:hover { color: var(--text-primary); background: var(--bg-hover); }
-  .tab.active { color: var(--text-primary); background: var(--bg-tertiary); }
-  .tab-id { color: var(--yellow); font-size: 0.75rem; }
-  .tab-indicator { color: var(--green); }
-  .tab-help { color: var(--text-muted); font-size: 0.75rem; }
-  .tab-help kbd { padding: 2px 6px; background: var(--bg-tertiary); border-radius: var(--radius-sm); color: var(--cyan); }
+  .tab:hover {
+    color: var(--text-primary);
+    background: var(--bg-hover);
+  }
+  .tab.active {
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+  }
+  .tab-id {
+    color: var(--yellow);
+    font-size: 0.75rem;
+  }
+  .tab-indicator {
+    color: var(--green);
+  }
+  .tab-help {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+  }
+  .tab-help kbd {
+    padding: 2px 6px;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+    color: var(--cyan);
+  }
 
   @media (max-width: 768px) {
-    .tab-help { display: none; }
-    .tab-id { display: none; }
+    .tab-help {
+      display: none;
+    }
+    .tab-id {
+      display: none;
+    }
   }
 </style>

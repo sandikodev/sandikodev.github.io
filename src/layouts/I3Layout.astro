@@ -1,104 +1,135 @@
 ---
+import { ClientRouter } from "astro:transitions";
+
+import BackToTop from "@/components/blog/BackToTop.astro";
+import CommandPalette from "@/components/terminal/svelte/CommandPalette.svelte";
+import CursorManager from "@/components/terminal/svelte/CursorManager.svelte";
+import HelpModal from "@/components/terminal/svelte/HelpModal.svelte";
+import KeyboardIndicator from "@/components/terminal/svelte/KeyboardIndicator.svelte";
+import LayoutResizer from "@/components/terminal/svelte/LayoutResizer.svelte";
+import Polybar from "@/components/terminal/svelte/Polybar.svelte";
+import Scratchpad from "@/components/terminal/svelte/Scratchpad.svelte";
+import SoundManager from "@/components/terminal/svelte/SoundManager.svelte";
+import SystemBoot from "@/components/terminal/svelte/SystemBoot.svelte";
+import WorkspaceSwitcher from "@/components/terminal/svelte/WorkspaceSwitcher.svelte";
+// import TerminalEffects from "@/components/terminal/TerminalEffects.astro";
+import PerformanceOptimizer from "@/components/ui/PerformanceOptimizer.astro";
+import ModeSwitcher from "@/components/ui/svelte/ModeSwitcher.svelte";
+import EasterEggs from "@/components/workspace/effects/EasterEggs.astro";
+import GlitchEffect from "@/components/workspace/effects/GlitchEffect.astro";
+import config from "@/config/config.json";
+
 import "@/styles/terminal-theme.css";
 import "@/styles/i3wm-theme.css";
 import "@/styles/animations.css";
-import Polybar from "@/components/terminal/Polybar.astro";
-import DesignSystemToggle from "@/components/ui/DesignSystemToggle.astro";
-import BackToTop from "@/components/blog/BackToTop.astro";
-import CommandPaletteEnhanced from "@/components/terminal/CommandPaletteEnhanced.astro";
-import CursorEffects from "@/components/terminal/CursorEffects.astro";
-import TerminalEffects from "@/components/terminal/TerminalEffects.astro";
-import SoundEffects from "@/components/terminal/SoundEffects.astro";
-import GlitchEffect from "@/components/workspace/effects/GlitchEffect.astro";
-import EasterEggs from "@/components/workspace/effects/EasterEggs.astro";
-import WorkspaceSwitcher from "@/components/terminal/WorkspaceSwitcher.astro";
-import PerformanceOptimizer from "@/components/ui/PerformanceOptimizer.astro";
-import config from "@/config/config.json";
-import { ViewTransitions } from "astro:transitions";
+import "@/styles/anti-flicker.css";
+import "@/styles/resize-splitters.css";
 
 interface Props {
-  title?: string;
   description?: string;
+  title?: string;
 }
 
-const { 
-  title = config.site.title, 
+const {
   description = config.metadata.meta_description,
+  title = config.site.title,
 } = Astro.props;
 ---
 
-<!DOCTYPE html>
-<html lang="en" data-theme-mode="terminal" data-theme="tokyo-night">
+<!doctype html>
+<html data-theme="tokyo-night" data-theme-mode="terminal" lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
-    
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content={description} name="description" />
+
     <!-- Prevent theme flash (FOUC) - redirect to blog if preference is blog -->
     <script is:inline>
-      (function() {
-        var saved = localStorage.getItem('design-mode');
-        var path = window.location.pathname;
-        if (saved === 'blog' && path.startsWith('/workspace')) {
-          window.location.href = path.replace('/workspace', '') || '/';
+      {
+        const initI3Theme = () => {
+          const saved = localStorage.getItem("design-mode");
+          const path = window.location.pathname;
+          if (saved === "blog" && path.startsWith("/workspace")) {
+            window.location.href = path.replace("/workspace", "") || "/";
+          }
+
+          const theme = localStorage.getItem("theme") || "tokyo-night";
+          document.documentElement.setAttribute("data-theme", theme);
+        };
+        initI3Theme();
+
+        if (!window.__i3ThemeInit) {
+          document.addEventListener("astro:after-swap", initI3Theme);
+          window.__i3ThemeInit = true;
         }
-        
-        var theme = localStorage.getItem('theme') || 'tokyo-night';
-        document.documentElement.setAttribute('data-theme', theme);
-      })();
+      }
     </script>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    
-    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- KaTeX for Math Equations -->
+    <link
+      crossorigin="anonymous"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+      integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
+      rel="stylesheet"
+    />
+
+    <link href="/logo.svg" rel="icon" type="image/svg+xml" />
+    <link href="/manifest.json" rel="manifest" />
     <title>{title}</title>
-    
-    <ViewTransitions />
+
+    <ClientRouter />
   </head>
-  
+
   <body>
     <!-- Skip to content link (accessibility) -->
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-    
-    <!-- Loading bar -->
-    <div id="loading-bar" class="loading-bar"></div>
-    
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
     <!-- Design System Toggle -->
-    <DesignSystemToggle />
-    
+    <!-- Mode Switcher -->
+    <ModeSwitcher client:load transition:persist />
+
     <!-- Back to Top -->
     <BackToTop />
-    
+
     <!-- Command Palette -->
-    <CommandPaletteEnhanced />
-    
-    <!-- Cursor Effects -->
-    <CursorEffects />
-    
-    <!-- Terminal Effects (scanlines, matrix, glitch, boot) -->
-    <TerminalEffects effects={['scanlines', 'glow', 'matrix', 'boot']} />
-    
-    <!-- Sound Effects -->
-    <SoundEffects enabled={false} volume={0.3} />
-    
+    <CommandPalette client:load transition:persist />
+    <Scratchpad client:load transition:persist />
+    <HelpModal client:load transition:persist />
+
+    <!-- Cursor Manager -->
+    <CursorManager client:load transition:persist />
+
+    <LayoutResizer client:load transition:persist />
+    <SystemBoot client:load transition:persist />
+
+    <!-- Keyboard Manager (Global) -->
+    <SoundManager client:load transition:persist />
+
     <!-- Performance Optimizer -->
     <PerformanceOptimizer />
-    
+
     <!-- Polybar -->
-    <Polybar />
-    
+    <Polybar client:load transition:persist />
+
     <!-- i3 Container -->
-    <main id="main-content" class="i3-container">
+    <main class="i3-container" id="main-content">
       <slot />
     </main>
-    
+
     <style is:global>
       /* Force terminal font in terminal mode */
       [data-theme-mode="terminal"] body,
       [data-theme-mode="terminal"] * {
-        font-family: 'Fira Code', 'JetBrains Mono', 'Consolas', monospace !important;
+        font-family:
+          "Fira Code", "JetBrains Mono", "Consolas", "Apple Color Emoji",
+          "Segoe UI Emoji", "Noto Color Emoji", monospace !important;
       }
 
       /* Ensure blog mode uses its fonts */
@@ -112,23 +143,31 @@ const {
       [data-theme-mode="blog"] h4,
       [data-theme-mode="blog"] h5,
       [data-theme-mode="blog"] h6 {
-        font-family: 'Inter', sans-serif;
+        font-family: "Inter", sans-serif;
       }
 
-      html, body {
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
         margin: 0;
         padding: 0;
-        overflow-x: hidden;
-        min-height: 100vh;
+        overflow: hidden;
+        height: 100vh;
+        width: 100vw;
+        position: fixed;
+        top: 0;
+        left: 0;
       }
 
       body {
         background: var(--bg-primary);
-      }
-
-      /* Smooth scrolling */
-      html {
-        scroll-behavior: smooth;
+        display: flex;
+        flex-direction: column;
       }
 
       /* Skip link */
@@ -137,7 +176,7 @@ const {
         top: -40px;
         left: 8px;
         background: var(--blue);
-        color: var(--i3-bg);
+        color: var(--bg-primary);
         padding: 8px 16px;
         text-decoration: none;
         border-radius: 4px;
@@ -151,73 +190,447 @@ const {
         top: 8px;
       }
 
-      /* Loading bar */
-      .loading-bar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 2px;
-        background: linear-gradient(90deg, var(--blue), var(--cyan));
-        width: 0%;
-        transition: width 0.3s ease;
-        z-index: 10001;
-        opacity: 0;
-      }
-
-      .loading-bar.active {
+      /* GLOBAL CODE BLOCK STYLES */
+      .code-header {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 6px 12px !important;
+        background: var(--bg-tertiary) !important;
+        border: 1px solid var(--border) !important;
+        border-bottom: none !important;
+        border-top-left-radius: 6px !important;
+        border-top-right-radius: 6px !important;
+        font-family: var(--font-mono) !important;
+        margin-top: 1.5rem !important;
         width: 100%;
-        opacity: 1;
       }
 
-      /* Mobile touch improvements */
-      @media (max-width: 768px) {
-        * {
-          -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-          overflow-x: hidden;
-        }
+      .code-header + .astro-code {
+        margin-top: 0 !important;
+        border-top-left-radius: 0 !important;
+        border-top-right-radius: 0 !important;
       }
 
-      /* Reduced motion */
-      @media (prefers-reduced-motion: reduce) {
-        html {
-          scroll-behavior: auto;
-        }
-        
-        .loading-bar {
-          transition: none;
-        }
+      .code-lang {
+        font-size: 0.7rem !important;
+        color: var(--blue) !important;
+        text-transform: uppercase !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.05em !important;
+      }
+
+      .code-copy {
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        padding: 2px 8px !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid var(--border) !important;
+        border-radius: 4px !important;
+        color: var(--text-secondary) !important;
+        font-size: 0.65rem !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        font-family: var(--font-mono) !important;
+      }
+
+      .code-copy:hover {
+        background: rgba(122, 162, 247, 0.15) !important;
+        color: var(--text-primary) !important;
+        border-color: var(--blue) !important;
+      }
+
+      .code-copy.copied {
+        background: var(--green) !important;
+        color: var(--bg-primary) !important;
+        border-color: var(--green) !important;
       }
     </style>
 
     <script>
-      // Loading bar for page transitions
-      document.addEventListener('astro:before-preparation', () => {
-        document.getElementById('loading-bar')?.classList.add('active');
+      import { keyboardManager } from "@/components/terminal/svelte/KeyboardManager.svelte";
+      import { systemState } from "@/components/terminal/svelte/SystemState.svelte";
+
+      // Ensure keyboard manager is active
+      console.log("Keyboard Manager initialized:", keyboardManager);
+
+      // Trigger OS Boot Effect on navigation
+      document.addEventListener("astro:before-preparation", (e: any) => {
+        window.dispatchEvent(
+          new CustomEvent("os-boot-start", { detail: { url: e.to.pathname } }),
+        );
       });
-      
-      document.addEventListener('astro:page-load', () => {
-        const bar = document.getElementById('loading-bar');
-        if (bar) {
-          setTimeout(() => bar.classList.remove('active'), 300);
+
+      // Handle Initial Load (Fresh page load/refresh)
+      const isInitialLoad =
+        !window.history.state || window.history.state.index === 0;
+      if (isInitialLoad) {
+        setTimeout(() => {
+          window.dispatchEvent(
+            new CustomEvent("os-boot-start", {
+              detail: { url: window.location.pathname },
+            }),
+          );
+        }, 50);
+      }
+
+      document.addEventListener("astro:page-load", () => {
+        systemState.syncWithUrl();
+        setTimeout(() => {
+          window.dispatchEvent(new CustomEvent("os-boot-stop"));
+        }, 150);
+      });
+
+      // Trigger Flash ONLY when logs are clearing
+      window.addEventListener("os-boot-done", () => {
+        const mainContent = document.getElementById("main-content");
+        if (mainContent) {
+          const flash = document.createElement("div");
+          flash.className = "crt-glitch-flash";
+          mainContent.appendChild(flash);
+          setTimeout(() => flash.remove(), 1000);
+
+          const windows = mainContent.querySelectorAll(
+            ".i3-window, .window-frame, [class*='i3-window']",
+          );
+          windows.forEach((win) => {
+            win.classList.add("chromatic-pulse");
+            setTimeout(() => win.classList.remove("chromatic-pulse"), 1000);
+          });
         }
       });
 
       // Global error handler
-      window.addEventListener('error', (e) => {
-        console.error('Error:', e.error);
+      window.addEventListener("error", (e) => {
+        console.error("Error:", e.error);
       });
 
-      window.addEventListener('unhandledrejection', (e) => {
-        console.error('Unhandled rejection:', e.reason);
-      });
+      // Anti-flicker: Disable animations during scroll
+      let scrollTimer: any;
+      const handleScroll = () => {
+        document.body.classList.add("scrolling");
+        clearTimeout(scrollTimer);
+        scrollTimer = window.setTimeout(() => {
+          document.body.classList.remove("scrolling");
+        }, 150);
+      };
+
+      window.addEventListener("scroll", handleScroll, { passive: true });
+      document.addEventListener("scroll", handleScroll, { passive: true });
     </script>
 
     <!-- Dev Mode Effects -->
     <GlitchEffect />
     <EasterEggs />
-    <WorkspaceSwitcher />
+    <WorkspaceSwitcher client:load transition:persist />
+    <KeyboardIndicator client:load transition:persist />
+
+    <!-- KaTeX Auto-render -->
+    <script
+      is:inline
+      crossorigin="anonymous"
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
+    ></script>
+    <script
+      is:inline
+      crossorigin="anonymous"
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    ></script>
+
+    <!-- Mermaid Configuration & Script -->
+    <script is:inline type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+
+      async function initMermaid() {
+        const blocks = document.querySelectorAll(
+          'pre[data-language="mermaid"], .mermaid',
+        );
+        if (blocks.length > 0) {
+          // Resolve CSS variables for Mermaid
+          const resolveVar = (name) =>
+            getComputedStyle(document.documentElement)
+              .getPropertyValue(name)
+              .trim();
+
+          blocks.forEach((block) => {
+            if (block.tagName === "PRE") {
+              const div = document.createElement("div");
+              div.className = "mermaid";
+              div.textContent = block.textContent;
+              const header = block.previousElementSibling;
+              if (header && header.classList.contains("code-header"))
+                header.remove();
+              block.parentNode.replaceChild(div, block);
+            }
+          });
+
+          mermaid.initialize({
+            startOnLoad: false,
+            theme: "base",
+            flowchart: { curve: "basis", padding: 20 },
+            sequence: {
+              actorMargin: 50,
+              boxMargin: 10,
+              boxTextMargin: 5,
+              diagramMarginX: 50,
+              diagramMarginY: 10,
+              messageMargin: 35,
+              mirrorActors: true,
+              useMaxWidth: true,
+              rightAngles: false,
+              showSequenceNumbers: false,
+              actorBkg: resolveVar("--bg-tertiary"),
+              actorBorder: resolveVar("--border"),
+              actorTextColor: resolveVar("--text-primary"),
+              actorLineColor: resolveVar("--text-muted"),
+              signalColor: resolveVar("--blue"),
+              signalTextColor: resolveVar("--text-primary"),
+              labelBoxBkgColor: resolveVar("--bg-secondary"),
+              labelBoxBorderColor: resolveVar("--border"),
+              labelTextColor: resolveVar("--text-primary"),
+              loopTextColor: resolveVar("--text-primary"),
+              noteBkgColor: resolveVar("--yellow"),
+              noteTextColor: resolveVar("--bg-primary"),
+            },
+            themeVariables: {
+              background: "transparent",
+              primaryColor: resolveVar("--bg-tertiary"),
+              primaryTextColor: resolveVar("--text-primary"),
+              primaryBorderColor: resolveVar("--border"),
+              lineColor: resolveVar("--text-primary"),
+              secondaryColor: resolveVar("--magenta"),
+              tertiaryColor: resolveVar("--bg-tertiary"),
+              mainBkg: resolveVar("--bg-tertiary"),
+              nodeBorder: resolveVar("--border"),
+              clusterBkg: resolveVar("--bg-secondary"),
+              clusterBorder: resolveVar("--border"),
+              edgeLabelBackground: resolveVar("--bg-primary"),
+              textColor: resolveVar("--text-primary"),
+            },
+          });
+
+          const renderMermaid = async () => {
+            const mermaidBlocks = document.querySelectorAll(".mermaid");
+            for (const block of mermaidBlocks) {
+              // Idempotent Check: avoid double toolbar
+              if (block.getAttribute("data-toolbar-added")) continue;
+              block.setAttribute("data-toolbar-added", "true");
+
+              const rawCode =
+                block.getAttribute("data-raw-code") || block.textContent;
+              block.setAttribute("data-raw-code", rawCode);
+
+              // Create Toolbar (Dropdown Design)
+              const container = document.createElement("div");
+              container.className = "mermaid-container";
+              const toolbar = document.createElement("div");
+              toolbar.className = "mermaid-toolbar";
+              toolbar.innerHTML = `
+                  <div class="toolbar-left">
+                    <span class="toolbar-dot"></span>
+                    <span class="toolbar-title">Diagram Tools</span>
+                  </div>
+                  <div class="toolbar-actions">
+                    <button class="m-btn m-copy" title="Copy Mermaid Code">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                      <span class="btn-label">Copy</span>
+                    </button>
+                    <div class="m-dropdown">
+                      <button class="m-btn m-export-toggle">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        <span class="btn-label">Export</span>
+                      </button>
+                      <div class="m-dropdown-menu">
+                        <button class="m-dropdown-item m-svg">
+                          <span class="item-icon">📄</span>
+                          <span class="item-text">Export as SVG</span>
+                        </button>
+                        <button class="m-dropdown-item m-png">
+                          <span class="item-icon">🖼️</span>
+                          <span class="item-text">Export as PNG</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                `;
+
+              block.parentNode.insertBefore(container, block);
+              container.appendChild(toolbar);
+              container.appendChild(block);
+
+              // Handlers
+              const copyBtn = toolbar.querySelector(".m-copy");
+              copyBtn.addEventListener("click", () => {
+                navigator.clipboard.writeText(rawCode);
+                const originalHtml = copyBtn.innerHTML;
+                copyBtn.innerHTML =
+                  '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg><span class="btn-label">Copied!</span>';
+                copyBtn.classList.add("active");
+                setTimeout(() => {
+                  copyBtn.innerHTML = originalHtml;
+                  copyBtn.classList.remove("active");
+                }, 2000);
+              });
+
+              const exportToggle = toolbar.querySelector(".m-export-toggle");
+              const dropdown = toolbar.querySelector(".m-dropdown");
+              exportToggle.addEventListener("click", (e) => {
+                e.stopPropagation();
+                dropdown.classList.toggle("open");
+              });
+
+              svgBtnHandler(toolbar.querySelector(".m-svg"), block, dropdown);
+              pngBtnHandler(toolbar.querySelector(".m-png"), block, dropdown);
+
+              document.addEventListener("click", () =>
+                dropdown.classList.remove("open"),
+              );
+            }
+            await mermaid.run({ querySelector: ".mermaid" });
+          };
+
+          function svgBtnHandler(btn, block, dropdown) {
+            btn.addEventListener("click", () => {
+              const svg = block.querySelector("svg");
+              if (!svg) return;
+              const svgData = new XMLSerializer().serializeToString(svg);
+              const blob = new Blob([svgData], {
+                type: "image/svg+xml;charset=utf-8",
+              });
+              const url = URL.createObjectURL(blob);
+              const link = document.createElement("a");
+              link.href = url;
+              link.download = `diagram-${Date.now()}.svg`;
+              link.click();
+              dropdown.classList.remove("open");
+            });
+          }
+
+          function pngBtnHandler(btn, block, dropdown) {
+            btn.addEventListener("click", () => {
+              const svg = block.querySelector("svg");
+              if (!svg) return;
+              const canvas = document.createElement("canvas");
+              const svgRect = svg.getBoundingClientRect();
+              canvas.width = svgRect.width * 2;
+              canvas.height = svgRect.height * 2;
+              const ctx = canvas.getContext("2d");
+              const img = new Image();
+              const svgData = new XMLSerializer().serializeToString(svg);
+              const blob = new Blob([svgData], {
+                type: "image/svg+xml;charset=utf-8",
+              });
+              const url = URL.createObjectURL(blob);
+              img.onload = () => {
+                ctx.fillStyle = getComputedStyle(
+                  document.documentElement,
+                ).getPropertyValue("--bg-primary");
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                const pngUrl = canvas.toDataURL("image/png");
+                const link = document.createElement("a");
+                link.href = pngUrl;
+                link.download = `diagram-${Date.now()}.png`;
+                link.click();
+                URL.revokeObjectURL(url);
+                dropdown.classList.remove("open");
+              };
+              img.src = url;
+            });
+          }
+
+          await renderMermaid();
+
+          await renderMermaid();
+        }
+      }
+
+      function addCopyButtons() {
+        document
+          .querySelectorAll("pre.astro-code:not(.enhanced)")
+          .forEach((pre) => {
+            pre.classList.add("enhanced");
+            const code = pre.querySelector("code");
+            if (!code) return;
+
+            // Get proper language
+            let lang = pre.getAttribute("data-language") || "code";
+            if (lang === "text") lang = "plain";
+
+            const header = document.createElement("div");
+            header.className = "code-header";
+            header.innerHTML = `
+            <span class="code-lang">${lang}</span>
+            <button class="code-copy" aria-label="Copy code">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span>Copy</span>
+            </button>
+          `;
+
+            pre.parentNode.insertBefore(header, pre);
+            const btn = header.querySelector(".code-copy");
+
+            btn.addEventListener("click", async () => {
+              try {
+                await navigator.clipboard.writeText(code.textContent);
+                const originalHtml = btn.innerHTML;
+
+                btn.innerHTML = `
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  <span>Copied!</span>
+                `;
+                btn.classList.add("copied");
+
+                setTimeout(() => {
+                  btn.innerHTML = originalHtml;
+                  btn.classList.remove("copied");
+                }, 2000);
+              } catch (err) {
+                console.error("Copy failed:", err);
+              }
+            });
+          });
+      }
+
+      async function initPage() {
+        await initMermaid();
+        addCopyButtons();
+        if (typeof renderMathInElement !== "undefined") {
+          renderMathInElement(document.body, {
+            delimiters: [
+              { display: true, left: "$$", right: "$$" },
+              { display: false, left: "$", right: "$" },
+              { display: true, left: "\\[", right: "\\]" },
+              { display: false, left: "\\(", right: "\\)" },
+            ],
+            throwOnError: false,
+          });
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", initPage);
+      document.addEventListener("astro:after-swap", initPage);
+      document.addEventListener("astro:page-load", initPage);
+
+      // Theme Change Observer for Mermaid re-rendering
+      if (typeof window !== "undefined") {
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            if (mutation.attributeName === "data-theme") {
+              initMermaid();
+            }
+          });
+        });
+        observer.observe(document.documentElement, { attributes: true });
+      }
+    </script>
   </body>
 </html>

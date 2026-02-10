@@ -1,93 +1,192 @@
 ---
-const { headings } = Astro.props;
+const { headings = [] } = Astro.props;
 ---
 
-{headings && headings.length > 0 && (
-  <nav class="toc">
-    <div class="toc-title">Contents</div>
-    <ul>
-      {headings.filter((h: any) => h.depth <= 3).map((heading: any) => (
-        <li class={`toc-item depth-${heading.depth}`}>
-          <a href={`#${heading.slug}`}>{heading.text}</a>
-        </li>
-      ))}
-    </ul>
-  </nav>
-)}
+{
+  headings && headings.length > 0 && (
+    <nav class="toc">
+      <div class="toc-title">Contents</div>
+      <ul>
+        {headings
+          .filter((h: any) => h.depth <= 3)
+          .map((heading: any) => (
+            <li class={`toc-item depth-${heading.depth}`}>
+              <a href={`#${heading.slug}`}>{heading.text}</a>
+            </li>
+          ))}
+      </ul>
+    </nav>
+  )
+}
 
 <style>
   .toc {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-primary);
   }
-  
+
   .toc-title {
-    font-size: 0.6875rem;
+    font-size: var(--text-xs);
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #737373;
-    margin-bottom: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--spacing-4);
   }
-  
+
   .toc ul {
     list-style: none;
-    padding: 0;
+    padding: var(--spacing-4) 0;
     margin: 0;
+    max-height: 60vh;
+    overflow-y: auto;
+    position: relative;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+    padding-right: var(--spacing-2);
   }
-  
+
+  /* Custom scrollbar for Webkit */
+  .toc ul::-webkit-scrollbar {
+    width: 4px;
+  }
+  .toc ul::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .toc ul::-webkit-scrollbar-thumb {
+    background-color: var(--color-border);
+    border-radius: 20px;
+  }
+
   .toc-item {
-    margin-bottom: 0.5rem;
+    position: relative;
+    margin-bottom: var(--spacing-2);
   }
-  
+
   .toc-item a {
-    font-size: 0.8125rem;
-    color: #525252;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
     text-decoration: none;
-    transition: color 0.15s ease;
-    line-height: 1.4;
+    transition: var(--transition-all);
+    line-height: 1.5;
     display: block;
+    padding: var(--spacing-1) 0;
+    padding-left: var(--spacing-3);
+    border-left: 2px solid transparent;
   }
-  
-  :global(.dark) .toc-item a {
-    color: #a3a3a3;
-  }
-  
+
   .toc-item a:hover {
-    color: #0a0a0a;
+    color: var(--color-primary);
+    background: var(--color-primary-alpha-5);
   }
-  
-  :global(.dark) .toc-item a:hover {
-    color: #fafafa;
-  }
-  
+
   .toc-item.active a {
-    color: #0a0a0a;
-    font-weight: 500;
+    color: var(--color-primary);
+    font-weight: 600;
+    border-left-color: var(--color-primary);
   }
-  
-  :global(.dark) .toc-item.active a {
-    color: #fafafa;
-  }
-  
-  .depth-3 {
-    padding-left: 0.75rem;
+
+  .depth-3 a {
+    padding-left: var(--spacing-6);
   }
 </style>
 
 <script>
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const id = entry.target.getAttribute('id');
-        const link = document.querySelector(`.toc-item a[href="#${id}"]`);
-        if (entry.isIntersecting) {
-          document.querySelectorAll('.toc-item').forEach(i => i.classList.remove('active'));
-          link?.parentElement?.classList.add('active');
-        }
-      });
-    },
-    { rootMargin: '-80px 0px -66%' }
-  );
+  function initTOC() {
+    const tocContainer = document.querySelector(".toc ul");
+    const tocItems = document.querySelectorAll(".toc-item");
+    const headings = Array.from(
+      document.querySelectorAll("article h2, article h3"),
+    );
 
-  document.querySelectorAll('article h2, article h3').forEach((h) => observer.observe(h));
+    if (tocItems.length === 0 || headings.length === 0) return;
+
+    const observerOptions = {
+      root: null,
+      rootMargin: "-10% 0px -80% 0px",
+      threshold: 0,
+    };
+
+    const headingStates = new Map();
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        headingStates.set(entry.target.id, entry.isIntersecting);
+      });
+      updateActiveState();
+    }, observerOptions);
+
+    function updateActiveState() {
+      let activeId = "";
+
+      // 1. Find the first intersecting heading
+      // Since IntersectionObserver triggers are async and can happen out of order,
+      // we check the actual positions of headings to be sure.
+      const visibleHeadings = headings.filter((h) => headingStates.get(h.id));
+
+      if (visibleHeadings.length > 0) {
+        // Pick the first one that is currently in the observation zone
+        activeId = visibleHeadings[0].id;
+      } else {
+        // 2. If no heading is in the zone, find the one that just passed the top
+        const aboveHeadings = headings.filter(
+          (h) => h.getBoundingClientRect().top < 150,
+        );
+        if (aboveHeadings.length > 0) {
+          activeId = aboveHeadings[aboveHeadings.length - 1].id;
+        }
+      }
+
+      if (!activeId && headings.length > 0) {
+        activeId = headings[0].id;
+      }
+
+      if (activeId) {
+        tocItems.forEach((item) => {
+          const link = item.querySelector("a") as HTMLAnchorElement;
+          const isActive = link && link.getAttribute("href") === `#${activeId}`;
+
+          if (isActive) {
+            item.classList.add("active");
+
+            if (tocContainer) {
+              const container = tocContainer as HTMLElement;
+              const activeItem = item as HTMLElement;
+
+              // Now that UL is position:relative, offsetTop is correct
+              const itemOffsetTop = activeItem.offsetTop;
+              const containerHeight = container.offsetHeight;
+              const itemHeight = activeItem.offsetHeight;
+
+              // Center the item within the scrollable area
+              const targetScroll =
+                itemOffsetTop - containerHeight / 2 + itemHeight / 2;
+
+              container.scrollTo({
+                behavior: "smooth",
+                top: Math.max(0, targetScroll),
+              });
+            }
+          } else {
+            item.classList.remove("active");
+          }
+        });
+      }
+    }
+
+    // Initialize
+    updateActiveState();
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (window.scrollY < 100) updateActiveState();
+      },
+      { passive: true },
+    );
+
+    headings.forEach((h) => observer.observe(h));
+  }
+
+  // Support both page load and view transitions
+  document.addEventListener("astro:page-load", initTOC);
+  initTOC();
 </script>

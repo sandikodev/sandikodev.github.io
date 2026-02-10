@@ -2,38 +2,64 @@
 // Code Snippet Library - Bookmark and manage code snippets
 ---
 
-<button id="snippet-library-btn" class="snippet-btn" title="Code Snippets Library">
-  <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
-    <rect x="3" y="3" width="18" height="18" rx="2"/>
-    <path d="M9 9h6M9 13h6"/>
+<button
+  class="snippet-btn"
+  id="snippet-library-btn"
+  title="Code Snippets Library"
+>
+  <svg
+    fill="none"
+    height="20"
+    stroke="currentColor"
+    stroke-width="2"
+    width="20"
+  >
+    <rect height="18" rx="2" width="18" x="3" y="3"></rect>
+    <path d="M9 9h6M9 13h6"></path>
   </svg>
-  <span id="snippet-count" class="snippet-count">0</span>
+  <span class="snippet-count" id="snippet-count">0</span>
 </button>
 
-<div id="snippet-library" class="snippet-library">
+<div class="snippet-library" id="snippet-library">
   <div class="snippet-modal">
     <div class="snippet-header">
       <h3>📚 Code Snippets</h3>
       <div class="snippet-actions">
-        <button id="export-snippets" class="action-btn" title="Export to Gist">
-          <svg width="16" height="16" fill="currentColor">
-            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+        <button class="action-btn" id="export-snippets" title="Export to Gist">
+          <svg fill="currentColor" height="16" width="16">
+            <path
+              d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+            ></path>
           </svg>
         </button>
-        <button id="clear-snippets" class="action-btn" title="Clear all">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 6h18M8 6V4a1 1 0 011-1h6a1 1 0 011 1v2m3 0v12a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14z"/>
+        <button class="action-btn" id="clear-snippets" title="Clear all">
+          <svg
+            fill="none"
+            height="16"
+            stroke="currentColor"
+            stroke-width="2"
+            width="16"
+          >
+            <path
+              d="M3 6h18M8 6V4a1 1 0 011-1h6a1 1 0 011 1v2m3 0v12a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14z"
+            ></path>
           </svg>
         </button>
-        <button id="close-library" class="close-btn">×</button>
+        <button class="close-btn" id="close-library">×</button>
       </div>
     </div>
-    
-    <div id="snippet-list" class="snippet-list">
+
+    <div class="snippet-list" id="snippet-list">
       <div class="empty-state">
-        <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5">
-          <rect x="6" y="6" width="36" height="36" rx="4"/>
-          <path d="M18 18h12M18 24h12M18 30h8"/>
+        <svg
+          fill="none"
+          height="48"
+          stroke="currentColor"
+          stroke-width="1.5"
+          width="48"
+        >
+          <rect height="36" rx="4" width="36" x="6" y="6"></rect>
+          <path d="M18 18h12M18 24h12M18 30h8"></path>
         </svg>
         <p>No snippets saved yet</p>
         <p class="hint">Click the bookmark icon on code blocks to save them</p>
@@ -54,14 +80,14 @@
     transition: all 0.2s;
   }
   .snippet-btn:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: var(--color-bg-tertiary);
     color: #1a1a1a;
   }
   .snippet-count {
     position: absolute;
     top: 0;
     right: 0;
-    background: #2563eb;
+    background: var(--color-primary);
     color: white;
     font-size: 0.625rem;
     font-weight: 600;
@@ -80,7 +106,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
+    background: var(--color-backdrop);
     z-index: 9999;
     align-items: center;
     justify-content: center;
@@ -97,7 +123,7 @@
     max-height: 80vh;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 25px 50px -12px var(--color-shadow-lg);
   }
   .snippet-header {
     display: flex;
@@ -178,8 +204,8 @@
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
-    color: #2563eb;
-    font-family: 'JetBrains Mono', monospace;
+    color: var(--color-primary);
+    font-family: "JetBrains Mono", monospace;
   }
   .snippet-btns {
     display: flex;
@@ -202,7 +228,7 @@
     color: #e5e7eb;
     padding: 1rem;
     border-radius: 0.5rem;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
     font-size: 0.875rem;
     overflow-x: auto;
     white-space: pre;
@@ -210,152 +236,156 @@
 </style>
 
 <script>
-  const btn = document.getElementById('snippet-library-btn');
-  const library = document.getElementById('snippet-library');
-  const closeBtn = document.getElementById('close-library');
-  const clearBtn = document.getElementById('clear-snippets');
-  const exportBtn = document.getElementById('export-snippets');
-  const list = document.getElementById('snippet-list');
-  const count = document.getElementById('snippet-count');
-  
+  const btn = document.getElementById("snippet-library-btn");
+  const library = document.getElementById("snippet-library");
+  const closeBtn = document.getElementById("close-library");
+  const clearBtn = document.getElementById("clear-snippets");
+  const exportBtn = document.getElementById("export-snippets");
+  const list = document.getElementById("snippet-list");
+  const count = document.getElementById("snippet-count");
+
   interface Snippet {
-    id: string;
     code: string;
+    id: string;
     language: string;
     timestamp: number;
   }
-  
+
+  // Escape HTML
+  function escapeHtml(text: string): string {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
   // Load snippets from localStorage
   function loadSnippets(): Snippet[] {
-    const stored = localStorage.getItem('code-snippets');
+    const stored = localStorage.getItem("code-snippets");
     return stored ? JSON.parse(stored) : [];
   }
-  
+
+  // Render snippets
+  function renderSnippets() {
+    const snippets = loadSnippets();
+
+    if (snippets.length === 0) {
+      list!.innerHTML = `
+      <div class="empty-state">
+        <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="6" y="6" width="36" height="36" rx="4"/>
+          <path d="M18 18h12M18 24h12M18 30h8"/>
+        </svg>
+        <p>No snippets saved yet</p>
+        <p class="hint">Click the bookmark icon on code blocks to save them</p>
+      </div>
+    `;
+      return;
+    }
+
+    list!.innerHTML = snippets
+      .map(
+        (snippet) => `
+    <div class="snippet-item" data-id="${snippet.id}">
+      <div class="snippet-meta">
+        <span class="snippet-lang">${snippet.language}</span>
+        <div class="snippet-btns">
+          <button onclick="copySnippet('${snippet.id}')">Copy</button>
+          <button onclick="deleteSnippet('${snippet.id}')">Delete</button>
+        </div>
+      </div>
+      <pre class="snippet-code">${escapeHtml(snippet.code)}</pre>
+    </div>
+  `,
+      )
+      .join("");
+  }
+
   // Save snippets to localStorage
   function saveSnippets(snippets: Snippet[]) {
-    localStorage.setItem('code-snippets', JSON.stringify(snippets));
+    localStorage.setItem("code-snippets", JSON.stringify(snippets));
     updateCount();
     renderSnippets();
   }
-  
+
   // Update count badge
   function updateCount() {
     const snippets = loadSnippets();
     if (count) {
-      count.textContent = snippets.length > 0 ? snippets.length.toString() : '';
+      count.textContent = snippets.length > 0 ? snippets.length.toString() : "";
     }
   }
-  
-  // Render snippets
-  function renderSnippets() {
-    const snippets = loadSnippets();
-    
-    if (snippets.length === 0) {
-      list!.innerHTML = `
-        <div class="empty-state">
-          <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5">
-            <rect x="6" y="6" width="36" height="36" rx="4"/>
-            <path d="M18 18h12M18 24h12M18 30h8"/>
-          </svg>
-          <p>No snippets saved yet</p>
-          <p class="hint">Click the bookmark icon on code blocks to save them</p>
-        </div>
-      `;
-      return;
-    }
-    
-    list!.innerHTML = snippets.map(snippet => `
-      <div class="snippet-item" data-id="${snippet.id}">
-        <div class="snippet-meta">
-          <span class="snippet-lang">${snippet.language}</span>
-          <div class="snippet-btns">
-            <button onclick="copySnippet('${snippet.id}')">Copy</button>
-            <button onclick="deleteSnippet('${snippet.id}')">Delete</button>
-          </div>
-        </div>
-        <pre class="snippet-code">${escapeHtml(snippet.code)}</pre>
-      </div>
-    `).join('');
-  }
-  
-  // Escape HTML
-  function escapeHtml(text: string): string {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-  }
-  
+
   // Copy snippet
-  (window as any).copySnippet = function(id: string) {
+  (window as any).copySnippet = function (id: string) {
     const snippets = loadSnippets();
-    const snippet = snippets.find(s => s.id === id);
+    const snippet = snippets.find((s) => s.id === id);
     if (snippet) {
       navigator.clipboard.writeText(snippet.code);
-      alert('Copied to clipboard!');
+      alert("Copied to clipboard!");
     }
   };
-  
+
   // Delete snippet
-  (window as any).deleteSnippet = function(id: string) {
+  (window as any).deleteSnippet = function (id: string) {
     const snippets = loadSnippets();
-    const filtered = snippets.filter(s => s.id !== id);
+    const filtered = snippets.filter((s) => s.id !== id);
     saveSnippets(filtered);
   };
-  
+
   // Add snippet (called from code blocks)
-  (window as any).addSnippet = function(code: string, language: string) {
+  (window as any).addSnippet = function (code: string, language: string) {
     const snippets = loadSnippets();
     const snippet: Snippet = {
-      id: Date.now().toString(),
       code,
+      id: Date.now().toString(),
       language,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
     snippets.unshift(snippet);
     saveSnippets(snippets);
-    alert('Snippet saved!');
+    alert("Snippet saved!");
   };
-  
+
   // Show library
-  btn?.addEventListener('click', () => {
-    library?.classList.add('active');
+  btn?.addEventListener("click", () => {
+    library?.classList.add("active");
     renderSnippets();
   });
-  
+
   // Close library
-  closeBtn?.addEventListener('click', () => {
-    library?.classList.remove('active');
+  closeBtn?.addEventListener("click", () => {
+    library?.classList.remove("active");
   });
-  
+
   // Clear all
-  clearBtn?.addEventListener('click', () => {
-    if (confirm('Clear all snippets?')) {
+  clearBtn?.addEventListener("click", () => {
+    if (confirm("Clear all snippets?")) {
       saveSnippets([]);
     }
   });
-  
+
   // Export to Gist
-  exportBtn?.addEventListener('click', () => {
+  exportBtn?.addEventListener("click", () => {
     const snippets = loadSnippets();
-    const content = snippets.map(s => 
-      `// ${s.language}\n${s.code}\n\n`
-    ).join('---\n\n');
-    
-    const blob = new Blob([content], { type: 'text/plain' });
+    const content = snippets
+      .map((s) => `// ${s.language}\n${s.code}\n\n`)
+      .join("---\n\n");
+
+    const blob = new Blob([content], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = 'code-snippets.txt';
+    a.download = "code-snippets.txt";
     a.click();
   });
-  
+
   // Close on backdrop
-  library?.addEventListener('click', (e) => {
+  library?.addEventListener("click", (e) => {
     if (e.target === library) {
-      library.classList.remove('active');
+      library.classList.remove("active");
     }
   });
-  
+
   // Initialize
   updateCount();
 </script>

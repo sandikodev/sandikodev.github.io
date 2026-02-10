@@ -1,31 +1,55 @@
 ---
 interface Props {
-  title: string;
-  slug: string;
-  description?: string;
   date?: Date;
-  tags?: string[];
-  readingTime?: number;
+  description?: string;
   index?: number;
+  readingTime?: number;
+  slug: string;
+  tags?: string[];
+  title: string;
 }
 
-const { title, slug, description, date, tags = [], readingTime = 5, index = 1 } = Astro.props;
-const formattedDate = date ? date.toISOString().split('T')[0] : '';
+const {
+  date,
+  description,
+  index = 1,
+  readingTime = 5,
+  slug,
+  tags = [],
+  title,
+} = Astro.props;
+const formattedDate = date ? date.toISOString().split("T")[0] : "";
 ---
 
-<a href={`/${slug}`} class="blog-card">
+<a class="blog-card" href={`/${slug}`}>
   <div class="card-header">
-    <span class="card-index">{String(index).padStart(3, '0')}</span>
-    <span class="card-filename">{slug}.md</span>
+    <span class="card-index">{String(index).padStart(3, "0")}</span>
+    <span class="card-filename">
+      {slug}
+      .md
+    </span>
     <span class="card-date">{formattedDate}</span>
   </div>
   <div class="card-body">
     <h3 class="card-title">{title}</h3>
-    {description && <p class="card-desc">> {description}</p>}
+    {
+      description && (
+        <p class="card-desc">
+          &gt;
+          {description}
+        </p>
+      )
+    }
   </div>
   <div class="card-footer">
-    <div class="card-tags">{tags.slice(0, 3).map(tag => <span>#{tag}</span>)}</div>
-    <span class="card-time">⏱️ {readingTime}m</span>
+    <div class="card-tags">
+      {tags.slice(0, 3).map((tag) => <span>#{tag}</span>)}
+    </div>
+    <span class="card-time">
+      ⏱️
+      {readingTime}
+      m
+    </span>
   </div>
 </a>
 
@@ -53,14 +77,33 @@ const formattedDate = date ? date.toISOString().split('T')[0] : '';
     font-size: 0.75rem;
   }
 
-  .card-index { color: var(--yellow); }
-  .card-filename { color: var(--text-muted); }
-  .card-date { color: var(--cyan); }
+  .card-index {
+    color: var(--yellow);
+  }
+  .card-filename {
+    color: var(--text-muted);
+  }
+  .card-date {
+    color: var(--cyan);
+  }
 
-  .card-body { padding: var(--space-4); }
-  .card-title { font-size: 1rem; margin: 0 0 var(--space-2); color: var(--text-primary); }
-  .card-title::before { content: "# "; color: var(--magenta); }
-  .card-desc { margin: 0; font-size: 0.875rem; color: var(--text-muted); }
+  .card-body {
+    padding: var(--space-4);
+  }
+  .card-title {
+    font-size: 1rem;
+    margin: 0 0 var(--space-2);
+    color: var(--text-primary);
+  }
+  .card-title::before {
+    content: "# ";
+    color: var(--magenta);
+  }
+  .card-desc {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
 
   .card-footer {
     display: flex;
@@ -70,6 +113,12 @@ const formattedDate = date ? date.toISOString().split('T')[0] : '';
     font-size: 0.75rem;
   }
 
-  .card-tags { display: flex; gap: var(--space-2); color: var(--green); }
-  .card-time { color: var(--text-muted); }
+  .card-tags {
+    display: flex;
+    gap: var(--space-2);
+    color: var(--green);
+  }
+  .card-time {
+    color: var(--text-muted);
+  }
 </style>

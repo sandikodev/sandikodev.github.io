@@ -1,115 +1,162 @@
 ---
-// Back to Top Button - Smooth scroll to top
+// Back to Top Button with Circular Progress
 ---
 
 <button
-  id="back-to-top"
-  class="back-to-top"
   aria-label="Back to top"
+  class="back-to-top"
+  id="back-to-top"
   title="Back to top"
 >
-  ↑
+  <svg class="progress-ring" height="100%" viewBox="-1 -1 102 102" width="100%">
+    <path
+      class="progress-ring-circle-bg"
+      d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"
+    >
+    </path>
+    <path
+      class="progress-ring-circle"
+      d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"
+    >
+    </path>
+  </svg>
+  <span class="icon">↑</span>
 </button>
 
 <style>
   .back-to-top {
     position: fixed;
-    bottom: 6rem;
-    right: 2rem;
-    z-index: 9998;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    border: 2px solid currentColor;
-    background: var(--bg-primary, #fff);
-    color: var(--text-primary, #1f2937);
+    bottom: var(--spacing-8);
+    right: var(--spacing-8);
+    z-index: 10000;
+    width: 3.5rem;
+    height: 3.5rem;
+    padding: 0;
+    border: none;
+    background: transparent;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.25rem;
-    font-weight: bold;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: scale(0.8);
+    transition: var(--transition-all);
   }
 
   .back-to-top.visible {
     opacity: 1;
     visibility: visible;
+    transform: scale(1);
+  }
+
+  .progress-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotate(-90deg);
+  }
+
+  .progress-ring-circle-bg {
+    stroke: var(--color-border);
+    stroke-width: 4;
+    fill: var(--color-bg);
+  }
+
+  .progress-ring-circle {
+    stroke: var(--color-primary);
+    stroke-width: 4;
+    fill: transparent;
+    stroke-dasharray: 307.87;
+    stroke-dashoffset: 307.87;
+    transition: stroke-dashoffset 0.1s;
+    stroke-linecap: round;
+  }
+
+  :global(.dark) .progress-ring-circle-bg {
+    fill: var(--color-surface);
+  }
+
+  .icon {
+    position: relative;
+    z-index: 1;
+    font-size: 1.25rem;
+    color: var(--color-text-main);
+    transition: var(--transition-all);
   }
 
   .back-to-top:hover {
-    transform: scale(1.1) translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    transform: scale(1.1);
   }
 
-  /* Dev Mode styling */
-  [data-theme-mode="terminal"] .back-to-top {
-    background: #1a1b26;
-    color: #c0caf5;
-    border-color: #7aa2f7;
+  .back-to-top:hover .icon {
+    transform: translateY(-2px);
+    color: var(--color-primary);
   }
 
   @media (max-width: 768px) {
     .back-to-top {
-      bottom: 5rem;
-      right: 1rem;
-      width: 2.5rem;
-      height: 2.5rem;
-      font-size: 1rem;
+      bottom: var(--spacing-4);
+      right: var(--spacing-4);
+      width: 3rem;
+      height: 3rem;
     }
   }
 </style>
 
 <script>
   function initBackToTop() {
-    const button = document.getElementById('back-to-top');
-    if (!button) return;
+    const button = document.getElementById("back-to-top") as HTMLButtonElement;
+    const progressCircle = document.querySelector(
+      ".progress-ring-circle",
+    ) as SVGPathElement;
+    const articleContainer = document.querySelector(
+      ".article-content",
+    ) as HTMLElement;
 
-    // Check if page is scrollable (content longer than viewport)
-    function isPageScrollable() {
-      return document.body.scrollHeight > window.innerHeight + 200; // 200px buffer
-    }
+    if (!button || !progressCircle) return;
 
-    // Show/hide based on scroll position and page length
-    function toggleVisibility() {
-      if (!isPageScrollable()) {
-        button.classList.remove('visible');
-        return;
-      }
+    const radius = 49;
+    const circumference = 2 * Math.PI * radius;
 
-      if (window.scrollY > 300) {
-        button.classList.add('visible');
+    function updateProgress() {
+      const scrollTop = window.scrollY;
+      const winHeight = window.innerHeight;
+
+      let scrollPercent: number;
+      if (articleContainer) {
+        // If in a post, track relative to the article content
+        const rect = articleContainer.getBoundingClientRect();
+        const totalHeight = rect.height;
+        const currentProgress = scrollTop - (rect.top + scrollTop - winHeight);
+
+        scrollPercent = Math.max(0, Math.min(1, currentProgress / totalHeight));
       } else {
-        button.classList.remove('visible');
+        // Normal page tracking
+        const docHeight = document.documentElement.scrollHeight - winHeight;
+        scrollPercent = scrollTop / docHeight;
       }
+
+      // Update visibility (only show after 300px scroll)
+      if (scrollTop > 300) {
+        button.classList.add("visible");
+      } else {
+        button.classList.remove("visible");
+      }
+
+      // Update progress ring
+      const offset = circumference - scrollPercent * circumference;
+      const safeOffset = Math.max(0, Math.min(offset, circumference));
+      progressCircle.style.strokeDashoffset = safeOffset.toString();
     }
 
-    // Smooth scroll to top
-    function scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    }
+    button.addEventListener("click", () => {
+      window.scrollTo({ behavior: "smooth", top: 0 });
+    });
 
-    // Event listeners
-    window.addEventListener('scroll', toggleVisibility);
-    window.addEventListener('resize', toggleVisibility); // Check on resize
-    button.addEventListener('click', scrollToTop);
-
-    // Initial check
-    toggleVisibility();
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    updateProgress();
   }
 
-  // Init
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initBackToTop);
-  } else {
-    initBackToTop();
-  }
-
-  document.addEventListener('astro:page-load', initBackToTop);
+  document.addEventListener("astro:page-load", initBackToTop);
 </script>

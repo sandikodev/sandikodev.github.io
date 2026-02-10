@@ -4,16 +4,25 @@
 ---
 
 <!-- Loading Bar -->
-<div id="blog-loading-bar" class="blog-loading-bar"></div>
+<div class="blog-loading-bar" id="blog-loading-bar"></div>
 
 <!-- Skeleton Loaders (hidden by default) -->
-<div id="skeleton-loaders" class="skeleton-container" style="display: none;">
-  <div class="skeleton-post">
-    <div class="skeleton-title"></div>
-    <div class="skeleton-meta"></div>
-    <div class="skeleton-content"></div>
-    <div class="skeleton-content"></div>
-    <div class="skeleton-content short"></div>
+<div class="skeleton-container" id="skeleton-loaders" style="display: none;">
+  <div class="article-main skeleton-layout">
+    <div class="skeleton-post">
+      <div class="skeleton-title"></div>
+      <div class="skeleton-meta"></div>
+      <div class="skeleton-hero"></div>
+      <div class="skeleton-content"></div>
+      <div class="skeleton-content"></div>
+      <div class="skeleton-content short"></div>
+    </div>
+    <div class="article-sidebar skeleton-sidebar">
+      <div class="skeleton-toc-title"></div>
+      <div class="skeleton-toc-item"></div>
+      <div class="skeleton-toc-item"></div>
+      <div class="skeleton-toc-item"></div>
+    </div>
   </div>
 </div>
 
@@ -23,7 +32,7 @@
     top: 0;
     left: 0;
     height: 3px;
-    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    background: linear-gradient(90deg, var(--color-primary), #818cf8);
     width: 0%;
     transition: width 0.3s ease;
     z-index: 9999;
@@ -36,36 +45,64 @@
   }
 
   .skeleton-container {
-    max-width: 680px;
+    max-width: var(--max-width-container, 1200px);
     margin: 0 auto;
-    padding: 2rem;
+    padding: var(--spacing-8, 2rem);
+    margin-top: 64px;
+  }
+
+  .skeleton-layout {
+    display: flex;
+    gap: var(--spacing-12);
+    justify-content: center;
   }
 
   .skeleton-post {
+    width: 100%;
+    max-width: var(--max-width-content);
     animation: pulse 1.5s ease-in-out infinite;
   }
 
+  .skeleton-sidebar {
+    width: 280px;
+    display: none;
+  }
+
+  @media (min-width: 1200px) {
+    .skeleton-sidebar {
+      display: block;
+    }
+  }
+
   .skeleton-title {
-    height: 2rem;
-    background: #e2e8f0;
-    border-radius: 0.25rem;
-    margin-bottom: 1rem;
-    width: 70%;
+    height: 3rem;
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-4);
+    width: 80%;
   }
 
   .skeleton-meta {
-    height: 1rem;
-    background: #e2e8f0;
-    border-radius: 0.25rem;
-    margin-bottom: 2rem;
+    height: 1.25rem;
+    background: var(--color-surface);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--spacing-8);
     width: 40%;
+  }
+
+  .skeleton-hero {
+    height: 400px;
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--spacing-12);
+    width: 100%;
   }
 
   .skeleton-content {
     height: 1rem;
-    background: #e2e8f0;
-    border-radius: 0.25rem;
-    margin-bottom: 0.75rem;
+    background: var(--color-surface);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--spacing-3);
     width: 100%;
   }
 
@@ -73,8 +110,25 @@
     width: 60%;
   }
 
+  .skeleton-toc-title {
+    height: 1rem;
+    background: var(--color-surface);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--spacing-4);
+    width: 50%;
+  }
+
+  .skeleton-toc-item {
+    height: 0.875rem;
+    background: var(--color-surface);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--spacing-2);
+    width: 100%;
+  }
+
   @keyframes pulse {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 1;
     }
     50% {
@@ -82,75 +136,90 @@
     }
   }
 
-  /* Dark mode */
-  .dark .skeleton-title,
-  .dark .skeleton-meta,
-  .dark .skeleton-content {
-    background: #374151;
+  :global(.dark) .skeleton-title,
+  :global(.dark) .skeleton-meta,
+  :global(.dark) .skeleton-hero,
+  :global(.dark) .skeleton-content,
+  :global(.dark) .skeleton-toc-title,
+  :global(.dark) .skeleton-toc-item {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
   }
 </style>
 
 <script>
   class BlogLoadingStates {
+    private loadingBar: HTMLElement | null;
+
     constructor() {
-      this.loadingBar = document.getElementById('blog-loading-bar');
+      this.loadingBar = document.getElementById("blog-loading-bar");
       this.init();
     }
 
-    init() {
-      // Show loading bar on navigation
-      document.addEventListener('astro:before-preparation', () => {
-        this.showLoadingBar();
-      });
-
-      // Hide loading bar when page loads
-      document.addEventListener('astro:page-load', () => {
-        this.hideLoadingBar();
-      });
-
-      // Show skeleton on slow connections
-      this.handleSlowConnection();
-    }
-
-    showLoadingBar() {
-      if (this.loadingBar) {
-        this.loadingBar.classList.add('active');
+    handleSlowConnection() {
+      const connection = (navigator as any).connection;
+      if (
+        connection &&
+        (connection.effectiveType === "slow-2g" || connection.saveData)
+      ) {
+        this.showSkeleton();
       }
     }
 
     hideLoadingBar() {
       if (this.loadingBar) {
         setTimeout(() => {
-          this.loadingBar.classList.remove('active');
+          this.loadingBar!.classList.remove("active");
         }, 300);
       }
     }
 
-    handleSlowConnection() {
-      // Show skeleton if page takes too long to load
-      const connection = navigator.connection;
-      if (connection && connection.effectiveType === 'slow-2g') {
-        this.showSkeleton();
+    init() {
+      document.addEventListener("astro:before-preparation", () => {
+        this.showLoadingBar();
+      });
+
+      document.addEventListener("astro:page-load", () => {
+        this.hideLoadingBar();
+      });
+
+      this.handleSlowConnection();
+    }
+
+    showLoadingBar() {
+      if (this.loadingBar) {
+        this.loadingBar.classList.add("active");
       }
     }
 
     showSkeleton() {
-      const skeleton = document.getElementById('skeleton-loaders');
-      if (skeleton) {
-        skeleton.style.display = 'block';
-        
-        // Hide after content loads
-        document.addEventListener('astro:page-load', () => {
-          skeleton.style.display = 'none';
+      const skeleton = document.getElementById("skeleton-loaders");
+      const mainContent = document.querySelector("main");
+      if (skeleton && mainContent) {
+        skeleton.style.display = "block";
+        mainContent.style.opacity = "0.3";
+
+        document.addEventListener("astro:page-load", () => {
+          skeleton.style.display = "none";
+          mainContent.style.opacity = "1";
         });
       }
     }
   }
 
-  // Initialize
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => new BlogLoadingStates());
+  if (document.readyState === "loading") {
+    document.addEventListener(
+      "DOMContentLoaded",
+      () => new BlogLoadingStates(),
+    );
   } else {
     new BlogLoadingStates();
   }
+
+  document.addEventListener("astro:page-load", () => {
+    if (!(window as any).loadingStatesInit) {
+      new BlogLoadingStates();
+      (window as any).loadingStatesInit = true;
+    }
+  });
 </script>

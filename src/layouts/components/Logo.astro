@@ -1,34 +1,35 @@
 ---
 import { Image } from "astro:assets";
+
 import config from "@/config/config.json";
 const { src } = Astro.props;
 const {
   logo,
-  logo_width,
   logo_height,
   logo_text,
+  logo_width,
   title,
 }: {
   logo: string;
-  logo_width: any;
   logo_height: any;
   logo_text: string;
+  logo_width: any;
   title: string;
 } = config.site;
 ---
 
-<a href="/" class="navbar-brand block">
+<a class="navbar-brand block" href="/">
   {
     src || logo ? (
       <Image
-        width={logo_width.replace("px", "") * 2}
+        alt={title}
         height={logo_height.replace("px", "") * 2}
         src={src ? src : logo}
-        alt={title}
         style={{
           height: logo_height.replace("px", "") + "px",
           width: logo_width.replace("px", "") + "px",
         }}
+        width={logo_width.replace("px", "") * 2}
       />
     ) : logo_text ? (
       logo_text

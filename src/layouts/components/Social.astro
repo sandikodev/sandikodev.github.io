@@ -1,5 +1,5 @@
 ---
-const { source, className } = Astro.props;
+const { className, source } = Astro.props;
 
 import {
   IoCall,
@@ -36,37 +36,37 @@ import {
 } from "react-icons/io5";
 
 const {
+  address,
+  behance,
+  bitbucket,
+  codepen,
+  discord,
+  dribbble,
+  email,
   facebook,
-  twitter,
-  mastodon,
-  instagram,
-  youtube,
-  linkedin,
+  foursquare,
   github,
   gitlab,
-  discord,
-  slack,
+  instagram,
+  linkedin,
+  mastodon,
   medium,
-  codepen,
-  bitbucket,
-  dribbble,
-  behance,
-  pinterest,
-  soundcloud,
-  tumblr,
-  reddit,
-  vk,
-  whatsapp,
-  snapchat,
-  vimeo,
-  tiktok,
-  foursquare,
-  rss,
-  email,
   phone,
-  address,
+  pinterest,
+  reddit,
+  rss,
   skype,
+  slack,
+  snapchat,
+  soundcloud,
+  tiktok,
+  tumblr,
+  twitter,
+  vimeo,
+  vk,
   website,
+  whatsapp,
+  youtube,
 } = source;
 ---
 
@@ -77,8 +77,8 @@ const {
         <a
           aria-label="facebook"
           href={facebook}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoFacebook />
         </a>
@@ -91,8 +91,8 @@ const {
         <a
           aria-label="twitter"
           href={twitter}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoTwitter />
         </a>
@@ -105,8 +105,8 @@ const {
         <a
           aria-label="mastodon"
           href={mastodon}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoMastodon />
         </a>
@@ -119,8 +119,8 @@ const {
         <a
           aria-label="instagram"
           href={instagram}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoInstagram />
         </a>
@@ -133,8 +133,8 @@ const {
         <a
           aria-label="youtube"
           href={youtube}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoYoutube />
         </a>
@@ -147,8 +147,8 @@ const {
         <a
           aria-label="linkedin"
           href={linkedin}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoLinkedin />
         </a>
@@ -161,8 +161,8 @@ const {
         <a
           aria-label="github"
           href={github}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoGithub />
         </a>
@@ -175,8 +175,8 @@ const {
         <a
           aria-label="gitlab"
           href={gitlab}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoGitlab />
         </a>
@@ -189,8 +189,8 @@ const {
         <a
           aria-label="discord"
           href={discord}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoDiscord />
         </a>
@@ -203,8 +203,8 @@ const {
         <a
           aria-label="slack"
           href={slack}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoSlack />
         </a>
@@ -217,8 +217,8 @@ const {
         <a
           aria-label="medium"
           href={medium}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoMedium />
         </a>
@@ -231,8 +231,8 @@ const {
         <a
           aria-label="codepen"
           href={codepen}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoCodepen />
         </a>
@@ -245,8 +245,8 @@ const {
         <a
           aria-label="bitbucket"
           href={bitbucket}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoBitbucket />
         </a>
@@ -259,8 +259,8 @@ const {
         <a
           aria-label="dribbble"
           href={dribbble}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoDribbble />
         </a>
@@ -273,8 +273,8 @@ const {
         <a
           aria-label="behance"
           href={behance}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoBehance />
         </a>
@@ -287,8 +287,8 @@ const {
         <a
           aria-label="pinterest"
           href={pinterest}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoPinterest />
         </a>
@@ -301,8 +301,8 @@ const {
         <a
           aria-label="soundcloud"
           href={soundcloud}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoSoundcloud />
         </a>
@@ -315,8 +315,8 @@ const {
         <a
           aria-label="tumblr"
           href={tumblr}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoTumblr />
         </a>
@@ -329,8 +329,8 @@ const {
         <a
           aria-label="reddit"
           href={reddit}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoReddit />
         </a>
@@ -343,8 +343,8 @@ const {
         <a
           aria-label="vk"
           href={vk}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoVk />
         </a>
@@ -357,8 +357,8 @@ const {
         <a
           aria-label="whatsapp"
           href={whatsapp}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoWhatsapp />
         </a>
@@ -371,8 +371,8 @@ const {
         <a
           aria-label="snapchat"
           href={snapchat}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoSnapchat />
         </a>
@@ -385,8 +385,8 @@ const {
         <a
           aria-label="vimeo"
           href={vimeo}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoVimeo />
         </a>
@@ -399,8 +399,8 @@ const {
         <a
           aria-label="tiktok"
           href={tiktok}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoTiktok />
         </a>
@@ -413,8 +413,8 @@ const {
         <a
           aria-label="foursquare"
           href={foursquare}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoFoursquare />
         </a>
@@ -427,8 +427,8 @@ const {
         <a
           aria-label="skype"
           href={skype}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoSkype />
         </a>
@@ -441,8 +441,8 @@ const {
         <a
           aria-label="website"
           href={website}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoGlobeOutline />
         </a>
@@ -455,8 +455,8 @@ const {
         <a
           aria-label="rss feed"
           href={rss}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLogoRss />
         </a>
@@ -487,8 +487,8 @@ const {
         <a
           aria-label="location"
           href={address}
-          target="_blank"
           rel="noopener noreferrer nofollow"
+          target="_blank"
         >
           <IoLocation />
         </a>

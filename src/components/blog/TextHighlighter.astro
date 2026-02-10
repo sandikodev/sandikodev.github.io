@@ -3,7 +3,7 @@
 const { slug } = Astro.props;
 ---
 
-<div id="highlight-toolbar" class="highlight-toolbar" style="display: none;">
+<div class="highlight-toolbar" id="highlight-toolbar" style="display: none;">
   <button class="highlight-btn" data-color="yellow" title="Highlight in yellow">
     <span class="highlight-color yellow"></span>
   </button>
@@ -13,9 +13,7 @@ const { slug } = Astro.props;
   <button class="highlight-btn" data-color="blue" title="Highlight in blue">
     <span class="highlight-color blue"></span>
   </button>
-  <button class="highlight-btn remove" title="Remove highlight">
-    ✕
-  </button>
+  <button class="highlight-btn remove" title="Remove highlight"> ✕ </button>
 </div>
 
 <style>
@@ -55,9 +53,15 @@ const { slug } = Astro.props;
     border: 1px solid #ddd;
   }
 
-  .highlight-color.yellow { background: #fef08a; }
-  .highlight-color.green { background: #bbf7d0; }
-  .highlight-color.blue { background: #bfdbfe; }
+  .highlight-color.yellow {
+    background: #fef08a;
+  }
+  .highlight-color.green {
+    background: #bbf7d0;
+  }
+  .highlight-color.blue {
+    background: #bfdbfe;
+  }
 
   .highlight-btn.remove {
     color: #ef4444;
@@ -71,9 +75,15 @@ const { slug } = Astro.props;
     cursor: pointer;
   }
 
-  .text-highlight.yellow { background: #fef08a; }
-  .text-highlight.green { background: #bbf7d0; }
-  .text-highlight.blue { background: #bfdbfe; }
+  .text-highlight.yellow {
+    background: #fef08a;
+  }
+  .text-highlight.green {
+    background: #bbf7d0;
+  }
+  .text-highlight.blue {
+    background: #bfdbfe;
+  }
 
   .text-highlight:hover {
     opacity: 0.8;
@@ -95,38 +105,110 @@ const { slug } = Astro.props;
   }
 </style>
 
-<script define:vars={{ slug }}>
+<script is:inline define:vars={{ slug }}>
   class TextHighlighter {
     constructor() {
       this.slug = slug;
       this.storageKey = `highlights-${this.slug}`;
-      this.toolbar = document.getElementById('highlight-toolbar');
+      this.toolbar = document.getElementById("highlight-toolbar");
       this.init();
     }
 
-    init() {
-      // Load existing highlights
-      this.loadHighlights();
-      
-      // Add selection listener
-      document.addEventListener('mouseup', (e) => this.handleSelection(e));
-      
-      // Add toolbar listeners
-      this.toolbar.querySelectorAll('.highlight-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => this.handleHighlight(e));
-      });
+    addHighlight(color) {
+      const selection = window.getSelection();
+      const range = selection.getRangeAt(0);
 
-      // Hide toolbar on click outside
-      document.addEventListener('click', (e) => {
-        if (!this.toolbar.contains(e.target)) {
-          this.hideToolbar();
+      // Create highlight element
+      const highlight = document.createElement("span");
+      highlight.className = `text-highlight ${color}`;
+      highlight.dataset.highlightId = this.generateId();
+
+      try {
+        range.surroundContents(highlight);
+
+        // Save to localStorage
+        this.saveHighlight({
+          color: color,
+          id: highlight.dataset.highlightId,
+          text: highlight.textContent,
+          xpath: this.getXPath(highlight),
+        });
+      } catch (e) {
+        console.warn("Could not highlight selection:", e);
+      }
+    }
+
+    generateId() {
+      return Date.now().toString(36) + Math.random().toString(36).slice(2);
+    }
+
+    getElementByXPath(xpath) {
+      return document.evaluate(
+        xpath,
+        document,
+        null,
+        XPathResult.FIRST_ORDERED_NODE_TYPE,
+        null,
+      ).singleNodeValue;
+    }
+
+    getHighlights() {
+      try {
+        return JSON.parse(localStorage.getItem(this.storageKey) || "{}");
+      } catch {
+        return {};
+      }
+    }
+
+    getXPath(element) {
+      if (element.id) return `//*[@id="${element.id}"]`;
+
+      const parts = [];
+      while (element && element.nodeType === Node.ELEMENT_NODE) {
+        let index = 0;
+        let sibling = element.previousSibling;
+
+        while (sibling) {
+          if (
+            sibling.nodeType === Node.ELEMENT_NODE &&
+            sibling.tagName === element.tagName
+          ) {
+            index++;
+          }
+          sibling = sibling.previousSibling;
         }
-      });
+
+        const tagName = element.tagName.toLowerCase();
+        const pathIndex = index > 0 ? `[${index + 1}]` : "";
+        parts.unshift(`${tagName}${pathIndex}`);
+
+        element = element.parentNode;
+      }
+
+      return parts.length ? `/${parts.join("/")}` : null;
+    }
+
+    handleHighlight(e) {
+      const selection = window.getSelection();
+      if (selection.rangeCount === 0) return;
+
+      const color = e.target.closest(".highlight-btn").dataset.color;
+
+      if (color === undefined) {
+        // Remove highlight
+        this.removeHighlight();
+      } else {
+        // Add highlight
+        this.addHighlight(color);
+      }
+
+      this.hideToolbar();
+      selection.removeAllRanges();
     }
 
     handleSelection(e) {
       const selection = window.getSelection();
-      
+
       if (selection.rangeCount === 0 || selection.isCollapsed) {
         this.hideToolbar();
         return;
@@ -141,9 +223,10 @@ const { slug } = Astro.props;
       // Check if selection is within article content
       const range = selection.getRangeAt(0);
       const container = range.commonAncestorContainer;
-      const article = container.nodeType === Node.TEXT_NODE 
-        ? container.parentElement.closest('article, .content, main')
-        : container.closest('article, .content, main');
+      const article =
+        container.nodeType === Node.TEXT_NODE
+          ? container.parentElement.closest("article, .content, main")
+          : container.closest("article, .content, main");
 
       if (!article) {
         this.hideToolbar();
@@ -153,81 +236,66 @@ const { slug } = Astro.props;
       this.showToolbar(e.pageX, e.pageY);
     }
 
-    showToolbar(x, y) {
-      this.toolbar.style.display = 'flex';
-      this.toolbar.style.left = `${x}px`;
-      this.toolbar.style.top = `${y - 50}px`;
-    }
-
     hideToolbar() {
-      this.toolbar.style.display = 'none';
+      this.toolbar.style.display = "none";
     }
 
-    handleHighlight(e) {
-      const selection = window.getSelection();
-      if (selection.rangeCount === 0) return;
+    init() {
+      // Load existing highlights
+      this.loadHighlights();
 
-      const color = e.target.closest('.highlight-btn').dataset.color;
-      
-      if (color === undefined) {
-        // Remove highlight
-        this.removeHighlight();
-      } else {
-        // Add highlight
-        this.addHighlight(color);
-      }
+      // Add selection listener
+      document.addEventListener("mouseup", (e) => this.handleSelection(e));
 
-      this.hideToolbar();
-      selection.removeAllRanges();
+      // Add toolbar listeners
+      this.toolbar.querySelectorAll(".highlight-btn").forEach((btn) => {
+        btn.addEventListener("click", (e) => this.handleHighlight(e));
+      });
+
+      // Hide toolbar on click outside
+      document.addEventListener("click", (e) => {
+        if (!this.toolbar.contains(e.target)) {
+          this.hideToolbar();
+        }
+      });
     }
 
-    addHighlight(color) {
-      const selection = window.getSelection();
-      const range = selection.getRangeAt(0);
-      
-      // Create highlight element
-      const highlight = document.createElement('span');
-      highlight.className = `text-highlight ${color}`;
-      highlight.dataset.highlightId = this.generateId();
-      
-      try {
-        range.surroundContents(highlight);
-        
-        // Save to localStorage
-        this.saveHighlight({
-          id: highlight.dataset.highlightId,
-          text: highlight.textContent,
-          color: color,
-          xpath: this.getXPath(highlight)
-        });
-      } catch (e) {
-        console.warn('Could not highlight selection:', e);
-      }
+    loadHighlights() {
+      const highlights = this.getHighlights();
+
+      Object.values(highlights).forEach((highlight) => {
+        try {
+          const element = this.getElementByXPath(highlight.xpath);
+          if (element && element.textContent === highlight.text) {
+            element.className = `text-highlight ${highlight.color}`;
+            element.dataset.highlightId = highlight.id;
+          }
+        } catch (e) {
+          console.warn("Could not restore highlight:", e);
+        }
+      });
     }
 
     removeHighlight() {
       const selection = window.getSelection();
       const range = selection.getRangeAt(0);
       const highlight = range.commonAncestorContainer.parentElement;
-      
-      if (highlight && highlight.classList.contains('text-highlight')) {
+
+      if (highlight && highlight.classList.contains("text-highlight")) {
         const id = highlight.dataset.highlightId;
-        
+
         // Remove from DOM
         const parent = highlight.parentNode;
-        parent.insertBefore(document.createTextNode(highlight.textContent), highlight);
+        parent.insertBefore(
+          document.createTextNode(highlight.textContent),
+          highlight,
+        );
         parent.removeChild(highlight);
         parent.normalize();
-        
+
         // Remove from storage
         this.removeHighlightFromStorage(id);
       }
-    }
-
-    saveHighlight(highlight) {
-      const highlights = this.getHighlights();
-      highlights[highlight.id] = highlight;
-      localStorage.setItem(this.storageKey, JSON.stringify(highlights));
     }
 
     removeHighlightFromStorage(id) {
@@ -236,67 +304,22 @@ const { slug } = Astro.props;
       localStorage.setItem(this.storageKey, JSON.stringify(highlights));
     }
 
-    loadHighlights() {
+    saveHighlight(highlight) {
       const highlights = this.getHighlights();
-      
-      Object.values(highlights).forEach(highlight => {
-        try {
-          const element = this.getElementByXPath(highlight.xpath);
-          if (element && element.textContent === highlight.text) {
-            element.className = `text-highlight ${highlight.color}`;
-            element.dataset.highlightId = highlight.id;
-          }
-        } catch (e) {
-          console.warn('Could not restore highlight:', e);
-        }
-      });
+      highlights[highlight.id] = highlight;
+      localStorage.setItem(this.storageKey, JSON.stringify(highlights));
     }
 
-    getHighlights() {
-      try {
-        return JSON.parse(localStorage.getItem(this.storageKey) || '{}');
-      } catch {
-        return {};
-      }
-    }
-
-    generateId() {
-      return Date.now().toString(36) + Math.random().toString(36).substr(2);
-    }
-
-    getXPath(element) {
-      if (element.id) return `//*[@id="${element.id}"]`;
-      
-      const parts = [];
-      while (element && element.nodeType === Node.ELEMENT_NODE) {
-        let index = 0;
-        let sibling = element.previousSibling;
-        
-        while (sibling) {
-          if (sibling.nodeType === Node.ELEMENT_NODE && sibling.tagName === element.tagName) {
-            index++;
-          }
-          sibling = sibling.previousSibling;
-        }
-        
-        const tagName = element.tagName.toLowerCase();
-        const pathIndex = index > 0 ? `[${index + 1}]` : '';
-        parts.unshift(`${tagName}${pathIndex}`);
-        
-        element = element.parentNode;
-      }
-      
-      return parts.length ? `/${parts.join('/')}` : null;
-    }
-
-    getElementByXPath(xpath) {
-      return document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    showToolbar(x, y) {
+      this.toolbar.style.display = "flex";
+      this.toolbar.style.left = `${x}px`;
+      this.toolbar.style.top = `${y - 50}px`;
     }
   }
 
   // Initialize
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => new TextHighlighter());
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => new TextHighlighter());
   } else {
     new TextHighlighter();
   }

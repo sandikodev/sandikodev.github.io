@@ -2,29 +2,43 @@
 // Keyboard shortcuts overlay
 ---
 
-<div id="shortcuts-overlay" class="shortcuts-overlay">
+<div class="shortcuts-overlay" id="shortcuts-overlay">
   <div class="shortcuts-modal">
     <div class="shortcuts-header">
       <h3>⌨️ Keyboard Shortcuts</h3>
-      <button id="close-shortcuts" class="close-btn">×</button>
+      <button aria-label="Close" class="close-btn" id="close-shortcuts"
+        >×</button
+      >
     </div>
     <div class="shortcuts-grid">
       <div class="shortcut-group">
         <h4>Navigation</h4>
         <div class="shortcut-item">
-          <kbd>g</kbd> + <kbd>h</kbd>
+          <div class="kbd-wrap">
+            <kbd>g</kbd>
+            {" "}
+            <kbd>h</kbd>
+          </div>
           <span>Go to Home</span>
         </div>
         <div class="shortcut-item">
-          <kbd>g</kbd> + <kbd>b</kbd>
+          <div class="kbd-wrap">
+            <kbd>g</kbd>
+            {" "}
+            <kbd>b</kbd>
+          </div>
           <span>Go to Blog</span>
         </div>
         <div class="shortcut-item">
-          <kbd>g</kbd> + <kbd>a</kbd>
+          <div class="kbd-wrap">
+            <kbd>g</kbd>
+            {" "}
+            <kbd>a</kbd>
+          </div>
           <span>Go to About</span>
         </div>
       </div>
-      
+
       <div class="shortcut-group">
         <h4>Actions</h4>
         <div class="shortcut-item">
@@ -40,7 +54,7 @@
           <span>Close overlay</span>
         </div>
       </div>
-      
+
       <div class="shortcut-group">
         <h4>Scrolling</h4>
         <div class="shortcut-item">
@@ -52,7 +66,11 @@
           <span>Scroll up</span>
         </div>
         <div class="shortcut-item">
-          <kbd>g</kbd> + <kbd>g</kbd>
+          <div class="kbd-wrap">
+            <kbd>g</kbd>
+            {" "}
+            <kbd>g</kbd>
+          </div>
           <span>Scroll to top</span>
         </div>
         <div class="shortcut-item">
@@ -64,6 +82,8 @@
   </div>
 </div>
 
+<div class="shortcut-feedback" id="shortcut-feedback"></div>
+
 <style>
   .shortcuts-overlay {
     display: none;
@@ -72,78 +92,126 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
-    z-index: 9999;
+    background: rgba(15, 23, 42, 0.4);
+    z-index: 10000;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(8px);
   }
   .shortcuts-overlay.active {
     display: flex;
   }
   .shortcuts-modal {
-    background: white;
-    border-radius: 1rem;
-    padding: 2rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-8);
     max-width: 600px;
     width: 90%;
     max-height: 80vh;
     overflow-y: auto;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 25px 50px -12px var(--color-shadow-lg);
+    animation: zoomIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  @keyframes zoomIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
   .shortcuts-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--spacing-6);
   }
   .shortcuts-header h3 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: var(--text-xl);
+    font-family: var(--font-primary);
+    color: var(--color-text-main);
   }
   .close-btn {
     background: none;
     border: none;
     font-size: 2rem;
     cursor: pointer;
-    color: #6b7280;
+    color: var(--color-text-muted);
     line-height: 1;
     padding: 0;
     width: 2rem;
     height: 2rem;
+    transition: var(--transition-all);
   }
   .close-btn:hover {
-    color: #1a1a1a;
+    color: var(--color-primary);
+    transform: rotate(90deg);
   }
   .shortcuts-grid {
     display: grid;
-    gap: 2rem;
+    gap: var(--spacing-8);
   }
   .shortcut-group h4 {
-    margin: 0 0 1rem 0;
-    color: #6b7280;
-    font-size: 0.875rem;
+    margin: 0 0 var(--spacing-4) 0;
+    color: var(--color-text-muted);
+    font-size: var(--text-xs);
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
   }
   .shortcut-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5rem 0;
+    padding: var(--spacing-2) 0;
+    border-bottom: 1px solid var(--color-surface);
+  }
+  .kbd-wrap {
+    display: flex;
+    gap: var(--spacing-1);
   }
   kbd {
-    background: #f3f4f6;
-    border: 1px solid #d1d5db;
-    border-radius: 0.25rem;
-    padding: 0.25rem 0.5rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.875rem;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 0.125rem 0.5rem;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text-main);
+    box-shadow: 0 2px 0 var(--color-border);
   }
   .shortcut-item span {
-    color: #6b7280;
+    color: var(--color-text-body);
+    font-size: var(--text-sm);
   }
+
+  /* Feedback Toast */
+  .shortcut-feedback {
+    position: fixed;
+    bottom: var(--spacing-8);
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--color-primary);
+    color: white;
+    padding: var(--spacing-2) var(--spacing-4);
+    border-radius: var(--radius-md);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    z-index: 10001;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .shortcut-feedback.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
   @media (min-width: 768px) {
     .shortcuts-grid {
       grid-template-columns: repeat(2, 1fr);
@@ -152,118 +220,121 @@
 </style>
 
 <script>
-  const overlay = document.getElementById('shortcuts-overlay');
-  const closeBtn = document.getElementById('close-shortcuts');
-  
-  let gPressed = false;
-  let gTimeout: NodeJS.Timeout;
-  
-  // Show shortcuts
-  function showShortcuts() {
-    overlay?.classList.add('active');
-  }
-  
-  // Hide shortcuts
-  function hideShortcuts() {
-    overlay?.classList.remove('active');
-  }
-  
-  // Keyboard handler
-  document.addEventListener('keydown', (e) => {
-    // Ignore if typing in input
-    if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
-      return;
+  function initKeyboardShortcuts() {
+    const overlay = document.getElementById("shortcuts-overlay");
+    const closeBtn = document.getElementById("close-shortcuts");
+    const feedback = document.getElementById("shortcut-feedback");
+
+    let gPressed = false;
+    let gTimeout: any;
+
+    function showShortcuts() {
+      overlay?.classList.add("active");
     }
-    
-    // Show shortcuts with ?
-    if (e.key === '?' && !e.shiftKey) {
-      e.preventDefault();
-      showShortcuts();
-      return;
+
+    function hideShortcuts() {
+      overlay?.classList.remove("active");
     }
-    
-    // Close with Escape
-    if (e.key === 'Escape') {
-      hideShortcuts();
-      return;
+
+    function showFeedback(text: string) {
+      if (!feedback) return;
+      feedback.textContent = text;
+      feedback.classList.add("visible");
+      setTimeout(() => feedback.classList.remove("visible"), 1500);
     }
-    
-    // Search with /
-    if (e.key === '/') {
-      e.preventDefault();
-      window.location.href = '/search';
-      return;
-    }
-    
-    // Vim-style scrolling
-    if (e.key === 'j') {
-      e.preventDefault();
-      window.scrollBy({ top: 100, behavior: 'smooth' });
-      return;
-    }
-    
-    if (e.key === 'k') {
-      e.preventDefault();
-      window.scrollBy({ top: -100, behavior: 'smooth' });
-      return;
-    }
-    
-    // Scroll to bottom with Shift+G
-    if (e.key === 'G' && e.shiftKey) {
-      e.preventDefault();
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-      return;
-    }
-    
-    // g-based navigation
-    if (e.key === 'g') {
-      if (gPressed) {
-        // gg - scroll to top
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        gPressed = false;
-        clearTimeout(gTimeout);
-      } else {
-        gPressed = true;
-        gTimeout = setTimeout(() => {
-          gPressed = false;
-        }, 1000);
+
+    function handleKeydown(e: KeyboardEvent) {
+      if (
+        e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLTextAreaElement ||
+        (e.target as HTMLElement).isContentEditable
+      ) {
+        return;
       }
-      return;
+
+      if (e.key === "?" && !e.shiftKey) {
+        e.preventDefault();
+        showShortcuts();
+        return;
+      }
+
+      if (e.key === "Escape") {
+        hideShortcuts();
+        const palette = document.getElementById("command-palette");
+        if (palette?.classList.contains("active")) return; // Let palette handle its own Esc
+      }
+
+      if (e.key === "/") {
+        e.preventDefault();
+        // Trigger command palette
+        const kEvent = new KeyboardEvent("keydown", {
+          bubbles: true,
+          key: "k",
+          metaKey: true,
+        });
+        document.dispatchEvent(kEvent);
+        return;
+      }
+
+      if (e.key === "j") {
+        window.scrollBy({ behavior: "smooth", top: 150 });
+        return;
+      }
+
+      if (e.key === "k") {
+        window.scrollBy({ behavior: "smooth", top: -150 });
+        return;
+      }
+
+      if (e.key === "G" && e.shiftKey) {
+        window.scrollTo({
+          behavior: "smooth",
+          top: document.documentElement.scrollHeight,
+        });
+        showFeedback("Jump to Bottom");
+        return;
+      }
+
+      if (e.key === "g") {
+        if (gPressed) {
+          window.scrollTo({ behavior: "smooth", top: 0 });
+          showFeedback("Jump to Top");
+          gPressed = false;
+          clearTimeout(gTimeout);
+        } else {
+          gPressed = true;
+          gTimeout = setTimeout(() => {
+            gPressed = false;
+          }, 800);
+        }
+        return;
+      }
+
+      if (gPressed) {
+        if (e.key === "h") {
+          window.location.href = "/";
+          showFeedback("Navigating Home...");
+        } else if (e.key === "b") {
+          window.location.href = "/blog";
+          showFeedback("Navigating Blog...");
+        } else if (e.key === "a") {
+          window.location.href = "/about";
+          showFeedback("Navigating About...");
+        }
+        if (["a", "b", "h"].includes(e.key)) {
+          gPressed = false;
+          clearTimeout(gTimeout);
+        }
+      }
     }
-    
-    // g+h - home
-    if (gPressed && e.key === 'h') {
-      e.preventDefault();
-      window.location.href = '/';
-      gPressed = false;
-      return;
-    }
-    
-    // g+b - blog
-    if (gPressed && e.key === 'b') {
-      e.preventDefault();
-      window.location.href = '/blog';
-      gPressed = false;
-      return;
-    }
-    
-    // g+a - about
-    if (gPressed && e.key === 'a') {
-      e.preventDefault();
-      window.location.href = '/about';
-      gPressed = false;
-      return;
-    }
-  });
-  
-  // Close button
-  closeBtn?.addEventListener('click', hideShortcuts);
-  
-  // Close on overlay click
-  overlay?.addEventListener('click', (e) => {
-    if (e.target === overlay) {
-      hideShortcuts();
-    }
-  });
+
+    document.addEventListener("keydown", handleKeydown);
+    closeBtn?.addEventListener("click", hideShortcuts);
+    overlay?.addEventListener("click", (e) => {
+      if (e.target === overlay) hideShortcuts();
+    });
+  }
+
+  // Handle View Transitions
+  document.addEventListener("astro:page-load", initKeyboardShortcuts);
 </script>

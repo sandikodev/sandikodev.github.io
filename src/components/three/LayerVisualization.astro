@@ -2,7 +2,7 @@
 // Three.js Layer Visualization - Hardware to Software Evolution
 ---
 
-<div id="layer-container" class="layer-container">
+<div class="layer-container" id="layer-container">
   <div class="layer-labels">
     <div class="layer-label" data-layer="0">Hardware</div>
     <div class="layer-label" data-layer="1">Network</div>
@@ -17,11 +17,11 @@
     position: relative;
     width: 100%;
     height: 400px;
-    background: rgba(0, 0, 0, 0.05);
+    background: var(--color-bg-tertiary);
     border-radius: 12px;
     overflow: hidden;
   }
-  
+
   .layer-labels {
     position: absolute;
     right: 1rem;
@@ -32,7 +32,7 @@
     flex-direction: column;
     gap: 0.5rem;
   }
-  
+
   .layer-label {
     padding: 0.5rem 1rem;
     background: rgba(255, 255, 255, 0.9);
@@ -43,112 +43,170 @@
     transition: all 0.3s ease;
     opacity: 0.7;
   }
-  
+
   .layer-label:hover,
   .layer-label.active {
     opacity: 1;
     transform: translateX(-5px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
-  
-  .layer-label[data-layer="0"] { border-left: 4px solid #ff6b6b; }
-  .layer-label[data-layer="1"] { border-left: 4px solid #4ecdc4; }
-  .layer-label[data-layer="2"] { border-left: 4px solid #45b7d1; }
-  .layer-label[data-layer="3"] { border-left: 4px solid #96ceb4; }
-  .layer-label[data-layer="4"] { border-left: 4px solid #feca57; }
+
+  .layer-label[data-layer="0"] {
+    border-left: 4px solid #ff6b6b;
+  }
+  .layer-label[data-layer="1"] {
+    border-left: 4px solid #4ecdc4;
+  }
+  .layer-label[data-layer="2"] {
+    border-left: 4px solid #45b7d1;
+  }
+  .layer-label[data-layer="3"] {
+    border-left: 4px solid #96ceb4;
+  }
+  .layer-label[data-layer="4"] {
+    border-left: 4px solid #feca57;
+  }
 </style>
 
 <script>
   // Dynamic import for Three.js to ensure client-side compatibility
   async function initLayerVisualization() {
     try {
-      const THREE = await import('three');
-      
+      const THREE = await import("three");
+
       class LayerVisualization {
-        constructor(containerId) {
+        container: HTMLElement | null;
+        currentLayer = 0;
+        layers: any[] = [];
+        scene: any;
+        camera: any;
+        renderer: any;
+        layerMeshes: any[] = [];
+
+        constructor(containerId: string) {
           this.container = document.getElementById(containerId);
           if (!this.container) return;
-          
+
           this.currentLayer = 0;
           this.layers = [
-            { name: 'Hardware', color: 0xff6b6b, y: -2, description: 'Circuits, processors, memory' },
-            { name: 'Network', color: 0x4ecdc4, y: -1, description: 'Protocols, connections, infrastructure' },
-            { name: 'System', color: 0x45b7d1, y: 0, description: 'Operating system, drivers, services' },
-            { name: 'Backend', color: 0x96ceb4, y: 1, description: 'APIs, databases, business logic' },
-            { name: 'Frontend', color: 0xfeca57, y: 2, description: 'User interface, interactions, experience' }
+            {
+              color: 0xff6b6b,
+              description: "Circuits, processors, memory",
+              name: "Hardware",
+              y: -2,
+            },
+            {
+              color: 0x4ecdc4,
+              description: "Protocols, connections, infrastructure",
+              name: "Network",
+              y: -1,
+            },
+            {
+              color: 0x45b7d1,
+              description: "Operating system, drivers, services",
+              name: "System",
+              y: 0,
+            },
+            {
+              color: 0x96ceb4,
+              description: "APIs, databases, business logic",
+              name: "Backend",
+              y: 1,
+            },
+            {
+              color: 0xfeca57,
+              description: "User interface, interactions, experience",
+              name: "Frontend",
+              y: 2,
+            },
           ];
-          
+
           this.init(THREE);
           this.setupInteractions();
           this.animate();
         }
-        
-        init(THREE) {
-          // Scene
-          this.scene = new THREE.Scene();
-          
-          // Camera
-          this.camera = new THREE.PerspectiveCamera(
-            75, 
-            this.container.clientWidth / this.container.clientHeight, 
-            0.1, 
-            1000
-          );
-          this.camera.position.set(4, 2, 6);
-          this.camera.lookAt(0, 0, 0);
-          
-          // Renderer
-          this.renderer = new THREE.WebGLRenderer({ 
-            alpha: true,
-            antialias: true 
+
+        animate() {
+          requestAnimationFrame(() => this.animate());
+
+          // Rotate the entire layer system slowly
+          this.scene.rotation.y += 0.005;
+
+          // Animate particles
+          this.scene.children.forEach((child: any) => {
+            if (
+              child instanceof THREE.Points &&
+              child.userData.layerIndex !== undefined
+            ) {
+              child.rotation.y += 0.01;
+            }
           });
-          this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
-          this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-          this.container.appendChild(this.renderer.domElement);
-          
-          // Lighting
-          const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-          this.scene.add(ambientLight);
-          
-          const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-          directionalLight.position.set(5, 5, 5);
-          this.scene.add(directionalLight);
-          
-          // Create layers
-          this.createLayers(THREE);
-          
-          // Handle resize
-          window.addEventListener('resize', () => this.onResize());
+
+          this.renderer.render(this.scene, this.camera);
         }
-        
-        createLayers(THREE) {
+
+        createLayerParticles(THREE: any, layer: any, index: number) {
+          const particleCount = 50;
+          const geometry = new THREE.BufferGeometry();
+          const vertices = [];
+
+          for (let i = 0; i < particleCount; i++) {
+            const radius = 3 + Math.random() * 2;
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.random() * Math.PI * 2;
+
+            vertices.push(
+              radius * Math.sin(phi) * Math.cos(theta),
+              layer.y + (Math.random() - 0.5) * 0.5,
+              radius * Math.sin(phi) * Math.sin(theta),
+            );
+          }
+
+          geometry.setAttribute(
+            "position",
+            new THREE.Float32BufferAttribute(vertices, 3),
+          );
+
+          const material = new THREE.PointsMaterial({
+            color: layer.color,
+            opacity: 0.6,
+            size: 0.02,
+            transparent: true,
+          });
+
+          const particles = new THREE.Points(geometry, material);
+          particles.userData = { layerIndex: index };
+          this.scene.add(particles);
+        }
+
+        createLayers(THREE: any) {
           this.layerMeshes = [];
-          
+
           this.layers.forEach((layer, index) => {
             // Main layer box
             const geometry = new THREE.BoxGeometry(4, 0.3, 4);
-            const material = new THREE.MeshLambertMaterial({ 
+            const material = new THREE.MeshLambertMaterial({
               color: layer.color,
+              opacity: 0.8,
               transparent: true,
-              opacity: 0.8
             });
-            
+
             const mesh = new THREE.Mesh(geometry, material);
             mesh.position.y = layer.y;
             mesh.userData = { index, layer };
-            
+
             this.scene.add(mesh);
             this.layerMeshes.push(mesh);
-            
+
             // Add connecting pillars between layers
             if (index > 0) {
               const pillarGeometry = new THREE.CylinderGeometry(0.05, 0.05, 1);
-              const pillarMaterial = new THREE.MeshLambertMaterial({ 
+              const pillarMaterial = new THREE.MeshLambertMaterial({
                 color: 0x666666,
+                opacity: 0.5,
                 transparent: true,
-                opacity: 0.5
               });
-              
+
               // Create 4 pillars at corners
               for (let i = 0; i < 4; i++) {
                 const pillar = new THREE.Mesh(pillarGeometry, pillarMaterial);
@@ -156,72 +214,52 @@
                 pillar.position.set(
                   Math.cos(angle) * 1.5,
                   layer.y - 0.5,
-                  Math.sin(angle) * 1.5
+                  Math.sin(angle) * 1.5,
                 );
                 this.scene.add(pillar);
               }
             }
-            
+
             // Add floating particles around each layer
             this.createLayerParticles(THREE, layer, index);
           });
-          
+
           // Highlight first layer
           this.highlightLayer(0);
         }
-        
-        createLayerParticles(THREE, layer, index) {
-          const particleCount = 50;
-          const geometry = new THREE.BufferGeometry();
-          const vertices = [];
-          
-          for (let i = 0; i < particleCount; i++) {
-            const radius = 3 + Math.random() * 2;
-            const theta = Math.random() * Math.PI * 2;
-            const phi = Math.random() * Math.PI * 2;
-            
-            vertices.push(
-              radius * Math.sin(phi) * Math.cos(theta),
-              layer.y + (Math.random() - 0.5) * 0.5,
-              radius * Math.sin(phi) * Math.sin(theta)
-            );
-          }
-          
-          geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-          
-          const material = new THREE.PointsMaterial({
-            color: layer.color,
-            size: 0.02,
-            transparent: true,
-            opacity: 0.6
-          });
-          
-          const particles = new THREE.Points(geometry, material);
-          particles.userData = { layerIndex: index };
-          this.scene.add(particles);
+
+        focusOnLayer(index: number) {
+          const targetY = this.layers[index].y;
+
+          // Smooth camera movement
+          const startY = this.camera.position.y;
+          const duration = 1000;
+          const startTime = Date.now();
+
+          const animateCamera = () => {
+            const elapsed = Date.now() - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            // Easing function
+            const easeProgress = 1 - Math.pow(1 - progress, 3);
+
+            this.camera.position.y = startY + (targetY - startY) * easeProgress;
+            this.camera.lookAt(0, targetY, 0);
+
+            if (progress < 1) {
+              requestAnimationFrame(animateCamera);
+            }
+          };
+
+          animateCamera();
         }
-        
-        setupInteractions() {
-          const labels = document.querySelectorAll('.layer-label');
-          
-          labels.forEach((label, index) => {
-            label.addEventListener('click', () => {
-              this.highlightLayer(index);
-              this.focusOnLayer(index);
-            });
-            
-            label.addEventListener('mouseenter', () => {
-              this.previewLayer(index);
-            });
-          });
-        }
-        
-        highlightLayer(index) {
+
+        highlightLayer(index: number) {
           // Update UI
-          document.querySelectorAll('.layer-label').forEach((label, i) => {
-            label.classList.toggle('active', i === index);
+          document.querySelectorAll(".layer-label").forEach((label, i) => {
+            label.classList.toggle("active", i === index);
           });
-          
+
           // Update 3D scene
           this.layerMeshes.forEach((mesh, i) => {
             if (i === index) {
@@ -232,74 +270,92 @@
               mesh.scale.set(1, 1, 1);
             }
           });
-          
+
           this.currentLayer = index;
         }
-        
-        previewLayer(index) {
-          if (index === this.currentLayer) return;
-          
-          this.layerMeshes[index].material.opacity = 0.9;
-        }
-        
-        focusOnLayer(index) {
-          const targetY = this.layers[index].y;
-          
-          // Smooth camera movement
-          const startY = this.camera.position.y;
-          const duration = 1000;
-          const startTime = Date.now();
-          
-          const animateCamera = () => {
-            const elapsed = Date.now() - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            
-            // Easing function
-            const easeProgress = 1 - Math.pow(1 - progress, 3);
-            
-            this.camera.position.y = startY + (targetY - startY) * easeProgress;
-            this.camera.lookAt(0, targetY, 0);
-            
-            if (progress < 1) {
-              requestAnimationFrame(animateCamera);
-            }
-          };
-          
-          animateCamera();
-        }
-        
-        animate() {
-          requestAnimationFrame(() => this.animate());
-          
-          // Rotate the entire layer system slowly
-          this.scene.rotation.y += 0.005;
-          
-          // Animate particles
-          this.scene.children.forEach(child => {
-            if (child instanceof THREE.Points && child.userData.layerIndex !== undefined) {
-              child.rotation.y += 0.01;
-            }
+
+        init(THREE: any) {
+          // Scene
+          this.scene = new THREE.Scene();
+
+          // Camera
+          this.camera = new THREE.PerspectiveCamera(
+            75,
+            this.container!.clientWidth / this.container!.clientHeight,
+            0.1,
+            1000,
+          );
+          this.camera.position.set(4, 2, 6);
+          this.camera.lookAt(0, 0, 0);
+
+          // Renderer
+          this.renderer = new THREE.WebGLRenderer({
+            alpha: true,
+            antialias: true,
           });
-          
-          this.renderer.render(this.scene, this.camera);
+          this.renderer.setSize(
+            this.container!.clientWidth,
+            this.container!.clientHeight,
+          );
+          this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+          this.container!.appendChild(this.renderer.domElement);
+
+          // Lighting
+          const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+          this.scene.add(ambientLight);
+
+          const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+          directionalLight.position.set(5, 5, 5);
+          this.scene.add(directionalLight);
+
+          // Create layers
+          this.createLayers(THREE);
+
+          // Handle resize
+          window.addEventListener("resize", () => this.onResize());
         }
-        
+
         onResize() {
           if (!this.container) return;
-          
-          this.camera.aspect = this.container.clientWidth / this.container.clientHeight;
+
+          this.camera.aspect =
+            this.container!.clientWidth / this.container!.clientHeight;
           this.camera.updateProjectionMatrix();
-          this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+          this.renderer.setSize(
+            this.container!.clientWidth,
+            this.container!.clientHeight,
+          );
+        }
+
+        previewLayer(index: number) {
+          if (index === this.currentLayer) return;
+
+          this.layerMeshes[index].material.opacity = 0.9;
+        }
+
+        setupInteractions() {
+          const labels = document.querySelectorAll(".layer-label");
+
+          labels.forEach((label, index) => {
+            label.addEventListener("click", () => {
+              this.highlightLayer(index);
+              this.focusOnLayer(index);
+            });
+
+            label.addEventListener("mouseenter", () => {
+              this.previewLayer(index);
+            });
+          });
         }
       }
-      
+
       // Initialize when DOM is ready
-      new LayerVisualization('layer-container');
+      new LayerVisualization("layer-container");
     } catch (error) {
-      console.warn('Three.js not available:', error);
+      console.warn("Three.js not available:", error);
     }
   }
-  
+
   // Initialize when DOM is ready
-  document.addEventListener('DOMContentLoaded', initLayerVisualization);
+  document.addEventListener("DOMContentLoaded", initLayerVisualization);
 </script>

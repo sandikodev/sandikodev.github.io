@@ -3,44 +3,46 @@
 import config from "@/config/config.json";
 ---
 
-<div id="dmenu" class="dmenu-overlay hidden">
+<div class="dmenu-overlay hidden" id="dmenu">
   <div class="dmenu">
     <span class="dmenu-prompt">run:</span>
     <input
-      type="text"
+      autocomplete="off"
       class="dmenu-input"
       id="dmenu-input"
       placeholder=""
-      autocomplete="off"
+      type="text"
     />
     <div class="dmenu-items" id="dmenu-items">
-      <a href="/" class="dmenu-item" data-cat="nav">🏠 home</a>
-      <a href="/blog" class="dmenu-item" data-cat="nav">📝 blog</a>
-      <a href="/about" class="dmenu-item" data-cat="nav">👤 about</a>
-      <a href="/workspace/terminal" class="dmenu-item" data-cat="nav"
-        >💻 terminal</a
-      >
-      <a href="/terminal-features" class="dmenu-item" data-cat="nav"
-        >⚡ features</a
-      >
-      <button class="dmenu-item" data-cat="action" data-action="theme"
-        >🎨 theme</button
-      >
-      <button class="dmenu-item" data-cat="action" data-action="scratchpad"
-        >📋 scratchpad</button
-      >
+      <a class="dmenu-item" data-cat="nav" href="/">🏠 home</a>
+      <a class="dmenu-item" data-cat="nav" href="/blog">📝 blog</a>
+      <a class="dmenu-item" data-cat="nav" href="/about">👤 about</a>
+      <a class="dmenu-item" data-cat="nav" href="/workspace/terminal">
+        💻 terminal
+      </a>
+      <a class="dmenu-item" data-cat="nav" href="/terminal-features">
+        ⚡ features
+      </a>
+      <button class="dmenu-item" data-action="theme" data-cat="action">
+        🎨 theme
+      </button>
+      <button class="dmenu-item" data-action="scratchpad" data-cat="action">
+        📋 scratchpad
+      </button>
       <a
+        class="dmenu-item"
+        data-cat="link"
         href={config.contactinfo.github}
         target="_blank"
-        class="dmenu-item"
-        data-cat="link">🔗 github</a
       >
+        🔗 github
+      </a>
     </div>
   </div>
 </div>
 
 <!-- Notification toast -->
-<div id="i3-notify" class="i3-notify hidden">
+<div class="i3-notify hidden" id="i3-notify">
   <span id="notify-text"></span>
 </div>
 
@@ -250,8 +252,8 @@ import config from "@/config/config.json";
     items.forEach((i) => i.classList.remove("selected"));
     visible[selectedIndex]?.classList.add("selected");
     visible[selectedIndex]?.scrollIntoView({
-      inline: "center",
       block: "nearest",
+      inline: "center",
     });
   }
 

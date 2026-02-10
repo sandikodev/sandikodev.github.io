@@ -1,33 +1,38 @@
 ---
 // Post Preview on Hover
 const { post } = Astro.props;
-const { title, description, date, image, tags } = post.data;
+const { date, description, image, tags, title } = post.data;
 ---
 
-<div class="post-preview-trigger" data-slug={post.slug}>
+<div class="post-preview-trigger" data-slug={post.id}>
   <slot />
-  
-  <div class="post-preview-tooltip" id={`preview-${post.slug}`}>
+
+  <div class="post-preview-tooltip" id={`preview-${post.id}`}>
     <div class="preview-content">
-      {image && (
-        <div class="preview-image">
-          <img src={image} alt={title} loading="lazy" />
-        </div>
-      )}
-      
+      {
+        image && (
+          <div class="preview-image">
+            <img alt={title} loading="lazy" src={image} />
+          </div>
+        )
+      }
+
       <div class="preview-text">
         <h4 class="preview-title">{title}</h4>
         <p class="preview-description">{description}</p>
-        
+
         <div class="preview-meta">
-          <span class="preview-date">{new Date(date).toLocaleDateString()}</span>
-          {tags && tags.length > 0 && (
-            <div class="preview-tags">
-              {tags.slice(0, 3).map(tag => (
-                <span class="preview-tag">#{tag}</span>
-              ))}
-            </div>
-          )}
+          <span class="preview-date">{new Date(date).toLocaleDateString()}</span
+          >
+          {
+            tags && tags.length > 0 && (
+              <div class="preview-tags">
+                {tags.slice(0, 3).map((tag: string) => (
+                  <span class="preview-tag">#{tag}</span>
+                ))}
+              </div>
+            )
+          }
         </div>
       </div>
     </div>
@@ -46,20 +51,20 @@ const { title, description, date, image, tags } = post.data;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
-    
+
     background: white;
     border: 1px solid #e2e8f0;
     border-radius: 0.5rem;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    
+    box-shadow: 0 10px 25px var(--color-shadow-md);
+
     width: 320px;
     max-width: 90vw;
-    
+
     opacity: 0;
     visibility: hidden;
     transform: translateX(-50%) translateY(-10px);
     transition: all 0.2s ease;
-    
+
     pointer-events: none;
   }
 
@@ -176,31 +181,35 @@ const { title, description, date, image, tags } = post.data;
 
 <script>
   // Enhanced hover behavior with delay
-  document.addEventListener('DOMContentLoaded', () => {
-    const triggers = document.querySelectorAll('.post-preview-trigger');
-    
-    triggers.forEach(trigger => {
-      let hoverTimeout;
-      
-      trigger.addEventListener('mouseenter', () => {
+  document.addEventListener("DOMContentLoaded", () => {
+    const triggers = document.querySelectorAll(".post-preview-trigger");
+
+    triggers.forEach((trigger) => {
+      let hoverTimeout: any;
+
+      trigger.addEventListener("mouseenter", () => {
         // Small delay before showing preview
         hoverTimeout = setTimeout(() => {
-          const tooltip = trigger.querySelector('.post-preview-tooltip');
+          const tooltip = trigger.querySelector(
+            ".post-preview-tooltip",
+          ) as HTMLElement;
           if (tooltip) {
-            tooltip.style.opacity = '1';
-            tooltip.style.visibility = 'visible';
-            tooltip.style.transform = 'translateX(-50%) translateY(0)';
+            tooltip.style.opacity = "1";
+            tooltip.style.visibility = "visible";
+            tooltip.style.transform = "translateX(-50%) translateY(0)";
           }
         }, 300);
       });
-      
-      trigger.addEventListener('mouseleave', () => {
-        clearTimeout(hoverTimeout);
-        const tooltip = trigger.querySelector('.post-preview-tooltip');
+
+      trigger.addEventListener("mouseleave", () => {
+        if (hoverTimeout) clearTimeout(hoverTimeout);
+        const tooltip = trigger.querySelector(
+          ".post-preview-tooltip",
+        ) as HTMLElement;
         if (tooltip) {
-          tooltip.style.opacity = '0';
-          tooltip.style.visibility = 'hidden';
-          tooltip.style.transform = 'translateX(-50%) translateY(-10px)';
+          tooltip.style.opacity = "0";
+          tooltip.style.visibility = "hidden";
+          tooltip.style.transform = "translateX(-50%) translateY(-10px)";
         }
       });
     });

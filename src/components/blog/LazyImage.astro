@@ -1,21 +1,21 @@
 ---
 interface Props {
-  src: string;
   alt: string;
-  width?: number;
-  height?: number;
   class?: string;
+  height?: number;
+  src: string;
+  width?: number;
 }
 
-const { src, alt, width, height, class: className } = Astro.props;
+const { alt, class: className, height, src, width } = Astro.props;
 ---
 
 <img
-  src={src}
   alt={alt}
-  width={width}
-  height={height}
   class={className}
-  loading="lazy"
   decoding="async"
+  height={height}
+  loading="lazy"
+  src={src}
+  width={width}
 />

@@ -2,34 +2,38 @@
 import { calculateReadingTime } from "@/lib/utils/readingTime";
 
 interface Props {
-  variant?: 'simple' | 'enhanced';
-  showTimeEstimate?: boolean;
-  showPercentage?: boolean;
   content?: string;
+  showPercentage?: boolean;
+  showTimeEstimate?: boolean;
+  variant?: "enhanced" | "simple";
 }
 
-const { 
-  variant = 'simple', 
-  showTimeEstimate = false, 
+const {
+  content = "",
   showPercentage = false,
-  content = ''
+  showTimeEstimate = false,
+  variant = "simple",
 } = Astro.props;
 
 const readingTimeMinutes = content ? calculateReadingTime(content) : 0;
 ---
 
-<div 
-  id="reading-progress" 
+<div
   class={`reading-progress ${variant}`}
   data-reading-time={readingTimeMinutes}
+  id="reading-progress"
 >
   <div class="progress-fill"></div>
-  {variant === 'enhanced' && (
-    <div class="progress-info">
-      {showPercentage && <span id="progress-text">0%</span>}
-      {showTimeEstimate && <span id="time-left">{readingTimeMinutes} min left</span>}
-    </div>
-  )}
+  {
+    variant === "enhanced" && (
+      <div class="progress-info">
+        {showPercentage && <span id="progress-text">0%</span>}
+        {showTimeEstimate && (
+          <span id="time-left">{readingTimeMinutes} min left</span>
+        )}
+      </div>
+    )
+  }
 </div>
 
 <style>
@@ -39,39 +43,39 @@ const readingTimeMinutes = content ? calculateReadingTime(content) : 0;
     left: 0;
     right: 0;
     height: 2px;
-    background: rgba(0, 0, 0, 0.05);
+    background: var(--color-bg-tertiary);
     z-index: 9999;
     opacity: 0;
     transition: opacity 0.3s ease;
   }
-  
+
   .reading-progress.visible {
     opacity: 1;
   }
-  
+
   .reading-progress.simple {
     top: 64px;
     height: 2px;
-    background: rgba(0, 0, 0, 0.08);
+    background: var(--color-bg-tertiary);
   }
-  
+
   :global(.dark) .reading-progress.simple {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--color-border-alpha);
   }
-  
+
   :global(.dark) .reading-progress {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--color-bg-tertiary);
   }
-  
+
   .reading-progress.enhanced {
     height: 3px;
-    background: rgba(0, 0, 0, 0.05);
+    background: var(--color-bg-tertiary);
   }
-  
+
   :global(.dark) .reading-progress.enhanced {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--color-bg-tertiary);
   }
-  
+
   .progress-fill {
     height: 100%;
     background: linear-gradient(90deg, #6366f1, #8b5cf6);
@@ -79,12 +83,12 @@ const readingTimeMinutes = content ? calculateReadingTime(content) : 0;
     transition: width 0.15s ease;
     box-shadow: 0 0 8px rgba(99, 102, 241, 0.3);
   }
-  
+
   :global(.dark) .progress-fill {
     background: linear-gradient(90deg, #7c3aed, #a855f7);
     box-shadow: 0 0 8px rgba(124, 58, 237, 0.4);
   }
-  
+
   .progress-info {
     position: absolute;
     top: 8px;
@@ -96,12 +100,12 @@ const readingTimeMinutes = content ? calculateReadingTime(content) : 0;
     background: var(--bg-primary, #fff);
     padding: 0.25rem 0.75rem;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px var(--color-shadow-md);
     opacity: 0;
     transform: translateY(-10px);
     transition: all 0.3s ease;
   }
-  
+
   .reading-progress.visible .progress-info {
     opacity: 1;
     transform: translateY(0);
@@ -109,41 +113,47 @@ const readingTimeMinutes = content ? calculateReadingTime(content) : 0;
 </style>
 
 <script>
-  const progressBar = document.getElementById('reading-progress');
-  const progressFill = progressBar?.querySelector('.progress-fill') as HTMLElement;
-  const progressText = document.getElementById('progress-text');
-  const timeLeft = document.getElementById('time-left');
-  
-  const readingTime = parseInt(progressBar?.dataset.readingTime || '0');
-  
+  const progressBar = document.getElementById("reading-progress");
+  const progressFill = progressBar?.querySelector(
+    ".progress-fill",
+  ) as HTMLElement;
+  const progressText = document.getElementById("progress-text");
+  const timeLeft = document.getElementById("time-left");
+
+  const readingTime = parseInt(progressBar?.dataset.readingTime || "0");
+
   function updateProgress() {
-    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollHeight =
+      document.documentElement.scrollHeight - window.innerHeight;
     const scrolled = window.scrollY;
     const progress = Math.min((scrolled / scrollHeight) * 100, 100);
-    
+
     if (progressFill) {
       progressFill.style.width = `${progress}%`;
     }
-    
+
     if (progressText) {
       progressText.textContent = `${Math.round(progress)}%`;
     }
-    
+
     if (timeLeft && readingTime > 0) {
-      const remaining = Math.max(0, Math.ceil(readingTime * (1 - progress / 100)));
+      const remaining = Math.max(
+        0,
+        Math.ceil(readingTime * (1 - progress / 100)),
+      );
       timeLeft.textContent = `${remaining} min left`;
     }
-    
+
     // Show/hide progress bar
     if (progressBar) {
       if (scrolled > 100) {
-        progressBar.classList.add('visible');
+        progressBar.classList.add("visible");
       } else {
-        progressBar.classList.remove('visible');
+        progressBar.classList.remove("visible");
       }
     }
   }
-  
-  window.addEventListener('scroll', updateProgress, { passive: true });
+
+  window.addEventListener("scroll", updateProgress, { passive: true });
   updateProgress();
 </script>

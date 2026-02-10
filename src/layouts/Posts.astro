@@ -1,21 +1,34 @@
 ---
 import PostCard from "@/components/blog/PostCard.astro";
-import PostPreview from "@/components/blog/PostPreview.astro";
 import KeyboardShortcuts from "@/components/ui/KeyboardShortcuts.astro";
 
 const { posts } = Astro.props;
 ---
 
 <div class="posts-grid">
-  {posts.map((post: any) => (
-    <PostCard 
-      post={post} 
-      variant="grid"
-      showImage={true}
-      showReadingTime={true}
-      showExcerpt={true}
-    />
-  ))}
+  {
+    posts.map((post: any, index: number) => {
+      // Pattern: Small, Small, Wide (Full Width)
+      // Index 0, 1 -> Small
+      // Index 2 -> Wide
+      const isWide = (index + 1) % 3 === 0;
+
+      return (
+        <div
+          class={`post-wrapper ${isWide ? "span-full" : ""}`}
+          style={`--index: ${index}`}
+        >
+          <PostCard
+            post={post}
+            showExcerpt={true}
+            showImage={true}
+            showReadingTime={true}
+            variant="grid"
+          />
+        </div>
+      );
+    })
+  }
 </div>
 
 <!-- Keyboard Shortcuts for blog navigation -->
@@ -25,19 +38,33 @@ const { posts } = Astro.props;
   .posts-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: 2rem;
   }
-  
-  @media (min-width: 640px) {
-    .posts-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 2rem;
+
+  .post-wrapper {
+    animation: reveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    animation-delay: calc(var(--index) * 0.1s);
+  }
+
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
-  
-  @media (min-width: 900px) {
+
+  @media (min-width: 768px) {
     .posts-grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2.5rem;
+    }
+
+    .post-wrapper.span-full {
+      grid-column: 1 / -1;
     }
   }
 </style>

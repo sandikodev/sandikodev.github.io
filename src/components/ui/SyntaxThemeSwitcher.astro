@@ -3,13 +3,19 @@
 ---
 
 <div class="syntax-theme-switcher">
-  <button id="theme-toggle" class="theme-btn" title="Change syntax theme">
-    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M12 2v4m0 0v4m0-4h4m-4 0H8"/>
+  <button class="theme-btn" id="theme-toggle" title="Change syntax theme">
+    <svg
+      fill="none"
+      height="16"
+      stroke="currentColor"
+      stroke-width="2"
+      width="16"
+    >
+      <path d="M12 2v4m0 0v4m0-4h4m-4 0H8"></path>
     </svg>
   </button>
-  
-  <div id="theme-menu" class="theme-menu">
+
+  <div class="theme-menu" id="theme-menu">
     <div class="theme-option" data-theme="github-dark">
       <span class="theme-preview github-dark"></span>
       <span>GitHub Dark</span>
@@ -52,7 +58,7 @@
     transition: all 0.2s;
   }
   .theme-btn:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: var(--color-bg-tertiary);
     color: #1a1a1a;
   }
   .theme-menu {
@@ -64,7 +70,7 @@
     background: white;
     border: 1px solid #e5e7eb;
     border-radius: 0.5rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 15px -3px var(--color-shadow-md);
     min-width: 200px;
     z-index: 100;
   }
@@ -85,7 +91,7 @@
   }
   .theme-option.active {
     background: #eff6ff;
-    color: #2563eb;
+    color: var(--color-primary);
   }
   .theme-preview {
     width: 1.5rem;
@@ -106,7 +112,11 @@
     background: linear-gradient(135deg, #2e3440 50%, #3b4252 50%);
   }
   .theme-preview.tokyo-night {
-    background: linear-gradient(135deg, #1a1b26 50%, #24283b 50%);
+    background: linear-gradient(
+      135deg,
+      var(--color-terminal-bg) 50%,
+      var(--color-terminal-surface) 50%
+    );
   }
   .theme-preview.one-dark-pro {
     background: linear-gradient(135deg, #282c34 50%, #21252b 50%);
@@ -114,50 +124,50 @@
 </style>
 
 <script>
-  const btn = document.getElementById('theme-toggle');
-  const menu = document.getElementById('theme-menu');
-  const options = document.querySelectorAll('.theme-option');
-  
+  const btn = document.getElementById("theme-toggle");
+  const menu = document.getElementById("theme-menu");
+  const options = document.querySelectorAll(".theme-option");
+
   // Load saved theme
-  const savedTheme = localStorage.getItem('syntax-theme') || 'github-dark';
-  
+  const savedTheme = localStorage.getItem("syntax-theme") || "github-dark";
+
   // Apply theme
   function applyTheme(theme: string) {
-    document.documentElement.setAttribute('data-syntax-theme', theme);
-    localStorage.setItem('syntax-theme', theme);
-    
+    document.documentElement.setAttribute("data-syntax-theme", theme);
+    localStorage.setItem("syntax-theme", theme);
+
     // Update active state
-    options.forEach(opt => {
-      if (opt.getAttribute('data-theme') === theme) {
-        opt.classList.add('active');
+    options.forEach((opt) => {
+      if (opt.getAttribute("data-theme") === theme) {
+        opt.classList.add("active");
       } else {
-        opt.classList.remove('active');
+        opt.classList.remove("active");
       }
     });
   }
-  
+
   // Initialize
   applyTheme(savedTheme);
-  
+
   // Toggle menu
-  btn?.addEventListener('click', (e) => {
+  btn?.addEventListener("click", (e) => {
     e.stopPropagation();
-    menu?.classList.toggle('active');
+    menu?.classList.toggle("active");
   });
-  
+
   // Select theme
-  options.forEach(option => {
-    option.addEventListener('click', () => {
-      const theme = option.getAttribute('data-theme');
+  options.forEach((option) => {
+    option.addEventListener("click", () => {
+      const theme = option.getAttribute("data-theme");
       if (theme) {
         applyTheme(theme);
-        menu?.classList.remove('active');
+        menu?.classList.remove("active");
       }
     });
   });
-  
+
   // Close menu on outside click
-  document.addEventListener('click', () => {
-    menu?.classList.remove('active');
+  document.addEventListener("click", () => {
+    menu?.classList.remove("active");
   });
 </script>
