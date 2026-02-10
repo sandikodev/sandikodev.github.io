@@ -1,0 +1,227 @@
+---
+import Prompt from "@/components/terminal/svelte/Prompt.svelte";
+import TerminalWindow from "@/components/terminal/svelte/TerminalWindow.svelte";
+import WorkspaceNav from "@/components/terminal/svelte/WorkspaceNav.svelte";
+import I3Layout from "@/layouts/I3Layout.astro";
+
+const skills = {
+  certifications: [
+    { name: "AWS Certified Developer", year: 2023 },
+    { name: "Kubernetes Administrator", year: 2024 },
+  ],
+  interests: [
+    "Open Source Contribution",
+    "System Design & Architecture",
+    "Developer Tools & CLI",
+    "Terminal UX & i3wm",
+    "Performance Optimization",
+  ],
+  personal_info: {
+    availability: "Open for opportunities",
+    location: "Indonesia",
+    name: "Sandiko",
+    role: "Full Stack Developer",
+  },
+  soft_skills: [
+    "Problem Solving",
+    "Team Collaboration",
+    "Technical Writing",
+    "Code Review",
+    "Mentoring",
+  ],
+  technical_skills: {
+    databases: [
+      { name: "PostgreSQL", proficiency: "expert", type: "relational" },
+      { name: "MongoDB", proficiency: "advanced", type: "document" },
+      { name: "Redis", proficiency: "advanced", type: "cache" },
+    ],
+    frameworks: [
+      { category: "frontend", name: "React", proficiency: "expert" },
+      { category: "fullstack", name: "Next.js", proficiency: "expert" },
+      { category: "frontend", name: "Astro", proficiency: "advanced" },
+      { category: "backend", name: "Node.js", proficiency: "expert" },
+      { category: "backend", name: "Express", proficiency: "advanced" },
+    ],
+    languages: [
+      {
+        focus: "Full-stack development",
+        name: "JavaScript",
+        proficiency: "Expert",
+      },
+      {
+        focus: "Type-safe architecture",
+        name: "TypeScript",
+        proficiency: "Expert",
+      },
+      {
+        focus: "Automation & Data processing",
+        name: "Python",
+        proficiency: "Advanced",
+      },
+      { focus: "Backend services", name: "Go", proficiency: "Intermediate" },
+      { focus: "Systems tooling", name: "Rust", proficiency: "Learning" },
+    ],
+    tools: [
+      { name: "Git", type: "version-control" },
+      { name: "Docker", type: "containerization" },
+      { name: "Kubernetes", type: "orchestration" },
+      { name: "VS Code", type: "editor" },
+      { name: "Neovim", type: "editor" },
+      { name: "Linux", type: "os" },
+    ],
+  },
+};
+---
+
+<I3Layout title="Skills | dev@sandikodev">
+  <div class="i3-split-h">
+    <!-- Main content (70%) -->
+    <div class="i3-split-v" style="flex: 2;">
+      <TerminalWindow
+        client:load
+        focused={true}
+        promptPath="~/portfolio"
+        title="alacritty — dev@sandikodev:~/portfolio"
+      >
+        <div slot="header">
+          <Prompt
+            command="cat skills.json | jq"
+            path="~/portfolio"
+            showCursor={false}
+          />
+        </div>
+
+        <pre class="json-output" id="json-container"></pre>
+      </TerminalWindow>
+    </div>
+
+    <!-- Sidebar (30%) -->
+    <div class="i3-split-v" style="flex: 1;">
+      <TerminalWindow client:load showCursor={false} title="navigation">
+        <div slot="header">
+          <Prompt command="cat ~/.config/nav" showCursor={false} />
+        </div>
+        <WorkspaceNav client:load />
+      </TerminalWindow>
+
+      <TerminalWindow client:load showCursor={false} title="metadata">
+        <div class="info-content">
+          <div class="info-item">
+            <span class="info-label">file:</span>
+            <span class="info-value">skills.json</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">size:</span>
+            <span class="info-value">3.2kb</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">type:</span>
+            <span class="info-value">application/json</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">lang:</span>
+            <span class="info-value">json</span>
+          </div>
+        </div>
+      </TerminalWindow>
+    </div>
+  </div>
+</I3Layout>
+
+<style>
+  .info-content {
+    padding: 0.5rem 0;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.875rem;
+  }
+
+  .info-item {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+  }
+
+  .info-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .info-label {
+    opacity: 0.5;
+    min-width: 60px;
+  }
+
+  .info-value {
+    color: var(--green, #9ece6a);
+  }
+
+  .json-output {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+    overflow-x: auto;
+    white-space: pre;
+    font-family: inherit;
+  }
+
+  /* JQ-style syntax highlighting */
+  :global(.json-key) {
+    color: #7aa2f7; /* Blue - keys */
+    font-weight: 600;
+  }
+
+  :global(.json-string) {
+    color: #9ece6a; /* Green - string values */
+  }
+
+  :global(.json-number) {
+    color: #ff9e64; /* Orange - numbers */
+  }
+
+  :global(.json-boolean) {
+    color: #bb9af7; /* Purple - booleans */
+  }
+
+  :global(.json-null) {
+    color: #565f89; /* Gray - null */
+  }
+
+  :global(.json-punctuation) {
+    color: #565f89; /* Gray - brackets, colons, commas */
+  }
+
+  @media (max-width: 768px) {
+    .json-output {
+      font-size: 0.75rem;
+    }
+  }
+</style>
+
+<script is:inline define:vars={{ skills }}>
+  // JSON syntax highlighter (jq-style)
+  function highlightJSON(obj) {
+    const json = JSON.stringify(obj, null, 2);
+
+    // Regex-based syntax highlighting
+    const highlighted = json
+      .replace(
+        /"([^"]+)":/g,
+        '<span class="json-key">"$1"</span><span class="json-punctuation">:</span>',
+      )
+      .replace(/: "([^"]*)"/g, ': <span class="json-string">"$1"</span>')
+      .replace(/: (\d+\.?\d*)/g, ': <span class="json-number">$1</span>')
+      .replace(/: (true|false)/g, ': <span class="json-boolean">$1</span>')
+      .replace(/: null/g, ': <span class="json-null">null</span>')
+      .replace(/([{}[\],])/g, '<span class="json-punctuation">$1</span>');
+
+    return highlighted;
+  }
+
+  // Inject highlighted JSON
+  const container = document.getElementById("json-container");
+  if (container) {
+    container.innerHTML = highlightJSON(skills);
+  }
+</script>

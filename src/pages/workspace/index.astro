@@ -1,223 +1,187 @@
 ---
-import I3Layout from "@/layouts/I3Layout.astro";
-import I3Window from "@/components/terminal/I3Window.astro";
-import Prompt from "@/components/terminal/Prompt.astro";
 import AsciiHero from "@/components/terminal/AsciiHero.astro";
-import TypingAnimation from "@/components/terminal/TypingAnimation.astro";
+import SkillsWebUI from "@/components/terminal/SkillsWebUI.astro";
+import BrowserWindow from "@/components/terminal/svelte/BrowserWindow.svelte";
+import Prompt from "@/components/terminal/svelte/Prompt.svelte";
+import ShortcutVisualizer from "@/components/terminal/svelte/ShortcutVisualizer.svelte";
+import TerminalWindow from "@/components/terminal/svelte/TerminalWindow.svelte";
+import TypingAnimation from "@/components/terminal/svelte/TypingAnimation.svelte";
+import WorkspaceNav from "@/components/terminal/svelte/WorkspaceNav.svelte";
+import I3Layout from "@/layouts/I3Layout.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 
 const posts = await getSinglePage("posts");
 const recentPosts = posts
   .filter((post: any) => !post.data.draft)
-  .sort((a: any, b: any) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .sort(
+    (a: any, b: any) =>
+      new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+  )
   .slice(0, 5);
 
-const skills = {
-  languages: ['TypeScript', 'Python', 'Rust', 'Go'],
-  frontend: ['React', 'Next.js', 'Astro', 'Tailwind'],
-  backend: ['Node.js', 'FastAPI', 'PostgreSQL', 'Redis'],
-  devops: ['Docker', 'K8s', 'AWS', 'GitHub Actions'],
-  tools: ['NeoVim', 'i3wm', 'tmux', 'Alacritty']
-};
-
 const canonicalUrl = "https://sandikodev.github.io/";
+
+const appShortcuts = [
+  { action: "scroll down/up", category: "Navigation", key: "j/k" },
+  { action: "go top/bottom", category: "Navigation", key: "gg/G" },
+  { action: "toggle theme", category: "Appearance", key: "t" },
+  { action: "show help", category: "Help", key: "?" },
+  { action: "command palette", category: "System", key: "Alt+D" },
+];
 ---
 
 <I3Layout title="workspace | dev@sandikodev">
-  <link slot="head" rel="canonical" href={canonicalUrl} />
-  
+  <link href={canonicalUrl} rel="canonical" slot="head" />
+
   <div class="i3-split-h">
-    
     <!-- Left: Main terminal (65%) -->
     <div class="i3-split-v" style="flex: 1.8;">
-      
-      <I3Window title="alacritty — dev@sandikodev:~" focused={true}>
-        <div class="term-content">
+      <TerminalWindow
+        client:load
+        flush={true}
+        focused={true}
+        showCursor={true}
+        title="alacritty — dev@sandikodev:~"
+      >
+        <!-- Unified Terminal Scrollback -->
+        <div class="terminal-scrollback">
           <Prompt command="neofetch" showCursor={false} />
           <AsciiHero />
-          
+
           <div class="motd">
             <Prompt command="cat /etc/motd" showCursor={false} />
             <div class="motd-box">
               <p class="motd-title">
-                <TypingAnimation text="👋 Welcome to Dev Mode" speed={80} delay={1000} />
+                <TypingAnimation
+                  client:load
+                  delay={1000}
+                  speed={80}
+                  text="👋 Welcome to Dev Mode"
+                />
               </p>
               <p class="motd-text">
-                <TypingAnimation 
-                  text="Experience the blog in i3wm-style terminal interface." 
-                  speed={40} 
-                  delay={3000} 
+                <TypingAnimation
+                  client:load
                   cursor={false}
+                  delay={3000}
+                  speed={40}
+                  text="Experience the blog in i3wm-style terminal interface."
                 />
               </p>
               <p class="motd-quote">
-                <TypingAnimation 
-                  text={`"The terminal is not just a tool, it's a lifestyle."`}
-                  speed={60} 
-                  delay={5000} 
+                <TypingAnimation
+                  client:load
                   cursor={false}
+                  delay={5000}
+                  speed={60}
+                  text={'"The terminal is not just a tool, it\'s a lifestyle."'}
                 />
               </p>
             </div>
           </div>
-          
+
           <Prompt command="ls ~/blog" showCursor={false} />
           <div class="file-list">
-            {recentPosts.map((post: any) => (
-              <a href={`/workspace/blog/${post.id}`} class="file-item">
-                <span class="file-icon">📄</span>
-                <span class="file-name">{post.data.title}</span>
-              </a>
-            ))}
+            {
+              recentPosts.map((post: any) => (
+                <a class="file-item" href={`/workspace/blog/${post.id}`}>
+                  <span class="file-icon">📄</span>
+                  <span class="file-name">{post.data.title}</span>
+                </a>
+              ))
+            }
           </div>
-          
-          <Prompt showCursor={true} />
         </div>
-      </I3Window>
-      
-      <!-- Skills window -->
-      <I3Window title="skills.json">
-        <div class="term-content">
-          <pre class="json-content">{JSON.stringify(skills, null, 2)}</pre>
-        </div>
-      </I3Window>
-      
+      </TerminalWindow>
+
+      <!-- Skills Browser Window -->
+      <BrowserWindow
+        client:load
+        focused={false}
+        title="Skills & Expertise"
+        url="localhost:3000/skills"
+      >
+        <SkillsWebUI />
+      </BrowserWindow>
     </div>
-    
+
     <!-- Right: Navigation (35%) -->
     <div class="i3-split-v" style="flex: 1;">
-      
-      <I3Window title="navigation">
-        <div class="term-content nav-list">
+      <TerminalWindow
+        client:load
+        flush={true}
+        showCursor={false}
+        title="navigation"
+      >
+        <div slot="header">
           <Prompt command="cat ~/.config/nav" showCursor={false} />
-          <nav class="workspace-nav">
-            <a href="/workspace/" class="nav-item active">~/home</a>
-            <a href="/workspace/blog" class="nav-item">~/blog</a>
-            <a href="/workspace/about" class="nav-item">~/about</a>
-            <a href="/workspace/now" class="nav-item">~/now</a>
-            <a href="/workspace/terminal" class="nav-item">~/terminal</a>
-          </nav>
         </div>
-      </I3Window>
-      
-      <I3Window title="shortcuts — ?">
-        <div class="term-content">
-          <div class="shortcuts-list">
-            <div class="shortcut"><kbd>j/k</kbd> scroll</div>
-            <div class="shortcut"><kbd>gg/G</kbd> top/bottom</div>
-            <div class="shortcut"><kbd>t</kbd> theme</div>
-            <div class="shortcut"><kbd>?</kbd> help</div>
-          </div>
-        </div>
-      </I3Window>
-      
+        <WorkspaceNav client:load />
+      </TerminalWindow>
+
+      <TerminalWindow
+        client:load
+        flush={true}
+        showCursor={false}
+        title="shortcuts — ?"
+      >
+        <ShortcutVisualizer client:load shortcuts={appShortcuts} />
+      </TerminalWindow>
     </div>
-    
   </div>
 </I3Layout>
 
 <style>
-  .term-content {
-    padding: 1rem;
-    font-family: 'Fira Code', monospace;
-    font-size: 0.9rem;
-    line-height: 1.6;
+  .terminal-scrollback {
+    padding: 16px;
   }
-  
+
   .motd-box {
     margin: 0.5rem 0 1rem;
     padding: 0.75rem;
-    border-left: 3px solid var(--accent, #7aa2f7);
-    background: rgba(255,255,255,0.03);
+    border-left: 3px solid var(--accent, var(--color-terminal-accent));
+    background: rgba(255, 255, 255, 0.03);
   }
-  
+
   .motd-title {
     font-weight: 600;
     margin-bottom: 0.25rem;
   }
-  
+
   .motd-text {
     opacity: 0.8;
     margin-bottom: 0.25rem;
   }
-  
+
   .motd-quote {
     font-style: italic;
     opacity: 0.6;
     font-size: 0.85rem;
   }
-  
+
   .file-list {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
     margin: 0.5rem 0;
   }
-  
+
   .file-item {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.25rem 0.5rem;
-    color: var(--text-primary, #c0caf5);
+    padding: 0.5rem 0.75rem;
+    color: var(--text-primary, var(--color-terminal-text));
     text-decoration: none;
     border-radius: 4px;
     transition: background 0.2s;
   }
-  
+
   .file-item:hover {
-    background: rgba(255,255,255,0.1);
+    background: rgba(122, 162, 247, 0.1);
   }
-  
+
   .file-icon {
     opacity: 0.7;
-  }
-  
-  .json-content {
-    color: var(--green, #9ece6a);
-    font-size: 0.8rem;
-    margin: 0;
-  }
-  
-  .workspace-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-  }
-  
-  .nav-item {
-    color: var(--text-primary, #c0caf5);
-    text-decoration: none;
-    padding: 0.5rem;
-    border-radius: 4px;
-    transition: all 0.2s;
-  }
-  
-  .nav-item:hover, .nav-item.active {
-    background: rgba(255,255,255,0.1);
-    color: var(--accent, #7aa2f7);
-  }
-  
-  .shortcuts-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .shortcut {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 0.85rem;
-  }
-  
-  .shortcut kbd {
-    background: rgba(255,255,255,0.1);
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    font-family: inherit;
-    min-width: 60px;
-    text-align: center;
   }
 </style>
