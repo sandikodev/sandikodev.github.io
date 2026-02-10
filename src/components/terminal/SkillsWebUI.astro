@@ -1,0 +1,402 @@
+---
+const skillsData = {
+  "Backend & Infrastructure": [
+    {
+      highlight: "Scalable RESTful & GraphQL services",
+      name: "Node.js & Express",
+      proficiency: "Expert",
+      projects: "Application Architecture",
+    },
+    {
+      highlight: "Data modeling & database optimization",
+      name: "PostgreSQL & MongoDB",
+      proficiency: "Advanced",
+      stack: ["Complex queries", "Indexing", "Optimization"],
+    },
+    {
+      highlight: "Cloud-native orchestration & CI/CD",
+      name: "Docker & Kubernetes",
+      proficiency: "Advanced",
+      projects: "DevOps & SRE",
+    },
+    {
+      highlight: "Cloud infrastructure management",
+      name: "AWS & Cloud",
+      proficiency: "Intermediate",
+      stack: ["EC2", "S3", "Lambda", "RDS"],
+    },
+  ],
+  "Frontend Development": [
+    {
+      highlight: "Performance-optimized enterprise SPAs",
+      name: "React & Next.js",
+      proficiency: "Expert",
+      stack: ["Server Components", "App Router", "SEO"],
+    },
+    {
+      highlight: "Static sites with high performance core",
+      name: "Astro",
+      proficiency: "Advanced",
+      stack: ["SSG", "MDX", "Islands"],
+    },
+    {
+      highlight: "Accessible & responsive design systems",
+      name: "UI/UX",
+      proficiency: "Advanced",
+      stack: ["Tailwind", "Design Systems", "Accessibility"],
+    },
+  ],
+  "Languages & Frameworks": [
+    {
+      highlight: "Scalable production-ready applications",
+      name: "TypeScript/JavaScript",
+      proficiency: "Expert",
+      projects: "Full-stack development",
+    },
+    {
+      highlight: "Robust scripting & API development",
+      name: "Python",
+      proficiency: "Advanced",
+      projects: "Automation & Data Engineering",
+    },
+    {
+      highlight: "Efficient backend microservices",
+      name: "Go",
+      proficiency: "Intermediate",
+      projects: "Performance Computing",
+    },
+    {
+      highlight: "Memory-safe CLI development",
+      name: "Rust",
+      proficiency: "Learning",
+      projects: "Systems Engineering",
+    },
+  ],
+  "Tools & Workflows": [
+    {
+      highlight: "Advanced version control & CI workflows",
+      name: "Git & GitHub",
+      proficiency: "Expert",
+      projects: "Collaboration",
+    },
+    {
+      highlight: "High-productivity terminal workflow",
+      name: "Neovim & i3wm",
+      proficiency: "Advanced",
+      stack: ["Lua configs", "Custom keymaps"],
+    },
+    {
+      highlight: "System automation & server management",
+      name: "Linux & Shell",
+      proficiency: "Advanced",
+      stack: ["Bash", "Zsh", "Automation"],
+    },
+  ],
+};
+---
+
+<div class="skills-container">
+  <div class="skills-header">
+    <h1 class="skills-title">💼 Technical Experience</h1>
+    <p class="skills-subtitle">Real-world expertise across the stack</p>
+  </div>
+
+  <div class="skills-grid">
+    {
+      Object.entries(skillsData).map(([category, items]) => (
+        <div class="skill-category">
+          <h2 class="category-title">{category}</h2>
+          <div class="skills-list">
+            {items.map((skill: any) => (
+              <div class="skill-card">
+                <div class="skill-header">
+                  <h3 class="skill-name">{skill.name}</h3>
+                  <span class="skill-experience">{skill.proficiency}</span>
+                </div>
+
+                {skill.projects && (
+                  <div class="skill-meta">
+                    <span class="meta-badge">📦 {skill.projects}</span>
+                  </div>
+                )}
+
+                {skill.stack && (
+                  <div class="skill-stack">
+                    {skill.stack.map((tech: string) => (
+                      <span class="tech-tag">{tech}</span>
+                    ))}
+                  </div>
+                )}
+
+                {skill.highlight && (
+                  <p class="skill-highlight">✨ {skill.highlight}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="skills-footer">
+    <div class="footer-stats">
+      <div class="stat">
+        <span class="stat-number">6+</span>
+        <span class="stat-label">Years Experience</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">100+</span>
+        <span class="stat-label">Successful Deployments</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">∞</span>
+        <span class="stat-label">Continuous Learning</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .skills-container {
+    padding: 2rem;
+    min-height: 100%;
+    background: linear-gradient(
+      135deg,
+      rgba(30, 30, 46, 0.95),
+      rgba(24, 24, 37, 0.95)
+    );
+  }
+
+  .skills-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .skills-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .skills-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .skill-category {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .skill-category:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.12);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  .category-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+  }
+
+  .category-title::before {
+    content: "▸";
+    color: var(--accent);
+  }
+
+  .skills-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .skill-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    border-left: 3px solid var(--accent);
+    transition: all 0.2s;
+  }
+
+  .skill-card:hover {
+    background: rgba(255, 255, 255, 0.04);
+    transform: translateX(4px);
+  }
+
+  .skill-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .skill-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .skill-experience {
+    font-size: 0.8rem;
+    color: var(--accent);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .skill-meta {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .meta-badge {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    background: rgba(102, 126, 234, 0.15);
+    color: #a0b0ff;
+    border-radius: 8px;
+    font-weight: 500;
+  }
+
+  .skill-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .tech-tag {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .skill-highlight {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    margin: 0;
+    opacity: 0.8;
+  }
+
+  .skills-footer {
+    margin-top: 2rem;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .footer-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  /* Animations */
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .skill-category {
+    animation: slideIn 0.5s ease-out backwards;
+  }
+
+  .skill-category:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  .skill-category:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  .skill-category:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  .skill-category:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .skills-container {
+      padding: 1rem;
+    }
+
+    .skills-title {
+      font-size: 1.5rem;
+    }
+
+    .skills-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .skill-category {
+      padding: 1rem;
+    }
+
+    .footer-stats {
+      gap: 1rem;
+    }
+
+    .stat-number {
+      font-size: 1.5rem;
+    }
+  }
+</style>
