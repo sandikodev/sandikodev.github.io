@@ -13,12 +13,12 @@ const totalPages = Math.ceil(authors.length / config.settings.pagination);
 const currentPosts = sortedPosts.slice(0, config.settings.pagination);
 ---
 
-<Base title={"Authors"}>
+<Base title="Authors">
   <section class="section">
     <div class="container text-center">
-      <h1 set:text={markdownify("Authors")} class="page-heading h2" />
+      <h1 class="page-heading h2" set:text={markdownify("Authors")} />
       <Authors authors={currentPosts} />
-      <Pagination section={"authors"} currentPage={1} totalPages={totalPages} />
+      <Pagination currentPage={1} section="authors" totalPages={totalPages} />
     </div>
   </section>
 </Base>

@@ -27,9 +27,9 @@ const title = humanize(category || "");
 <Base title={title || "Category"}>
   <div class="section">
     <div class="container">
-      <p class="text-center mb-4">Showing Posts From</p>
+      <p class="mb-4 text-center">Showing Posts From</p>
       <h1 class="h2 mb-16 text-center text-primary">{title}</h1>
-      <Posts posts={filterByCategory} fluid={false} />
+      <Posts fluid={false} posts={filterByCategory} />
     </div>
   </div>
 </Base>

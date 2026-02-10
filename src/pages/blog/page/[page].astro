@@ -1,0 +1,127 @@
+---
+import config from "@/config/config.json";
+import Base from "@/layouts/Base.astro";
+import Pagination from "@/layouts/components/Pagination.astro";
+import Posts from "@/layouts/Posts.astro";
+import { getAllPosts } from "@/lib/contentParser.astro";
+
+export async function getStaticPaths() {
+  const posts = await getAllPosts();
+  const totalPages = Math.ceil(posts.length / config.settings.pagination);
+  const paths = [];
+
+  for (let i = 1; i < totalPages; i++) {
+    paths.push({
+      params: {
+        page: (i + 1).toString(),
+      },
+    });
+  }
+  return paths;
+}
+
+const { page } = Astro.params;
+const posts = await getAllPosts();
+const totalPages = Math.ceil(posts.length / config.settings.pagination);
+const currentPage = page && !isNaN(Number(page)) ? Number(page) : 1;
+const indexOfLastPost = currentPage * config.settings.pagination;
+const indexOfFirstPost = indexOfLastPost - config.settings.pagination;
+const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+---
+
+<Base
+  description="Articles about web development, infrastructure, and continuous learning"
+  title={`Blog - Page ${currentPage}`}
+>
+  <section class="blog-page">
+    <header class="blog-header">
+      <div class="header-bg"></div>
+      <div class="header-content">
+        <h1>Blog</h1>
+        <p>Thoughts on web development, infrastructure, and learning.</p>
+      </div>
+    </header>
+
+    <div class="blog-container">
+      <Posts posts={currentPosts} />
+
+      <div class="pagination-wrapper">
+        <Pagination
+          currentPage={currentPage}
+          section="blog"
+          totalPages={totalPages}
+        />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .blog-page {
+    min-height: 80vh;
+  }
+
+  .blog-header {
+    position: relative;
+    padding: 6rem 1.5rem;
+    background: var(--color-surface);
+    overflow: hidden;
+    margin-bottom: 4rem;
+    text-align: center;
+  }
+
+  .header-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at 50% 50%,
+      var(--color-primary-alpha-10),
+      transparent 70%
+    );
+    opacity: 0.5;
+  }
+
+  .header-content {
+    position: relative;
+    z-index: 1;
+    max-width: var(--max-width-container);
+    margin: 0 auto;
+  }
+
+  .blog-header h1 {
+    font-size: var(--text-4xl);
+    font-weight: 800;
+    color: var(--color-text-main);
+    letter-spacing: -0.05em;
+    margin-bottom: 1rem;
+  }
+
+  .blog-header p {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .blog-container {
+    max-width: var(--max-width-container);
+    margin: 0 auto;
+    padding: 0 var(--spacing-6) 6rem;
+  }
+
+  .pagination-wrapper {
+    margin-top: 6rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+    .blog-header {
+      padding: 4rem 1.5rem;
+    }
+
+    .blog-header h1 {
+      font-size: var(--text-3xl);
+    }
+  }
+</style>
