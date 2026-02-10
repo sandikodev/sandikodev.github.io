@@ -11,13 +11,13 @@ Pisahkan V1 (Blog) dan V2 (Terminal) tanpa konflik.
 #### Base.astro (Blog pages)
 
 ```astro
-<html lang="en" data-theme-mode="blog">
+<html lang="en" data-theme-mode="blog"></html>
 ```
 
 #### I3Layout.astro (Terminal pages)
 
 ```astro
-<html lang="en" data-theme-mode="terminal" data-theme="tokyo-night">
+<html lang="en" data-theme-mode="terminal" data-theme="tokyo-night"></html>
 ```
 
 **Status**: ✅ Already done!
@@ -29,15 +29,13 @@ Pisahkan V1 (Blog) dan V2 (Terminal) tanpa konflik.
 #### Base.astro - Keep existing fonts
 
 ```astro
-<!-- Already has Inter, Georgia, JetBrains Mono -->
-<!-- No changes needed -->
+<!-- Already has Inter, Georgia, JetBrains Mono --><!-- No changes needed -->
 ```
 
 #### I3Layout.astro - Keep Fira Code
 
 ```astro
-<!-- Already has Fira Code -->
-<!-- No changes needed -->
+<!-- Already has Fira Code --><!-- No changes needed -->
 ```
 
 **Status**: ✅ Already separated!
@@ -55,7 +53,8 @@ Add to **I3Layout.astro** `<style>` section:
   /* Force terminal font in terminal mode */
   [data-theme-mode="terminal"] body,
   [data-theme-mode="terminal"] * {
-    font-family: 'Fira Code', 'JetBrains Mono', 'Consolas', monospace !important;
+    font-family:
+      "Fira Code", "JetBrains Mono", "Consolas", monospace !important;
   }
 
   /* Ensure blog mode uses its fonts */
@@ -69,7 +68,7 @@ Add to **I3Layout.astro** `<style>` section:
   [data-theme-mode="blog"] h4,
   [data-theme-mode="blog"] h5,
   [data-theme-mode="blog"] h6 {
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
   }
 </style>
 ```

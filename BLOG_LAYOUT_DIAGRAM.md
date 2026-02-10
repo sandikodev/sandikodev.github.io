@@ -98,19 +98,12 @@
 ### Layout Structure (Posts.astro)
 
 ```astro
-Base.astro
-├── Header.astro
-├── <main>
-│   ├── Blog Header Section
-│   ├── Posts Grid
-│   │   └── PostCard.astro (×N posts)
-│   └── Pagination.astro
-├── Footer.astro
-└── Fixed Components
-    ├── CommandPalette.astro
-    ├── DesignSystemToggle.astro
-    ├── BackToTop.astro (conditional)
-    └── KeyboardShortcuts.astro
+Base.astro ├── Header.astro ├── <main>
+  │ ├── Blog Header Section │ ├── Posts Grid │ │ └── PostCard.astro (×N posts) │
+  └── Pagination.astro ├── Footer.astro └── Fixed Components ├──
+  CommandPalette.astro ├── DesignSystemToggle.astro ├── BackToTop.astro
+  (conditional) └── KeyboardShortcuts.astro
+</main>
 ```
 
 ### PostCard Component Details

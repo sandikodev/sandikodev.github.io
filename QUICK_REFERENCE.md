@@ -70,11 +70,13 @@ portfolio/
 ### Breadcrumb
 
 ```astro
-<Breadcrumb items={[
-  { name: "Home", url: "/" },
-  { name: "Blog", url: "/blog" },
-  { name: "Current Page" }
-]} />
+<Breadcrumb
+  items={[
+    { name: "Home", url: "/" },
+    { name: "Blog", url: "/blog" },
+    { name: "Current Page" },
+  ]}
+/>
 ```
 
 ### Reading Time
@@ -86,32 +88,26 @@ portfolio/
 ### Social Share
 
 ```astro
-<SocialShare
-  title="My Blog Post"
-  url="https://sandikodev.github.io/post-1"
-/>
+<SocialShare title="My Blog Post" url="https://sandikodev.github.io/post-1" />
 ```
 
 ### Lazy Image
 
 ```astro
-<LazyImage
-  src="/images/photo.jpg"
-  alt="Description"
-  width={800}
-  height={600}
-/>
+<LazyImage src="/images/photo.jpg" alt="Description" width={800} height={600} />
 ```
 
 ### FAQ
 
 ```astro
-<FAQ items={[
-  {
-    question: "What is this?",
-    answer: "This is an answer."
-  }
-]} />
+<FAQ
+  items={[
+    {
+      question: "What is this?",
+      answer: "This is an answer.",
+    },
+  ]}
+/>
 ```
 
 ## 📝 Content Creation
@@ -322,7 +318,7 @@ pnpm run dev
 ## 📞 Support
 
 - GitHub: https://github.com/sandikodev
-- Email: sandikodev@gmail.com
+- Email: androxoss@hotmail.com
 - Issues: Create issue on GitHub repo
 
 ---

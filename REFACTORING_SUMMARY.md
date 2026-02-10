@@ -122,22 +122,14 @@
 />
 
 <!-- Related posts -->
-<PostCard
-  post={post}
-  variant="related"
-  imageSize={{ width: 80, height: 50 }}
-/>
+<PostCard post={post} variant="related" imageSize={{ width: 80, height: 50 }} />
 ```
 
 ### RelatedPostsUnified
 
 ```astro
 <!-- Recent posts -->
-<RelatedPostsUnified
-  currentSlug={post.id}
-  algorithm="recent"
-  limit={3}
-/>
+<RelatedPostsUnified currentSlug={post.id} algorithm="recent" limit={3} />
 
 <!-- Similarity-based -->
 <RelatedPostsUnified

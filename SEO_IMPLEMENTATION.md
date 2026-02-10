@@ -118,7 +118,7 @@ import Breadcrumb from "@/components/Breadcrumb.astro";
 const breadcrumbs = [
   { name: "Home", url: "/" },
   { name: "Blog", url: "/blog" },
-  { name: post.data.title }
+  { name: post.data.title },
 ];
 ---
 
@@ -137,7 +137,8 @@ import FAQ from "@/components/FAQ.astro";
 const faqs = [
   {
     question: "Apa itu Full Stack Developer?",
-    answer: "Full Stack Developer adalah developer yang menguasai frontend dan backend development."
+    answer:
+      "Full Stack Developer adalah developer yang menguasai frontend dan backend development.",
   },
   // ... more FAQs
 ];

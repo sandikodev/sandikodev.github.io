@@ -84,19 +84,12 @@
 ### Layout Structure
 
 ```astro
-Base.astro
-├── Header.astro
-├── <main>
-│   ├── Hero Section (Gradient + Profile)
-│   └── About Content Section
-│       ├── My Story (2-column grid)
-│       ├── What I Do (3-column services grid)
-│       └── Call to Action
-├── Footer.astro
-└── Fixed Components
-    ├── CommandPalette.astro
-    ├── DesignSystemToggle.astro
-    └── BackToTop.astro (conditional)
+Base.astro ├── Header.astro ├── <main>
+  │ ├── Hero Section (Gradient + Profile) │ └── About Content Section │ ├── My
+  Story (2-column grid) │ ├── What I Do (3-column services grid) │ └── Call to
+  Action ├── Footer.astro └── Fixed Components ├── CommandPalette.astro ├──
+  DesignSystemToggle.astro └── BackToTop.astro (conditional)
+</main>
 ```
 
 ### Content Sections

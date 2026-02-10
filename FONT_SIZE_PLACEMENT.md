@@ -129,8 +129,7 @@
 ### Implementation Pattern
 
 ```astro
-<!-- For future long-form pages -->
-{isLongFormContent && <FontSizeToggle />}
+<!-- For future long-form pages -->{isLongFormContent && <FontSizeToggle />}
 ```
 
 ## 📊 **Metrics & Success**

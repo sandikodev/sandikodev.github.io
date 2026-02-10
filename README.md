@@ -17,8 +17,6 @@
     <img src="https://img.shields.io/github/contributors/sandikodev/sandikodev.github.io" alt="contributors"></a>
 </p>
 
-![bookworm-light](https://demo.gethugothemes.com/thumbnails/bookworm-light.png)
-
 Personal portfolio website of a full-stack developer showcasing technical expertise, innovative projects, and development insights. Features dual design system with blog mode for professional content and experimental terminal mode demonstrating cutting-edge desktop development concepts.
 
 ## 🔑Key Features

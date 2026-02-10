@@ -52,7 +52,7 @@ Design ini terinspirasi dari:
 │  │  Editor: NeoVim      │ │ │                                │ │
 │  │                      │ │ │  󰊤 github.com/sandikodev       │ │
 │  │  $ _                 │ │ │  󰌻 linkedin.com/in/sandikodev  │ │
-│  │                      │ │ │  󰇮 sandikodev@gmail.com        │ │
+│  │                      │ │ │  󰇮 androxoss@hotmail.com        │ │
 │  └──────────────────────┘ │ │                                │ │
 │                           │ └────────────────────────────────┘ │
 │                           │                                     │

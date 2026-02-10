@@ -201,9 +201,7 @@ window.i3wm.closeFocused();
 ### 1. Floating Windows
 
 ```astro
-<I3Window title="Floating" floating={true} resizable={true}>
-  Content
-</I3Window>
+<I3Window title="Floating" floating={true} resizable={true}> Content </I3Window>
 ```
 
 **Features**:
@@ -218,10 +216,17 @@ window.i3wm.closeFocused();
 ```astro
 <I3Window
   title="Window"
-  focused={true}    // Blue border
-  urgent={true}     // Red pulsing
-  floating={true}   // Draggable
-  resizable={true}  // Resize handles
+  focused={true}
+  Blue
+  border
+  urgent={true}
+  Red
+  pulsing
+  floating={true}
+  Draggable
+  resizable={true}
+  Resize
+  handles
 />
 ```
 
@@ -267,13 +272,9 @@ window.i3wm.closeFocused();
 
 ```astro
 <div class="i3-split-h">
-  <I3Window title="Left" focused={true}>
-    Content
-  </I3Window>
+  <I3Window title="Left" focused={true}> Content </I3Window>
 
-  <I3Window title="Right">
-    Content
-  </I3Window>
+  <I3Window title="Right"> Content </I3Window>
 </div>
 ```
 
@@ -281,9 +282,7 @@ window.i3wm.closeFocused();
 
 ```astro
 <div class="i3-split-h">
-  <I3Window title="Left" class="size-third">
-    Sidebar
-  </I3Window>
+  <I3Window title="Left" class="size-third"> Sidebar </I3Window>
 
   <div class="i3-split-v size-two-thirds">
     <I3Window title="Top">Main</I3Window>

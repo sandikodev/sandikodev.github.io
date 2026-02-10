@@ -52,18 +52,15 @@
 ### Fix 1: Remove TwSizeIndicator from Production
 
 ```astro
-<!-- Base.astro -->
-{import.meta.env.DEV && <TwSizeIndicator />}
+<!-- Base.astro -->{import.meta.env.DEV && <TwSizeIndicator />}
 ```
 
 ### Fix 2: Make KeyboardShortcuts Context-Aware
 
 ```astro
-<!-- Move to specific layouts -->
-PostSingle.astro: ✅ (j/k scroll, etc.)
-Posts.astro: ✅ (navigation shortcuts)
-Homepage: ❌ (remove)
-Contact: ❌ (remove)
+<!-- Move to specific layouts -->PostSingle.astro: ✅ (j/k scroll, etc.)
+Posts.astro: ✅ (navigation shortcuts) Homepage: ❌ (remove) Contact: ❌
+(remove)
 ```
 
 ### Fix 3: Smart BackToTop
@@ -71,10 +68,10 @@ Contact: ❌ (remove)
 ```astro
 <!-- Add condition in BackToTop component -->
 <script>
-// Only show if page is scrollable
-if (document.body.scrollHeight > window.innerHeight) {
-  // Show BackToTop
-}
+  // Only show if page is scrollable
+  if (document.body.scrollHeight > window.innerHeight) {
+    // Show BackToTop
+  }
 </script>
 ```
 

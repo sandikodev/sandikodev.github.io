@@ -1,16 +1,17 @@
 import mdx from "@astrojs/mdx";
+import partytown from "@astrojs/partytown";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
-import partytown from "@astrojs/partytown";
 import AutoImport from "astro-auto-import";
-import { defineConfig } from "astro/config";
-import remarkCollapse from "remark-collapse";
-import remarkToc from "remark-toc";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
-import serviceWorker from "astrojs-service-worker";
 import icon from "astro-icon";
+import { defineConfig } from "astro/config";
+import serviceWorker from "astrojs-service-worker";
+import rehypeKatex from "rehype-katex";
+import rehypeMermaid from "rehype-mermaid";
+import remarkCollapse from "remark-collapse";
+import remarkMath from "remark-math";
+import remarkToc from "remark-toc";
 
 // Development-only imports
 const isDev = process.env.NODE_ENV === "development";
@@ -23,14 +24,15 @@ if (isDev) {
     console.warn("⚠️ Astro-deck not available in development mode");
   }
 }
+import svelte from "@astrojs/svelte";
+
 import config from "./src/config/config.json";
 
 // https://astro.build/config
 export default defineConfig({
-  site: config.site.base_url ? config.site.base_url : "http://examplesite.com",
   base: config.site.base_path ? config.site.base_path : "/",
-  trailingSlash: config.site.trailing_slash ? "always" : "never",
   integrations: [
+    svelte(),
     react({
       include: [
         "**/react-components/*",
@@ -59,15 +61,16 @@ export default defineConfig({
         "@/shortcodes/Youtube",
         "@/shortcodes/Tabs",
         "@/shortcodes/Tab",
+        "@/shortcodes/LinkCard",
       ],
     }),
     mdx(),
     serviceWorker(),
-    icon(),
-    // Development-only: Astro-deck admin panel
+    icon(), // Development-only: Astro-deck admin panel
     ...(isDev && astroDeck ? [astroDeck()] : []),
   ],
   markdown: {
+    rehypePlugins: [rehypeKatex, rehypeMermaid],
     remarkPlugins: [
       remarkToc,
       remarkMath,
@@ -78,13 +81,7 @@ export default defineConfig({
         },
       ],
     ],
-    rehypePlugins: [rehypeKatex],
     shikiConfig: {
-      themes: {
-        light: "github-light",
-        dark: "tokyo-night",
-      },
-      wrap: true,
       langs: [
         "javascript",
         "typescript",
@@ -123,6 +120,10 @@ export default defineConfig({
         "diff",
         "regex",
       ],
+      theme: "css-variables",
+      wrap: true,
     },
   },
+  site: config.site.base_url ? config.site.base_url : "http://examplesite.com",
+  trailingSlash: config.site.trailing_slash ? "always" : "never",
 });

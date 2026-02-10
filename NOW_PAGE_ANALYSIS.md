@@ -73,18 +73,18 @@
 ### Layout Structure
 
 ```astro
-Base.astro
-├── Header.astro
-├── <main>
-│   └── <article class="now-page">
-│       ├── <header class="now-header">
-│       ├── <section class="now-section"> (×4 sections)
-│       └── <footer class="now-footer">
-├── Footer.astro
-└── Fixed Components
-    ├── CommandPalette.astro
-    ├── DesignSystemToggle.astro
-    └── BackToTop.astro (conditional)
+Base.astro ├── Header.astro ├── <main>
+  │ └── <article class="now-page">
+    │ ├── <header class="now-header">
+      │ ├── <section class="now-section">
+        (×4 sections) │ └── <footer class="now-footer">
+          ├── Footer.astro └── Fixed Components ├── CommandPalette.astro ├──
+          DesignSystemToggle.astro └── BackToTop.astro (conditional)
+        </footer>
+      </section>
+    </header>
+  </article>
+</main>
 ```
 
 ### Content Sections

@@ -23,10 +23,8 @@
 **Fix**:
 
 ```astro
-// src/layouts/I3Layout.astro
-import "@/styles/terminal-theme.css";
-import "@/styles/i3wm-theme.css";
-import "@/styles/animations.css";  // ← Add this
+// src/layouts/I3Layout.astro import "@/styles/terminal-theme.css"; import
+"@/styles/i3wm-theme.css"; import "@/styles/animations.css"; // ← Add this
 ```
 
 **Impact**: Animations tidak akan berfungsi tanpa ini
@@ -59,21 +57,21 @@ import { AstroFont } from "astro-font";
       name: "Fira Code",
       src: [
         {
-          style: 'normal',
-          weight: '400',
-          path: '/fonts/FiraCode-Regular.woff2'
+          style: "normal",
+          weight: "400",
+          path: "/fonts/FiraCode-Regular.woff2",
         },
         {
-          style: 'normal',
-          weight: '600',
-          path: '/fonts/FiraCode-SemiBold.woff2'
-        }
+          style: "normal",
+          weight: "600",
+          path: "/fonts/FiraCode-SemiBold.woff2",
+        },
       ],
       preload: true,
       display: "swap",
       selector: "body",
-      fallback: "monospace"
-    }
+      fallback: "monospace",
+    },
   ]}
 />
 ```
@@ -153,7 +151,7 @@ function scrollBy(amount) {
 
 ```astro
 ---
-import { Image } from 'astro:assets';
+import { Image } from "astro:assets";
 ---
 
 <Image
@@ -181,9 +179,9 @@ import { Image } from 'astro:assets';
 <script>
   let helpModalLoaded = false;
 
-  document.addEventListener('keydown', async (e) => {
-    if (e.key === '?' && !helpModalLoaded) {
-      const { default: HelpModal } = await import('./HelpModal.astro');
+  document.addEventListener("keydown", async (e) => {
+    if (e.key === "?" && !helpModalLoaded) {
+      const { default: HelpModal } = await import("./HelpModal.astro");
       helpModalLoaded = true;
     }
   });
@@ -242,12 +240,12 @@ module.exports = {
 </style>
 
 <script>
-  document.addEventListener('astro:before-preparation', () => {
-    document.getElementById('loading-bar')?.classList.add('active');
+  document.addEventListener("astro:before-preparation", () => {
+    document.getElementById("loading-bar")?.classList.add("active");
   });
 
-  document.addEventListener('astro:page-load', () => {
-    document.getElementById('loading-bar')?.classList.remove('active');
+  document.addEventListener("astro:page-load", () => {
+    document.getElementById("loading-bar")?.classList.remove("active");
   });
 </script>
 ```
@@ -263,12 +261,9 @@ module.exports = {
 **Add**:
 
 ```astro
-<!-- 404 page with terminal theme -->
-// src/pages/404.astro
----
-import I3Layout from '@/layouts/I3Layout.astro';
-import I3Window from '@/components/terminal/I3Window.astro';
----
+<!-- 404 page with terminal theme -->// src/pages/404.astro import I3Layout from
+'@/layouts/I3Layout.astro'; import I3Window from
+'@/components/terminal/I3Window.astro';
 
 <I3Layout title="404 - Not Found">
   <I3Window title="bash: command not found" focused={true}>
@@ -304,9 +299,7 @@ Type 'help' for more information.
 
 ```astro
 <!-- Add skip link -->
-<a href="#main-content" class="skip-link">
-  Skip to main content
-</a>
+<a href="#main-content" class="skip-link"> Skip to main content </a>
 
 <style>
   .skip-link {
@@ -338,7 +331,7 @@ Type 'help' for more information.
 ```astro
 <script>
   // Track Core Web Vitals
-  import { getCLS, getFID, getFCP, getLCP, getTTFB } from 'web-vitals';
+  import { getCLS, getFID, getFCP, getLCP, getTTFB } from "web-vitals";
 
   function sendToAnalytics(metric) {
     console.log(metric);
@@ -470,8 +463,7 @@ du -sh dist/_astro/
 ### 1. Import animations.css
 
 ```astro
-// src/layouts/I3Layout.astro - Line 2
-import "@/styles/animations.css";
+// src/layouts/I3Layout.astro - Line 2 import "@/styles/animations.css";
 ```
 
 ### 2. Prevent theme flash

@@ -276,8 +276,7 @@ Mobile Navigation:
 ### 1. **Component Lazy Loading**
 
 ```astro
-<!-- Lazy load heavy components -->
-{isVisible && <HeavyComponent />}
+<!-- Lazy load heavy components -->{isVisible && <HeavyComponent />}
 {isIntersecting && <LazyImage />}
 {userInteracted && <InteractiveWidget />}
 ```
@@ -290,7 +289,7 @@ Mobile Navigation:
   src={image}
   alt={alt}
   widths={[320, 640, 1024, 1280]}
-  formats={['avif', 'webp', 'jpg']}
+  formats={["avif", "webp", "jpg"]}
   loading="lazy"
   decoding="async"
 />
@@ -337,7 +336,7 @@ Mobile Navigation:
 
 ```astro
 <LoadingButton loading={isSubmitting}>
-  {isSubmitting ? 'Sending...' : 'Send Message'}
+  {isSubmitting ? "Sending..." : "Send Message"}
 </LoadingButton>
 ```
 

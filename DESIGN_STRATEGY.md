@@ -114,13 +114,13 @@ src/
 #### 1.2 I3Layout with Scoping (DONE ✅)
 
 ```astro
-<html data-theme-mode="terminal" data-theme="tokyo-night">
+<html data-theme-mode="terminal" data-theme="tokyo-night"></html>
 ```
 
 #### 1.3 Base Layout with Scoping (DONE ✅)
 
 ```astro
-<html data-theme-mode="blog">
+<html data-theme-mode="blog"></html>
 ```
 
 ---
@@ -133,6 +133,7 @@ src/
 ---
 // src/components/DesignSystemToggle.astro
 ---
+
 <button id="design-toggle" aria-label="Toggle Design System">
   <span class="v1-icon">📝</span>
   <span class="v2-icon">💻</span>
@@ -140,18 +141,18 @@ src/
 
 <script>
   // Load preference from localStorage
-  const saved = localStorage.getItem('design-mode') || 'blog';
+  const saved = localStorage.getItem("design-mode") || "blog";
 
   // Apply on page load
-  document.documentElement.setAttribute('data-theme-mode', saved);
+  document.documentElement.setAttribute("data-theme-mode", saved);
 
   // Toggle handler
-  document.getElementById('design-toggle')?.addEventListener('click', () => {
-    const current = document.documentElement.getAttribute('data-theme-mode');
-    const next = current === 'blog' ? 'terminal' : 'blog';
+  document.getElementById("design-toggle")?.addEventListener("click", () => {
+    const current = document.documentElement.getAttribute("data-theme-mode");
+    const next = current === "blog" ? "terminal" : "blog";
 
-    document.documentElement.setAttribute('data-theme-mode', next);
-    localStorage.setItem('design-mode', next);
+    document.documentElement.setAttribute("data-theme-mode", next);
+    localStorage.setItem("design-mode", next);
 
     // Reload to apply layout changes
     window.location.reload();
@@ -162,8 +163,8 @@ src/
 #### 2.2 Add Toggle to Both Layouts
 
 ```astro
-// Base.astro & I3Layout.astro
-import DesignSystemToggle from '@/components/DesignSystemToggle.astro';
+// Base.astro & I3Layout.astro import DesignSystemToggle from
+'@/components/DesignSystemToggle.astro';
 
 <DesignSystemToggle />
 ```
@@ -177,14 +178,23 @@ import DesignSystemToggle from '@/components/DesignSystemToggle.astro';
 **Base.astro** (V1):
 
 ```astro
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet" />
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+  rel="stylesheet"
+/>
+<link
+  href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap"
+  rel="stylesheet"
+/>
 ```
 
 **I3Layout.astro** (V2):
 
 ```astro
-<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link
+  href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap"
+  rel="stylesheet"
+/>
 ```
 
 **Pros**:
@@ -477,14 +487,23 @@ import "@/styles/main.css";
 **Base.astro** (V1):
 
 ```astro
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet" />
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+  rel="stylesheet"
+/>
+<link
+  href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap"
+  rel="stylesheet"
+/>
 ```
 
 **I3Layout.astro** (V2):
 
 ```astro
-<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link
+  href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap"
+  rel="stylesheet"
+/>
 ```
 
 **Pros**:
@@ -703,7 +722,7 @@ If you want the FASTEST solution with minimal refactoring:
 ### 1. Add Scope to I3Layout
 
 ```astro
-<html data-theme-mode="terminal" data-theme="tokyo-night">
+<html data-theme-mode="terminal" data-theme="tokyo-night"></html>
 ```
 
 ### 2. Scope V2 CSS
