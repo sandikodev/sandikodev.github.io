@@ -1,206 +1,522 @@
 ---
-import Base from "@/layouts/Base.astro";
 import config from "@/config/config.json";
+import Base from "@/layouts/Base.astro";
 
 const lastUpdated = "December 9, 2025";
 ---
 
 <Base
-  title={`Now - ${config.metadata.meta_author}`}
   description="What I'm currently working on and learning"
+  hideFooter={true}
+  title={`Now - ${config.metadata.meta_author}`}
 >
-  <article class="now-page">
-    <header class="now-header">
-      <h1>Now</h1>
-      <p class="subtitle">What I'm focused on right now.</p>
-      <p class="updated">Last updated: {lastUpdated}</p>
+  <article class="now-workspace">
+    <!-- Subtle Background Elements -->
+    <div class="grain-overlay"></div>
+    <div class="ambient-glow"></div>
+
+    <header class="now-hero">
+      <div class="hero-left">
+        <div class="status-indicator">
+          <span class="pulse-dot"></span>
+          <span class="status-text"
+            >Available for interesting collaborations</span
+          >
+        </div>
+        <h1 class="split-text">N<span>o</span>w</h1>
+        <p class="hero-sub">
+          A snapshot of my current focus, hobbies, and general life velocity.
+        </p>
+      </div>
+
+      <div class="hero-right">
+        <div class="now-meta-box">
+          <div class="meta-row">
+            <span class="label">Location</span>
+            <span class="value">Indonesia, WIB</span>
+          </div>
+          <div class="meta-row">
+            <span class="label">Local Time</span>
+            <span class="value" id="local-time">--:--:--</span>
+          </div>
+          <div class="meta-row">
+            <span class="label">Latest Update</span>
+            <span class="value">{lastUpdated}</span>
+          </div>
+        </div>
+      </div>
     </header>
 
-    <section class="now-section">
-      <h2>🚀 Current Projects</h2>
-      <ul>
-        <li>
-          <strong>HyperFocus Documentation</strong> — 10-year journey gift untuk web
-          technology community
-        </li>
-        <li>
-          <strong>Personal Blog</strong> — Redesign dengan reader-first approach
-        </li>
-        <li>
-          <strong>TrackMe</strong> — Personal productivity tracker
-        </li>
-      </ul>
-    </section>
+    <main class="now-content-grid">
+      <!-- Section: Focus -->
+      <section class="grid-span-2 focus-journal">
+        <div class="section-label">01. Current Obsessions</div>
+        <div class="journal-entries">
+          <div class="journal-entry">
+            <h3>HyperFocus Documentation</h3>
+            <p>
+              I'm currently distilling a decade of web development experience
+              into a comprehensive guide for the next generation of developers.
+              It's my magnum opus for the community.
+            </p>
+            <div class="progress-container">
+              <div class="progress-bar" style="width: 65%;"></div>
+              <span class="progress-label">65% Drafted</span>
+            </div>
+          </div>
+          <div class="journal-entry">
+            <h3>Editorial Redesign</h3>
+            <p>
+              Transforming this portfolio from a technical showcase into a
+              digital "atelier" that prioritizes typography, motion, and human
+              connection.
+            </p>
+          </div>
+        </div>
+      </section>
 
-    <section class="now-section">
-      <h2>💻 Tech Stack</h2>
-      <div class="tech-tags">
-        <span>Astro</span>
-        <span>React</span>
-        <span>TypeScript</span>
-        <span>Node.js</span>
-        <span>Python</span>
-        <span>Docker</span>
-      </div>
-    </section>
+      <!-- Section: Vitals -->
+      <section class="vitals-sidebar">
+        <div class="section-label">02. The Stack</div>
+        <div class="stack-list">
+          <div class="stack-item">
+            <span class="stack-num">01</span>
+            <span class="stack-name">Astro + Svelte</span>
+          </div>
+          <div class="stack-item">
+            <span class="stack-num">02</span>
+            <span class="stack-name">TypeScript</span>
+          </div>
+          <div class="stack-item">
+            <span class="stack-num">03</span>
+            <span class="stack-name">Postgres / SQL</span>
+          </div>
+          <div class="stack-item">
+            <span class="stack-num">04</span>
+            <span class="stack-name">Low-level Infra</span>
+          </div>
+        </div>
+      </section>
 
-    <section class="now-section">
-      <h2>📚 Learning</h2>
-      <ul>
-        <li>Advanced infrastructure patterns</li>
-        <li>Design systems & typography</li>
-        <li>Technical writing</li>
-      </ul>
-    </section>
+      <!-- Section: Shelf -->
+      <section class="grid-span-full reading-shelf">
+        <div class="section-label">03. On the Shelf</div>
+        <div class="book-row">
+          <div class="book-card">
+            <div class="book-type">Theory</div>
+            <h4>Designing Data-Intensive Applications</h4>
+            <span class="author">Martin Kleppmann</span>
+          </div>
+          <div class="book-card highlight">
+            <div class="book-type">Philosophy</div>
+            <h4>The Pragmatic Programmer</h4>
+            <span class="author">David Thomas & Andrew Hunt</span>
+          </div>
+          <div class="book-card">
+            <div class="book-type">Lifestyle</div>
+            <h4>Building a Second Brain</h4>
+            <span class="author">Tiago Forte</span>
+          </div>
+        </div>
+      </section>
 
-    <section class="now-section">
-      <h2>📖 Reading</h2>
-      <ul>
-        <li><em>The Pragmatic Programmer</em> — David Thomas & Andrew Hunt</li>
-        <li>
-          <em>Designing Data-Intensive Applications</em> — Martin Kleppmann
-        </li>
-      </ul>
-    </section>
+      <!-- Section: Curiosity -->
+      <section class="curiosity-box">
+        <div class="section-label">04. Curiosity</div>
+        <p class="quoted-text">
+          "The best way to predict the future is to invent it."
+        </p>
+        <p class="curiosity-desc">
+          Currently deep-diving into AI Agent architectures and the future of
+          Human-Computer Interaction.
+        </p>
+      </section>
+    </main>
 
-    <footer class="now-footer">
+    <footer class="now-minimal-footer">
       <p>
-        Inspired by <a href="https://nownownow.com/about" target="_blank"
-          >nownownow.com</a
-        >
+        This is a <a href="https://nownownow.com/about" target="_blank">/now</a> page.
+        No tracking, no ads, just life.
       </p>
     </footer>
   </article>
+
+  <script is:inline>
+    function updateTime() {
+      const timeEl = document.getElementById("local-time");
+      if (!timeEl) return;
+
+      const now = new Date();
+      timeEl.textContent = now.toLocaleTimeString("en-US", {
+        hour12: false,
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
+    }
+
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    // Mouse follow effect for ambient glow
+    document.addEventListener("mousemove", (e) => {
+      const glow = document.querySelector(".ambient-glow");
+      if (!glow) return;
+
+      const x = e.clientX;
+      const y = e.clientY;
+      glow.style.transform = `translate(${x - 250}px, ${y - 250}px)`;
+    });
+  </script>
 </Base>
 
 <style>
-  .now-page {
-    max-width: 680px;
+  .now-workspace {
+    max-width: var(--max-width-container);
     margin: 0 auto;
-    padding: 3rem 1.5rem 4rem;
+    padding: 8rem var(--spacing-6);
+    position: relative;
+    min-height: 100vh;
   }
 
-  .now-header {
-    margin-bottom: 3rem;
+  /* Textures */
+  .grain-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   }
 
-  .now-header h1 {
-    font-family: "Inter", sans-serif;
-    font-size: 2.5rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin-bottom: 0.5rem;
-    color: #0a0a0a;
+  .ambient-glow {
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(
+      circle,
+      var(--color-primary-alpha-10) 0%,
+      transparent 70%
+    );
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: -1;
+    mix-blend-mode: plus-lighter;
+    transition: transform 0.1s ease-out;
   }
 
-  :global(.dark) .now-header h1 {
-    color: #fafafa;
+  /* Section Labels (Minimalist numbers) */
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+    color: var(--color-primary);
+    margin-bottom: 2rem;
+    display: block;
+    opacity: 0.6;
   }
 
-  .subtitle {
-    font-size: 1.125rem;
-    color: #525252;
-    margin-bottom: 0.5rem;
-  }
-
-  :global(.dark) .subtitle {
-    color: #a3a3a3;
-  }
-
-  .updated {
-    font-size: 0.875rem;
-    color: #737373;
-  }
-
-  .now-section {
-    margin-bottom: 2.5rem;
-  }
-
-  .now-section h2 {
-    font-family: "Inter", sans-serif;
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: #0a0a0a;
-  }
-
-  :global(.dark) .now-section h2 {
-    color: #fafafa;
-  }
-
-  .now-section ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .now-section li {
-    font-family: Georgia, serif;
-    font-size: 1rem;
-    line-height: 1.75;
-    color: #525252;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-  }
-
-  :global(.dark) .now-section li {
-    color: #a3a3a3;
-    border-bottom-color: rgba(255, 255, 255, 0.06);
-  }
-
-  .now-section li:last-child {
-    border-bottom: none;
-  }
-
-  .now-section strong {
-    color: #0a0a0a;
-  }
-
-  :global(.dark) .now-section strong {
-    color: #fafafa;
-  }
-
-  .tech-tags {
+  /* Hero Redesign */
+  .now-hero {
     display: flex;
-    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 8rem;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 4rem;
+    gap: 4rem;
+  }
+
+  .hero-left {
+    flex: 1;
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .pulse-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--color-primary);
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px var(--color-primary-alpha-10);
+    animation: pulse-ring 2s infinite;
+  }
+
+  @keyframes pulse-ring {
+    0% {
+      box-shadow: 0 0 0 0 var(--color-primary-alpha-10);
+    }
+    70% {
+      box-shadow: 0 0 0 10px transparent;
+    }
+    100% {
+      box-shadow: 0 0 0 0 transparent;
+    }
+  }
+
+  .status-text {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .now-hero h1 {
+    font-size: clamp(6rem, 15vw, 10rem);
+    line-height: 0.8;
+    margin: 0;
+    font-weight: 900;
+    letter-spacing: -0.06em;
+    color: var(--color-text-main);
+  }
+
+  .now-hero h1 span {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--color-text-main);
+  }
+
+  .hero-sub {
+    font-size: var(--text-lg);
+    color: var(--color-text-body);
+    margin-top: 2rem;
+    max-width: 40ch;
+  }
+
+  .now-meta-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    background: var(--color-surface);
+    padding: 2.5rem;
+    border: 1px solid var(--color-border);
+    min-width: 300px;
+    border-radius: var(--radius-sm);
+  }
+
+  .meta-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .meta-row .label {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .meta-row .value {
+    font-size: var(--text-base);
+    color: var(--color-text-main);
+    font-weight: 600;
+  }
+
+  /* Content Grid Layout */
+  .now-content-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6rem;
+  }
+
+  .grid-span-2 {
+    grid-column: span 2;
+  }
+  .grid-span-full {
+    grid-column: span 3;
+  }
+
+  /* Journal Section */
+  .journal-entries {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+  }
+
+  .journal-entry h3 {
+    font-size: var(--text-2xl);
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+  }
+
+  .journal-entry p {
+    font-size: var(--text-lg);
+    line-height: 1.6;
+    color: var(--color-text-body);
+    margin-bottom: 2rem;
+  }
+
+  .progress-container {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .progress-bar {
+    height: 4px;
+    background: var(--color-primary);
+    position: relative;
+    border-radius: 2px;
+  }
+
+  .progress-bar::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    right: -100px;
+    background: var(--color-border);
+    z-index: -1;
+    border-radius: 2px;
+  }
+
+  .progress-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  /* Sidebar Stack */
+  .stack-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .stack-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .stack-num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-primary);
+  }
+
+  .stack-name {
+    font-size: var(--text-base);
+    color: var(--color-text-main);
+    font-weight: 500;
+  }
+
+  /* Book Shelf */
+  .book-row {
+    display: flex;
+    gap: 2rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+  }
+
+  .book-card {
+    flex: 1;
+    min-width: 250px;
+    padding: 3rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
     gap: 0.5rem;
   }
 
-  .tech-tags span {
-    font-family: "Inter", sans-serif;
-    font-size: 0.875rem;
-    padding: 0.375rem 0.75rem;
-    background: rgba(0, 0, 0, 0.04);
-    border-radius: 6px;
-    color: #525252;
+  .book-card.highlight {
+    background: var(--color-text-main);
   }
 
-  :global(.dark) .tech-tags span {
-    background: rgba(255, 255, 255, 0.08);
-    color: #a3a3a3;
+  .book-card.highlight h4,
+  .book-card.highlight .book-type,
+  .book-card.highlight .author {
+    color: var(--color-bg);
   }
 
-  .now-footer {
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.06);
+  .book-type {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
   }
 
-  :global(.dark) .now-footer {
-    border-top-color: rgba(255, 255, 255, 0.06);
+  .book-card h4 {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    line-height: 1.3;
   }
 
-  .now-footer p {
-    font-size: 0.875rem;
-    color: #737373;
+  .book-card .author {
+    font-size: var(--text-sm);
+    opacity: 0.7;
   }
 
-  .now-footer a {
-    color: #0a0a0a;
+  /* Curiosity Box */
+  .curiosity-box {
+    grid-column: 3;
+    background: var(--color-primary-alpha-5);
+    padding: 3rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .quoted-text {
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: var(--text-xl);
+    line-height: 1.4;
+    color: var(--color-primary);
+    margin-bottom: 2rem;
+  }
+
+  .curiosity-desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-body);
+  }
+
+  .now-minimal-footer {
+    margin-top: 10rem;
+    text-align: left;
+    border-top: 1px solid var(--color-border);
+    padding-top: 3rem;
+  }
+
+  .now-minimal-footer p {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .now-minimal-footer a {
+    color: var(--color-text-main);
     text-decoration: underline;
   }
 
-  :global(.dark) .now-footer a {
-    color: #fafafa;
+  @media (max-width: 1024px) {
+    .now-hero {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .now-content-grid {
+      grid-template-columns: 1fr;
+    }
+    .grid-span-2,
+    .grid-span-full,
+    .curiosity-box {
+      grid-column: 1;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .now-hero h1 {
+      font-size: 4rem;
+    }
+    .now-workspace {
+      padding-top: 4rem;
+    }
   }
 </style>

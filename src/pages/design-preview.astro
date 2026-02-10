@@ -1,12 +1,12 @@
 ---
 import Base from "@/layouts/Base.astro";
+
 import "@/styles/design-system.css";
 import "@/styles/preview.css";
 ---
 
 <Base title="Design System Preview">
   <div class="container" style="max-width: 900px; padding: 4rem 1.5rem;">
-    
     <div style="text-align: center; margin-bottom: 4rem;">
       <h1 style="margin-bottom: 1rem;">Design System Preview</h1>
       <p style="color: #6b7280;">Reader-First Blog Design System</p>
@@ -14,23 +14,28 @@ import "@/styles/preview.css";
 
     <section class="preview-section">
       <h2>Typography</h2>
-      
+
       <div class="font-sample">
         <p class="font-label">Heading Font: Inter</p>
-        <h3 style="margin-bottom: 0; font-family: Inter, sans-serif;">The quick brown fox jumps over the lazy dog</h3>
+        <h3 style="margin-bottom: 0; font-family: Inter, sans-serif;">
+          The quick brown fox jumps over the lazy dog
+        </h3>
       </div>
 
       <div class="font-sample">
         <p class="font-label">Body Font: Georgia (Serif)</p>
         <p style="margin-bottom: 0; font-family: Georgia, serif;">
-          The quick brown fox jumps over the lazy dog. This is how body text will look in articles. 
-          Georgia provides excellent readability for long-form content.
+          The quick brown fox jumps over the lazy dog. This is how body text
+          will look in articles. Georgia provides excellent readability for
+          long-form content.
         </p>
       </div>
 
       <div class="font-sample">
         <p class="font-label">Code Font: JetBrains Mono</p>
-        <code style="font-family: monospace;">const greeting = "Hello, World!";</code>
+        <code style="font-family: monospace;"
+          >const greeting = "Hello, World!";</code
+        >
       </div>
 
       <div style="margin-top: 2rem;">
@@ -45,14 +50,20 @@ import "@/styles/preview.css";
 
     <section class="preview-section">
       <h2>Color Palette</h2>
-      
+
       <h4 style="margin-top: 2rem; margin-bottom: 1rem;">Light Mode</h4>
       <div class="color-grid">
-        <div class="color-box" style="background: #fafafa; color: #1a1a1a; border: 1px solid #e5e7eb;">
+        <div
+          class="color-box"
+          style="background: #fafafa; color: #1a1a1a; border: 1px solid #e5e7eb;"
+        >
           <div>Background</div>
           <div>#FAFAFA</div>
         </div>
-        <div class="color-box" style="background: #ffffff; color: #1a1a1a; border: 1px solid #e5e7eb;">
+        <div
+          class="color-box"
+          style="background: #ffffff; color: #1a1a1a; border: 1px solid #e5e7eb;"
+        >
           <div>Surface</div>
           <div>#FFFFFF</div>
         </div>
@@ -64,9 +75,12 @@ import "@/styles/preview.css";
           <div>Muted</div>
           <div>#6B7280</div>
         </div>
-        <div class="color-box" style="background: #2563eb; color: #ffffff;">
+        <div
+          class="color-box"
+          style="background: var(--color-primary); color: #ffffff;"
+        >
           <div>Accent</div>
-          <div>#2563EB</div>
+          <div>var(--color-primary)</div>
         </div>
       </div>
 
@@ -97,16 +111,25 @@ import "@/styles/preview.css";
 
     <section class="preview-section">
       <h2>Content Elements</h2>
-      
+
       <h3>Paragraph</h3>
       <p>
-        This is a paragraph with <strong>bold text</strong>, <em>italic text</em>, and <a href="#">a link</a>. 
-        The line height is set to 1.75 for comfortable reading.
+        This is a paragraph with
+        {" "}
+        <strong>bold text</strong>
+        ,
+        {" "}
+        <em>italic text</em>
+        , and
+        {" "}
+        <a href="#">a link</a>
+        . The line height is set to 1.75 for comfortable reading.
       </p>
 
       <h3>Blockquote</h3>
       <blockquote>
-        "The ADHD paradox: intensely focused on one thing, yet exploring every layer beneath it."
+        "The ADHD paradox: intensely focused on one thing, yet exploring every
+        layer beneath it."
       </blockquote>
 
       <h3>Lists</h3>
@@ -117,43 +140,56 @@ import "@/styles/preview.css";
       </ul>
 
       <h3>Code</h3>
-      <pre><code>const designSystem = &#123;
-  typography: 'Inter + Georgia',
-  colors: 'Soft & Comfortable'
-&#125;;</code></pre>
+      <pre>
+        <code>
+          const designSystem = &#123;
+          typography: 'Inter + Georgia',
+          colors: 'Soft & Comfortable'
+          &#125;;
+        </code>
+      </pre>
     </section>
 
     <section class="preview-section">
       <h2>Spacing</h2>
-      
+
       <div class="info-box">
-        <p style="margin-bottom: 0;"><strong>Content Width:</strong> 680px optimal</p>
+        <p style="margin-bottom: 0;">
+          <strong>Content Width:</strong>
+          {" "}
+          680px optimal
+        </p>
       </div>
-      
+
       <div class="info-box">
-        <p style="margin-bottom: 0;"><strong>Container:</strong> 1200px max</p>
+        <p style="margin-bottom: 0;">
+          <strong>Container:</strong>
+          {" "}
+          1200px max
+        </p>
       </div>
     </section>
 
     <section class="preview-section">
       <h2>Buttons</h2>
-      
+
       <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
-        <a href="#" class="btn-demo btn-primary">Primary</a>
-        <a href="#" class="btn-demo btn-secondary">Secondary</a>
+        <a class="btn-demo btn-primary" href="#">Primary</a>
+        <a class="btn-demo btn-secondary" href="#">Secondary</a>
       </div>
     </section>
 
     <section class="preview-section" style="border-bottom: none;">
       <h2>Dark Mode</h2>
       <p>Toggle dark mode di header untuk melihat perubahan warna.</p>
-      
+
       <div class="info-box">
         <p style="margin-bottom: 0;">
-          <strong>WCAG AA Compliant:</strong> Contrast ratio 4.5:1 minimum
+          <strong>WCAG AA Compliant:</strong>
+          {" "}
+          Contrast ratio 4.5:1 minimum
         </p>
       </div>
     </section>
-
   </div>
 </Base>

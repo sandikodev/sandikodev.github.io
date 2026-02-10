@@ -8,13 +8,13 @@ const posts = await getSinglePage("posts");
 
 // List of items to search in
 const searchList = posts.map((item: any) => ({
-  slug: item.slug,
-  data: item.data,
   content: item.body,
+  data: item.data,
+  slug: item.slug,
 }));
 ---
 
-<Base title={`Search`}>
+<Base title="Search">
   <section class="section">
     <div class="container">
       <SearchBar client:load searchList={searchList} />

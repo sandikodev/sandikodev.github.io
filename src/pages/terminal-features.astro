@@ -1,78 +1,109 @@
 ---
-import TerminalLayout from "@/layouts/TerminalLayout.astro";
-import TerminalWindow from "@/components/terminal/TerminalWindow.astro";
-import Prompt from "@/components/terminal/Prompt.astro";
-import { Code } from 'astro:components';
+import { Code } from "astro:components";
+
+import AsciiHero from "@/components/terminal/AsciiHero.astro";
+import Prompt from "@/components/terminal/svelte/Prompt.svelte";
+import TerminalWindow from "@/components/terminal/svelte/TerminalWindow.svelte";
+import TypingAnimation from "@/components/terminal/svelte/TypingAnimation.svelte";
+
+import I3Layout from "../layouts/I3Layout.astro";
 
 const jsCode = `// Arrow functions with ligatures: => !== ===
 const fetchData = async (url: string): Promise<Data> => {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(\`HTTP error! status: \${response.status}\`);
+  if (url !== "https://api.dev") {
+    throw new Error("Invalid endpoint");
   }
-  return response.json();
-};
+  return await fetch(url);
+};`;
 
-// Nullish coalescing: ?? and optional chaining: ?.
-const value = data?.nested?.value ?? 'default';`;
-
-const pyCode = `from typing import Optional
-
-async def process_data(items: list[dict]) -> Optional[str]:
-    """Process items with async/await pattern."""
-    results = []
-    for item in items:
-        if (value := item.get('key')) is not None:
-            results.append(await transform(value))
-    return ''.join(results) if results else None`;
-
-const rustCode = `use std::collections::HashMap;
-
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let mut scores: HashMap<&str, i32> = HashMap::new();
-    
-    match scores.get("player1") {
-        Some(score) => println!("Score: {}", score),
-        None => println!("Player not found"),
-    }
-    Ok(())
+const rustCode = `// Rust pattern matching and traits
+match result {
+    Ok(data) => println!("Success: {:?}", data),
+    Err(e) if e.is_fatal() => panic!("Fatal error!"),
+    _ => unreachable!(),
 }`;
+
+const bashCode = `#!/bin/bash
+# ZSH completions and history
+for file in ~/workspace/**/*; do
+  [[ -f "$file" ]] && echo "Node: \${file##*/}"
+done`;
 ---
 
-<TerminalLayout title="Terminal Features | dev@enigma" file="features">
-  <TerminalWindow title="dev@enigma:~/features">
-    <Prompt command="cat README.md" showCursor={false} />
-    
-    <article class="content">
-      <h1>Terminal Design System Features</h1>
-      <p>Ligatures, Math, Flowcharts, Syntax Highlighting with Copy button.</p>
+<I3Layout title="Terminal Features — dev@enigma">
+  <div class="space-y-12 px-4 py-10">
+    <header class="mx-auto mb-16 max-w-2xl text-center">
+      <h1 class="mb-4 text-4xl font-black tracking-tight">
+        TERMINAL_CORE v2.0
+      </h1>
+      <p class="text-text-muted">
+        Exploring the advanced features of the workspace terminal emulator.
+      </p>
+    </header>
 
-      <h2>Fira Code Ligatures</h2>
-      <pre class="ligatures"><code>// Ligatures: => !== === <= >= && || ?? ?:
-const fn = (x) => x !== null && x === true;
-if (a || b && c ?? d) return;</code></pre>
+    <!-- Neofetch Section -->
+    <section class="mx-auto max-w-4xl">
+      <TerminalWindow client:load showCursor={false} title="neofetch">
+        <div slot="header">
+          <Prompt command="neofetch" />
+        </div>
+        <AsciiHero />
+      </TerminalWindow>
+    </section>
 
-      <h2>Syntax Highlighting</h2>
-      
-      <h3>TypeScript</h3>
-      <Code code={jsCode} lang="typescript" theme="tokyo-night" />
-      
-      <h3>Python</h3>
-      <Code code={pyCode} lang="python" theme="tokyo-night" />
-      
-      <h3>Rust</h3>
-      <Code code={rustCode} lang="rust" theme="tokyo-night" />
-    </article>
-  </TerminalWindow>
-</TerminalLayout>
+    <!-- MOTD Section -->
+    <section class="mx-auto max-w-4xl">
+      <TerminalWindow client:load showCursor={false} title="cat /etc/motd">
+        <div slot="header">
+          <Prompt command="cat /etc/motd" />
+        </div>
+        <div class="py-4">
+          <TypingAnimation
+            client:visible
+            speed={40}
+            text="Welcome to Antigravity OS. All systems nominal. Authorized access only."
+          />
+        </div>
+      </TerminalWindow>
+    </section>
+
+    <!-- Code Highlighting Section -->
+    <section class="mx-auto grid max-w-4xl grid-cols-1 gap-8 md:grid-cols-2">
+      <TerminalWindow client:load title="typescript_demo.ts">
+        <div slot="header">
+          <Prompt command="cat typescript_demo.ts" showCursor={false} />
+        </div>
+        <div class="mt-4">
+          <Code code={jsCode} lang="ts" theme="tokyo-night" />
+        </div>
+      </TerminalWindow>
+
+      <TerminalWindow client:load title="rust_patterns.rs">
+        <div slot="header">
+          <Prompt command="cat rust_patterns.rs" showCursor={false} />
+        </div>
+        <div class="mt-4">
+          <Code code={rustCode} lang="rust" theme="tokyo-night" />
+        </div>
+      </TerminalWindow>
+    </section>
+
+    <!-- Bash Scripting -->
+    <section class="mx-auto max-w-4xl">
+      <TerminalWindow client:load title="bash_utils.sh">
+        <div slot="header">
+          <Prompt command="cat bash_utils.sh" showCursor={false} />
+        </div>
+        <div class="mt-4">
+          <Code code={bashCode} lang="bash" theme="tokyo-night" />
+        </div>
+      </TerminalWindow>
+    </section>
+  </div>
+</I3Layout>
 
 <style>
-  .content { line-height: 1.8; }
-  .content h1 { font-size: 1.5rem; margin-bottom: 1rem; }
-  .content h2 { margin-top: 2rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
-  .content h3 { margin-top: 1.5rem; color: var(--cyan); }
-  .content h3::before { content: "// "; color: var(--text-muted); }
-  .content p { margin-bottom: 1rem; }
-  .ligatures { font-size: 1rem; }
-  .ligatures code { font-feature-settings: "liga" 1, "calt" 1; }
+  :global(.i3-window) {
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  }
 </style>

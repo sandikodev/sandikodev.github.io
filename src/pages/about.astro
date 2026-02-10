@@ -1,90 +1,118 @@
 ---
-import Base from "@/layouts/Base.astro";
 import config from "@/config/config.json";
+import Base from "@/layouts/Base.astro";
 ---
 
 <Base
-  title={`About ${config.metadata.meta_author}`}
-  meta_title={`About ${config.metadata.meta_author} - Full-Stack Developer`}
   description={config.metadata.meta_description}
   image="/images/profile.jpg"
+  meta_title={`About ${config.metadata.meta_author} - Full-Stack Developer`}
+  title={`About ${config.metadata.meta_author}`}
 >
   <!-- Fira Code Font -->
-  <link slot="head" rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com" rel="preconnect" slot="head" />
   <link
-    slot="head"
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
     crossorigin
+    href="https://fonts.gstatic.com"
+    rel="preconnect"
+    slot="head"
   />
   <link
-    slot="head"
     href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap"
     rel="stylesheet"
+    slot="head"
   />
   <!-- Hero -->
   <section class="hero">
     <!-- Code Rain Background -->
-    <div class="code-rain" aria-hidden="true">
+    <div aria-hidden="true" class="code-rain">
       <div class="code-column">
-        <span>const</span><span>async</span><span>await</span><span>import</span
-        ><span>export</span><span>return</span><span>function</span><span
-          >class</span
-        >
+        <span>const</span>
+        <span>async</span>
+        <span>await</span>
+        <span> import </span>
+        <span>export</span>
+        <span>return</span>
+        <span>function</span>
+        <span> class </span>
       </div>
       <div class="code-column">
-        <span>docker</span><span>nginx</span><span>redis</span><span
-          >postgres</span
-        ><span>linux</span><span>ssh</span><span>git</span><span>npm</span>
+        <span>docker</span>
+        <span>nginx</span>
+        <span>redis</span>
+        <span> postgres </span>
+        <span>linux</span>
+        <span>ssh</span>
+        <span>git</span>
+        <span>npm</span>
       </div>
       <div class="code-column">
-        <span>=></span><span>{}</span><span>[]</span><span>()</span><span
-          >&&</span
-        ><span>||</span><span>===</span><span>!==</span>
+        <span>{"=>"}</span>
+        <span>{"{}"}</span>
+        <span>[]</span>
+        <span> () </span>
+        <span>&&</span>
+        <span>||</span>
+        <span>===</span>
+        <span> !== </span>
       </div>
       <div class="code-column">
-        <span>SELECT</span><span>FROM</span><span>WHERE</span><span>JOIN</span
-        ><span>INSERT</span><span>UPDATE</span><span>CREATE</span><span
-          >INDEX</span
-        >
+        <span>SELECT</span>
+        <span>FROM</span>
+        <span>WHERE</span>
+        <span> JOIN </span>
+        <span>INSERT</span>
+        <span>UPDATE</span>
+        <span>CREATE</span>
+        <span> INDEX </span>
       </div>
       <div class="code-column">
-        <span>React</span><span>Svelte</span><span>Node</span><span>Go</span
-        ><span>Python</span><span>TypeScript</span><span>AWS</span><span
-          >API</span
-        >
+        <span>React</span>
+        <span>Svelte</span>
+        <span>Node</span>
+        <span> Go </span>
+        <span>Python</span>
+        <span>TypeScript</span>
+        <span>AWS</span>
+        <span> API </span>
       </div>
     </div>
 
     <div class="container">
       <div class="hero-grid">
         <div class="hero-text">
-          <p class="hero-label"><span class="prompt">$</span> whoami</p>
+          <p class="hero-label">
+            <span class="prompt">$</span>
+            {" "}
+            whoami
+          </p>
           <h1>
-            Building Solutions,<br /><span class="highlight"
-              >Layer by Layer</span
-            >
+            Building Solutions,
+            <br />
+            <span class="highlight"> Layer by Layer </span>
           </h1>
           <p class="subtitle">
-            <span class="typing-text"
-              >Engineer yang mulai dari rakit PC dan konfigurasi jaringan,
-              sekarang membangun aplikasi web dan cloud infrastructure.</span
-            >
+            <span class="typing-text">
+              Engineer yang mulai dari rakit PC dan konfigurasi jaringan,
+              sekarang membangun aplikasi web dan cloud infrastructure.
+            </span>
             <span class="cursor">|</span>
           </p>
           <div class="hero-cta">
-            <a href="/contact" class="btn-primary">
+            <a class="btn-primary" href="/contact">
               <span>Let's Build Something</span>
               <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
                 fill="none"
+                height="16"
                 stroke="currentColor"
-                stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="16"
               >
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
             </a>
-            <a href="/now" class="btn-ghost">Current Projects</a>
+            <a class="btn-ghost" href="/now">Current Projects</a>
           </div>
         </div>
         <div class="hero-stats">
@@ -105,7 +133,7 @@ import config from "@/config/config.json";
     </div>
 
     <!-- Floating Code Snippets -->
-    <div class="floating-code" aria-hidden="true">
+    <div aria-hidden="true" class="floating-code">
       <code class="snippet snippet-1">npm run build</code>
       <code class="snippet snippet-2">git push origin main</code>
       <code class="snippet snippet-3">docker-compose up -d</code>
@@ -117,8 +145,11 @@ import config from "@/config/config.json";
   <section class="skills">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag"><span class="prompt">$</span> ls skills/</span
-        >
+        <span class="section-tag">
+          <span class="prompt">$</span>
+          {" "}
+          ls skills/
+        </span>
         <h2>What I Build</h2>
       </div>
       <div class="bento-grid">
@@ -156,9 +187,9 @@ import config from "@/config/config.json";
             Containerization, CI/CD pipelines, server provisioning, monitoring &
             logging
           </p>
-          <code class="tech-code"
-            >AWS • Docker • Linux • Nginx • GitHub Actions</code
-          >
+          <code class="tech-code">
+            AWS • Docker • Linux • Nginx • GitHub Actions
+          </code>
         </div>
         <div class="bento-card">
           <div class="bento-icon">📱</div>
@@ -180,13 +211,15 @@ import config from "@/config/config.json";
   <section class="projects">
     <div class="container">
       <div class="section-header light">
-        <span class="section-tag"
-          ><span class="prompt">$</span> cat projects.json</span
-        >
+        <span class="section-tag">
+          <span class="prompt">$</span>
+          {" "}
+          cat projects.json
+        </span>
         <h2>Featured Projects</h2>
       </div>
       <div class="projects-grid">
-        <a href="/portfolio" class="project-card">
+        <a class="project-card" href="/portfolio">
           <div class="project-meta">
             <span class="project-tag">Cloud Platform</span>
             <span class="project-arrow">↗</span>
@@ -196,10 +229,10 @@ import config from "@/config/config.json";
           <span class="project-company">Koneksi Cloud</span>
         </a>
         <a
-          href="https://aksesekolah.id"
           class="project-card"
-          target="_blank"
+          href="https://aksesekolah.id"
           rel="noopener"
+          target="_blank"
         >
           <div class="project-meta">
             <span class="project-tag">SaaS</span>
@@ -209,7 +242,7 @@ import config from "@/config/config.json";
           <p>Platform Sistem Administrasi & Akademik untuk sekolah</p>
           <span class="project-company">aksesekolah.id</span>
         </a>
-        <a href="/portfolio" class="project-card">
+        <a class="project-card" href="/portfolio">
           <div class="project-meta">
             <span class="project-tag">AI / EdTech</span>
             <span class="project-arrow">↗</span>
@@ -220,7 +253,7 @@ import config from "@/config/config.json";
         </a>
       </div>
       <div class="projects-cta">
-        <a href="/portfolio" class="btn-outline">View All Projects →</a>
+        <a class="btn-outline" href="/portfolio">View All Projects →</a>
       </div>
     </div>
   </section>
@@ -229,9 +262,11 @@ import config from "@/config/config.json";
   <section class="process">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag"
-          ><span class="prompt">$</span> ./workflow.sh</span
-        >
+        <span class="section-tag">
+          <span class="prompt">$</span>
+          {" "}
+          ./workflow.sh
+        </span>
         <h2>How I Work</h2>
       </div>
       <div class="process-grid">
@@ -274,9 +309,11 @@ import config from "@/config/config.json";
   <section class="experience">
     <div class="container">
       <div class="section-header light">
-        <span class="section-tag"
-          ><span class="prompt">$</span> git log --oneline</span
-        >
+        <span class="section-tag">
+          <span class="prompt">$</span>
+          {" "}
+          git log --oneline
+        </span>
         <h2>Experience</h2>
       </div>
       <div class="timeline">
@@ -286,9 +323,9 @@ import config from "@/config/config.json";
           <div class="timeline-content">
             <h3>Foundation</h3>
             <p>IT Support → Network Operations → System Administration</p>
-            <code class="timeline-tech"
-              >Hardware • Networks • Linux • Troubleshooting</code
-            >
+            <code class="timeline-tech">
+              Hardware • Networks • Linux • Troubleshooting
+            </code>
           </div>
         </div>
         <div class="timeline-item">
@@ -297,9 +334,9 @@ import config from "@/config/config.json";
           <div class="timeline-content">
             <h3>Development</h3>
             <p>Frontend Developer → Backend Developer → Full-Stack</p>
-            <code class="timeline-tech"
-              >JavaScript • React • Node.js • Databases</code
-            >
+            <code class="timeline-tech">
+              JavaScript • React • Node.js • Databases
+            </code>
           </div>
         </div>
         <div class="timeline-item">
@@ -308,9 +345,9 @@ import config from "@/config/config.json";
           <div class="timeline-content">
             <h3>Architecture & Leadership</h3>
             <p>Full-Stack Engineer → DevOps → Solutions Architect</p>
-            <code class="timeline-tech"
-              >AWS • Docker • System Design • Team Lead</code
-            >
+            <code class="timeline-tech">
+              AWS • Docker • System Design • Team Lead
+            </code>
           </div>
         </div>
       </div>
@@ -321,11 +358,12 @@ import config from "@/config/config.json";
   <section class="value">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag"
-          ><span class="prompt">$</span> man {
-            config.site.logo_text.toLowerCase()
-          }</span
-        >
+        <span class="section-tag">
+          <span class="prompt">$</span>
+          {" "}
+          man
+          {config.site.logo_text.toLowerCase()}
+        </span>
         <h2>How I Think About Problems</h2>
       </div>
       <div class="value-grid">
@@ -368,18 +406,20 @@ import config from "@/config/config.json";
         <h2>Ada Project?</h2>
         <p>Ceritakan apa yang sedang Anda bangun</p>
         <div class="cta-buttons">
-          <a href="/contact" class="btn-primary">
+          <a class="btn-primary" href="/contact">
             <span>Hubungi Saya</span>
             <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
               fill="none"
+              height="16"
               stroke="currentColor"
-              stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="16"
             >
+              <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
           </a>
-          <a href="/portfolio" class="btn-secondary">Lihat Portfolio</a>
+          <a class="btn-secondary" href="/portfolio">Lihat Portfolio</a>
         </div>
       </div>
     </div>
@@ -403,7 +443,7 @@ import config from "@/config/config.json";
   .section-header h2 {
     font-size: 2.25rem;
     font-weight: 700;
-    color: #0f172a;
+    color: var(--color-text-main);
     margin: 0.5rem 0 0;
   }
   .section-header.light h2 {
@@ -413,21 +453,21 @@ import config from "@/config/config.json";
     font-family: "Fira Code", "SF Mono", monospace;
     font-size: 0.8rem;
     letter-spacing: 0.02em;
-    color: #64748b;
+    color: var(--color-text-muted);
     font-weight: 500;
     display: inline-flex;
     align-items: center;
     gap: 0;
   }
   .section-tag .prompt {
-    color: #4ecdc4;
+    color: var(--color-dev-teal);
     margin-right: 0.4rem;
   }
   .section-header.light .section-tag {
     color: rgba(255, 255, 255, 0.7);
   }
   .section-header.light .section-tag .prompt {
-    color: #4ecdc4;
+    color: var(--color-dev-teal);
   }
 
   /* Hero */
@@ -457,7 +497,7 @@ import config from "@/config/config.json";
     animation: rain 20s linear infinite;
     font-family: "Fira Code", "SF Mono", monospace;
     font-size: 0.75rem;
-    color: #4ecdc4;
+    color: var(--color-dev-teal);
   }
   .code-column span {
     padding: 0.5rem 0;
@@ -510,7 +550,7 @@ import config from "@/config/config.json";
     border: 1px solid rgba(78, 205, 196, 0.2);
     padding: 0.4rem 0.8rem;
     border-radius: 4px;
-    color: #4ecdc4;
+    color: var(--color-dev-teal);
     animation: float 6s ease-in-out infinite;
   }
   .snippet-1 {
@@ -548,14 +588,14 @@ import config from "@/config/config.json";
 
   /* Terminal Prompt */
   .prompt {
-    color: #4ecdc4;
+    color: var(--color-dev-teal);
     margin-right: 0.5rem;
   }
 
   /* Typing Cursor */
   .cursor {
     animation: blink 1s step-end infinite;
-    color: #4ecdc4;
+    color: var(--color-dev-teal);
     font-weight: 100;
   }
   @keyframes blink {
@@ -588,9 +628,14 @@ import config from "@/config/config.json";
     font-weight: 800;
     line-height: 1.1;
     margin-bottom: 1.5rem;
+    color: white; /* Ensure visibility on dark hero gradient */
   }
   .highlight {
-    background: linear-gradient(90deg, #feca57, #ff9f43);
+    background: linear-gradient(
+      90deg,
+      var(--color-dev-gold),
+      var(--color-dev-orange)
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -636,18 +681,18 @@ import config from "@/config/config.json";
   /* Bento Grid */
   .skills {
     padding: 5rem 0;
-    background: #f8fafc;
+    background: var(--color-surface);
   }
   .bento-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
+    gap: 1.5rem;
   }
   .bento-card {
-    background: white;
+    background: var(--color-bg);
     padding: 1.5rem;
     border-radius: 16px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--color-border);
     transition: all 0.2s ease;
   }
   .bento-card:hover {
@@ -665,20 +710,20 @@ import config from "@/config/config.json";
   .bento-card h3 {
     font-size: 1rem;
     font-weight: 600;
-    color: #0f172a;
+    color: var(--color-text-main);
     margin-bottom: 0.5rem;
   }
   .bento-card p {
     font-size: 0.875rem;
-    color: #64748b;
+    color: var(--color-text-muted);
     line-height: 1.5;
     margin-bottom: 1rem;
   }
   .tech-code {
     font-family: "Fira Code", "SF Mono", monospace;
     font-size: 0.75rem;
-    color: #4ecdc4;
-    background: #0f172a;
+    color: var(--color-dev-teal);
+    background: rgba(78, 205, 196, 0.1);
     padding: 0.35rem 0.6rem;
     border-radius: 4px;
     display: inline-block;
@@ -688,8 +733,19 @@ import config from "@/config/config.json";
   /* Projects */
   .projects {
     padding: 5rem 0;
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-    color: white;
+    background: var(--color-surface);
+    color: var(--color-text-main);
+  }
+  .projects .section-header.light h2 {
+    background: linear-gradient(
+      135deg,
+      var(--color-text-main) 10%,
+      var(--color-text-muted) 100%
+    );
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: inherit;
   }
   .projects-grid {
     display: grid;
@@ -698,12 +754,12 @@ import config from "@/config/config.json";
   }
   .project-card {
     display: block;
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--color-bg);
     padding: 1.75rem;
     border-radius: 16px;
     text-decoration: none;
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: inherit;
+    border: 1px solid var(--color-border);
     transition: all 0.2s ease;
   }
   .project-card:hover {
@@ -720,8 +776,8 @@ import config from "@/config/config.json";
   .project-tag {
     font-family: "SF Mono", "Fira Code", monospace;
     font-size: 0.7rem;
-    background: #4ecdc4;
-    color: #0f172a;
+    background: var(--color-dev-teal);
+    color: #1a1a2e; /* Keep dark enough for teal background */
     padding: 0.25rem 0.6rem;
     border-radius: 4px;
     font-weight: 600;
@@ -760,7 +816,7 @@ import config from "@/config/config.json";
   /* Process */
   .process {
     padding: 5rem 0;
-    background: white;
+    background: var(--color-bg);
   }
   .process-grid {
     display: flex;
@@ -790,12 +846,13 @@ import config from "@/config/config.json";
   .step-content h3 {
     font-size: 1rem;
     font-weight: 600;
-    color: #0f172a;
+    color: var(--color-text-main);
     margin-bottom: 0.5rem;
   }
   .step-content p {
     font-size: 0.875rem;
-    color: #64748b;
+    color: inherit;
+    opacity: 0.8;
     line-height: 1.5;
   }
   .process-connector {
@@ -809,8 +866,28 @@ import config from "@/config/config.json";
   /* Experience */
   .experience {
     padding: 5rem 0;
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-    color: white;
+    background: var(--color-surface);
+    color: var(--color-text-main);
+  }
+  .experience h2 {
+    background: linear-gradient(
+      135deg,
+      var(--color-text-main) 10%,
+      var(--color-text-muted) 100%
+    );
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: inherit !important;
+  }
+  .experience p {
+    color: var(--color-text-body);
+    opacity: 0.9;
+  }
+  .experience .timeline-tech {
+    background: rgba(78, 205, 196, 0.1);
+    color: var(--color-dev-teal);
+    border: 1px solid rgba(78, 205, 196, 0.2);
   }
   .timeline {
     max-width: 600px;
@@ -841,17 +918,17 @@ import config from "@/config/config.json";
     height: 14px;
     border-radius: 50%;
     background: #334155;
-    border: 2px solid #4ecdc4;
+    border: 2px solid var(--color-dev-teal);
     position: relative;
     z-index: 1;
   }
   .timeline-dot.active {
-    background: #4ecdc4;
+    background: var(--color-dev-teal);
   }
   .timeline-date {
     font-family: "SF Mono", "Fira Code", monospace;
     font-size: 0.75rem;
-    color: #4ecdc4;
+    color: var(--color-dev-teal);
     white-space: nowrap;
   }
   .timeline-content h3 {
@@ -868,7 +945,7 @@ import config from "@/config/config.json";
   .timeline-tech {
     font-family: "SF Mono", "Fira Code", monospace;
     font-size: 0.7rem;
-    color: #4ecdc4;
+    color: var(--color-dev-teal);
     background: rgba(78, 205, 196, 0.1);
     padding: 0.25rem 0.5rem;
     border-radius: 4px;
@@ -877,7 +954,7 @@ import config from "@/config/config.json";
   /* Value */
   .value {
     padding: 5rem 0;
-    background: #f8fafc;
+    background: var(--color-surface);
   }
   .value-grid {
     display: grid;
@@ -885,11 +962,11 @@ import config from "@/config/config.json";
     gap: 1.5rem;
   }
   .value-card {
-    background: white;
+    background: var(--color-bg);
     padding: 2rem 1.5rem;
     border-radius: 16px;
     text-align: center;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--color-border);
     transition: all 0.2s ease;
   }
   .value-card:hover {
@@ -903,19 +980,19 @@ import config from "@/config/config.json";
   .value-card h4 {
     font-size: 1rem;
     font-weight: 600;
-    color: #0f172a;
+    color: var(--color-text-main);
     margin-bottom: 0.5rem;
   }
   .value-card p {
     font-size: 0.875rem;
-    color: #64748b;
+    color: var(--color-text-muted);
     line-height: 1.5;
   }
 
   /* CTA */
   .cta {
     padding: 5rem 0;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, #764ba2 100%);
     color: white;
     text-align: center;
   }
@@ -949,10 +1026,17 @@ import config from "@/config/config.json";
     font-weight: 600;
     transition: all 0.2s ease;
   }
+  :global(.dark) .btn-primary {
+    background: var(--color-primary);
+    color: white;
+  }
   .btn-primary:hover {
-    background: #f8fafc;
+    background: var(--color-surface);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  :global(.dark) .btn-primary:hover {
+    background: var(--color-primary-dark, #4c51bf);
   }
   .btn-ghost {
     padding: 0.875rem 1.75rem;
@@ -1122,16 +1206,20 @@ import config from "@/config/config.json";
 
   /* Gradient Text Enhancement */
   .section-header h2 {
-    background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+    background: linear-gradient(
+      135deg,
+      var(--color-text-main) 10%,
+      var(--color-text-muted) 100%
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+  /* Remove gradient for light-text sections as it causes invisibility on certain themes */
   .section-header.light h2 {
-    background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    background: none;
+    -webkit-text-fill-color: initial;
+    color: inherit;
   }
 
   /* Enhanced Card Hovers with Glow */
@@ -1271,8 +1359,8 @@ import config from "@/config/config.json";
 <script>
   // Scroll Animation Observer
   const observerOptions = {
-    threshold: 0.1,
     rootMargin: "0px 0px -50px 0px",
+    threshold: 0.1,
   };
 
   const observer = new IntersectionObserver((entries) => {

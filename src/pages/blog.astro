@@ -1,71 +1,468 @@
 ---
+import NewsletterSignup from "@/components/blog/NewsletterSignup.astro";
+import PostCard from "@/components/blog/PostCard.astro";
 import config from "@/config/config.json";
 import Base from "@/layouts/Base.astro";
 import Pagination from "@/layouts/components/Pagination.astro";
 import Posts from "@/layouts/Posts.astro";
 import { getAllPosts } from "@/lib/contentParser.astro";
-import { sortByDate } from "@/lib/utils/sortFunctions";
+import { getTaxonomy } from "@/lib/taxonomyParser.astro";
+import { humanize } from "@/lib/utils/textConverter";
 
 const posts = await getAllPosts();
 const totalPages = Math.ceil(posts.length / config.settings.pagination);
 const currentPosts = posts.slice(0, config.settings.pagination);
+
+// Special handling for the first page
+const featuredPost = currentPosts[0];
+const regularPosts = currentPosts.slice(1);
+
+// Fetch categories dynamically
+const allCategories = await getTaxonomy("posts", "categories");
+
+// Icon mapping for common categories
+const iconMap: Record<string, string> = {
+  backend: "database",
+  devops: "terminal",
+  frontend: "layout",
+  git: "git-branch", // Ensure this icon exists or use a generic one
+  infrastructure: "server",
+  tools: "cpu",
+  "web-dev": "code",
+};
+
+const categories = allCategories.map((catSlug) => ({
+  icon: iconMap[catSlug] || "folder",
+  name: humanize(catSlug),
+  slug: catSlug,
+}));
 ---
 
-<Base title="Blog" description="Articles about web development, infrastructure, and continuous learning">
+<Base
+  description="Articles about web development, infrastructure, and continuous learning"
+  title="Blog"
+>
   <section class="blog-page">
+    <div class="blog-bg-decor">
+      <div class="decor-blob blob-1"></div>
+      <div class="decor-blob blob-2"></div>
+      <div class="noise-overlay"></div>
+    </div>
+
     <header class="blog-header">
-      <h1>Blog</h1>
-      <p>Thoughts on web development, infrastructure, and learning.</p>
+      <div class="header-content">
+        <span class="header-pre-title">Writing & Thoughts</span>
+        <h1>Insights from the field</h1>
+        <p>
+          Expert guides, architectural patterns, and honest takes on modern
+          engineering.
+        </p>
+
+        <div class="discovery-bar">
+          <form action="/search" class="blog-search">
+            <svg
+              class="search-icon"
+              fill="none"
+              height="18"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="18"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="M21 21l-4.35-4.35"></path>
+            </svg>
+            <input name="q" placeholder="Search posts..." type="text" />
+            <kbd>/</kbd>
+          </form>
+          <div class="discovery-divider"></div>
+          <nav class="category-nav">
+            <a class="category-item active" href="/blog">All</a>
+            {
+              categories.map((cat) => (
+                <a class="category-item" href={`/categories/${cat.slug}`}>
+                  <span>{cat.name}</span>
+                </a>
+              ))
+            }
+          </nav>
+        </div>
+      </div>
     </header>
 
-    <div class="blog-content">
-      <Posts posts={currentPosts} />
-      
-      {totalPages > 1 && (
-        <div class="pagination-wrapper">
-          <Pagination currentPage={1} totalPages={totalPages} />
+    <div class="blog-container">
+      <div class="main-content-split">
+        <div class="posts-column">
+          {
+            featuredPost && (
+              <div class="featured-section">
+                <PostCard
+                  post={featuredPost}
+                  showExcerpt={true}
+                  showImage={true}
+                  showReadingTime={true}
+                  variant="featured"
+                />
+              </div>
+            )
+          }
+
+          <div class="grid-section">
+            <div class="section-header-row">
+              <h2 class="section-title">Previous Articles</h2>
+              <div class="section-line"></div>
+            </div>
+            <Posts posts={regularPosts} />
+          </div>
         </div>
-      )}
+
+        <aside class="blog-sidebar">
+          <div class="sidebar-widget">
+            <NewsletterSignup />
+          </div>
+
+          <div class="sidebar-widget trending-widget">
+            <h3 class="widget-title">Trending Topics</h3>
+            <div class="trending-tags">
+              {
+                [
+                  "DevOps",
+                  "Astro",
+                  "TypeScript",
+                  "Docker",
+                  "Kubernetes",
+                  "NextJS",
+                ].map((tag) => (
+                  <a class="trending-tag" href={`/tags/${tag.toLowerCase()}`}>
+                    #{tag}
+                  </a>
+                ))
+              }
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      {
+        totalPages > 1 && (
+          <div class="pagination-wrapper">
+            <Pagination
+              currentPage={1}
+              section="blog"
+              totalPages={totalPages}
+            />
+          </div>
+        )
+      }
     </div>
   </section>
 </Base>
 
 <style>
   .blog-page {
+    position: relative;
+    min-height: 100vh;
+    background-color: var(--color-bg);
+  }
+
+  .blog-bg-decor {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .noise-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+  }
+
+  .decor-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.1;
+  }
+
+  .blob-1 {
+    top: -5%;
+    right: 5%;
+    width: 30vw;
+    height: 30vw;
+    background: var(--color-primary);
+  }
+
+  .blob-2 {
+    top: 20%;
+    left: -5%;
+    width: 25vw;
+    height: 25vw;
+    background: var(--color-accent);
+  }
+
+  .blog-header {
+    position: relative;
+    padding: 4rem 1.5rem 3rem;
+    z-index: 10;
+    text-align: center;
+    background: linear-gradient(
+      to bottom,
+      var(--color-surface),
+      var(--color-bg)
+    );
+  }
+
+  .header-content {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 3rem 1.5rem 4rem;
   }
-  
-  .blog-header {
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-  
-  .blog-header h1 {
-    font-family: 'Inter', sans-serif;
-    font-size: 2.5rem;
+
+  .header-pre-title {
+    font-size: var(--text-xs);
     font-weight: 700;
-    letter-spacing: -0.02em;
-    margin-bottom: 0.75rem;
-    color: #0a0a0a;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    display: block;
   }
-  
-  :global(.dark) .blog-header h1 {
-    color: #fafafa;
+
+  .blog-header h1 {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 800;
+    color: var(--color-text-main);
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    margin-bottom: 1rem;
   }
-  
+
   .blog-header p {
-    font-size: 1.125rem;
-    color: #525252;
-    margin: 0;
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+    max-width: 500px;
+    margin: 0 auto 2rem;
   }
-  
-  :global(.dark) .blog-header p {
-    color: #a3a3a3;
+
+  .discovery-bar {
+    display: inline-flex;
+    align-items: center;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 0.4rem;
+    border-radius: 12px;
+    gap: 0.5rem;
+    box-shadow: 0 4px 20px var(--color-shadow-sm);
+    max-width: 100%;
   }
-  
+
+  .blog-search {
+    display: flex;
+    align-items: center;
+    padding: 0 0.75rem;
+    min-width: 200px;
+  }
+
+  .blog-search input {
+    background: transparent;
+    border: none;
+    font-size: var(--text-sm);
+    padding: 0.5rem;
+    color: var(--color-text-main);
+  }
+
+  .blog-search input:focus {
+    outline: none;
+  }
+
+  .search-icon {
+    color: var(--color-text-muted);
+  }
+
+  .discovery-divider {
+    width: 1px;
+    height: 24px;
+    background: var(--color-border);
+  }
+
+  .category-nav {
+    display: flex;
+    gap: 0.25rem;
+    padding-right: 0.5rem;
+  }
+
+  .category-item {
+    padding: 0.4rem 0.875rem;
+    border-radius: 8px;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-text-body);
+    transition: var(--transition-all);
+  }
+
+  .category-item:hover {
+    background: var(--color-bg-secondary);
+  }
+  .category-item.active {
+    background: var(--color-text-main);
+    color: var(--color-bg);
+  }
+
+  .blog-container {
+    position: relative;
+    z-index: 10;
+    max-width: var(--max-width-container);
+    margin: 0 auto;
+    padding: 2.5rem var(--spacing-6) 5rem;
+  }
+
+  .main-content-split {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .featured-section {
+    margin-bottom: 3.5rem;
+    position: relative;
+  }
+
+  .section-label {
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--color-primary);
+    color: white;
+    padding: 2px 12px;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    z-index: 10;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Animate label when the card inside is hovered */
+  .featured-section:hover .section-label {
+    transform: translateY(-4px);
+  }
+
+  .grid-section {
+    margin-top: 1.5rem;
+  }
+
+  .section-header-row {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-title {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--color-text-main);
+  }
+
+  .section-line {
+    height: 1px;
+    flex-grow: 1;
+    background: var(--color-border);
+  }
+
+  .blog-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    position: sticky;
+    top: 5rem;
+  }
+
+  .sidebar-widget {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+  }
+
+  .widget-title {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    color: var(--color-text-main);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .trending-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .trending-tag {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    color: var(--color-text-muted);
+    padding: 0.4rem 0.75rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+  }
+
+  .trending-tag:hover {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
   .pagination-wrapper {
-    margin-top: 4rem;
+    margin-top: 3rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: center;
+  }
+
+  @media (max-width: 1024px) {
+    .main-content-split {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .blog-sidebar {
+      position: static;
+      order: -1;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .discovery-bar {
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+    }
+    .discovery-divider {
+      display: none;
+    }
+    .category-nav {
+      justify-content: center;
+      padding: 0.5rem;
+    }
+    .blog-header {
+      padding: 4rem 1.5rem 3rem;
+    }
   }
 </style>
+
+<script>
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "/" && document.activeElement?.tagName !== "INPUT") {
+      e.preventDefault();
+      (
+        document.querySelector(".blog-search input") as HTMLInputElement
+      )?.focus();
+    }
+  });
+</script>
