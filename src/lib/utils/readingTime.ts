@@ -4,7 +4,7 @@
  * @param wpm - Words per minute (default: 200)
  * @returns Reading time in minutes
  */
-export function calculateReadingTime(content: string, wpm: number = 200): number {
+export function calculateReadingTime(content: string, wpm = 200): number {
   const words = content.trim().split(/\s+/).length;
   return Math.ceil(words / wpm);
 }

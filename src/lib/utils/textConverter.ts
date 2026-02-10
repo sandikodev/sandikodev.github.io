@@ -1,4 +1,4 @@
-import { slug } from 'github-slugger';
+import { slug } from "github-slugger";
 import { marked } from "marked";
 
 // slugify
@@ -39,19 +39,19 @@ export const plainify = (content: string) => {
 
 // strip entities for plainify
 const htmlEntityDecoder = (htmlWithEntities: string): string => {
-  let entityList: { [key: string]: string } = {
-    "&nbsp;": " ",
-    "&lt;": "<",
-    "&gt;": ">",
-    "&amp;": "&",
-    "&quot;": '"',
+  const entityList: Record<string, string> = {
     "&#39;": "'",
+    "&amp;": "&",
+    "&gt;": ">",
+    "&lt;": "<",
+    "&nbsp;": " ",
+    "&quot;": '"',
   };
-  let htmlWithoutEntities: string = htmlWithEntities.replace(
+  const htmlWithoutEntities: string = htmlWithEntities.replace(
     /(&amp;|&lt;|&gt;|&quot;|&#39;)/g,
     (entity: string): string => {
       return entityList[entity];
-    }
+    },
   );
   return htmlWithoutEntities;
 };

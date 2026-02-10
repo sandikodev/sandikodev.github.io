@@ -1,8 +1,8 @@
 ---
 import {
-  getCollection,
   type CollectionEntry,
   type CollectionKey,
+  getCollection,
 } from "astro:content";
 
 export const getSinglePage = async <C extends CollectionKey>(
@@ -18,17 +18,17 @@ export const getSinglePage = async <C extends CollectionKey>(
 export const getAllPosts = async (): Promise<CollectionEntry<"posts">[]> => {
   const posts = await getCollection("posts");
   const templates = await getCollection("templates");
-  
+
   // Convert templates to posts format
-  const templatesAsPosts = templates.map(template => ({
+  const templatesAsPosts = templates.map((template) => ({
     ...template,
-    collection: "posts" as const
+    collection: "posts" as const,
   }));
-  
+
   const allPosts = [...posts, ...templatesAsPosts];
   const removeIndex = allPosts.filter((data) => data.id.match(/^(?!-)/));
   const removeDrafts = removeIndex.filter((data) => !data.data.draft);
-  
+
   // Sort by date (newest first)
   return removeDrafts.sort((a, b) => {
     const dateA = a.data.date ? new Date(a.data.date).getTime() : 0;

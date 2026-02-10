@@ -1,35 +1,35 @@
 export interface TAuthor {
-  id: string;
-  slug: string;
   body: string;
   collection: string;
   data: {
-    title: string;
-    image: string;
     description: string;
+    image: string;
     social: {
       facebook: string;
-      twitter: string;
       instagram: string;
-    }
+      twitter: string;
+    };
+    title: string;
   };
+  id: string;
   render: () => Promise<{ Content: any }>;
+  slug: string;
 }
 
 export interface TPost {
-  id: string;
-  slug: string;
   body: string;
   collection: string;
   data: {
-    title: string;
-    description: string;
-    date: any;
-    image: string;
     authors: string[];
     categories: string[];
-    tags: string[];
+    date: any;
+    description: string;
     draft: boolean;
+    image: string;
+    tags: string[];
+    title: string;
   };
+  id: string;
   render: () => Promise<{ Content: any }>;
+  slug: string;
 }
