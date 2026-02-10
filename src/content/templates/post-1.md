@@ -36,19 +36,19 @@ src/
 
 Tailwind CSS memberikan utility classes yang powerful untuk styling:
 
-```css
+```javascript
 /* tailwind.config.js */
 module.exports = {
-  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
     extend: {
       colors: {
-        primary: '#3B82F6',
-        secondary: '#1E40AF'
-      }
-    }
-  }
-}
+        primary: "#3B82F6",
+        secondary: "#1E40AF",
+      },
+    },
+  },
+};
 ```
 
 ## Optimasi SEO
@@ -60,8 +60,8 @@ Astro memiliki built-in SEO features yang sangat membantu:
 export const metadata = {
   title: "Sandikodev Portfolio",
   description: "Full Stack Developer Portfolio",
-  canonical: "https://sandikodev.github.io"
-}
+  canonical: "https://sandikodev.github.io",
+};
 ---
 
 <html lang="id">
