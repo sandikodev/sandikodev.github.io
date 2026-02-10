@@ -1,8 +1,9 @@
 {
-  "name": "Sandikodev - Full Stack Developer",
+  "name": "Sandikodev Workspace",
   "short_name": "Sandikodev",
-  "description": "Portfolio dan blog Sandikodev - Full Stack Developer",
-  "start_url": "/",
+  "description": "Professional Workspace Environment",
+  "start_url": "/workspace",
+  "scope": "/workspace",
   "display": "standalone",
   "background_color": "#0f0f0f",
   "theme_color": "#2563eb",
