@@ -1,18 +1,20 @@
 ---
+import { AstroFont } from "astro-font";
+import { ClientRouter } from "astro:transitions";
+
+import BackToTop from "@/components/blog/BackToTop.astro";
 import TwSizeIndicator from "@/components/TwSizeIndicator.astro";
 import CommandPalette from "@/components/ui/CommandPalette.astro";
-import DesignSystemToggle from "@/components/ui/DesignSystemToggle.astro";
-import BackToTop from "@/components/blog/BackToTop.astro";
-import PerformanceOptimizer from "@/components/ui/PerformanceOptimizer.astro";
 import LoadingStates from "@/components/ui/LoadingStates.astro";
+import PerformanceOptimizer from "@/components/ui/PerformanceOptimizer.astro";
+import ModeSwitcher from "@/components/ui/svelte/ModeSwitcher.svelte";
 import config from "@/config/config.json";
 import theme from "@/config/theme.json";
 import { plainify } from "@/lib/utils/textConverter";
 import Footer from "@/partials/Footer.astro";
 import Header from "@/partials/Header.astro";
+
 import "@/styles/main.css";
-import { AstroFont } from "astro-font";
-import { ViewTransitions } from "astro:transitions";
 
 // font families
 const pf = theme.fonts.font_family.primary;
@@ -32,158 +34,211 @@ if (theme.fonts.font_family.secondary) {
 
 // types for frontmatters
 export interface Props {
-  title?: string;
-  meta_title?: string;
+  canonical?: string;
   description?: string;
   image?: string;
+  meta_title?: string;
   noindex?: boolean;
-  canonical?: string;
+  title?: string;
+  hideFooter?: boolean;
 }
 
 // distructure frontmatters
-const { title, meta_title, description, image, noindex, canonical } =
-  Astro.props;
+const {
+  canonical,
+  description,
+  image,
+  meta_title,
+  noindex,
+  title,
+  hideFooter,
+} = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en" data-theme-mode="blog">
+<html data-theme-mode="blog" lang="en">
   <head>
-    <!-- Prevent theme flash (FOUC) - redirect to workspace if preference is dev -->
     <script is:inline>
-      (function() {
-        var saved = localStorage.getItem('design-mode');
-        if (saved === 'dev') {
-          var path = window.location.pathname;
-          window.location.href = '/workspace' + (path === '/' ? '' : path);
-        }
+      (function () {
+        const initTheme = () => {
+          // Mode Switch (Workspace vs Blog)
+          const savedMode = localStorage.getItem("design-mode");
+          const path = window.location.pathname;
+          if (savedMode === "dev" && !path.startsWith("/workspace")) {
+            window.location.href = "/workspace" + (path === "/" ? "" : path);
+          } else if (savedMode === "blog" && path.startsWith("/workspace")) {
+            window.location.href = path.replace("/workspace", "") || "/";
+          }
+
+          // Theme Switch (Light vs Dark) - Using 'appearance' to avoid collision with terminal themes
+          const savedTheme = localStorage.getItem("appearance");
+          const prefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)",
+          ).matches;
+          if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+            document.documentElement.classList.add("dark");
+          } else {
+            document.documentElement.classList.remove("dark");
+          }
+        };
+
+        initTheme();
+
+        // Handle Astro View Transitions
+        document.addEventListener("astro:after-swap", initTheme);
       })();
     </script>
-    
+
     <!-- Google Analytics -->
-    {config.settings.analytics?.google_analytics_id && (
-      <>
-        <script
-          type="text/partytown"
-          src={`https://www.googletagmanager.com/gtag/js?id=${config.settings.analytics.google_analytics_id}`}
-        />
-        <script
-          type="text/partytown"
-          define:vars={{ GA_ID: config.settings.analytics.google_analytics_id }}
-        >
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', GA_ID);
-        </script>
-      </>
-    )}
+    {
+      config.settings.analytics?.google_analytics_id && (
+        <>
+          <script
+            is:inline
+            src={`https://www.googletagmanager.com/gtag/js?id=${config.settings.analytics.google_analytics_id}`}
+            type="text/partytown"
+          />
+          <script
+            is:inline
+            define:vars={{
+              GA_ID: config.settings.analytics.google_analytics_id,
+            }}
+            type="text/partytown"
+            set:html={`
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag("js", new Date());
+            gtag("config", GA_ID);
+          `}
+          />
+        </>
+      )
+    }
 
     <!-- Resource Hints -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com" rel="dns-prefetch" />
+
     <!-- favicon -->
-    <link rel="shortcut icon" href={config.site.favicon} />
-    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="manifest" href="/manifest.json" />
+    <link href={config.site.favicon} rel="shortcut icon" />
+    <link href="/logo.svg" rel="icon" type="image/svg+xml" />
+    <link href="/favicon.ico" rel="icon" type="image/x-icon" />
     <!-- theme meta -->
-    <meta name="theme-name" content="sandikodev-portfolio" />
-    <meta name="msapplication-TileColor" content="#3B82F6" />
+    <meta content="sandikodev-portfolio" name="theme-name" />
+    <meta content="var(--color-primary-hover)" name="msapplication-TileColor" />
     <meta
-      name="theme-color"
+      content="#2563EB"
       media="(prefers-color-scheme: light)"
-      content="#3B82F6"
+      name="theme-color"
     />
     <meta
-      name="theme-color"
+      content="#0F172A"
       media="(prefers-color-scheme: dark)"
-      content="#1E40AF"
+      name="theme-color"
     />
-    <meta name="generator" content={Astro.generator} />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    
+    <meta content={Astro.generator} name="generator" />
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+
     <!-- Additional SEO meta tags -->
-    <meta name="keywords" content="sandikodev, full stack developer, web development, mobile development, react, node.js, portfolio, indonesia developer" />
-    <meta name="robots" content="index, follow" />
-    <meta name="language" content="Indonesian" />
-    <meta name="revisit-after" content="7 days" />
-    <meta name="distribution" content="global" />
-    <meta name="rating" content="general" />
-    
+    <meta
+      content="sandikodev, full stack developer, web development, mobile development, react, node.js, portfolio, indonesia developer"
+      name="keywords"
+    />
+    <meta content="index, follow" name="robots" />
+    <meta content="Indonesian" name="language" />
+    <meta content="7 days" name="revisit-after" />
+    <meta content="global" name="distribution" />
+    <meta content="general" name="rating" />
+
     <!-- Structured Data -->
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": config.metadata.meta_author,
-      "jobTitle": config.metadata.job_title,
-      "description": config.metadata.meta_description,
-      "url": config.site.base_url,
-      "sameAs": [
-        config.contactinfo.github,
-        config.contactinfo.linkedin,
-        config.contactinfo.twitter
-      ],
-      "knowsAbout": config.portfolio.skills || [
-        "JavaScript",
-        "TypeScript", 
-        "React",
-        "Node.js"
-      ],
-      "address": {
-        "@type": "PostalAddress",
-        "addressCountry": config.contactinfo.address
-      }
-    })} />
-    
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": config.metadata.meta_author,
-      "url": config.site.base_url,
-      "description": config.site.title,
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": {
-          "@type": "EntryPoint",
-          "urlTemplate": `${config.site.base_url}/search?q={search_term_string}`
+    <script
+      is:inline
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Person",
+        address: {
+          "@type": "PostalAddress",
+          addressCountry: config.contactinfo.address,
         },
-        "query-input": "required name=search_term_string"
-      }
-    })} />
+        description: config.metadata.meta_description,
+        jobTitle: config.metadata.job_title,
+        knowsAbout: config.portfolio.skills || [
+          "JavaScript",
+          "TypeScript",
+          "React",
+          "Node.js",
+        ],
+        name: config.metadata.meta_author,
+        sameAs: [
+          config.contactinfo.github,
+          config.contactinfo.linkedin,
+          config.contactinfo.twitter,
+        ],
+        url: config.site.base_url,
+      })}
+      type="application/ld+json"
+    />
+
+    <script
+      is:inline
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        description: config.site.title,
+        name: config.metadata.meta_author,
+        potentialAction: {
+          "@type": "SearchAction",
+          "query-input": "required name=search_term_string",
+          target: {
+            "@type": "EntryPoint",
+            urlTemplate: `${config.site.base_url}/search?q={search_term_string}`,
+          },
+        },
+        url: config.site.base_url,
+      })}
+      type="application/ld+json"
+    />
 
     <!-- google font css -->
     <AstroFont
       config={[
         {
-          src: [],
-          preload: false,
-          display: "swap",
-          name: fontPrimary!,
-          fallback: "sans-serif",
           cssVariable: "font-primary",
+          display: "swap",
+          fallback: "sans-serif",
           googleFontsURL: `https://fonts.googleapis.com/css2?family=${pf}&display=swap`,
+          name: fontPrimary!,
+          preload: false,
+          src: [],
         },
         {
-          src: [],
-          preload: false,
-          display: "swap",
-          name: fontSecondary!,
-          fallback: "sans-serif",
           cssVariable: "font-secondary",
+          display: "swap",
+          fallback: "sans-serif",
           googleFontsURL: `https://fonts.googleapis.com/css2?family=${sf}&display=swap`,
+          name: fontSecondary!,
+          preload: false,
+          src: [],
         },
       ]}
     />
 
     <!-- design system -->
-    <link rel="stylesheet" href="/src/styles/design-system.css" />
+    <link href="/src/styles/design-system.css" rel="stylesheet" />
+
+    <!-- KaTeX -->
+    <link
+      crossorigin="anonymous"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+      integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
+      rel="stylesheet"
+    />
 
     <!-- responsive meta -->
     <meta
-      name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=5"
+      name="viewport"
     />
 
     <!-- title -->
@@ -192,89 +247,177 @@ const { title, meta_title, description, image, noindex, canonical } =
     </title>
 
     <!-- canonical url -->
-    {canonical && <link rel="canonical" href={canonical} item-prop="url" />}
+    {canonical && <link href={canonical} item-prop="url" rel="canonical" />}
 
     <!-- noindex robots -->
-    {noindex && <meta name="robots" content="noindex,nofollow" />}
+    {noindex && <meta content="noindex,nofollow" name="robots" />}
 
     <!-- meta-description -->
     <meta
-      name="description"
       content={plainify(
         description ? description : config.metadata.meta_description,
       )}
+      name="description"
     />
 
-    <ViewTransitions />
+    <ClientRouter />
 
     <!-- author from config.json -->
-    <meta name="author" content={config.metadata.meta_author} />
+    <meta content={config.metadata.meta_author} name="author" />
 
     <!-- og-title -->
     <meta
-      property="og:title"
       content={plainify(
         meta_title ? meta_title : title ? title : config.site.title,
       )}
+      property="og:title"
     />
 
     <!-- og-description -->
     <meta
-      property="og:description"
       content={plainify(
         description ? description : config.metadata.meta_description,
       )}
+      property="og:description"
     />
-    <meta property="og:type" content="website" />
+    <meta content="website" property="og:type" />
     <meta
-      property="og:url"
       content={`${config.site.base_url}/${Astro.url.pathname.replace("/", "")}`}
+      property="og:url"
     />
 
     <!-- twitter-title -->
     <meta
-      name="twitter:title"
       content={plainify(
         meta_title ? meta_title : title ? title : config.site.title,
       )}
+      name="twitter:title"
     />
 
     <!-- twitter-description -->
     <meta
-      name="twitter:description"
       content={plainify(
         description ? description : config.metadata.meta_description,
       )}
+      name="twitter:description"
     />
 
     <!-- og-image -->
     <meta
-      property="og:image"
       content={`${config.site.base_url}${
         image ? image : config.metadata.meta_image
       }`}
+      property="og:image"
     />
 
     <!-- twitter-image -->
     <meta
-      name="twitter:image"
       content={`${config.site.base_url}${
         image ? image : config.metadata.meta_image
       }`}
+      name="twitter:image"
     />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta content="summary_large_image" name="twitter:card" />
   </head>
   <body>
     {import.meta.env.DEV && <TwSizeIndicator />}
     <CommandPalette />
-    <DesignSystemToggle />
+    <!-- Mode Switcher -->
+    <ModeSwitcher client:load />
     <BackToTop />
     <LoadingStates />
     <PerformanceOptimizer />
     <Header />
-    <main id="main-content" class="min-h-[60vh]">
+    <main class="min-h-[60vh]" id="main-content">
       <slot />
     </main>
-    <Footer />
+    {!hideFooter && <Footer />}
+
+    <!-- Mermaid Client-side Rendering -->
+    <script is:inline type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+
+      const initMermaid = () => {
+        const isDarkMode =
+          document.documentElement.classList.contains("dark") ||
+          document.documentElement.getAttribute("data-theme-mode") ===
+            "terminal";
+
+        const blocks = document.querySelectorAll("pre, div.mermaid");
+        blocks.forEach((block) => {
+          // If it's already a mermaid div, we might need to re-render it
+          // but mermaid doesn't easily support re-rendering on the same element with a different theme
+          // unless we store the original content.
+
+          if (block.tagName === "PRE") {
+            const code = block.querySelector("code");
+            const content = code
+              ? code.textContent.trim()
+              : block.textContent.trim();
+
+            if (
+              content.startsWith("graph ") ||
+              content.startsWith("sequenceDiagram") ||
+              content.startsWith("gantt") ||
+              content.startsWith("classDiagram") ||
+              content.startsWith("stateDiagram") ||
+              content.startsWith("pie") ||
+              content.startsWith("flowchart ") ||
+              block.classList.contains("language-mermaid") ||
+              (code && code.classList.contains("language-mermaid"))
+            ) {
+              const div = document.createElement("div");
+              div.className = "mermaid";
+              div.setAttribute("data-original-content", content); // Store for potential re-render
+              div.style.backgroundColor = "var(--color-surface)";
+              div.style.padding = "1.5rem";
+              div.style.borderRadius = "var(--radius-lg)";
+              div.style.border = "1px solid var(--color-border)";
+              div.style.margin = "1.5rem 0";
+              div.textContent = content;
+              block.replaceWith(div);
+            }
+          } else if (
+            block.classList.contains("mermaid") &&
+            block.hasAttribute("data-original-content")
+          ) {
+            // Re-rendering logic could go here if needed,
+            // but for now let's focus on the initial render aesthetics.
+            block.style.backgroundColor = "var(--color-surface)";
+            block.style.border = "1px solid var(--color-border)";
+          }
+        });
+
+        mermaid.initialize({
+          fontFamily: "var(--font-primary)",
+          securityLevel: "loose",
+          startOnLoad: false,
+          theme: isDarkMode ? "dark" : "default",
+          themeVariables: {
+            darkMode: isDarkMode,
+            mainBkg: isDarkMode ? "#1e293b" : "#f8fafc",
+            nodeBorder: "var(--color-border)",
+            clusterBkg: "var(--color-bg-secondary)",
+            clusterBorder: "var(--color-border)",
+            lineColor: "var(--color-primary)",
+            titleColor: "var(--color-text-main)",
+            edgeLabelBackground: isDarkMode ? "#0f172a" : "#ffffff",
+            nodeTextColor: isDarkMode ? "#f8fafc" : "#0f172a",
+            fontSize: "14px",
+          },
+        });
+
+        mermaid.run();
+      };
+
+      document.addEventListener("astro:page-load", initMermaid);
+      document.documentElement.addEventListener("theme-change", () => {
+        // For mermaid to properly re-render with a new theme,
+        // we'd often need to refresh the page or do complex DOM manipulation.
+        // For now, we'll just re-init variables.
+        initMermaid();
+      });
+      initMermaid();
+    </script>
   </body>
 </html>
