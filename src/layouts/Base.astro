@@ -64,9 +64,9 @@ const {
       (function (w, d, s, l, i) {
         w[l] = w[l] || [];
         w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-        var f = d.getElementsByTagName(s)[0],
-          j = d.createElement(s),
-          dl = l != "dataLayer" ? "&l=" + l : "";
+        const f = d.getElementsByTagName(s)[0];
+        const j = d.createElement(s);
+        const dl = l !== "dataLayer" ? "&l=" + l : "";
         j.async = true;
         j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
         f.parentNode.insertBefore(j, f);
@@ -75,7 +75,35 @@ const {
     <!-- End Google Tag Manager -->
     <script is:inline>
       (function () {
+        const STORAGE_VERSION = "2.0.1"; // Update this for major releases to clear stale state
+
         const initTheme = () => {
+          // Cache & Version Manager
+          try {
+            const currentVersion = localStorage.getItem("app-version");
+            if (currentVersion !== STORAGE_VERSION) {
+              console.log("♻️ New version detected, clearing stale state...");
+              // Clear specific keys that might cause bugs
+              localStorage.removeItem("design-mode");
+              localStorage.removeItem("appearance");
+
+              // Unregister Service Workers
+              if ("serviceWorker" in navigator) {
+                navigator.serviceWorker
+                  .getRegistrations()
+                  .then((registrations) => {
+                    for (const registration of registrations) {
+                      registration.unregister();
+                    }
+                  });
+              }
+
+              localStorage.setItem("app-version", STORAGE_VERSION);
+            }
+          } catch (e) {
+            console.error("Storage error:", e);
+          }
+
           // Mode Switch (Workspace vs Blog)
           const savedMode = localStorage.getItem("design-mode");
           const path = window.location.pathname;
@@ -111,8 +139,8 @@ const {
       src="https://www.googletagmanager.com/gtag/js?id=G-1BP3PB1RGH"></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
+      function gtag(...args) {
+        dataLayer.push(...args);
       }
       gtag("js", new Date());
 
@@ -123,10 +151,8 @@ const {
     <script is:inline>
       !(function (f, b, e, v, n, t, s) {
         if (f.fbq) return;
-        n = f.fbq = function () {
-          n.callMethod
-            ? n.callMethod.apply(n, arguments)
-            : n.queue.push(arguments);
+        n = f.fbq = function (...args) {
+          n.callMethod ? n.callMethod(...args) : n.queue.push(...args);
         };
         if (!f._fbq) f._fbq = n;
         n.push = n;
