@@ -1,5 +1,5 @@
 ---
-import { Icon } from 'astro-icon/components';
+import { Icon } from "astro-icon/components";
 
 interface Props {
   title: string;
@@ -12,46 +12,62 @@ const encodedTitle = encodeURIComponent(title);
 const encodedUrl = encodeURIComponent(url);
 
 const shareLinks = {
-  twitter: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
-  linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
   facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+  linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
   reddit: `https://reddit.com/submit?title=${encodedTitle}&url=${encodedUrl}`,
+  twitter: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
 };
 ---
 
 <div class="social-share">
   <span class="social-share-label">Share:</span>
-  
+
   <div class="social-share-buttons">
-    <a 
-      href={shareLinks.twitter}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="social-share-button twitter"
+    <a
       aria-label="Share on Twitter"
+      class="social-share-button twitter"
+      href={shareLinks.twitter}
+      rel="noopener noreferrer"
+      target="_blank"
     >
       <Icon name="mdi:twitter" size={20} />
     </a>
-    
-    <a 
-      href={shareLinks.linkedin}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="social-share-button linkedin"
+
+    <a
       aria-label="Share on LinkedIn"
+      class="social-share-button linkedin"
+      href={shareLinks.linkedin}
+      rel="noopener noreferrer"
+      target="_blank"
     >
       <Icon name="mdi:linkedin" size={20} />
     </a>
-    
-    <button 
-      class="social-share-button copy"
-      onclick="navigator.clipboard.writeText(window.location.href); this.textContent='✓'"
+
+    <button
       aria-label="Copy link"
+      class="social-share-button copy"
+      id="copy-link-btn"
     >
       <Icon name="mdi:content-copy" size={20} />
     </button>
   </div>
 </div>
+
+<script is:inline>
+  (() => {
+    const copyBtn = document.getElementById("copy-link-btn");
+    if (copyBtn) {
+      copyBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText(window.location.href);
+        const originalContent = copyBtn.innerHTML;
+        copyBtn.innerHTML = "✓";
+        setTimeout(() => {
+          copyBtn.innerHTML = originalContent;
+        }, 2000);
+      });
+    }
+  })();
+</script>
 
 <style>
   .social-share {
@@ -60,22 +76,22 @@ const shareLinks = {
     gap: 1rem;
     margin: 2rem 0;
     padding: 1.5rem;
-    background: var(--bg-secondary, #f9fafb);
+    background: var(--color-surface);
     border-radius: 8px;
-    border: 1px solid var(--border-color, #e5e7eb);
+    border: 1px solid var(--color-border);
   }
-  
+
   .social-share-label {
     font-weight: 500;
-    color: var(--text-secondary, #6b7280);
+    color: var(--color-text-muted);
     font-size: 0.875rem;
   }
-  
+
   .social-share-buttons {
     display: flex;
     gap: 0.75rem;
   }
-  
+
   .social-share-button {
     display: flex;
     align-items: center;
@@ -83,53 +99,53 @@ const shareLinks = {
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 50%;
-    border: 1px solid var(--border-color, #e5e7eb);
-    background: var(--bg-primary, #fff);
-    color: var(--text-secondary, #6b7280);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    color: var(--color-text-muted);
     text-decoration: none;
     transition: all 0.2s;
     cursor: pointer;
   }
-  
+
   .social-share-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px var(--color-shadow-md);
   }
-  
+
   .social-share-button.twitter:hover {
     background: #1da1f2;
     color: white;
     border-color: #1da1f2;
   }
-  
+
   .social-share-button.linkedin:hover {
     background: #0077b5;
     color: white;
     border-color: #0077b5;
   }
-  
+
   .social-share-button.copy:hover {
-    background: var(--accent, #3b82f6);
+    background: var(--accent, var(--color-primary-hover));
     color: white;
-    border-color: var(--accent, #3b82f6);
+    border-color: var(--accent, var(--color-primary-hover));
   }
-  
+
   /* Dev Mode styling */
   [data-theme-mode="terminal"] .social-share {
     background: rgba(26, 27, 38, 0.5);
-    border-color: #414868;
+    border-color: var(--color-terminal-border);
   }
-  
+
   [data-theme-mode="terminal"] .social-share-label {
-    color: #7aa2f7;
+    color: var(--color-terminal-accent);
   }
-  
+
   [data-theme-mode="terminal"] .social-share-button {
     background: rgba(26, 27, 38, 0.8);
-    border-color: #414868;
-    color: #c0caf5;
+    border-color: var(--color-terminal-border);
+    color: var(--color-terminal-text);
   }
-  
+
   @media (max-width: 640px) {
     .social-share {
       flex-direction: column;

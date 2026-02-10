@@ -1,107 +1,94 @@
 ---
 interface Props {
-  repo?: string;
-  repoId?: string;
   category?: string;
   categoryId?: string;
+  repo?: string;
+  repoId?: string;
 }
 
-const { 
+const {
+  category = "Announcements",
+  categoryId = "DIC_kwDOIqW8wc4C2IxU",
   repo = "sandikodev/sandikodev.github.io",
-  repoId = "R_kgDOH1234567", // Replace with actual repo ID
-  category = "Comments",
-  categoryId = "DIC_kwDOH1234567" // Replace with actual category ID
+  repoId = "R_kgDOIqW8wQ",
 } = Astro.props;
 ---
 
 <div class="comments-section">
   <h3 class="comments-title">Comments</h3>
   <div class="comments-container">
-    <script 
-      src="https://giscus.app/client.js"
-      data-repo={repo}
-      data-repo-id={repoId}
+    <script
+      is:inline
+      async
+      crossorigin="anonymous"
       data-category={category}
       data-category-id={categoryId}
-      data-mapping="pathname"
-      data-strict="0"
-      data-reactions-enabled="1"
       data-emit-metadata="0"
       data-input-position="top"
-      data-theme="preferred_color_scheme"
       data-lang="en"
       data-loading="lazy"
-      crossorigin="anonymous"
-      async>
-    </script>
+      data-mapping="pathname"
+      data-reactions-enabled="1"
+      data-repo={repo}
+      data-repo-id={repoId}
+      data-strict="1"
+      data-theme="preferred_color_scheme"
+      src="https://giscus.app/client.js"></script>
   </div>
 </div>
 
 <style>
   .comments-section {
-    margin: 3rem 0;
-    padding: 2rem 0;
-    border-top: 1px solid var(--border-color, #e5e7eb);
+    margin: 3rem auto;
+    padding: 3rem 1.5rem;
+    max-width: 680px;
+    border-top: 1px solid var(--color-border);
   }
-  
+
   .comments-title {
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 1.5rem;
-    color: var(--text-primary, #1f2937);
+    color: var(--color-text-main);
   }
-  
+
   .comments-container {
     min-height: 200px;
-  }
-  
-  /* Dev Mode styling */
-  [data-theme-mode="terminal"] .comments-section {
-    border-top-color: #414868;
-  }
-  
-  [data-theme-mode="terminal"] .comments-title {
-    color: #c0caf5;
-  }
-  
-  /* Giscus theme switching for dev mode */
-  [data-theme-mode="terminal"] .giscus-frame {
-    color-scheme: dark;
   }
 </style>
 
 <script>
-  // Update Giscus theme when design mode changes
   function updateGiscusTheme() {
-    const iframe = document.querySelector('iframe.giscus-frame');
+    const iframe = document.querySelector(
+      "iframe.giscus-frame",
+    ) as HTMLIFrameElement;
     if (!iframe) return;
-    
-    const isDark = document.documentElement.getAttribute('data-theme-mode') === 'terminal';
-    const theme = isDark ? 'dark' : 'light';
-    
-    iframe.contentWindow?.postMessage({
-      giscus: {
-        setConfig: {
-          theme: theme
-        }
-      }
-    }, 'https://giscus.app');
+
+    const isDark = document.documentElement.classList.contains("dark");
+    const theme = isDark ? "dark" : "light";
+
+    iframe.contentWindow?.postMessage(
+      {
+        giscus: {
+          setConfig: {
+            theme: theme,
+          },
+        },
+      },
+      "https://giscus.app",
+    );
   }
-  
-  // Listen for theme changes
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme-mode') {
-        setTimeout(updateGiscusTheme, 100);
-      }
-    });
+
+  // Listen for custom theme-change event from Header.astro
+  document.documentElement.addEventListener("theme-change", () => {
+    setTimeout(updateGiscusTheme, 100);
   });
-  
-  observer.observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ['data-theme-mode']
+
+  // Support for Astro View Transitions
+  document.addEventListener("astro:page-load", () => {
+    setTimeout(updateGiscusTheme, 1000);
   });
-  
+
   // Initial theme set
   setTimeout(updateGiscusTheme, 1000);
 </script>

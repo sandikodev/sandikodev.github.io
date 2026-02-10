@@ -10,116 +10,129 @@ const { currentSlug } = Astro.props;
 // Get all posts sorted by date
 const posts = await getCollection("posts");
 const sortedPosts = posts
-  .filter(post => !post.data.draft)
-  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+  .filter((post) => !post.data.draft)
+  .sort(
+    (a, b) =>
+      new Date(b.data.date ?? 0).getTime() -
+      new Date(a.data.date ?? 0).getTime(),
+  );
 
 // Find current post index
-const currentIndex = sortedPosts.findIndex(post => post.id === currentSlug);
+const currentIndex = sortedPosts.findIndex((post) => post.id === currentSlug);
 
-const prevPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
+const prevPost =
+  currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
 const nextPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
 
 // Determine base path (blog or workspace)
-const isWorkspace = Astro.url.pathname.startsWith('/workspace');
-const basePath = isWorkspace ? '/workspace/blog' : '/blog';
+const isWorkspace = Astro.url.pathname.startsWith("/workspace");
+const basePath = isWorkspace ? "/workspace/blog" : "/blog";
 ---
 
-{(prevPost || nextPost) && (
-  <nav class="prev-next" aria-label="Post navigation">
-    <div class="prev-next-container">
-      {prevPost && (
-        <a href={`${basePath}/${prevPost.slug}`} class="prev-next-link prev-link">
-          <span class="prev-next-direction">← Previous</span>
-          <span class="prev-next-title">{prevPost.data.title}</span>
-        </a>
-      )}
-      
-      {nextPost && (
-        <a href={`${basePath}/${nextPost.slug}`} class="prev-next-link next-link">
-          <span class="prev-next-direction">Next →</span>
-          <span class="prev-next-title">{nextPost.data.title}</span>
-        </a>
-      )}
-    </div>
-  </nav>
-)}
+{
+  (prevPost || nextPost) && (
+    <nav aria-label="Post navigation" class="prev-next">
+      <div class="prev-next-container">
+        {prevPost && (
+          <a
+            class="prev-next-link prev-link"
+            href={`${basePath}/${prevPost.id}`}
+          >
+            <span class="prev-next-direction">← Previous</span>
+            <span class="prev-next-title">{prevPost.data.title}</span>
+          </a>
+        )}
+
+        {nextPost && (
+          <a
+            class="prev-next-link next-link"
+            href={`${basePath}/${nextPost.id}`}
+          >
+            <span class="prev-next-direction">Next →</span>
+            <span class="prev-next-title">{nextPost.data.title}</span>
+          </a>
+        )}
+      </div>
+    </nav>
+  )
+}
 
 <style>
   .prev-next {
     margin: 3rem 0;
     padding: 2rem 0;
-    border-top: 1px solid var(--border-color, #e5e7eb);
+    border-top: 1px solid var(--color-border);
   }
-  
+
   .prev-next-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
   }
-  
+
   .prev-next-link {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     padding: 1.5rem;
-    border: 1px solid var(--border-color, #e5e7eb);
+    border: 1px solid var(--color-border);
     border-radius: 8px;
     text-decoration: none;
     transition: all 0.2s;
-    background: var(--bg-secondary, #f9fafb);
+    background: var(--color-surface);
   }
-  
+
   .prev-next-link:hover {
-    border-color: var(--accent, #3b82f6);
-    background: var(--bg-primary, #fff);
+    border-color: var(--color-primary);
+    background: var(--color-bg);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px var(--color-shadow-md);
   }
-  
+
   .next-link {
     text-align: right;
   }
-  
+
   .prev-next-direction {
     font-size: 0.875rem;
-    color: var(--text-secondary, #6b7280);
+    color: var(--color-text-muted);
     font-weight: 500;
   }
-  
+
   .prev-next-title {
     font-weight: 600;
-    color: var(--text-primary, #1f2937);
+    color: var(--color-text-main);
     line-height: 1.4;
   }
-  
+
   /* Dev Mode styling */
   [data-theme-mode="terminal"] .prev-next {
-    border-top-color: #414868;
+    border-top-color: var(--color-terminal-border);
   }
-  
+
   [data-theme-mode="terminal"] .prev-next-link {
     background: rgba(26, 27, 38, 0.5);
-    border-color: #414868;
+    border-color: var(--color-terminal-border);
   }
-  
+
   [data-theme-mode="terminal"] .prev-next-link:hover {
     background: rgba(26, 27, 38, 0.8);
-    border-color: #7aa2f7;
+    border-color: var(--color-terminal-accent);
   }
-  
+
   [data-theme-mode="terminal"] .prev-next-direction {
-    color: #7aa2f7;
+    color: var(--color-terminal-accent);
   }
-  
+
   [data-theme-mode="terminal"] .prev-next-title {
-    color: #c0caf5;
+    color: var(--color-terminal-text);
   }
-  
+
   @media (max-width: 768px) {
     .prev-next-container {
       grid-template-columns: 1fr;
     }
-    
+
     .next-link {
       text-align: left;
     }
