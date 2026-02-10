@@ -1,8 +1,9 @@
 ---
+import { getCollection } from "astro:content";
+
 import Base from "@/layouts/Base.astro";
 import Default from "@/layouts/Default.astro";
 import PostSingle from "@/layouts/PostSingle.astro";
-import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
   try {
@@ -11,7 +12,14 @@ export async function getStaticPaths() {
     const pages = await getCollection("pages");
     const allPages = [...pages, ...posts, ...templates];
 
-    const excludedSlugs = ['404', 'contact'];
+    const excludedSlugs = [
+      "404",
+      "contact",
+      "now",
+      "categories",
+      "tags",
+      "search",
+    ];
     const paths = allPages
       .filter((page) => !excludedSlugs.includes(page.id))
       .map((page) => ({
@@ -28,25 +36,21 @@ export async function getStaticPaths() {
 }
 
 const { page } = Astro.props;
-const { title, meta_title, description, image } = page.data;
+const { description, image, meta_title, title } = page.data;
 
 // Check if this is a post by looking at both collections
 const posts = await getCollection("posts");
 const templates = await getCollection("templates");
-const isPost = posts.some(post => post.id === page.id) || templates.some(template => template.id === page.id);
+const isPost =
+  posts.some((post) => post.id === page.id) ||
+  templates.some((template) => template.id === page.id);
 ---
 
 <Base
-  title={title}
-  meta_title={meta_title}
   description={description}
   image={image}
+  meta_title={meta_title}
+  title={title}
 >
-  {
-    isPost ? (
-      <PostSingle post={page} />
-    ) : (
-      <Default data={page} />
-    )
-  }
+  {isPost ? <PostSingle post={page} /> : <Default data={page} />}
 </Base>

@@ -1,110 +1,341 @@
 ---
+import I3Window from "@/components/terminal/svelte/I3Window.svelte";
+import Prompt from "@/components/terminal/svelte/Prompt.svelte";
+import Base from "@/layouts/Base.astro";
 import I3Layout from "@/layouts/I3Layout.astro";
-import I3Window from "@/components/terminal/I3Window.astro";
-import Prompt from "@/components/terminal/Prompt.astro";
+
+const currentPath = Astro.url.pathname;
+const isWorkspace = currentPath.startsWith("/workspace");
+
+// High-fidelity Syntax Highlighting for Rust
+const codeLines = [
+  {
+    html: '<span class="hl-keyword">pub</span> <span class="hl-keyword">fn</span> <span class="hl-fn">match_route</span>(<span class="hl-variable">path</span>: &amp;<span class="hl-type">str</span>) <span class="hl-operator">-&gt;</span> <span class="hl-type">Result</span> {',
+    ln: 102,
+  },
+  {
+    html: '&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl-keyword">let</span> <span class="hl-variable">manifest</span> <span class="hl-operator">=</span> <span class="hl-self">self</span>.<span class="hl-fn">load_manifest</span>()<span class="hl-operator">?</span>;',
+    ln: 103,
+  },
+  {
+    error: true,
+    html: '&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl-keyword">let</span> <span class="hl-variable">route</span> <span class="hl-operator">=</span> <span class="hl-variable">manifest</span>.<span class="hl-fn">find</span>(<span class="hl-variable">path</span>).<span class="hl-fn">ok_or</span>(<span class="hl-error">NotFound</span>)<span class="hl-operator">?</span>;',
+    ln: 104,
+  },
+  {
+    html: '&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl-keyword">return</span> <span class="hl-type">Ok</span>(<span class="hl-variable">route</span>);',
+    ln: 105,
+  },
+  {
+    html: "}",
+    ln: 106,
+  },
+];
+
+const traceLogs = [
+  "[20:31:44] [koda::walker] scan .zen/.koda ... negative",
+  `[20:31:44] [zenith::core] match failed for ${currentPath}`,
+  "[20:31:45] [zenith::ui] mounting failover::dx_error_layout",
+  "[20:31:45] at valid_exts (vite/src/core/walker.ts:23:5)",
+  "[20:31:45] at walk (vite/src/core/walker.ts:35:12)",
+];
 ---
 
-<I3Layout title="404 - Command Not Found | dev@enigma">
-  <div class="i3-split-h error-layout">
-    <I3Window title="bash: command not found" focused={true}>
-      <div class="error-content">
-        <Prompt command={`cd ${Astro.url.pathname}`} showCursor={false} />
-        
-        <pre class="error-message">
-bash: cd: {Astro.url.pathname}: No such file or directory
+<script is:inline>
+  // Dynamic 404 routing for workspace
+  (function () {
+    const path = window.location.pathname;
+    // Redirect broken workspace paths to workspace 404, but NOT the root workspace itself
+    if (
+      path.startsWith("/workspace/") &&
+      path !== "/workspace/" &&
+      !path.includes("/404")
+    ) {
+      window.location.href = "/workspace/404";
+    }
+  })();
+</script>
 
-<span class="error-code">Error 404</span> - The path you're looking for doesn't exist.
-        </pre>
+{
+  isWorkspace ? (
+    <I3Layout title="404 - Command Not Found | dev@enigma">
+      <main class="i3-split-h error-workspace-container">
+        <I3Window client:load focused={true} title="bash: command not found">
+          <section class="terminal-error-body">
+            <Prompt command={`cd ${currentPath}`} showCursor={false} />
 
-        <div class="suggestions">
-          <p class="suggestion-title">$ ls ~/available-paths</p>
-          <div class="path-list">
-            <a href="/" class="path-item">
-              <span class="path-icon">📁</span>
-              <span class="path-name">/</span>
-              <span class="path-desc">Home directory</span>
-            </a>
-            <a href="/blog-tiling" class="path-item">
-              <span class="path-icon">📝</span>
-              <span class="path-name">/blog-tiling</span>
-              <span class="path-desc">Blog posts</span>
-            </a>
-            <a href="/about" class="path-item">
-              <span class="path-icon">👤</span>
-              <span class="path-name">/about</span>
-              <span class="path-desc">About me</span>
-            </a>
-            <a href="/workspace/terminal" class="path-item">
-              <span class="path-icon">💻</span>
-              <span class="path-name">/terminal</span>
-              <span class="path-desc">Terminal demo</span>
-            </a>
+            <article class="bash-error-block">
+              <pre class="error-text">
+                bash: cd: {currentPath}: No such file or directory
+                <span class="status-code">Error 404</span> - The path you're
+                looking for doesn't exist.
+              </pre>
+            </article>
+
+            <div class="forensic-logs">
+              <div>[koda::walker] scan .zen/.koda ... negative</div>
+              <div>[zenith::core] +error boundary missing</div>
+              <div>[zenith::ui] mounting workspace fallback</div>
+            </div>
+
+            <nav class="navigation-suggestions">
+              <p class="nav-header">$ ls ~/available-paths</p>
+              <div class="nav-grid">
+                <a class="nav-link" href="/">
+                  <span class="icon">📁</span>
+                  <span class="label">/</span>
+                  <span class="desc">Home directory</span>
+                </a>
+                <a class="nav-link" href="/blog">
+                  <span class="icon">📝</span>
+                  <span class="label">/blog</span>
+                  <span class="desc">Blog posts</span>
+                </a>
+                <a class="nav-link" href="/about">
+                  <span class="icon">👤</span>
+                  <span class="label">/about</span>
+                  <span class="desc">About me</span>
+                </a>
+                <a class="nav-link" href="/workspace/terminal">
+                  <span class="icon">💻</span>
+                  <span class="label">/terminal</span>
+                  <span class="desc">Terminal demo</span>
+                </a>
+              </div>
+            </nav>
+
+            <footer class="terminal-help">
+              <p>$ man navigation</p>
+              <ul class="keybind-list">
+                <li>
+                  Press <kbd>g h</kbd> to go home
+                </li>
+                <li>
+                  Press <kbd>g b</kbd> to go to blog
+                </li>
+                <li>
+                  Press <kbd>?</kbd> for help
+                </li>
+              </ul>
+            </footer>
+
+            <Prompt showCursor={true} />
+          </section>
+        </I3Window>
+      </main>
+    </I3Layout>
+  ) : (
+    <Base title="404 - Zenith Forensic Trace">
+      <div class="dx-page-isolator">
+        <main class="dx-error-container">
+          <div class="dx-bg-blobs">
+            <div class="blob blob-1" />
+            <div class="blob blob-2" />
+            <div class="blob blob-3" />
           </div>
-        </div>
 
-        <div class="help-text">
-          <p>$ man navigation</p>
-          <ul>
-            <li>Press <kbd>g h</kbd> to go home</li>
-            <li>Press <kbd>g b</kbd> to go to blog</li>
-            <li>Press <kbd>?</kbd> for help</li>
-          </ul>
-        </div>
+          <div class="dx-content-wrapper">
+            <div class="dx-main-grid">
+              <section class="dx-message-section">
+                <header class="dx-status-chip">
+                  <span class="pulse" />
+                  Connection Failure // 404
+                </header>
 
-        <Prompt showCursor={true} />
+                <h1 class="dx-title">
+                  Halaman Tidak <br />{" "}
+                  <span class="text-gradient">Ditemukan</span>
+                </h1>
+
+                <p class="dx-desc">
+                  Maaf, sinyal yang Anda cari tidak dapat ditemukan di frekuensi
+                  ini. Sistem mendeteksi diskontinuitas rute pada{" "}
+                  <span class="path-badge">{currentPath}</span>.
+                </p>
+
+                <nav class="dx-actions">
+                  <button class="dx-btn secondary" onclick="history.back()">
+                    <svg
+                      fill="none"
+                      height="20"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      viewBox="0 0 24 24"
+                      width="20"
+                    >
+                      <path d="M19 12H5M12 19l-7-7 7-7" />
+                    </svg>
+                    Kembali
+                  </button>
+                  <a class="dx-btn primary" href="/">
+                    <svg
+                      fill="none"
+                      height="20"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      viewBox="0 0 24 24"
+                      width="20"
+                    >
+                      <>
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                        <polyline points="9 22 9 12 15 12 15 22" />
+                      </>
+                    </svg>
+                    Beranda
+                  </a>
+                </nav>
+
+                <aside class="dx-metadata">
+                  <header class="meta-header">
+                    <span>TRANSMISSION_DEBUG</span>
+                    <span class="meta-tag">FORENSIC_BRAIN_V1</span>
+                  </header>
+                  <div class="meta-body">
+                    <div class="meta-line">
+                      <span class="label">REQ_ID:</span>
+                      <span class="value">
+                        {Math.random().toString(36).slice(2, 8).toUpperCase()}
+                      </span>
+                    </div>
+                    <div class="meta-line">
+                      <span class="label">STAMP:</span>
+                      <span class="value">
+                        {new Date().toLocaleTimeString()}
+                      </span>
+                    </div>
+                    <div class="meta-line">
+                      <span class="label">LOC:</span>
+                      <span class="value">
+                        {currentPath.length > 20
+                          ? currentPath.substring(0, 17) + "..."
+                          : currentPath}
+                      </span>
+                    </div>
+                  </div>
+                </aside>
+              </section>
+
+              <section class="dx-code-section">
+                <article class="code-window simulation">
+                  <header class="code-header">
+                    <div class="code-dots">
+                      <>
+                        <span />
+                        <span />
+                        <span />
+                      </>
+                    </div>
+                    <div class="code-title">SRC::core/router/matcher.rs</div>
+                  </header>
+                  <div class="code-body">
+                    {codeLines.map((line) => (
+                      <div class={`code-line ${line.error ? "bg-red" : ""}`}>
+                        <span class="ln">{line.ln}</span>
+                        <code class="code-content" set:html={line.html} />
+                      </div>
+                    ))}
+                  </div>
+                </article>
+
+                <article class="code-window stack-trace">
+                  <header class="code-header">
+                    <span class="code-title uppercase">DUMP_SIGNAL_TRACE</span>
+                  </header>
+                  <div class="code-body trace-content">
+                    <div class="trace-logs">
+                      {traceLogs.map((log) => (
+                        <div class="trace-line">{log}</div>
+                      ))}
+                    </div>
+                  </div>
+                </article>
+              </section>
+            </div>
+
+            <footer class="dx-footer">
+              <div class="footer-divider" />
+              <div class="footer-content">
+                <div class="footer-left">
+                  <span class="status-indicator" />
+                  BUILT FOR THE NEXT BILLION ZENITHS
+                </div>
+                <div class="footer-right">ZENITH_SYNTHESIS_TEAM // V1.0.1</div>
+              </div>
+            </footer>
+          </div>
+        </main>
       </div>
-    </I3Window>
-  </div>
-</I3Layout>
+    </Base>
+  )
+}
 
 <style>
-  .error-layout {
+  /* --- 1. Workspace / I3WM Specific Styles --- */
+  .error-workspace-container {
     min-height: calc(100vh - 28px);
+    display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .error-content {
+  .terminal-error-body {
     display: flex;
     flex-direction: column;
     gap: 20px;
   }
 
-  .error-message {
-    color: var(--text-secondary);
-    font-family: var(--font-mono);
-    font-size: 0.875rem;
-    line-height: 1.6;
-    margin: 0;
+  .bash-error-block {
     padding: 16px;
     background: var(--bg-tertiary);
     border-left: 3px solid var(--red);
     border-radius: 4px;
   }
 
-  .error-code {
+  .error-text {
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .status-code {
     color: var(--red);
     font-weight: 700;
     font-size: 1.125rem;
   }
 
-  .suggestions {
+  .forensic-logs {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    opacity: 0.5;
+    margin-top: -0.5rem;
+    margin-bottom: 0.5rem;
+    padding-left: 0.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    user-select: none;
+  }
+
+  .navigation-suggestions {
     margin-top: 8px;
   }
 
-  .suggestion-title {
+  .nav-header {
     color: var(--green);
     font-size: 0.875rem;
     margin-bottom: 12px;
   }
 
-  .path-list {
+  .nav-grid {
     display: flex;
     flex-direction: column;
     gap: 8px;
   }
 
-  .path-item {
+  .nav-link {
     display: grid;
     grid-template-columns: 32px 150px 1fr;
     align-items: center;
@@ -118,41 +349,38 @@ bash: cd: {Astro.url.pathname}: No such file or directory
     transition: all 0.2s;
   }
 
-  .path-item:hover {
+  .nav-link:hover {
     background: var(--bg-tertiary);
     border-color: var(--blue);
     transform: translateX(4px);
   }
 
-  .path-icon {
+  .nav-link .icon {
     font-size: 1.25rem;
   }
-
-  .path-name {
+  .nav-link .label {
     color: var(--cyan);
     font-weight: 600;
     font-size: 0.875rem;
   }
-
-  .path-desc {
+  .nav-link .desc {
     color: var(--text-muted);
     font-size: 0.8125rem;
   }
 
-  .help-text {
+  .terminal-help {
     margin-top: 8px;
     padding: 12px;
     background: var(--bg-secondary);
     border-radius: 6px;
   }
 
-  .help-text p {
+  .terminal-help p {
     color: var(--yellow);
     font-size: 0.875rem;
     margin: 0 0 8px;
   }
-
-  .help-text ul {
+  .keybind-list {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -160,13 +388,11 @@ bash: cd: {Astro.url.pathname}: No such file or directory
     flex-direction: column;
     gap: 6px;
   }
-
-  .help-text li {
+  .keybind-list li {
     color: var(--text-secondary);
     font-size: 0.8125rem;
   }
-
-  .help-text kbd {
+  .keybind-list kbd {
     padding: 2px 6px;
     background: var(--bg-tertiary);
     border: 1px solid var(--border);
@@ -176,18 +402,400 @@ bash: cd: {Astro.url.pathname}: No such file or directory
     color: var(--text-primary);
   }
 
-  @media (max-width: 768px) {
-    .path-item {
-      grid-template-columns: 32px 1fr;
-      gap: 8px;
-    }
+  /* --- 2. Zenith General / DX Error Styles --- */
+  .dx-page-isolator {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: #02040a;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
 
-    .path-desc {
+  .dx-error-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    color: #f9fafb;
+    font-family: "Inter", sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Forcing isolation from Base Layout Header/Footer */
+  :global(body > header),
+  :global(body > footer),
+  :global(#main-content > header),
+  :global(#main-content > footer) {
+    display: none !important;
+  }
+
+  .dx-bg-blobs {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .blob {
+    position: absolute;
+    filter: blur(120px);
+    border-radius: 50%;
+    opacity: 0.15;
+  }
+
+  .blob-1 {
+    top: -10%;
+    left: -10%;
+    width: 600px;
+    height: 600px;
+    background: #4f46e5;
+    animation: pulse 10s infinite alternate;
+  }
+  .blob-2 {
+    bottom: -10%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: #9333ea;
+    animation: pulse 12s infinite alternate-reverse;
+  }
+  .blob-3 {
+    top: 40%;
+    left: 30%;
+    width: 400px;
+    height: 400px;
+    background: #06b6d4;
+    opacity: 0.1;
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(1) translate(0, 0);
+      opacity: 0.15;
+    }
+    100% {
+      transform: scale(1.1) translate(20px, 20px);
+      opacity: 0.25;
+    }
+  }
+
+  .dx-content-wrapper {
+    position: relative;
+    z-index: 10;
+    max-width: 1100px;
+    width: 100%;
+    max-height: 90vh;
+    animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .dx-main-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+    flex: 1;
+  }
+
+  @media (min-width: 1024px) {
+    .dx-main-grid {
+      grid-template-columns: 0.9fr 1.3fr;
+    }
+  }
+
+  .dx-status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px;
+    background: rgba(79, 70, 229, 0.1);
+    border: 1px solid rgba(79, 70, 229, 0.2);
+    border-radius: 100px;
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #818cf8;
+    margin-bottom: 2rem;
+  }
+
+  .pulse {
+    width: 8px;
+    height: 8px;
+    background: #4f46e5;
+    border-radius: 50%;
+    position: relative;
+  }
+
+  .dx-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.04em;
+  }
+
+  .text-gradient {
+    background: linear-gradient(to right, #818cf8, #c084fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .dx-desc {
+    font-size: 1.1rem;
+    color: #94a3b8;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    max-width: 440px;
+  }
+
+  .path-badge {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-family: monospace;
+    color: #f1f5f9;
+  }
+
+  .dx-actions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .dx-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+  }
+
+  .dx-btn.primary {
+    background: #4f46e5;
+    color: white;
+  }
+  .dx-btn.secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .dx-metadata {
+    background: rgba(79, 70, 229, 0.03);
+    border: 1px solid rgba(79, 70, 229, 0.1);
+    border-radius: 16px;
+    padding: 20px;
+    max-width: 360px;
+  }
+
+  .meta-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 9px;
+    font-weight: 900;
+    color: #64748b;
+  }
+
+  .meta-line {
+    display: flex;
+    gap: 10px;
+    font-family: monospace;
+    font-size: 11px;
+    margin-bottom: 4px;
+  }
+  .meta-line .label {
+    color: #475569;
+  }
+  .meta-line .value {
+    color: #94a3b8;
+  }
+
+  .dx-code-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    min-width: 0;
+  }
+
+  .code-window {
+    background: #0a0a0b;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  .code-header {
+    background: rgba(239, 68, 68, 0.05);
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(239, 68, 68, 0.1);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .code-title {
+    font-size: 10px;
+    font-family: monospace;
+    color: #ef4444;
+  }
+
+  .code-body {
+    padding: 24px;
+    font-family: "Fira Code", "JetBrains Mono", monospace;
+    font-size: 13px;
+    line-height: normal;
+  }
+
+  .code-line {
+    display: grid;
+    grid-template-columns: 45px 1fr;
+    gap: 0;
+    position: relative;
+    white-space: nowrap;
+  }
+
+  .code-content {
+    white-space: pre !important;
+    color: #d4d4d4;
+    padding-left: 15px;
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    line-height: 1.6;
+  }
+
+  .ln {
+    text-align: right;
+    color: #475569;
+    font-weight: 500;
+    user-select: none;
+    font-size: 11px;
+    padding-right: 15px;
+    opacity: 0.6;
+    line-height: 1.6;
+  }
+
+  .bg-red {
+    background: rgba(239, 68, 68, 0.15) !important;
+    margin: 0 -24px;
+    padding: 0 24px;
+    width: calc(100% + 48px);
+    position: relative;
+  }
+
+  .bg-red::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: #ef4444;
+  }
+
+  /* VS Code Dark Style Syntax Highlighting (GLOBAL for set:html) */
+  :global(.hl-keyword) {
+    color: #c586c0 !important;
+  } /* Purple */
+  :global(.hl-fn) {
+    color: #dcdcaa !important;
+  } /* Yellow-Green */
+  :global(.hl-type) {
+    color: #4ec9b0 !important;
+  } /* Teal */
+  :global(.hl-variable) {
+    color: #9cdcfe !important;
+  } /* Light Blue */
+  :global(.hl-operator) {
+    color: #d4d4d4 !important;
+  } /* White/Grey */
+  :global(.hl-self) {
+    color: #569cd6 !important;
+  } /* Blue */
+  :global(.hl-error) {
+    color: #f44747 !important;
+    font-weight: bold !important;
+  } /* Red */
+
+  /* Stack Trace Styles */
+  .trace-logs {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .trace-line {
+    color: #ef4444;
+    opacity: 0.8;
+    font-size: 11px;
+    font-family: "Fira Code", monospace;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    text-align: left;
+  }
+
+  .dx-footer {
+    margin-top: 3rem;
+    opacity: 0.4;
+  }
+  .footer-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin-bottom: 1rem;
+  }
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: #64748b;
+  }
+  .status-indicator {
+    width: 6px;
+    height: 6px;
+    background: #4f46e5;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+  }
+
+  @media (max-width: 1023px) {
+    .dx-error-container {
+      padding: 1.5rem;
+    }
+    .dx-content-wrapper {
+      max-height: 95vh;
+    }
+    .dx-main-grid {
+      gap: 2rem;
+    }
+    .code-window.stack-trace {
       display: none;
-    }
-
-    .help-text ul {
-      font-size: 0.75rem;
     }
   }
 </style>

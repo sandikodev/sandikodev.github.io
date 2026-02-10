@@ -12,17 +12,17 @@
   --i3-border-urgent: #f7768e;
   --i3-title-bg: #24283b;
   --i3-title-text: #c0caf5;
-  
+
   /* Polybar */
   --bar-bg: #1a1b26;
   --bar-fg: #c0caf5;
   --bar-accent: #7aa2f7;
-  
+
   /* Layout */
   --gap: 8px;
   --border-width: 2px;
   --titlebar-height: 24px;
-  
+
   /* Transitions */
   --i3-transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -41,7 +41,9 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  will-change: transform;
+  contain: layout style;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .polybar-left,
@@ -52,9 +54,18 @@
   gap: 4px;
 }
 
-.polybar-left { flex: 1; }
-.polybar-center { flex: 0; }
-.polybar-right { flex: 1; justify-content: flex-end; }
+.polybar-left {
+  flex: 1;
+}
+
+.polybar-center {
+  flex: 0;
+}
+
+.polybar-right {
+  flex: 1;
+  justify-content: flex-end;
+}
 
 /* Workspaces */
 .workspaces {
@@ -92,8 +103,14 @@
 }
 
 @keyframes urgent-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.6;
+  }
 }
 
 /* ─── i3 Container ──────────────────────────────────────────── */
@@ -101,29 +118,57 @@
   display: flex;
   flex-direction: column;
   height: calc(100vh - 28px);
+  margin: 0;
   padding: var(--gap);
   gap: var(--gap);
   background: var(--i3-bg);
   overflow: hidden;
-  contain: layout style paint;
+  contain: style;
+  position: relative;
 }
 
-/* Tiling Layouts */
-.i3-split-h {
+.i3-split-h,
+.i3-split-v {
   display: flex;
   gap: var(--gap);
   flex: 1;
   min-height: 0;
-  contain: layout style;
+  transition: all var(--i3-transition);
+}
+
+[data-resizing="true"] .i3-window,
+[data-resizing="true"] .i3-split-h,
+[data-resizing="true"] .i3-split-v,
+[data-resizing="true"] .resize-splitter {
+  transition: none !important;
+  cursor: inherit !important;
+}
+
+/* Ensure Astro islands act as flex items in tiling layouts */
+.i3-split-h > astro-island,
+.i3-split-v > astro-island {
+  display: flex !important;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+
+.hidden-container,
+astro-island.hidden-container {
+  display: none !important;
+}
+
+.i3-split-h {
+  flex-direction: row;
 }
 
 .i3-split-v {
-  display: flex;
   flex-direction: column;
-  gap: var(--gap);
-  flex: 1;
-  min-height: 0;
-  contain: layout style;
+}
+
+[data-resizing="true"] .i3-content {
+  pointer-events: none !important;
 }
 
 /* ─── i3 Window ─────────────────────────────────────────────── */
@@ -136,9 +181,10 @@
   min-width: 0;
   min-height: 0;
   overflow: hidden;
-  transition: border-color var(--i3-transition);
+  transition:
+    border-color var(--i3-transition),
+    flex var(--i3-transition);
   contain: layout style paint;
-  will-change: border-color;
 }
 
 .i3-window.focused {
@@ -152,21 +198,35 @@
 }
 
 @keyframes urgent-border {
-  0%, 100% { border-color: var(--i3-border-urgent); }
-  50% { border-color: var(--i3-border-unfocused); }
+  0%,
+  100% {
+    border-color: var(--i3-border-urgent);
+  }
+
+  50% {
+    border-color: var(--i3-border-unfocused);
+  }
+}
+
+/* Content Area - Expansion fix */
+.i3-content {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
 }
 
 /* Floating Window */
 .i3-window.floating {
-  position: fixed;
-  z-index: 50;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-  resize: both;
-  overflow: auto;
-  min-width: 300px;
-  min-height: 200px;
-  max-width: 90vw;
-  max-height: 90vh;
+  position: absolute;
+  z-index: 500;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
+  resize: none;
+  overflow: visible;
+  min-width: 200px;
+  min-height: 100px;
+  flex: 0 0 auto !important;
 }
 
 /* Titlebar */
@@ -232,41 +292,44 @@
   transform: scale(0.95);
 }
 
-/* Window Content */
-.i3-content {
-  flex: 1;
-  padding: 12px;
-  overflow: auto;
-  background: var(--i3-bg-inactive);
-  min-height: 0;
-  scrollbar-width: thin;
-  scrollbar-color: var(--bg-tertiary) var(--bg-primary);
-}
-
 .i3-content::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 .i3-content::-webkit-scrollbar-track {
-  background: var(--bg-primary);
+  background: transparent;
 }
 
 .i3-content::-webkit-scrollbar-thumb {
-  background: var(--bg-tertiary);
-  border-radius: 4px;
+  background: rgba(122, 162, 247, 0.2);
+  border-radius: 10px;
 }
 
 .i3-content::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
+  background: rgba(122, 162, 247, 0.5);
 }
 
 /* ─── Window Size Presets ───────────────────────────────────── */
-.i3-window.size-half { flex: 1; }
-.i3-window.size-third { flex: 0.33; }
-.i3-window.size-two-thirds { flex: 0.67; }
-.i3-window.size-quarter { flex: 0.25; }
-.i3-window.size-three-quarters { flex: 0.75; }
+.i3-window.size-half {
+  flex: 1;
+}
+
+.i3-window.size-third {
+  flex: 0.33;
+}
+
+.i3-window.size-two-thirds {
+  flex: 0.67;
+}
+
+.i3-window.size-quarter {
+  flex: 0.25;
+}
+
+.i3-window.size-three-quarters {
+  flex: 0.75;
+}
 
 /* ─── Scratchpad ────────────────────────────────────────────── */
 .i3-scratchpad {
@@ -289,6 +352,7 @@
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
@@ -302,7 +366,7 @@
 
 /* ─── Resize Handle ─────────────────────────────────────────── */
 .i3-window.floating::after {
-  content: '⋮⋮';
+  content: "⋮⋮";
   position: absolute;
   bottom: 2px;
   right: 2px;
@@ -320,12 +384,44 @@
   backface-visibility: hidden;
 }
 
+/* ─── MANDATORY CONTENT OVERRIDES (CLI AESTHETICS) ─────────────────── */
+/* These rules ensure strictly ZERO list margins and compact code padding */
+
+.i3-content article li,
+.i3-content .terminal-content li,
+.article-content li {
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
+}
+
+.i3-content article ul,
+.i3-content article ol,
+.i3-content .terminal-content ul,
+.i3-content .terminal-content ol,
+.article-content ul,
+.article-content ol {
+  margin: 0.5rem 0 !important;
+  padding-left: 1.25rem !important;
+}
+
+.i3-content pre,
+.article-content pre {
+  padding: 8px 12px !important;
+  margin: 1rem 0 !important;
+  border-radius: 4px !important;
+  line-height: 1.4 !important;
+}
+
+.i3-content pre code {
+  padding: 0 !important;
+}
+
 /* ─── Responsive ────────────────────────────────────────────── */
 @media (max-width: 1024px) {
   .i3-split-h {
     flex-direction: column;
   }
-  
+
   .i3-split-h > .i3-split-v {
     flex: 1 !important;
     min-height: 300px;
@@ -341,7 +437,7 @@
   .polybar-center {
     display: none;
   }
-  
+
   .i3-container {
     padding: 4px;
     gap: 4px;
@@ -420,7 +516,6 @@
     border-color: var(--i3-border-focused);
   }
 
-  /* Disable transitions on touch for better performance */
   .i3-window,
   .workspace,
   .i3-titlebar {
