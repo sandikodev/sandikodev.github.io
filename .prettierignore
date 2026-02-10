@@ -1,0 +1,12 @@
+dist
+.astro
+node_modules
+.vercel
+public
+pnpm-lock.yaml
+src/content/pages/elements.mdx
+packages/astro-terminal-code/README.md
+packages/astro-deck/docs/DESIGN_SYSTEM.md
+DESIGN_SYSTEM.md
+DESIGN_SYSTEM_V2.md
+DESIGN_STRATEGY_FIXES.md
