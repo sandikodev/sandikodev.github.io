@@ -91,30 +91,19 @@ const {
     </script>
 
     <!-- Google Analytics -->
-    {
-      config.settings.analytics?.google_analytics_id && (
-        <>
-          <script
-            is:inline
-            src={`https://www.googletagmanager.com/gtag/js?id=${config.settings.analytics.google_analytics_id}`}
-            type="text/partytown"
-          />
-          <script
-            is:inline
-            define:vars={{
-              GA_ID: config.settings.analytics.google_analytics_id,
-            }}
-            type="text/partytown"
-            set:html={`
-            window.dataLayer = window.dataLayer || [];
-            function gtag() { dataLayer.push(arguments); }
-            gtag("js", new Date());
-            gtag("config", GA_ID);
-          `}
-          />
-        </>
-      )
-    }
+    <script
+      is:inline
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-1BP3PB1RGH"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-1BP3PB1RGH");
+    </script>
 
     <!-- Resource Hints -->
     <link href="https://fonts.googleapis.com" rel="preconnect" />
