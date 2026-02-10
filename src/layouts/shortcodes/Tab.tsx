@@ -1,6 +1,6 @@
 import React from "react";
 
-function Tab({ name, children }: { name: string; children: React.ReactNode }) {
+function Tab({ children, name }: { children: React.ReactNode; name: string }) {
   return <div data-name={name}>{children}</div>;
 }
 

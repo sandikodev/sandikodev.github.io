@@ -7,23 +7,21 @@ marked.use({
 
 const Tabs = ({ children }: { children: React.ReactElement }) => {
   const [active, setActive] = useState<number>(0);
-  const [defaultFocus, setDefaultFocus] = useState<boolean>(false);
-
-  const tabRefs: React.RefObject<HTMLElement[]> = useRef([]);
+  const tabRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const isFirstMount = useRef(true);
   useEffect(() => {
-    if (defaultFocus) {
-      //@ts-ignore
-      tabRefs.current[active]?.focus();
-    } else {
-      setDefaultFocus(true);
+    if (isFirstMount.current) {
+      isFirstMount.current = false;
+      return;
     }
+    tabRefs.current[active]?.focus();
   }, [active]);
 
   const tabLinks = Array.from(
     children.props.value.matchAll(
       /<div\s+data-name="([^"]+)"[^>]*>(.*?)<\/div>/gs,
     ),
-    (match: RegExpMatchArray) => ({ name: match[1], children: match[0] }),
+    (match: RegExpMatchArray) => ({ children: match[0], name: match[1] }),
   );
 
   const handleKeyDown = (
@@ -43,29 +41,28 @@ const Tabs = ({ children }: { children: React.ReactElement }) => {
     <div className="tab">
       <ul className="tab-nav">
         {tabLinks.map(
-          (item: { name: string; children: string }, index: number) => (
+          (item: { children: string; name: string }, index: number) => (
             <li
-              key={index}
               className={`tab-nav-item ${index === active && "active"}`}
+              key={index}
+              onClick={() => setActive(index)}
+              onKeyDown={(event) => handleKeyDown(event, index)}
+              ref={(ref) => (tabRefs.current[index] = ref)}
               role="tab"
               tabIndex={index === active ? 0 : -1}
-              onKeyDown={(event) => handleKeyDown(event, index)}
-              onClick={() => setActive(index)}
-              //@ts-ignore
-              ref={(ref) => (tabRefs.current[index] = ref)}
             >
               {item.name}
             </li>
           ),
         )}
       </ul>
-      {tabLinks.map((item: { name: string; children: string }, i: number) => (
+      {tabLinks.map((item: { children: string; name: string }, i: number) => (
         <div
           className={active === i ? "tab-content block px-5" : "hidden"}
-          key={i}
           dangerouslySetInnerHTML={{
             __html: marked.parse(item.children),
           }}
+          key={i}
         />
       ))}
     </div>
