@@ -1,0 +1,66 @@
+/* ═══════════════════════════════════════════════════════════════
+   ANTI-FLICKER UTILITIES FOR WORKSPACE MODE
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Prevent scroll-triggered repaints */
+html {
+  overflow-anchor: none !important;
+}
+
+body {
+  overflow-anchor: none !important;
+}
+
+/* Force GPU acceleration for all key elements */
+.i3-container,
+.polybar,
+.i3-window,
+.i3-content,
+.i3-titlebar {
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
+
+  -webkit-perspective: 1000px;
+  -moz-perspective: 1000px;
+  perspective: 1000px;
+}
+
+/* Force layer isolation */
+.polybar {
+  isolation: isolate;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.i3-container {
+  isolation: isolate;
+}
+
+/* Optimize font rendering */
+* {
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: auto;
+  text-rendering: optimizeSpeed;
+}
+
+/* Disable all animations during scroll */
+.scrolling,
+.scrolling * {
+  animation-play-state: paused !important;
+  transition: none !important;
+}
+
+/* Prevent layout shifts */
+img,
+video,
+iframe {
+  max-width: 100%;
+  height: auto;
+}

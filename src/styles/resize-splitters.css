@@ -1,0 +1,16 @@
+/* Tiling Resize Splitters - Minimal CSS (No Flicker, No Blocking) */
+
+/* DEFAULT: Line is hidden */
+.resize-splitter .splitter-line {
+  opacity: 0;
+}
+
+/* Show line on hover */
+.resize-splitter:hover .splitter-line {
+  opacity: 1;
+}
+
+/* Show line during resize */
+.resize-splitter.resizing .splitter-line {
+  opacity: 1;
+}

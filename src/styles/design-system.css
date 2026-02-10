@@ -1,221 +1,338 @@
-/* Design System - Reader-First Blog */
+/* Design System - Standardized & Accessible */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
 
 :root {
-  /* Typography */
-  --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-body: Georgia, 'Times New Roman', serif;
-  --font-code: 'JetBrains Mono', 'Courier New', monospace;
-  
-  /* Font Sizes */
+  /* Typography Scale (1.250 Modular Scale) */
+  --font-primary:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+
+  --font-scale: 1;
+  /* Master font scale toggle */
+  --font-size-base: 1rem;
+
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  --text-3xl: 1.875rem;
-  --text-4xl: 2.25rem;
-  --text-5xl: 3rem;
-  
+  --text-lg: 1.25rem;
+  --text-xl: 1.563rem;
+  --text-2xl: 1.953rem;
+  --text-3xl: 2.441rem;
+  --text-4xl: 3.052rem;
+
   /* Line Heights */
+  --leading-none: 1;
   --leading-tight: 1.25;
   --leading-normal: 1.5;
   --leading-relaxed: 1.75;
-  --leading-loose: 2;
-  
-  /* Colors - Light Mode */
-  --color-bg: #FAFAFA;
-  --color-surface: #FFFFFF;
-  --color-text: #1A1A1A;
-  --color-text-muted: #6B7280;
-  --color-accent: #2563EB;
-  --color-accent-hover: #1D4ED8;
-  --color-border: #E5E7EB;
-  --color-code-bg: #F3F4F6;
-  
-  /* Spacing */
-  --space-section: 5rem;
-  --space-container: 1200px;
-  --space-content: 680px;
-  
-  /* Border Radius */
-  --radius-sm: 0.25rem;
+
+  /* Colors - Light Mode (High Contrast / WCAG AA) */
+  --color-bg: #ffffff;
+  --color-surface: #f8fafc;
+  --color-text-main: #0f172a;
+  /* Slate-900 */
+  --color-text-body: #334155;
+  /* Slate-700 */
+  --color-text-muted: #475569;
+  /* Slate-600 - WCAG AA Safe (5.1:1) */
+  --color-primary: #2563eb;
+  /* Blue-600 */
+  --color-primary-hover: #1d4ed8;
+  --color-border: #e2e8f0;
+  /* Slate-200 */
+  --color-border-hover: #cbd5e1;
+
+  /* Accent Colors (Semantic) */
+  --color-accent: #2563eb;
+  /* Primary Blue */
+  --color-accent-soft: rgba(37, 99, 235, 0.1);
+  --color-primary-alpha-5: rgba(37, 99, 235, 0.05);
+  --color-primary-alpha-10: rgba(37, 99, 235, 0.1);
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+
+  /* Shadow & Overlay Colors */
+  --color-shadow-sm: rgba(0, 0, 0, 0.05);
+  --color-shadow-md: rgba(0, 0, 0, 0.1);
+  --color-shadow-lg: rgba(0, 0, 0, 0.25);
+  --color-overlay: rgba(0, 0, 0, 0.4);
+  --color-overlay-strong: rgba(0, 0, 0, 0.7);
+  --color-backdrop: rgba(15, 23, 42, 0.8);
+
+  /* Background variations */
+  --color-bg-secondary: rgba(0, 0, 0, 0.03);
+  --color-bg-tertiary: rgba(0, 0, 0, 0.05);
+  --color-border-alpha: rgba(0, 0, 0, 0.1);
+  --color-border-alpha-hover: rgba(0, 0, 0, 0.2);
+
+  /* Additional Accents from Terminal/About themes */
+  --color-dev-teal: #4ecdc4;
+  --color-dev-gold: #feca57;
+  --color-dev-orange: #ff9f43;
+
+  /* Spacing Scale (8px logical units) */
+  --spacing-1: 0.25rem;
+  /* 4px */
+  --spacing-2: 0.5rem;
+  /* 8px */
+  --spacing-3: 0.75rem;
+  /* 12px */
+  --spacing-4: 1rem;
+  /* 16px */
+  --spacing-6: 1.5rem;
+  /* 24px */
+  --spacing-8: 2rem;
+  /* 32px */
+  --spacing-12: 3rem;
+  /* 48px */
+  --spacing-16: 4rem;
+  /* 64px */
+
+  /* Layout Metrics */
+  --max-width-container: 1200px;
+  --max-width-content: 680px;
+
+  /* Effects */
+  --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  
-  /* Transitions */
-  --transition-fast: 150ms ease;
-  --transition-normal: 300ms ease;
-  --transition-slow: 500ms ease;
+  --transition-all: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Shiki Syntax Highlighting - Light Mode */
+  --shiki-foreground: var(--color-text-body);
+  --shiki-background: var(--color-surface);
+  --shiki-token-constant: #0550ae;
+  --shiki-token-string: #0a3069;
+  --shiki-token-comment: #6e7781;
+  --shiki-token-keyword: #cf222e;
+  --shiki-token-parameter: #24292f;
+  --shiki-token-function: #8250df;
+  --shiki-token-string-expression: #116329;
+  --shiki-token-punctuation: #24292f;
+  --shiki-token-link: #0969da;
 }
 
-/* Dark Mode */
+/* Dark Mode Tokens */
 :root.dark,
-[data-theme="dark"] {
-  --color-bg: #0F0F0F;
-  --color-surface: #1A1A1A;
-  --color-text: #E5E5E5;
-  --color-text-muted: #9CA3AF;
-  --color-accent: #60A5FA;
-  --color-accent-hover: #3B82F6;
-  --color-border: #374151;
-  --color-code-bg: #1F2937;
+[data-theme-mode="terminal"] {
+  --color-bg: #0f172a;
+  /* Slate-900 */
+  --color-surface: #1e293b;
+  /* Slate-800 */
+  --color-text-main: #f8fafc;
+  /* Slate-50 */
+  --color-text-body: #e2e8f0;
+  /* Slate-200 */
+  --color-text-muted: #94a3b8;
+  /* Slate-400 */
+  --color-primary: #3b82f6;
+  /* Blue-500 */
+  --color-primary-hover: #60a5fa;
+  --color-border: #334155;
+  /* Slate-700 */
+
+  /* Terminal Theme Tokens (Tokyo Night inspired) */
+  --color-terminal-bg: #1a1b26;
+  --color-terminal-surface: #24283b;
+  --color-terminal-text: #c0caf5;
+  --color-terminal-muted: #565f89;
+  --color-terminal-border: #414868;
+  --color-terminal-accent: #7aa2f7;
+  --color-terminal-prompt: #4ecdc4;
+
+  /* Dark Mode Alpha Variants */
+  --color-bg-secondary: rgba(255, 255, 255, 0.04);
+  --color-bg-tertiary: rgba(255, 255, 255, 0.08);
+  --color-border-alpha: rgba(255, 255, 255, 0.1);
+  --color-border-alpha-hover: rgba(255, 255, 255, 0.2);
+  --color-shadow-sm: rgba(0, 0, 0, 0.3);
+  --color-shadow-md: rgba(0, 0, 0, 0.4);
+  --color-shadow-lg: rgba(0, 0, 0, 0.6);
+
+  /* Shiki Syntax Highlighting - Dark Mode */
+  --shiki-foreground: var(--color-text-main);
+  --shiki-background: var(--color-surface);
+  --shiki-token-constant: #7ee787;
+  --shiki-token-string: #a5d6ff;
+  --shiki-token-comment: #8b949e;
+  --shiki-token-keyword: #ff7b72;
+  --shiki-token-parameter: #ffa657;
+  --shiki-token-function: #d2a8ff;
+  --shiki-token-string-expression: #a5d6ff;
+  --shiki-token-punctuation: #f8fafc;
+  --shiki-token-link: #58a6ff;
 }
 
-/* Base Styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* Global Transition for Theme Switching */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *:before,
+html.theme-transition *:after {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease !important;
+  transition-delay: 0s !important;
 }
 
+/* Base resets & typography */
 html {
-  font-size: 16px;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
 }
 
 body {
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  line-height: var(--leading-relaxed);
-  color: var(--color-text);
   background-color: var(--color-bg);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transition: background-color var(--transition-normal), color var(--transition-normal);
+  color: var(--color-text-body);
+  line-height: var(--leading-relaxed);
+  margin: 0;
 }
 
-/* Typography */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
+h1,
+h2,
+h3,
+h4,
+.font-heading {
+  color: var(--color-text-main);
   font-weight: 700;
   line-height: var(--leading-tight);
-  color: var(--color-text);
-  margin-bottom: 1rem;
+  margin: 0 0 var(--spacing-4);
 }
 
-h1 { font-size: var(--text-5xl); }
-h2 { font-size: var(--text-4xl); }
-h3 { font-size: var(--text-3xl); }
-h4 { font-size: var(--text-2xl); }
-h5 { font-size: var(--text-xl); }
-h6 { font-size: var(--text-lg); }
+h1 {
+  font-size: var(--text-4xl);
+}
 
-p {
-  margin-bottom: 1.5rem;
-  line-height: var(--leading-relaxed);
+h2 {
+  font-size: var(--text-3xl);
+}
+
+h3 {
+  font-size: var(--text-2xl);
+}
+
+h4 {
+  font-size: var(--text-xl);
 }
 
 a {
-  color: var(--color-accent);
+  color: var(--color-primary);
   text-decoration: none;
-  transition: color var(--transition-fast);
+  transition: var(--transition-all);
 }
 
 a:hover {
-  color: var(--color-accent-hover);
+  filter: brightness(1.1);
 }
 
-/* Code */
-code {
-  font-family: var(--font-code);
-  font-size: 0.9em;
-  background-color: var(--color-code-bg);
-  padding: 0.2em 0.4em;
-  border-radius: var(--radius-sm);
+/* Global focus styles (WCAG Visibility) */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
 }
 
-pre {
-  font-family: var(--font-code);
-  background-color: var(--color-code-bg);
-  padding: 1.5rem;
-  border-radius: var(--radius-lg);
-  overflow-x: auto;
-  margin-bottom: 1.5rem;
+/* Selection aesthetics */
+::selection {
+  background-color: var(--color-primary);
+  color: #ffffff;
 }
 
-pre code {
-  background: none;
-  padding: 0;
+/* Mermaid & Diagrams scaling */
+.mermaid,
+.mermaid svg {
+  max-width: 100% !important;
+  height: auto !important;
 }
 
-/* Lists */
-ul, ol {
-  margin-bottom: 1.5rem;
-  padding-left: 2rem;
+/* Scalable Content Scope */
+.scalable-content {
+  --text-xs: calc(0.75rem * var(--font-scale));
+  --text-sm: calc(0.875rem * var(--font-scale));
+  --text-base: calc(1rem * var(--font-scale));
+  --text-lg: calc(1.25rem * var(--font-scale));
+  --text-xl: calc(1.563rem * var(--font-scale));
+  --text-2xl: calc(1.953rem * var(--font-scale));
+  --text-3xl: calc(2.441rem * var(--font-scale));
+  --text-4xl: calc(3.052rem * var(--font-scale));
 }
 
-li {
-  margin-bottom: 0.5rem;
+.scalable-content .mermaid text {
+  font-size: var(--text-base) !important;
+  font-family: var(--font-primary) !important;
+}
+
+/* Ensure code blocks in scalable content scope scale correctly */
+.scalable-content pre code {
+  font-size: var(--text-sm) !important;
   line-height: var(--leading-relaxed);
 }
 
-/* Blockquotes */
-blockquote {
-  border-left: 4px solid var(--color-accent);
-  padding-left: 1.5rem;
-  margin: 2rem 0;
-  font-style: italic;
-  color: var(--color-text-muted);
+/* Mermaid Theme Compatibility - Comprehensive synchronization */
+.mermaid svg {
+  background: transparent !important;
 }
 
-/* Images */
-img {
-  max-width: 100%;
-  height: auto;
-  border-radius: var(--radius-lg);
+/* Base Node Styling - Uses system tokens by default, but allows overrides */
+.mermaid .node rect,
+.mermaid .node polygon,
+.mermaid .node circle,
+.mermaid .node path,
+.mermaid .node ellipse,
+.mermaid .actor,
+.mermaid rect.actor {
+  fill: var(--color-surface) !important;
+  stroke: var(--color-border) !important;
+  stroke-width: 1.5px !important;
 }
 
-/* Containers */
-.container {
-  max-width: var(--space-container);
-  margin: 0 auto;
-  padding: 0 1.5rem;
+/* Arrows and lines in diagrams - High visibility across themes */
+.mermaid svg path,
+.mermaid svg line,
+.mermaid .edgePath .path,
+.mermaid .flowchart-link {
+  stroke: var(--color-primary) !important;
+  stroke-width: 2px !important;
+  stroke-opacity: 0.8 !important;
 }
 
-.content-container {
-  max-width: var(--space-content);
-  margin: 0 auto;
+.mermaid text,
+.mermaid tspan,
+.mermaid .nodeLabel,
+.mermaid .label-container,
+.mermaid .label text,
+.mermaid .edgeLabel,
+.mermaid .messageText,
+.mermaid .noteText,
+.mermaid .actor-label,
+.mermaid .labelText,
+.mermaid .loopText,
+.mermaid .actor text,
+.mermaid div,
+.mermaid span,
+.mermaid p {
+  fill: var(--color-text-main) !important;
+  color: var(--color-text-main) !important;
+  font-family: var(--font-primary) !important;
 }
 
-/* Sections */
-.section {
-  padding: var(--space-section) 0;
+/* Specific fix for HTML-based labels in foreignObject nodes */
+.mermaid div,
+.mermaid span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Utilities */
-.text-muted {
-  color: var(--color-text-muted);
-}
-
-.text-center {
-  text-align: center;
-}
-
-.mb-0 { margin-bottom: 0; }
-.mb-1 { margin-bottom: 0.5rem; }
-.mb-2 { margin-bottom: 1rem; }
-.mb-3 { margin-bottom: 1.5rem; }
-.mb-4 { margin-bottom: 2rem; }
-
-/* Focus Styles */
-*:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
-}
-
-/* Selection */
-::selection {
-  background-color: var(--color-accent);
-  color: white;
-}
-
-/* Dark mode transitions for all elements */
-* {
-  transition: background-color var(--transition-normal), 
-              border-color var(--transition-normal),
-              color var(--transition-normal);
+.mermaid marker path,
+.mermaid marker polygon,
+.mermaid .arrowheadPath {
+  fill: var(--color-primary) !important;
+  stroke: var(--color-primary) !important;
 }
