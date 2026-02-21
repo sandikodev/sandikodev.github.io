@@ -85,11 +85,9 @@ const desc =
           document.body.classList.toggle("section-hidden");
           const isHidden = document.body.classList.contains("section-hidden");
           localStorage.setItem("v0-perspective-hidden", isHidden);
-          // If manually hidden, clear any auto-hide conflict
-          document.body.classList.remove("auto-hide");
         });
 
-        // Elegant Auto-Hide on Scroll
+        // Elegant Auto-Hide on Scroll (unified with manual toggle)
         let lastScrollTop = 0;
         const scrollThreshold = 100;
 
@@ -98,18 +96,15 @@ const desc =
           () => {
             const scrollTop =
               window.pageYOffset || document.documentElement.scrollTop;
-            const isManualHidden =
-              document.body.classList.contains("section-hidden");
+            const isManualPermanentHide =
+              localStorage.getItem("v0-perspective-hidden") === "true";
 
-            if (isManualHidden) return;
+            if (isManualPermanentHide) return;
 
-            // If scrolled down past threshold -> Glide Up
             if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
-              document.body.classList.add("auto-hide");
-            }
-            // If scrolled up -> Reappear
-            else if (scrollTop < lastScrollTop) {
-              document.body.classList.remove("auto-hide");
+              document.body.classList.add("section-hidden");
+            } else if (scrollTop < lastScrollTop) {
+              document.body.classList.remove("section-hidden");
             }
 
             lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
@@ -257,15 +252,10 @@ const desc =
     color: rgba(255, 255, 255, 0.3);
   }
 
-  /* Auto-hide on scroll state */
-  .auto-hide .v0-retrospective {
-    max-height: 0;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    opacity: 0;
-    border-bottom-width: 0 !important;
-    pointer-events: none;
-    transform: translateY(-20px);
+  .section-hidden .perspective-toggle {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.3);
   }
 
   /* Retrospective Section — "Curator's Note" Aesthetic */
