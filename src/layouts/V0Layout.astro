@@ -87,37 +87,6 @@ const desc =
           localStorage.setItem("v0-perspective-hidden", isHidden);
         });
 
-        // Elegant Auto-Hide on Scroll (Immediate response)
-        let lastScrollTop = 0;
-        const hideThreshold = 10; // Instantly hide on first scroll down
-
-        window.addEventListener(
-          "scroll",
-          () => {
-            const scrollTop =
-              window.pageYOffset || document.documentElement.scrollTop;
-            const isManualPermanentHide =
-              localStorage.getItem("v0-perspective-hidden") === "true";
-
-            if (isManualPermanentHide) return;
-
-            const scrollingDown = scrollTop > lastScrollTop;
-
-            // Only auto-hide if we are near the top (within 500px)
-            // This prevents jarring jumps when deep in the content
-            if (scrollTop < 500) {
-              if (scrollingDown && scrollTop > hideThreshold) {
-                document.body.classList.add("section-hidden");
-              } else if (!scrollingDown) {
-                document.body.classList.remove("section-hidden");
-              }
-            }
-
-            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-          },
-          { passive: true },
-        );
-
         // Restore manual state
         if (localStorage.getItem("v0-perspective-hidden") === "true") {
           document.body.classList.add("section-hidden");
