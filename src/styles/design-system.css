@@ -102,17 +102,17 @@
   --transition-all: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Shiki Syntax Highlighting - Light Mode */
-  --shiki-foreground: var(--color-text-body);
-  --shiki-background: var(--color-surface);
-  --shiki-token-constant: #0550ae;
-  --shiki-token-string: #0a3069;
-  --shiki-token-comment: #6e7781;
-  --shiki-token-keyword: #cf222e;
-  --shiki-token-parameter: #24292f;
-  --shiki-token-function: #8250df;
-  --shiki-token-string-expression: #116329;
-  --shiki-token-punctuation: #24292f;
-  --shiki-token-link: #0969da;
+  --astro-code-foreground: var(--color-text-body);
+  --astro-code-background: var(--color-surface);
+  --astro-code-token-constant: #0550ae;
+  --astro-code-token-string: #0a3069;
+  --astro-code-token-comment: #6e7781;
+  --astro-code-token-keyword: #cf222e;
+  --astro-code-token-parameter: #24292f;
+  --astro-code-token-function: #8250df;
+  --astro-code-token-string-expression: #116329;
+  --astro-code-token-punctuation: #24292f;
+  --astro-code-token-link: #0969da;
 }
 
 /* Dark Mode Tokens */
@@ -153,17 +153,17 @@
   --color-shadow-lg: rgba(0, 0, 0, 0.6);
 
   /* Shiki Syntax Highlighting - Dark Mode */
-  --shiki-foreground: var(--color-text-main);
-  --shiki-background: var(--color-surface);
-  --shiki-token-constant: #7ee787;
-  --shiki-token-string: #a5d6ff;
-  --shiki-token-comment: #8b949e;
-  --shiki-token-keyword: #ff7b72;
-  --shiki-token-parameter: #ffa657;
-  --shiki-token-function: #d2a8ff;
-  --shiki-token-string-expression: #a5d6ff;
-  --shiki-token-punctuation: #f8fafc;
-  --shiki-token-link: #58a6ff;
+  --astro-code-foreground: var(--color-text-main);
+  --astro-code-background: var(--color-surface);
+  --astro-code-token-constant: #7ee787;
+  --astro-code-token-string: #a5d6ff;
+  --astro-code-token-comment: #8b949e;
+  --astro-code-token-keyword: #ff7b72;
+  --astro-code-token-parameter: #ffa657;
+  --astro-code-token-function: #d2a8ff;
+  --astro-code-token-string-expression: #a5d6ff;
+  --astro-code-token-punctuation: #f8fafc;
+  --astro-code-token-link: #58a6ff;
 }
 
 /* Global Transition for Theme Switching */

@@ -58,17 +58,17 @@
   --transition-slow: 400ms ease;
 
   /* Shiki Syntax Highlighting Variables */
-  --shiki-foreground: var(--text-primary);
-  --shiki-background: var(--bg-secondary);
-  --shiki-token-constant: var(--orange);
-  --shiki-token-string: var(--green);
-  --shiki-token-comment: var(--text-muted);
-  --shiki-token-keyword: var(--magenta);
-  --shiki-token-parameter: var(--yellow);
-  --shiki-token-function: var(--blue);
-  --shiki-token-string-expression: var(--green);
-  --shiki-token-punctuation: var(--text-secondary);
-  --shiki-token-link: var(--cyan);
+  --astro-code-foreground: var(--text-primary);
+  --astro-code-background: var(--bg-secondary);
+  --astro-code-token-constant: var(--orange);
+  --astro-code-token-string: var(--green);
+  --astro-code-token-comment: var(--text-muted);
+  --astro-code-token-keyword: var(--magenta);
+  --astro-code-token-parameter: var(--yellow);
+  --astro-code-token-function: var(--blue);
+  --astro-code-token-string-expression: var(--green);
+  --astro-code-token-punctuation: var(--text-secondary);
+  --astro-code-token-link: var(--cyan);
 }
 
 /* --- Theme Variants --- */
@@ -617,7 +617,7 @@ li .katex {
   display: block;
   background: transparent !important;
   padding: 0;
-  color: var(--shiki-foreground, var(--text-primary));
+  color: var(--astro-code-foreground, var(--text-primary));
   counter-reset: line;
 }
 
