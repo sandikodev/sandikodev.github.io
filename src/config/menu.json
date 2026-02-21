@@ -17,6 +17,10 @@
       "url": "/now"
     },
     {
+      "name": "Architecture",
+      "url": "/architecture"
+    },
+    {
       "name": "About",
       "url": "/about"
     }

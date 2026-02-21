@@ -304,84 +304,32 @@ const featuredPosts = posts.slice(0, 3);
         </div>
       </div>
     </div>
-    <!-- Architectural ROI Section -->
-    <section class="roi-section">
-      <div class="roi-container">
-        <div class="roi-header">
-          <span class="depth-tag dark">
-            <span class="teal">$</span> architectural --roi
-          </span>
-          <h2>The Architectural Advantage</h2>
-          <p>
-            I don't just build features; I engineer systems with <strong
-              >long-term business value</strong
-            > in mind. Technical depth is the insurance policy for your business.
-          </p>
-        </div>
-
-        <div class="roi-grid">
-          <div class="roi-card">
-            <div class="roi-icon-wrapper">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                ><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"
-                ></path></svg
-              >
+    <!-- Core Exploration Section -->
+    <section class="explore-section">
+      <div class="explore-container">
+        <div class="explore-grid">
+          <a href="/architecture" class="explore-card">
+            <div class="explore-icon">🏗️</div>
+            <div class="explore-content">
+              <h3>Architectural Manifesto</h3>
+              <p>
+                Explore the business value of technical depth, ROI engineering,
+                and my security-first blueprint.
+              </p>
+              <span class="explore-link">Read Manifesto →</span>
             </div>
-            <h3>Cost Engineering</h3>
-            <p>
-              Efficient code that respects OS-level resources. I reduce cloud
-              infrastructure costs by building software that does more with
-              less.
-            </p>
-          </div>
-
-          <div class="roi-card highlight-card">
-            <div class="roi-icon-wrapper">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                ><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
-                ></path></svg
-              >
+          </a>
+          <a href="/v0" class="explore-card">
+            <div class="explore-icon">🕰️</div>
+            <div class="explore-content">
+              <h3>The v0 Legacy Archive</h3>
+              <p>
+                The journey from 2009. Explore the technical evolution, past
+                projects, and deep engineering roots.
+              </p>
+              <span class="explore-link">Explore Archive →</span>
             </div>
-            <h3>Security Hardening</h3>
-            <p>
-              Instinctive security thinking from years of research. Your systems
-              are hardened by design, not by patches after a breach.
-            </p>
-          </div>
-
-          <div class="roi-card">
-            <div class="roi-icon-wrapper">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                ><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg
-              >
-            </div>
-            <h3>Lean Execution</h3>
-            <p>
-              Zero-handoff development. One engineer owning the full stack,
-              removing communication debt and speeding up time-to-market.
-            </p>
-          </div>
-        </div>
-
-        <div class="manifesto-box">
-          <p>
-            "A great programmer writes code. An <strong
-              >Architectural Engineer</strong
-            > builds systems that stay resilient, secure, and cost-effective for
-            years."
-          </p>
+          </a>
         </div>
       </div>
     </section>
@@ -1302,126 +1250,73 @@ const featuredPosts = posts.slice(0, 3);
       flex-wrap: wrap;
     }
 
-    /* ─── Architectural ROI ─── */
-    .roi-section {
-      padding: 6rem 0;
+    /* ─── Explore Section ─── */
+    .explore-section {
+      padding: 5rem 0;
       background: var(--color-bg);
       border-top: 1px solid var(--color-border);
     }
 
-    .roi-container {
+    .explore-container {
       max-width: 1100px;
       margin: 0 auto;
       padding: 0 1.5rem;
     }
 
-    .roi-header {
-      margin-bottom: 3.5rem;
+    .explore-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
     }
 
-    .roi-header h2 {
-      font-size: 2rem;
+    .explore-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      padding: 2.5rem;
+      border-radius: 20px;
+      text-decoration: none;
+      display: flex;
+      gap: 1.5rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .explore-card:hover {
+      border-color: rgba(78, 205, 196, 0.4);
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px -15px rgba(78, 205, 196, 0.1);
+    }
+
+    .explore-icon {
+      font-size: 2.5rem;
+      flex-shrink: 0;
+    }
+
+    .explore-content h3 {
+      font-size: 1.25rem;
       font-weight: 800;
       color: var(--color-text-main);
-      letter-spacing: -0.03em;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
     }
 
-    .roi-header p {
-      font-size: 0.95rem;
-      line-height: 1.7;
+    .explore-content p {
+      font-size: 0.9rem;
       color: var(--color-text-body);
-      opacity: 0.85;
-      max-width: 680px;
-    }
-
-    .roi-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      margin-bottom: 3.5rem;
-    }
-
-    .roi-card {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      padding: 2.25rem;
-      border-radius: 16px;
-      transition: all 0.25s ease;
-    }
-
-    .roi-card.highlight-card {
-      background: linear-gradient(
-        135deg,
-        rgba(78, 205, 196, 0.05),
-        rgba(102, 126, 234, 0.05)
-      );
-      border-color: rgba(78, 205, 196, 0.2);
-    }
-
-    .roi-card:hover {
-      border-color: rgba(78, 205, 196, 0.3);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 40px -12px rgba(78, 205, 196, 0.15);
-    }
-
-    .roi-icon-wrapper {
-      width: 42px;
-      height: 42px;
-      background: rgba(78, 205, 196, 0.08);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #4ecdc4;
-      margin-bottom: 1.5rem;
-    }
-
-    .roi-icon-wrapper svg {
-      width: 22px;
-      height: 22px;
-    }
-
-    .roi-card h3 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--color-text-main);
-      margin-bottom: 0.75rem;
-      letter-spacing: -0.01em;
-    }
-
-    .roi-card p {
-      font-size: 0.875rem;
-      line-height: 1.65;
-      color: var(--color-text-body);
-      opacity: 0.8;
-      margin: 0;
-    }
-
-    .manifesto-box {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-left: 4px solid #4ecdc4;
-      padding: 2rem;
-      border-radius: 0 12px 12px 0;
-      max-width: 100%;
-    }
-
-    .manifesto-box p {
-      font-family: var(--font-primary);
-      font-size: 1.1rem;
-      color: var(--color-text-main);
+      opacity: 0.7;
       line-height: 1.6;
-      margin: 0;
-      opacity: 0.9;
+      margin-bottom: 1.25rem;
     }
 
-    .manifesto-box strong {
+    .explore-link {
+      font-size: 0.85rem;
+      font-weight: 700;
       color: #4ecdc4;
     }
 
-    @media (max-width: 900px) {
-      .roi-grid {
+    @media (max-width: 800px) {
+      .explore-grid {
         grid-template-columns: 1fr;
       }
     }

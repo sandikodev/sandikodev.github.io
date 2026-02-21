@@ -1,0 +1,373 @@
+---
+import config from "@/config/config.json";
+import Base from "@/layouts/Base.astro";
+---
+
+<Base
+  description="Deep dive into the architectural principles, economic reasoning, and technical depth behind Sandikodev's engineering approach."
+  meta_title={`Architectural Manifesto — ${config.metadata.meta_author}`}
+>
+  <div class="arch-root">
+    <div class="arch-container">
+      <header class="arch-header">
+        <span class="depth-tag">
+          <span class="teal">$</span> architectural --manifesto
+        </span>
+        <h1>Architectural Engineering</h1>
+        <p class="arch-lead">
+          Building software is easy. Engineering resilient, cost-effective, and
+          secure systems that survive production for years is the real
+          challenge. This is my blueprint.
+        </p>
+      </header>
+
+      <!-- ROI Section (Moved from Index) -->
+      <section class="roi-section">
+        <div class="roi-header">
+          <h2>The Business Advantage</h2>
+          <p>
+            Technical depth isn't a vanity metric—it's an economic asset.
+            Understanding the full stack from silicon to UI allows me to
+            engineer value where others see only complexity.
+          </p>
+        </div>
+
+        <div class="roi-grid">
+          <div class="roi-card">
+            <div class="roi-icon-wrapper">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                ><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"
+                ></path></svg
+              >
+            </div>
+            <h3>Cost Engineering</h3>
+            <p>
+              I write code that respects OS-level resources. By optimizing at
+              the kernel level and using efficient rendering strategies, I
+              reduce your cloud bills before the code even ships.
+            </p>
+          </div>
+
+          <div class="roi-card highlight-card">
+            <div class="roi-icon-wrapper">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                ><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+                ></path></svg
+              >
+            </div>
+            <h3>Security Hardening</h3>
+            <p>
+              Security isn't an afterthought. With a background in threat
+              modelling and network security, I build systems that are hardened
+              by default, protecting your data and reputation.
+            </p>
+          </div>
+
+          <div class="roi-card">
+            <div class="roi-icon-wrapper">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                ><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg
+              >
+            </div>
+            <h3>Lean Execution</h3>
+            <p>
+              One engineer owning the full lifecycle. I handle Domain, TLS,
+              Docker, CI/CD, and DB Schema. This removes communication debt and
+              accelerates your time-to-market.
+            </p>
+          </div>
+        </div>
+
+        <div class="manifesto-box">
+          <p>
+            "A great programmer writes code. An <strong
+              >Architectural Engineer</strong
+            >
+            builds systems that stay resilient, secure, and cost-effective for years."
+          </p>
+        </div>
+      </section>
+
+      <!-- Deeper Insight -->
+      <section class="insight-section">
+        <div class="insight-grid">
+          <div class="insight-text">
+            <h3>Philosophy: Bare Metal to UI</h3>
+            <p>
+              My journey started in 2009, tinkering with Pentium 2 systems.
+              Understanding how electrons flow and how packets are routed gave
+              me a perspective most developers miss.
+            </p>
+            <p>
+              I don't just use frameworks; I understand the rendering engines,
+              the garbage collection cycles, and the tcp handshake latency that
+              makes them feel "slow".
+            </p>
+            <div class="insight-cta">
+              <a href="/v0" class="v0-link">
+                <span class="teal">Explore Archive</span>
+                <span>— See the evolution from 2009-2025</span>
+              </a>
+            </div>
+          </div>
+          <div class="insight-visual">
+            <div class="stack-box">
+              <div class="stack-label">THE BLUEPRINT</div>
+              <div class="stack-item"><span>User Experience</span></div>
+              <div class="stack-item">
+                <span>Performance Architecture</span>
+              </div>
+              <div class="stack-item"><span>Security Infrastructure</span></div>
+              <div class="stack-item"><span>Core Logic</span></div>
+              <div class="stack-item"><span>Bare Metal / Cloud</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .arch-root {
+    background: var(--color-bg);
+    padding: 6rem 0;
+    min-height: 100vh;
+  }
+
+  .arch-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .arch-header {
+    margin-bottom: 5rem;
+  }
+
+  .depth-tag {
+    font-family: "Fira Code", monospace;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .teal {
+    color: #4ecdc4;
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 900;
+    color: var(--color-text-main);
+    letter-spacing: -0.04em;
+    margin-bottom: 1.5rem;
+  }
+
+  .arch-lead {
+    font-size: 1.25rem;
+    line-height: 1.7;
+    color: var(--color-text-body);
+    opacity: 0.8;
+  }
+
+  /* ROI Styles (Refined) */
+  .roi-section {
+    margin-bottom: 6rem;
+  }
+
+  .roi-header {
+    margin-bottom: 3rem;
+  }
+
+  .roi-header h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--color-text-main);
+    margin-bottom: 1rem;
+  }
+
+  .roi-header p {
+    color: var(--color-text-body);
+    opacity: 0.7;
+    max-width: 600px;
+    line-height: 1.6;
+  }
+
+  .roi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .roi-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    padding: 2rem;
+    border-radius: 16px;
+    transition: transform 0.2s;
+  }
+
+  .roi-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .roi-icon-wrapper {
+    width: 40px;
+    height: 40px;
+    background: rgba(78, 205, 196, 0.1);
+    color: #4ecdc4;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+  }
+
+  .roi-icon-wrapper svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .roi-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--color-text-main);
+  }
+
+  .roi-card p {
+    font-size: 0.875rem;
+    color: var(--color-text-body);
+    opacity: 0.7;
+    line-height: 1.6;
+  }
+
+  .highlight-card {
+    border-color: rgba(78, 205, 196, 0.3);
+    background: linear-gradient(135deg, rgba(78, 205, 196, 0.03), transparent);
+  }
+
+  .manifesto-box {
+    border-left: 4px solid #4ecdc4;
+    padding: 2rem;
+    background: var(--color-surface);
+    border-radius: 0 12px 12px 0;
+  }
+
+  .manifesto-box p {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: var(--color-text-main);
+    opacity: 0.9;
+  }
+
+  /* Insight Section */
+  .insight-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 4rem;
+    align-items: center;
+    border-top: 1px solid var(--color-border);
+    padding-top: 4rem;
+  }
+
+  .insight-text h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-text-main);
+    margin-bottom: 1.25rem;
+  }
+
+  .insight-text p {
+    color: var(--color-text-body);
+    opacity: 0.7;
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+  }
+
+  .insight-cta {
+    margin-top: 2rem;
+  }
+
+  .v0-link {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    padding: 1.25rem;
+    border-radius: 12px;
+    transition: all 0.2s;
+  }
+
+  .v0-link:hover {
+    border-color: #4ecdc4;
+    transform: translateX(4px);
+  }
+
+  .v0-link span:first-child {
+    font-weight: 800;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .v0-link span:last-child {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .stack-box {
+    border: 1px dashed var(--color-border);
+    padding: 2rem;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.01);
+  }
+
+  .stack-label {
+    font-size: 0.6rem;
+    font-weight: 900;
+    color: var(--color-text-muted);
+    letter-spacing: 0.2em;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .stack-item {
+    padding: 1rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+  }
+
+  .stack-item:first-of-type {
+    border-color: rgba(78, 205, 196, 0.3);
+    color: #4ecdc4;
+  }
+
+  @media (max-width: 800px) {
+    .roi-grid,
+    .insight-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
