@@ -308,84 +308,80 @@ const featuredPosts = posts.slice(0, 3);
     <section class="roi-section">
       <div class="roi-container">
         <div class="roi-header">
-          <span class="roi-tag">High-Value Partnership</span>
+          <span class="depth-tag dark">
+            <span class="teal">$</span> architectural --roi
+          </span>
           <h2>The Architectural Advantage</h2>
           <p>
             I don't just build features; I engineer systems with <strong
               >long-term business value</strong
-            > in mind. Deep technical depth isn't just for show—it's an insurance
-            policy for your business.
+            > in mind. Technical depth is the insurance policy for your business.
           </p>
         </div>
 
         <div class="roi-grid">
           <div class="roi-card">
-            <div class="roi-icon">
+            <div class="roi-icon-wrapper">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
+                stroke-width="2.5"
                 ><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"
                 ></path></svg
               >
             </div>
             <h3>Cost Engineering</h3>
             <p>
-              Knowing how the OS and Kernel handle memory and I/O allows me to
-              write highly efficient code that runs on <strong
-                >smaller, cheaper infrastructure</strong
-              >. I save you money on cloud bills before the code even reaches
-              production.
+              Efficient code that respects OS-level resources. I reduce cloud
+              infrastructure costs by building software that does more with
+              less.
             </p>
           </div>
 
-          <div class="roi-card">
-            <div class="roi-icon">
+          <div class="roi-card highlight-card">
+            <div class="roi-icon-wrapper">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
+                stroke-width="2.5"
                 ><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
                 ></path></svg
               >
             </div>
-            <h3>Defensive Logic</h3>
+            <h3>Security Hardening</h3>
             <p>
-              With a background in security audits and dorking, I identify
-              threat models during development. You get a system that is <strong
-                >hardened by design</strong
-              >, reducing the risk of costly data breaches and vulnerabilities.
+              Instinctive security thinking from years of research. Your systems
+              are hardened by design, not by patches after a breach.
             </p>
           </div>
 
           <div class="roi-card">
-            <div class="roi-icon">
+            <div class="roi-icon-wrapper">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
+                stroke-width="2.5"
                 ><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg
               >
             </div>
-            <h3>Zero-Handoff Velocity</h3>
+            <h3>Lean Execution</h3>
             <p>
-              I own the full lifecycle. <strong
-                >Domain, DNS, TLS, Docker, CI/CD, and DB Schema</strong
-              >—I handle it all. No waiting for DevOps, no communication gaps,
-              just pure deployment speed from day one.
+              Zero-handoff development. One engineer owning the full stack,
+              removing communication debt and speeding up time-to-market.
             </p>
           </div>
         </div>
 
         <div class="manifesto-box">
-          <blockquote>
-            "A great programmer writes code. An Architectural Engineer builds
-            systems that don't just work today, but stay resilient, secure, and
-            cost-effective for years."
-          </blockquote>
+          <p>
+            "A great programmer writes code. An <strong
+              >Architectural Engineer</strong
+            > builds systems that stay resilient, secure, and cost-effective for
+            years."
+          </p>
         </div>
       </div>
     </section>
@@ -1308,13 +1304,9 @@ const featuredPosts = posts.slice(0, 3);
 
     /* ─── Architectural ROI ─── */
     .roi-section {
-      background: linear-gradient(
-        180deg,
-        var(--color-bg) 0%,
-        rgba(13, 17, 23, 1) 100%
-      );
       padding: 6rem 0;
-      border-top: 1px solid rgba(255, 255, 255, 0.03);
+      background: var(--color-bg);
+      border-top: 1px solid var(--color-border);
     }
 
     .roi-container {
@@ -1324,110 +1316,108 @@ const featuredPosts = posts.slice(0, 3);
     }
 
     .roi-header {
-      text-align: center;
-      margin-bottom: 4rem;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .roi-tag {
-      font-size: 0.7rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: #4ecdc4;
-      background: rgba(78, 205, 196, 0.08);
-      padding: 0.35rem 1rem;
-      border-radius: 99px;
-      display: inline-block;
-      margin-bottom: 1.25rem;
+      margin-bottom: 3.5rem;
     }
 
     .roi-header h2 {
-      font-size: clamp(2rem, 4vw, 2.75rem);
-      font-weight: 900;
-      color: white;
-      letter-spacing: -0.04em;
-      margin-bottom: 1.25rem;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--color-text-main);
+      letter-spacing: -0.03em;
+      margin-bottom: 0.75rem;
     }
 
     .roi-header p {
-      font-size: 1.05rem;
+      font-size: 0.95rem;
       line-height: 1.7;
       color: var(--color-text-body);
-      opacity: 0.8;
+      opacity: 0.85;
+      max-width: 680px;
     }
 
     .roi-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-      margin-bottom: 4rem;
+      gap: 1.5rem;
+      margin-bottom: 3.5rem;
     }
 
     .roi-card {
-      background: rgba(255, 255, 255, 0.01);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      padding: 2.5rem;
-      border-radius: 20px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      padding: 2.25rem;
+      border-radius: 16px;
+      transition: all 0.25s ease;
+    }
+
+    .roi-card.highlight-card {
+      background: linear-gradient(
+        135deg,
+        rgba(78, 205, 196, 0.05),
+        rgba(102, 126, 234, 0.05)
+      );
+      border-color: rgba(78, 205, 196, 0.2);
     }
 
     .roi-card:hover {
-      background: rgba(255, 255, 255, 0.02);
-      border-color: rgba(78, 205, 196, 0.2);
-      transform: translateY(-5px);
+      border-color: rgba(78, 205, 196, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px -12px rgba(78, 205, 196, 0.15);
     }
 
-    .roi-icon {
-      width: 48px;
-      height: 48px;
-      background: rgba(78, 205, 196, 0.1);
-      border-radius: 12px;
+    .roi-icon-wrapper {
+      width: 42px;
+      height: 42px;
+      background: rgba(78, 205, 196, 0.08);
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #4ecdc4;
-      margin-bottom: 1.75rem;
+      margin-bottom: 1.5rem;
     }
 
-    .roi-icon svg {
-      width: 24px;
-      height: 24px;
+    .roi-icon-wrapper svg {
+      width: 22px;
+      height: 22px;
     }
 
     .roi-card h3 {
-      font-size: 1.25rem;
+      font-size: 1.1rem;
       font-weight: 700;
-      color: white;
-      margin-bottom: 1rem;
+      color: var(--color-text-main);
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.01em;
     }
 
     .roi-card p {
-      font-size: 0.93rem;
+      font-size: 0.875rem;
       line-height: 1.65;
-      color: var(--color-text-muted);
+      color: var(--color-text-body);
+      opacity: 0.8;
+      margin: 0;
     }
 
     .manifesto-box {
-      background: rgba(78, 205, 196, 0.03);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
       border-left: 4px solid #4ecdc4;
-      padding: 2.5rem;
-      border-radius: 0 16px 16px 0;
-      max-width: 800px;
-      margin: 0 auto;
+      padding: 2rem;
+      border-radius: 0 12px 12px 0;
+      max-width: 100%;
     }
 
-    .manifesto-box blockquote {
-      font-family: Georgia, serif;
-      font-size: 1.25rem;
-      font-style: italic;
-      color: rgba(255, 255, 255, 0.8);
-      line-height: 1.7;
+    .manifesto-box p {
+      font-family: var(--font-primary);
+      font-size: 1.1rem;
+      color: var(--color-text-main);
+      line-height: 1.6;
       margin: 0;
+      opacity: 0.9;
+    }
+
+    .manifesto-box strong {
+      color: #4ecdc4;
     }
 
     @media (max-width: 900px) {
