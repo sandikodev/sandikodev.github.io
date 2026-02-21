@@ -83,9 +83,11 @@ This project uses a monorepo structure managed by `pnpm` and Git submodules for 
 ## ⚡ Performance & Reliability
 
 ### Automatic Cache Manager
+
 We use a **Storage Versioning** mechanism in `localStorage` to ensure users always see the latest version of the app. If a significant update is deployed, `STORAGE_VERSION` is increased, triggering an automatic reset of stale state and unregistering old Service Workers.
 
 ### Design System Tokens
+
 Most styles are standardized via `src/styles/design-system.css`, making it easy to tweak colors, radius, and spacing globally without touching individual components.
 
 ## 📖 Documentation Architecture
@@ -100,15 +102,19 @@ For deeper technical insights, explore the `docs/` directory:
 ## 🎨 Dual Design System Philosophy
 
 ### Blog Mode (Default)
+
 Clean, professional reading experience using Inter. Designed for information accessibility.
 
 ### Terminal Mode (`/workspace`)
+
 Inspired by `i3wm` and `sway`. It's a playground for developer-centric aesthetics:
+
 - Retro terminal vibes with modern themes (Tokyo Night, Tokyo Night Storm, etc.)
 - Keyboard-driven navigation.
 - Real-time tiling window manager simulator.
 
 ## 🔬 Experimental: RENDER Framework
+
 The workspace interface is a living preview for the **RENDER** framework, aiming to bring high-performance desktop development DX to the web.
 
 ## 📄 License
@@ -118,4 +124,5 @@ The workspace interface is a living preview for the **RENDER** framework, aiming
 - **Images**: Demonstration purposes only.
 
 ---
+
 Developed with ❤️ by [SandikoDev](https://sandikodev.github.io)

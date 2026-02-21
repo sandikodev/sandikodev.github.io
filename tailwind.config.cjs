@@ -84,7 +84,9 @@ module.exports = {
             "--tw-prose-td-borders": "var(--color-border)",
             "--tw-prose-th-borders": "var(--color-border)",
             code: {
-              backgroundColor: "var(--color-surface)",
+              backgroundColor: "var(--color-bg-tertiary)",
+              border: "1px solid var(--color-border-alpha)",
+              color: "var(--color-primary)",
               borderRadius: "var(--radius-sm)",
               fontWeight: "500",
               padding: "0.2em 0.4em",
