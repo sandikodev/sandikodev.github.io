@@ -1,6 +1,6 @@
 ---
 import config from "@/config/config.json";
-import Base from "@/layouts/Base.astro";
+import V0Layout from "@/layouts/V0Layout.astro";
 import Posts from "@/layouts/Posts.astro";
 import { getAllPosts } from "@/lib/contentParser.astro";
 
@@ -8,10 +8,9 @@ const posts = await getAllPosts();
 const featuredPosts = posts.slice(0, 6);
 ---
 
-<Base
-  description={config.metadata.meta_description}
+<V0Layout
   meta_title={`${config.metadata.meta_author} — v0 (2025 archive)`}
-  title={config.metadata.meta_author}
+  description={config.metadata.meta_description}
 >
   <!-- Archive banner -->
   <div class="v0-banner">
@@ -29,7 +28,7 @@ const featuredPosts = posts.slice(0, 6);
   </div>
 
   <!-- Hero — original, unmodified -->
-  <section class="hero">
+  <section class="hero-25">
     <h1>{config.metadata.meta_author}</h1>
     <p class="tagline">{config.metadata.tagline}</p>
     <p class="bio">
@@ -63,67 +62,18 @@ const featuredPosts = posts.slice(0, 6);
       <a href={`mailto:${config.contactinfo.email}`}>Email</a>
     </div>
   </section>
-</Base>
+</V0Layout>
 
 <style>
-  /* ── Archive Banner ── */
-  .v0-banner {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.6rem 1.5rem;
-    background: var(--color-surface);
-    border-bottom: 1px solid var(--color-border);
-    font-size: 0.8rem;
-    flex-wrap: wrap;
-  }
-
-  .v0-breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-family: "SF Mono", "Fira Code", monospace;
-    font-size: 0.72rem;
-    color: var(--color-text-muted);
-  }
-
-  .v0-breadcrumb a {
-    color: var(--color-text-muted);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  .v0-breadcrumb a:hover {
-    color: var(--color-text-main);
-  }
-
-  .v0-label {
-    color: var(--color-text-muted);
-    flex: 1;
-  }
-
-  .v0-link {
-    font-weight: 600;
-    color: var(--color-primary);
-    text-decoration: none;
-    transition: opacity 0.2s;
-    margin-left: auto;
-  }
-
-  .v0-link:hover {
-    opacity: 0.75;
-  }
-
   /* ── Original 2025 styles — untouched ── */
-  .hero {
+  .hero-25 {
     max-width: 680px;
     margin: 0 auto;
     padding: 5rem 1.5rem 4rem;
     text-align: center;
   }
 
-  .hero h1 {
-    font-family: var(--font-primary);
+  .hero-25 h1 {
     font-size: 3rem;
     font-weight: 700;
     letter-spacing: -0.02em;
@@ -159,10 +109,10 @@ const featuredPosts = posts.slice(0, 6);
     padding: 0.75rem 1.5rem;
     background: var(--color-text-main);
     color: var(--color-bg);
-    border-radius: var(--radius-md);
+    border-radius: 8px;
     font-weight: 500;
     text-decoration: none;
-    transition: var(--transition-all);
+    transition: all 0.2s;
   }
 
   .btn-primary:hover {
@@ -178,7 +128,7 @@ const featuredPosts = posts.slice(0, 6);
     color: var(--color-text-muted);
     font-weight: 500;
     text-decoration: none;
-    transition: var(--transition-all);
+    transition: all 0.2s;
   }
 
   .btn-secondary:hover {
@@ -188,7 +138,7 @@ const featuredPosts = posts.slice(0, 6);
   .posts-section {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 3rem var(--spacing-6) 4rem;
+    padding: 3rem 1.5rem 4rem;
   }
 
   .section-header {
@@ -206,23 +156,23 @@ const featuredPosts = posts.slice(0, 6);
   }
 
   .view-all {
-    font-size: var(--text-sm);
+    font-size: 0.875rem;
     font-weight: 500;
     color: var(--color-text-muted);
     text-decoration: none;
-    transition: var(--transition-all);
+    transition: all 0.2s;
   }
 
   .view-all:hover {
-    color: var(--color-primary);
+    color: var(--color-text-main);
   }
 
   .about-section {
-    max-width: var(--max-width-content);
+    max-width: 720px;
     margin: 0 auto;
-    padding: 4rem var(--spacing-6);
+    padding: 4rem 1.5rem;
     text-align: center;
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .about-section p {
@@ -240,19 +190,20 @@ const featuredPosts = posts.slice(0, 6);
   }
 
   .social-links a {
-    font-size: var(--text-sm);
+    font-size: 0.875rem;
     font-weight: 500;
     color: var(--color-text-main);
     text-decoration: none;
-    transition: var(--transition-all);
+    transition: all 0.2s;
   }
 
   .social-links a:hover {
-    color: var(--color-primary);
+    color: var(--color-text-main);
+    opacity: 0.7;
   }
 
   @media (max-width: 640px) {
-    .hero h1 {
+    .hero-25 h1 {
       font-size: 2.25rem;
     }
   }

@@ -1,8 +1,8 @@
 ---
-import Base from "@/layouts/Base.astro";
+import V0Layout from "@/layouts/V0Layout.astro";
 ---
 
-<Base
+<V0Layout
   meta_title="sandikodev — 2021 archive"
   description="Archived 2021 version of sandikodev's personal site."
 >
@@ -145,7 +145,7 @@ import Base from "@/layouts/Base.astro";
           <div class="t-content">
             <strong>Belajar Web Development ← Sekarang</strong>
             <p>
-              Transisi ke software development. Sedang belajar Laravel dan
+              Transisi ke software development. Sedang belajar Laravel and
               JavaScript.
             </p>
           </div>
@@ -158,49 +158,13 @@ import Base from "@/layouts/Base.astro";
       <p class="footer-note">Website ini masih dalam pengembangan 🚧</p>
     </footer>
   </div>
-</Base>
+</V0Layout>
 
 <style>
-  .v0-banner {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.6rem 1.5rem;
-    background: var(--color-surface);
-    border-bottom: 1px solid var(--color-border);
-    font-size: 0.8rem;
-    flex-wrap: wrap;
-  }
-  .v0-breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-family: "SF Mono", monospace;
-    font-size: 0.72rem;
-    color: var(--color-text-muted);
-  }
-  .v0-breadcrumb a {
-    color: var(--color-text-muted);
-    text-decoration: none;
-  }
-  .v0-breadcrumb a:hover {
-    color: var(--color-text-main);
-  }
-  .v0-label {
-    color: var(--color-text-muted);
-    flex: 1;
-  }
-  .v0-link {
-    font-weight: 600;
-    color: var(--color-primary);
-    text-decoration: none;
-    margin-left: auto;
-  }
-
   .page-21 {
     max-width: 720px;
     margin: 0 auto;
-    padding: 0 1.5rem 4rem;
+    padding: 2rem 1.5rem 4rem;
     font-family: "Courier New", Courier, monospace;
   }
 
@@ -208,7 +172,7 @@ import Base from "@/layouts/Base.astro";
     padding: 1rem 0;
     font-size: 0.8rem;
     color: #22c55e;
-    border-bottom: 1px dashed var(--color-border);
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
     margin-bottom: 2rem;
   }
 
@@ -320,7 +284,7 @@ import Base from "@/layouts/Base.astro";
   /* Skills */
   .skills-21 {
     padding: 2rem 0;
-    border-top: 1px dashed var(--color-border);
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
   }
 
   .skills-21 h2 {
@@ -364,7 +328,7 @@ import Base from "@/layouts/Base.astro";
 
   .bar-bg {
     height: 6px;
-    background: var(--color-border);
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 99px;
     overflow: hidden;
   }
@@ -386,7 +350,7 @@ import Base from "@/layouts/Base.astro";
   /* Journey */
   .journey-21 {
     padding: 2rem 0;
-    border-top: 1px dashed var(--color-border);
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
   }
 
   .journey-21 h2 {
@@ -402,7 +366,7 @@ import Base from "@/layouts/Base.astro";
     flex-direction: column;
     gap: 1.25rem;
     padding-left: 1rem;
-    border-left: 2px solid var(--color-border);
+    border-left: 2px solid rgba(255, 255, 255, 0.1);
   }
 
   .t-item {
@@ -442,7 +406,7 @@ import Base from "@/layouts/Base.astro";
   /* Footer */
   .footer-21 {
     padding: 2rem 0 1rem;
-    border-top: 1px dashed var(--color-border);
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
     text-align: center;
     font-size: 0.72rem;
     color: var(--color-text-muted);

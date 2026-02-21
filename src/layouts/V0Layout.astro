@@ -1,0 +1,120 @@
+---
+import "@/styles/main.css";
+import "@/styles/design-system.css";
+
+export interface Props {
+  meta_title?: string;
+  description?: string;
+}
+
+const { meta_title, description } = Astro.props;
+
+const title = meta_title ?? "sandikodev — Version History";
+const desc =
+  description ??
+  "Archived versions of sandikodev's personal site — each major iteration preserved as a navigable snapshot.";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      content="width=device-width, initial-scale=1, maximum-scale=5"
+      name="viewport"
+    />
+
+    <!-- Inline theme init (dark mode only — v0 always dark) -->
+    <script is:inline>
+      document.documentElement.classList.add("dark");
+    </script>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Fira+Code:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Favicon -->
+    <link href="/favicon.ico" rel="icon" type="image/x-icon" />
+    <link href="/logo.svg" rel="icon" type="image/svg+xml" />
+
+    <!-- Meta -->
+    <title>{title}</title>
+    <meta content={desc} name="description" />
+    <meta content="noindex, nofollow" name="robots" />
+  </head>
+  <body class="v0-body">
+    <slot />
+
+    <!-- Minimal back-to-top behaviour — no JS framework needed -->
+  </body>
+</html>
+
+<style is:global>
+  /* Force dark mode variables for all v0 pages */
+  .v0-body {
+    background: var(--color-bg);
+    color: var(--color-text-main);
+    font-family: "Inter", system-ui, sans-serif;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Shared v0 banner — used by every archive page */
+  .v0-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .v0-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: "Fira Code", "SF Mono", monospace;
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  .v0-breadcrumb a {
+    color: rgba(255, 255, 255, 0.35);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .v0-breadcrumb a:hover {
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .v0-label {
+    color: rgba(255, 255, 255, 0.3);
+    flex: 1;
+    font-size: 0.75rem;
+  }
+
+  .v0-link {
+    font-weight: 600;
+    font-size: 0.75rem;
+    color: #4ecdc4;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    margin-left: auto;
+  }
+
+  .v0-link:hover {
+    opacity: 0.75;
+  }
+</style>

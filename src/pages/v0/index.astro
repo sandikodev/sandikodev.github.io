@@ -1,12 +1,8 @@
 ---
-import Base from "@/layouts/Base.astro";
-import config from "@/config/config.json";
+import V0Layout from "@/layouts/V0Layout.astro";
 ---
 
-<Base
-  meta_title={`${config.metadata.meta_author} — Version History`}
-  description="Archived versions of sandikodev's personal site — each major iteration preserved as a navigable snapshot."
->
+<V0Layout meta_title="sandikodev — Version History">
   <div class="v0-root">
     <div class="v0-header">
       <div class="v0-breadcrumb">
@@ -148,7 +144,7 @@ import config from "@/config/config.json";
       </code>
     </div>
   </div>
-</Base>
+</V0Layout>
 
 <style>
   .v0-root {
