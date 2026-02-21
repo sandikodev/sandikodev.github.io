@@ -10,3 +10,6 @@
 [submodule "packages/workspace-framework"]
 	path = packages/workspace-framework
 	url = https://github.com/sandikodev/workspace-framework.git
+[submodule "gig-prep"]
+	path = gig-prep
+	url = git@github.com:sandikodev/portfolio.git
