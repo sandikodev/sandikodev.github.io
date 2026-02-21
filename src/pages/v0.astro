@@ -1,0 +1,246 @@
+---
+import config from "@/config/config.json";
+import Base from "@/layouts/Base.astro";
+import Posts from "@/layouts/Posts.astro";
+import { getAllPosts } from "@/lib/contentParser.astro";
+
+const posts = await getAllPosts();
+const featuredPosts = posts.slice(0, 6);
+---
+
+<Base
+  description={config.metadata.meta_description}
+  meta_title={`${config.metadata.meta_author} — v0 (2025 archive)`}
+  title={config.metadata.meta_author}
+>
+  <!-- Archive banner -->
+  <div class="v0-banner">
+    <span class="v0-badge">v0 · 2025</span>
+    <span class="v0-label"
+      >You're viewing the original landing page, preserved as-is.</span
+    >
+    <a class="v0-link" href="/">← Back to current version</a>
+  </div>
+
+  <!-- Hero — original, unmodified -->
+  <section class="hero">
+    <h1>{config.metadata.meta_author}</h1>
+    <p class="tagline">{config.metadata.tagline}</p>
+    <p class="bio">
+      Menulis tentang web development, infrastructure, dan continuous learning.
+      10 tahun journey dari SMK ke DevOps.
+    </p>
+    <div class="hero-links">
+      <a class="btn-primary" href="/blog">Read Blog</a>
+      <a class="btn-secondary" href="/now">What I'm doing now →</a>
+    </div>
+  </section>
+
+  <!-- Latest Posts -->
+  <section class="posts-section">
+    <div class="section-header">
+      <h2>Latest Articles</h2>
+      <a class="view-all" href="/blog">View all →</a>
+    </div>
+    <Posts posts={featuredPosts} />
+  </section>
+
+  <!-- About -->
+  <section class="about-section">
+    <p>
+      Passionate tentang web technology dan open source. Percaya pada knowledge
+      sharing dan building things that matter.
+    </p>
+    <div class="social-links">
+      <a href={config.contactinfo.github} target="_blank">GitHub</a>
+      <a href={config.contactinfo.linkedin} target="_blank">LinkedIn</a>
+      <a href={`mailto:${config.contactinfo.email}`}>Email</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ── Archive Banner ── */
+  .v0-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 1.5rem;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .v0-badge {
+    font-family: "SF Mono", "Fira Code", monospace;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.55rem;
+    border-radius: 99px;
+    background: var(--color-text-main);
+    color: var(--color-bg);
+  }
+
+  .v0-label {
+    color: var(--color-text-muted);
+    flex: 1;
+  }
+
+  .v0-link {
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: opacity 0.2s;
+    margin-left: auto;
+  }
+
+  .v0-link:hover {
+    opacity: 0.75;
+  }
+
+  /* ── Original 2025 styles — untouched ── */
+  .hero {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem 4rem;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-family: var(--font-primary);
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+    color: var(--color-text-main);
+  }
+
+  .tagline {
+    font-size: 1.25rem;
+    color: var(--color-text-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .bio {
+    font-family: Georgia, serif;
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: var(--color-text-body);
+    margin-bottom: 2rem;
+  }
+
+  .hero-links {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--color-text-main);
+    color: var(--color-bg);
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    text-decoration: none;
+    transition: var(--transition-all);
+  }
+
+  .btn-primary:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    color: var(--color-text-muted);
+    font-weight: 500;
+    text-decoration: none;
+    transition: var(--transition-all);
+  }
+
+  .btn-secondary:hover {
+    color: var(--color-text-main);
+  }
+
+  .posts-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 3rem var(--spacing-6) 4rem;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+    margin: 0;
+  }
+
+  .view-all {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: var(--transition-all);
+  }
+
+  .view-all:hover {
+    color: var(--color-primary);
+  }
+
+  .about-section {
+    max-width: var(--max-width-content);
+    margin: 0 auto;
+    padding: 4rem var(--spacing-6);
+    text-align: center;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .about-section p {
+    font-family: Georgia, serif;
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: var(--color-text-body);
+    margin-bottom: 1.5rem;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+  }
+
+  .social-links a {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-text-main);
+    text-decoration: none;
+    transition: var(--transition-all);
+  }
+
+  .social-links a:hover {
+    color: var(--color-primary);
+  }
+
+  @media (max-width: 640px) {
+    .hero h1 {
+      font-size: 2.25rem;
+    }
+  }
+</style>
