@@ -5,187 +5,1249 @@ import Posts from "@/layouts/Posts.astro";
 import { getAllPosts } from "@/lib/contentParser.astro";
 
 const posts = await getAllPosts();
-const featuredPosts = posts.slice(0, 6);
+const featuredPosts = posts.slice(0, 3);
 ---
 
-<Base>
-  <!-- Hero -->
-  <section class="hero">
-    <h1>{config.metadata.meta_author}</h1>
-    <p class="tagline">{config.metadata.tagline}</p>
-    <p class="bio">
-      Menulis tentang web development, infrastructure, dan continuous learning.
-      10 tahun journey dari SMK ke DevOps.
-    </p>
-    <div class="hero-links">
-      <a class="btn-primary" href="/blog">Read Blog</a>
-      <a class="btn-secondary" href="/now">What I'm doing now →</a>
+<Base
+  description="Sandikodev — Systems engineer lahir dari dunia jaringan dan keamanan siber. Bukan sekedar fullstack developer, melainkan seseorang yang memahami setiap layer dari silicon hingga UI."
+  meta_title={`${config.metadata.meta_author} — Systems Engineer & Fullstack Developer`}
+>
+  <!-- Boot Sequence Hero -->
+  <section class="hero-boot">
+    <div class="boot-bg" aria-hidden="true">
+      <div class="grid-lines"></div>
+      <div class="scan-line"></div>
+    </div>
+
+    <div class="boot-container">
+      <!-- Terminal Boot -->
+      <div class="terminal-panel" id="terminal-panel">
+        <div class="terminal-bar">
+          <div class="term-dots">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </div>
+          <span class="term-title">zsh — sandikodev@arch ~</span>
+        </div>
+        <div class="terminal-body">
+          <div class="boot-line" data-delay="0">
+            <span class="ok">[ OK ]</span> Starting network interfaces...
+          </div>
+          <div class="boot-line" data-delay="300">
+            <span class="ok">[ OK ]</span> Mounting /dev/sda1 on /
+          </div>
+          <div class="boot-line" data-delay="600">
+            <span class="ok">[ OK ]</span> Loading iptables rules...
+          </div>
+          <div class="boot-line" data-delay="900">
+            <span class="ok">[ OK ]</span> Starting Docker daemon...
+          </div>
+          <div class="boot-line" data-delay="1200">
+            <span class="ok">[ OK ]</span> Configuring nginx upstream...
+          </div>
+          <div class="boot-line" data-delay="1500">
+            <span class="ok">[ OK ]</span> Deploying application containers...
+          </div>
+          <div class="boot-line highlight-line" data-delay="1800">
+            <span class="prompt">$</span> whoami
+          </div>
+          <div class="boot-line result-line" data-delay="2100">
+            <span class="teal">sandikodev</span> — Systems Engineer &amp; Fullstack
+            Developer
+          </div>
+          <div class="boot-cursor-line" data-delay="2400">
+            <span class="prompt">$</span>
+            <span class="boot-cursor"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Text -->
+      <div class="hero-text">
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          <span>Available for collaboration</span>
+        </div>
+        <h1 class="hero-title">
+          Bukan sekedar<br />
+          <span class="title-gradient">Fullstack Dev.</span>
+        </h1>
+        <p class="hero-desc">
+          Saya lahir dari dunia <strong>jaringan komputer</strong> dan
+          <strong>keamanan siber</strong> — bukan dari tutorial YouTube. Sebelum
+          menulis satu baris React, saya sudah konfigurasi switch Cisco, setup firewall,
+          dan investigasi network intrusion.
+        </p>
+        <div class="hero-actions">
+          <a class="cta-main" href="/about">
+            Read My Story
+            <svg
+              fill="none"
+              width="16"
+              height="16"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M5 12h14M12 5l7 7-7 7"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </a>
+          <a class="cta-ghost" href="/portfolio">View Work ↗</a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-n">2016</span>
+            <span class="stat-l">First ping</span>
+          </div>
+          <div class="stat-div"></div>
+          <div class="stat">
+            <span class="stat-n">10+</span>
+            <span class="stat-l">Years in tech</span>
+          </div>
+          <div class="stat-div"></div>
+          <div class="stat">
+            <span class="stat-n">7</span>
+            <span class="stat-l">Stack layers</span>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- Latest Posts -->
-  <section class="posts-section">
-    <div class="section-header">
-      <h2>Latest Articles</h2>
-      <a class="view-all" href="/blog">View all →</a>
+  <!-- The Depth Section: 7-Layer Stack Visualization -->
+  <section class="depth-section">
+    <div class="depth-container">
+      <div class="depth-header">
+        <span class="depth-tag">
+          <span class="teal">$</span> cat /proc/sandikodev/stack
+        </span>
+        <h2>Saya Memahami Setiap Layer</h2>
+        <p>
+          Kebanyakan developer hanya menyentuh layer 5–7. Saya memahami dari
+          layer 1.
+        </p>
+      </div>
+
+      <div class="stack-layers">
+        <div class="layer" data-layer="1">
+          <div class="layer-num">L1</div>
+          <div class="layer-content">
+            <div class="layer-name">Physical &amp; Hardware</div>
+            <div class="layer-desc">
+              Rakit PC, troubleshoot hardware, konfigurasi NIC, memahami sinyal
+              elektrik di kabel RJ45
+            </div>
+            <div class="layer-tags">
+              <span>CompTIA A+</span><span>Cisco</span><span>Wireshark</span>
+            </div>
+          </div>
+          <div class="layer-bar" style="--w: 95%"></div>
+        </div>
+        <div class="layer" data-layer="2">
+          <div class="layer-num">L2</div>
+          <div class="layer-content">
+            <div class="layer-name">Network &amp; Security</div>
+            <div class="layer-desc">
+              Routing, VLAN, firewall rules, IPSec, network intrusion detection,
+              penetration testing basics
+            </div>
+            <div class="layer-tags">
+              <span>iptables</span><span>pfSense</span><span>Snort</span><span
+                >VPN</span>
+            </div>
+          </div>
+          <div class="layer-bar" style="--w: 90%"></div>
+        </div>
+        <div class="layer" data-layer="3">
+          <div class="layer-num">L3</div>
+          <div class="layer-content">
+            <div class="layer-name">Operating System &amp; Kernel</div>
+            <div class="layer-desc">
+              Linux internals, process management, file descriptors, cgroups,
+              namespaces yang menjadi fondasi container
+            </div>
+            <div class="layer-tags">
+              <span>Linux</span><span>systemd</span><span>Bash</span><span
+                >cgroups</span>
+            </div>
+          </div>
+          <div class="layer-bar" style="--w: 87%"></div>
+        </div>
+        <div class="layer" data-layer="4">
+          <div class="layer-num">L4</div>
+          <div class="layer-content">
+            <div class="layer-name">Infrastructure &amp; DevOps</div>
+            <div class="layer-desc">
+              Container orchestration, CI/CD pipelines, server provisioning,
+              monitoring, dan observability
+            </div>
+            <div class="layer-tags">
+              <span>Docker</span><span>AWS</span><span>Nginx</span><span
+                >GitHub Actions</span>
+            </div>
+          </div>
+          <div class="layer-bar" style="--w: 93%"></div>
+        </div>
+        <div class="layer" data-layer="5">
+          <div class="layer-num">L5</div>
+          <div class="layer-content">
+            <div class="layer-name">Backend &amp; API</div>
+            <div class="layer-desc">
+              REST API design, database architecture, query optimization,
+              authentication systems, dan ORM
+            </div>
+            <div class="layer-tags">
+              <span>Node.js</span><span>Hono</span><span>PostgreSQL</span><span
+                >Drizzle</span>
+            </div>
+          </div>
+          <div class="layer-bar" style="--w: 91%"></div>
+        </div>
+        <div class="layer" data-layer="6">
+          <div class="layer-num">L6</div>
+          <div class="layer-content">
+            <div class="layer-name">Full-Stack Frameworks</div>
+            <div class="layer-desc">
+              SSR, SSG, edge computing, isomorphic rendering — bukan hanya pakai
+              framework tapi paham cara kerjanya
+            </div>
+            <div class="layer-tags">
+              <span>Next.js</span><span>SvelteKit</span><span>Astro</span><span
+                >Hono RPC</span>
+            </div>
+          </div>
+          <div class="layer-bar" style="--w: 95%"></div>
+        </div>
+        <div class="layer active-layer" data-layer="7">
+          <div class="layer-num">L7</div>
+          <div class="layer-content">
+            <div class="layer-name">Product &amp; UX</div>
+            <div class="layer-desc">
+              UI yang pixel-perfect, state management, performance optimization,
+              dan menemukan product-market fit
+            </div>
+            <div class="layer-tags">
+              <span>React 19</span><span>Svelte 5</span><span>TypeScript</span
+              ><span>Tailwind</span>
+            </div>
+          </div>
+          <div class="layer-bar" style="--w: 89%"></div>
+        </div>
+      </div>
     </div>
-    <Posts posts={featuredPosts} />
   </section>
 
-  <!-- About -->
-  <section class="about-section">
-    <p>
-      Passionate tentang web technology dan open source. Percaya pada knowledge
-      sharing dan building things that matter.
-    </p>
-    <div class="social-links">
-      <a href={config.contactinfo.github} target="_blank">GitHub</a>
-      <a href={config.contactinfo.linkedin} target="_blank">LinkedIn</a>
-      <a href={`mailto:${config.contactinfo.email}`}>Email</a>
+  <!-- What Makes Me Different -->
+  <section class="diff-section">
+    <div class="diff-container">
+      <div class="diff-header">
+        <span class="depth-tag"
+          ><span class="teal">$</span> diff average-dev.txt sandikodev.txt</span
+        >
+        <h2>Apa yang Membedakan</h2>
+      </div>
+      <div class="diff-grid">
+        <div class="diff-card">
+          <div class="diff-icon">🔐</div>
+          <h3>Security-First Mindset</h3>
+          <p>
+            Ketika developer lain mikir "bikin fitur ini", saya juga mikir
+            "bagaimana ini bisa diserang". Background cybersecurity membuat saya
+            instinctively memikirkan attack surface di setiap keputusan
+            arsitektur.
+          </p>
+        </div>
+        <div class="diff-card">
+          <div class="diff-icon">📡</div>
+          <h3>Network-Aware Engineering</h3>
+          <p>
+            Saya bisa trace perjalanan sebuah HTTP request dari kabel ethernet,
+            melewati router, firewall, load balancer, reverse proxy, application
+            server, hingga database query — dan tahu persis di mana
+            bottleneck-nya.
+          </p>
+        </div>
+        <div class="diff-card">
+          <div class="diff-icon">🏗️</div>
+          <h3>Infrastructure yang Saya Operasikan</h3>
+          <p>
+            Server bukan abstraksi bagi saya. Saya yang setup, saya yang
+            monitoring, saya yang on-call ketika down di tengah malam. Empati
+            terhadap production environment membuat kode saya lebih robust.
+          </p>
+        </div>
+        <div class="diff-card highlight-card">
+          <div class="diff-icon">⚡</div>
+          <h3>Full Ownership dari Produk</h3>
+          <p>
+            Dari domain purchase, SSL setup, Docker deployment, CI/CD pipeline,
+            hingga pixel terakhir di UI — saya bisa handle semuanya sendiri. Ini
+            yang membuat saya ideal untuk startup dan tim kecil.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Workspace Mode Intro -->
+  <section class="workspace-intro">
+    <div class="ws-container">
+      <div class="ws-terminal">
+        <div class="ws-bar">
+          <div class="term-dots">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </div>
+          <span class="term-title">workspace.sandikodev.github.io</span>
+        </div>
+        <div class="ws-preview">
+          <div class="ws-sidebar">
+            <div class="ws-item active">📁 Projects</div>
+            <div class="ws-item">📝 Blog</div>
+            <div class="ws-item">🔧 Skills</div>
+            <div class="ws-item">📊 Stats</div>
+          </div>
+          <div class="ws-content">
+            <div class="ws-panel">
+              <div class="ws-panel-title">// Active Projects</div>
+              <div class="ws-project">
+                <span class="ws-dot green"></span>
+                <span>margin-pro</span>
+                <span class="ws-tag">SaaS</span>
+              </div>
+              <div class="ws-project">
+                <span class="ws-dot green"></span>
+                <span>aksesekolah.id</span>
+                <span class="ws-tag">Education</span>
+              </div>
+              <div class="ws-project">
+                <span class="ws-dot amber"></span>
+                <span>pocat</span>
+                <span class="ws-tag">AI Tool</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ws-text">
+        <span class="depth-tag"
+          ><span class="teal">$</span> ./launch-workspace.sh</span
+        >
+        <h2>Website Ini Punya Mode Workspace</h2>
+        <p>
+          Saya membangun website ini layaknya development environment — bukan
+          sekedar portfolio statis. Ada command palette, keyboard shortcuts, dan
+          terminal-style navigation yang mencerminkan bagaimana saya bekerja
+          sehari-hari.
+        </p>
+        <div class="ws-shortcuts">
+          <kbd>Ctrl</kbd><span>+</span><kbd>K</kbd>
+          <span class="shortcut-desc">— buka Command Palette</span>
+        </div>
+        <a class="ws-btn" href="/workspace">
+          Open Workspace Mode
+          <svg
+            fill="none"
+            width="14"
+            height="14"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest Articles -->
+  <section class="articles-section">
+    <div class="articles-container">
+      <div class="articles-header">
+        <div>
+          <span class="depth-tag"
+            ><span class="teal">$</span> tail -n3 blog/index.md</span
+          >
+          <h2>Tulisan Terbaru</h2>
+        </div>
+        <a class="view-all-link" href="/blog"> Semua artikel → </a>
+      </div>
+      <Posts posts={featuredPosts} />
+    </div>
+  </section>
+
+  <!-- Footer CTA -->
+  <section class="footer-cta">
+    <div class="fcta-container">
+      <div class="fcta-inner">
+        <div class="fcta-terminal">
+          <span class="teal">$</span> ssh sandikodev@collaboration
+        </div>
+        <h2>Punya project menarik?</h2>
+        <p>
+          Saya terbuka untuk diskusi — dari arsitektur sistem, SaaS dari nol,
+          hingga audit infrastruktur yang sudah berjalan.
+        </p>
+        <div class="fcta-actions">
+          <a class="cta-main" href="/contact">Mulai Diskusi →</a>
+          <a class="cta-ghost" href="/portfolio">Lihat Portfolio</a>
+        </div>
+      </div>
     </div>
   </section>
 </Base>
 
 <style>
-  .hero {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 5rem 1.5rem 4rem;
-    text-align: center;
+  /* ─── Global ─── */
+  .teal {
+    color: #4ecdc4;
   }
 
-  .hero h1 {
-    font-family: var(--font-primary);
-    font-size: 3rem;
+  /* ─── Boot Hero ─── */
+  .hero-boot {
+    position: relative;
+    background: #0a0e1a;
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .boot-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .grid-lines {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(78, 205, 196, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(78, 205, 196, 0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .scan-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(78, 205, 196, 0.15),
+      transparent
+    );
+    animation: scan 8s linear infinite;
+  }
+
+  @keyframes scan {
+    0% {
+      top: -2px;
+    }
+    100% {
+      top: 100%;
+    }
+  }
+
+  .boot-container {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  /* Terminal */
+  .terminal-panel {
+    background: #0d1117;
+    border: 1px solid rgba(78, 205, 196, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow:
+      0 0 60px rgba(78, 205, 196, 0.06),
+      0 24px 64px rgba(0, 0, 0, 0.6);
+    font-family: "Fira Code", "SF Mono", monospace;
+  }
+
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: #161b22;
+    border-bottom: 1px solid rgba(78, 205, 196, 0.1);
+  }
+
+  .term-dots {
+    display: flex;
+    gap: 0.4rem;
+  }
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+  .dot.red {
+    background: #ff5f57;
+  }
+  .dot.yellow {
+    background: #febc2e;
+  }
+  .dot.green {
+    background: #28c840;
+  }
+
+  .term-title {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0 auto;
+  }
+
+  .terminal-body {
+    padding: 1.25rem 1.25rem 1.5rem;
+    min-height: 260px;
+  }
+
+  .boot-line {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.8;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .boot-line.visible {
+    opacity: 1;
+  }
+
+  .boot-line .ok {
+    color: #28c840;
     font-weight: 700;
-    letter-spacing: -0.02em;
-    margin-bottom: 1rem;
+  }
+
+  .highlight-line {
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 0.75rem;
+  }
+
+  .result-line {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+  }
+
+  .boot-cursor-line {
+    margin-top: 0.25rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .boot-cursor-line.visible {
+    opacity: 1;
+  }
+
+  .boot-cursor {
+    display: inline-block;
+    width: 8px;
+    height: 16px;
+    background: #4ecdc4;
+    animation: blink-cursor 1s step-end infinite;
+    vertical-align: text-bottom;
+  }
+
+  @keyframes blink-cursor {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  /* Hero Text */
+  .hero-text {
+    color: white;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid rgba(78, 205, 196, 0.3);
+    border-radius: 99px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #4ecdc4;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 1.5rem;
+  }
+
+  .badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #4ecdc4;
+    animation: pulse-badge 2.5s infinite;
+  }
+
+  @keyframes pulse-badge {
+    0% {
+      box-shadow: 0 0 0 0 rgba(78, 205, 196, 0.5);
+    }
+    70% {
+      box-shadow: 0 0 0 8px transparent;
+    }
+    100% {
+      box-shadow: 0 0 0 0 transparent;
+    }
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.25rem;
+    color: white;
+  }
+
+  .title-gradient {
+    background: linear-gradient(135deg, #4ecdc4 0%, #667eea 60%, #f093fb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.65);
+    margin-bottom: 2rem;
+    max-width: 46ch;
+  }
+
+  .hero-desc strong {
+    color: #4ecdc4;
+    font-weight: 600;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 0.875rem;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .cta-main {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.6rem;
+    background: #4ecdc4;
+    color: #0a0e1a;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 20px rgba(78, 205, 196, 0.3);
+  }
+
+  .cta-main:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(78, 205, 196, 0.45);
+  }
+
+  .cta-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.8rem 1.4rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .cta-ghost:hover {
+    border-color: #4ecdc4;
+    color: #4ecdc4;
+    transform: translateY(-2px);
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-n {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: white;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .stat-l {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 600;
+    margin-top: 0.25rem;
+  }
+
+  .stat-div {
+    width: 1px;
+    height: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  /* ─── Depth Section ─── */
+  .depth-section {
+    background: #0d1117;
+    padding: 5rem 0;
+  }
+
+  .depth-container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .depth-header {
+    margin-bottom: 3rem;
+  }
+
+  .depth-tag {
+    font-family: "Fira Code", "SF Mono", monospace;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.4);
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .depth-header h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.5rem;
+  }
+
+  .depth-header p {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .stack-layers {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .layer {
+    display: grid;
+    grid-template-columns: 40px 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    cursor: default;
+  }
+
+  .layer:hover {
+    background: rgba(78, 205, 196, 0.05);
+    border-color: rgba(78, 205, 196, 0.2);
+  }
+
+  .active-layer {
+    background: rgba(78, 205, 196, 0.06);
+    border-color: rgba(78, 205, 196, 0.25);
+  }
+
+  .layer-num {
+    font-family: "Fira Code", monospace;
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #4ecdc4;
+    text-align: center;
+    background: rgba(78, 205, 196, 0.1);
+    padding: 0.3rem 0.4rem;
+    border-radius: 6px;
+    letter-spacing: 0.03em;
+  }
+
+  .layer-content {
+    flex: 1;
+  }
+
+  .layer-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 0.2rem;
+  }
+
+  .layer-desc {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.45);
+    line-height: 1.5;
+    margin-bottom: 0.4rem;
+  }
+
+  .layer-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .layer-tags span {
+    font-family: "Fira Code", monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .layer-bar {
+    width: 80px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 99px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .layer-bar::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: var(--w);
+    background: linear-gradient(90deg, #4ecdc4, #667eea);
+    border-radius: 99px;
+  }
+
+  /* ─── Diff Section ─── */
+  .diff-section {
+    background: var(--color-bg);
+    padding: 5rem 0;
+  }
+
+  .diff-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .diff-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .diff-header h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-text-main);
+    letter-spacing: -0.03em;
+    margin: 0.5rem 0 0;
+  }
+
+  .diff-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .diff-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    padding: 1.75rem;
+    transition: all 0.25s ease;
+  }
+
+  .diff-card:hover {
+    border-color: rgba(78, 205, 196, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px -12px rgba(78, 205, 196, 0.15);
+  }
+
+  .highlight-card {
+    background: linear-gradient(
+      135deg,
+      rgba(78, 205, 196, 0.06),
+      rgba(102, 126, 234, 0.06)
+    );
+    border-color: rgba(78, 205, 196, 0.2);
+  }
+
+  .diff-icon {
+    font-size: 1.75rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .diff-card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.01em;
+  }
+
+  .diff-card p {
+    font-size: 0.87rem;
+    color: var(--color-text-body);
+    line-height: 1.65;
+    opacity: 0.85;
+    margin: 0;
+  }
+
+  /* ─── Workspace Intro ─── */
+  .workspace-intro {
+    background: var(--color-surface);
+    padding: 5rem 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .ws-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .ws-terminal {
+    background: #0d1117;
+    border: 1px solid rgba(78, 205, 196, 0.15);
+    border-radius: 12px;
+    overflow: hidden;
+    font-family: "Fira Code", monospace;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+  }
+
+  .ws-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: #161b22;
+    border-bottom: 1px solid rgba(78, 205, 196, 0.1);
+  }
+
+  .ws-preview {
+    display: flex;
+    height: 220px;
+  }
+
+  .ws-sidebar {
+    width: 140px;
+    border-right: 1px solid rgba(78, 205, 196, 0.1);
+    padding: 0.75rem 0;
+    background: #0a0e1a;
+  }
+
+  .ws-item {
+    padding: 0.5rem 1rem;
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .ws-item.active {
+    color: #4ecdc4;
+    background: rgba(78, 205, 196, 0.08);
+    border-right: 2px solid #4ecdc4;
+  }
+
+  .ws-content {
+    flex: 1;
+    padding: 1rem;
+  }
+
+  .ws-panel-title {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.75rem;
+  }
+
+  .ws-project {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .ws-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .ws-dot.green {
+    background: #28c840;
+  }
+  .ws-dot.amber {
+    background: #febc2e;
+  }
+
+  .ws-tag {
+    margin-left: auto;
+    font-size: 0.55rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    background: rgba(78, 205, 196, 0.1);
+    color: #4ecdc4;
+    border: 1px solid rgba(78, 205, 196, 0.2);
+  }
+
+  /* Workspace text */
+  .ws-text {
     color: var(--color-text-main);
   }
 
-  .tagline {
-    font-size: 1.25rem;
+  .ws-text h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin: 0.5rem 0 0.875rem;
+  }
+
+  .ws-text p {
+    font-size: 0.93rem;
+    line-height: 1.7;
+    color: var(--color-text-body);
+    opacity: 0.85;
+    margin-bottom: 1.25rem;
+  }
+
+  .ws-shortcuts {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8rem;
     color: var(--color-text-muted);
     margin-bottom: 1.5rem;
   }
 
-  .bio {
-    font-family: Georgia, serif;
-    font-size: 1.125rem;
-    line-height: 1.75;
-    color: var(--color-text-body);
-    margin-bottom: 2rem;
-  }
-
-  .hero-links {
-    display: flex;
-    gap: 1rem;
+  kbd {
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
+    padding: 0.2rem 0.5rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-bottom-width: 2px;
+    border-radius: 5px;
+    font-family: "Fira Code", monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text-main);
   }
 
-  .btn-primary {
+  .shortcut-desc {
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  .ws-btn {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1.5rem;
     background: var(--color-text-main);
     color: var(--color-bg);
-    border-radius: var(--radius-md);
-    font-weight: 500;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.875rem;
     text-decoration: none;
-    transition: var(--transition-all);
+    transition: all 0.2s ease;
   }
 
-  .btn-primary:hover {
+  .ws-btn:hover {
+    transform: translateY(-2px);
     filter: brightness(1.1);
-    transform: translateY(-1px);
   }
 
-  .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    color: var(--color-text-muted);
-    font-weight: 500;
-    text-decoration: none;
-    transition: var(--transition-all);
+  /* ─── Articles ─── */
+  .articles-section {
+    background: var(--color-bg);
+    padding: 4rem 0;
   }
 
-  .btn-secondary:hover {
-    color: var(--color-text-main);
-  }
-
-  .posts-section {
-    max-width: 1000px;
+  .articles-container {
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 3rem var(--spacing-6) 4rem;
+    padding: 0 1.5rem;
   }
 
-  .section-header {
+  .articles-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
     margin-bottom: 2rem;
   }
 
-  .section-header h2 {
+  .articles-header h2 {
     font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    margin: 0.4rem 0 0;
+    letter-spacing: -0.02em;
+  }
+
+  .view-all-link {
+    font-size: 0.85rem;
     font-weight: 600;
-    color: var(--color-text-main);
-    margin: 0;
-  }
-
-  .view-all {
-    font-size: var(--text-sm);
-    font-weight: 500;
-    color: var(--color-text-muted);
+    color: #4ecdc4;
     text-decoration: none;
-    transition: var(--transition-all);
+    transition: opacity 0.2s;
   }
 
-  .view-all:hover {
-    color: var(--color-primary);
+  .view-all-link:hover {
+    opacity: 0.75;
   }
 
-  .about-section {
-    max-width: var(--max-width-content);
+  /* ─── Footer CTA ─── */
+  .footer-cta {
+    background: linear-gradient(135deg, #0a0e1a 0%, #0d1117 50%, #111827 100%);
+    padding: 5rem 0;
+  }
+
+  .fcta-container {
+    max-width: 700px;
     margin: 0 auto;
-    padding: 4rem var(--spacing-6);
+    padding: 0 1.5rem;
     text-align: center;
-    border-top: 1px solid var(--color-border);
   }
 
-  .about-section p {
-    font-family: Georgia, serif;
-    font-size: 1.125rem;
-    line-height: 1.75;
-    color: var(--color-text-body);
-    margin-bottom: 1.5rem;
+  .fcta-terminal {
+    font-family: "Fira Code", monospace;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 1.25rem;
   }
 
-  .social-links {
+  .fcta-inner h2 {
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-weight: 900;
+    color: white;
+    letter-spacing: -0.04em;
+    margin-bottom: 1rem;
+  }
+
+  .fcta-inner p {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.55);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .fcta-actions {
     display: flex;
-    gap: 1.5rem;
+    gap: 1rem;
     justify-content: center;
+    flex-wrap: wrap;
   }
 
-  .social-links a {
-    font-size: var(--text-sm);
-    font-weight: 500;
-    color: var(--color-text-main);
-    text-decoration: none;
-    transition: var(--transition-all);
-  }
+  /* ─── Responsive ─── */
+  @media (max-width: 900px) {
+    .boot-container {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
 
-  .social-links a:hover {
-    color: var(--color-primary);
+    .ws-container {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
   }
 
   @media (max-width: 640px) {
-    .hero h1 {
+    .diff-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-title {
       font-size: 2.25rem;
+    }
+
+    .layer {
+      grid-template-columns: 34px 1fr;
+    }
+
+    .layer-bar {
+      display: none;
+    }
+
+    .stack-layers {
+      gap: 0.5rem;
     }
   }
 </style>
+
+<script>
+  // Boot sequence animation
+  document.addEventListener("DOMContentLoaded", () => {
+    const lines = document.querySelectorAll<HTMLElement>(
+      ".boot-line, .boot-cursor-line",
+    );
+    lines.forEach((line) => {
+      const delay = parseInt(line.dataset.delay ?? "0");
+      setTimeout(() => {
+        line.classList.add("visible");
+      }, delay);
+    });
+  });
+</script>
