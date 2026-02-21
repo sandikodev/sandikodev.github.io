@@ -224,7 +224,7 @@ import Base from "@/layouts/Base.astro";
   <!-- Featured Projects -->
   <section class="projects">
     <div class="container">
-      <div class="section-header light">
+      <div class="section-header">
         <span class="section-tag">
           <span class="prompt">$</span>
           {" "}
@@ -358,7 +358,7 @@ import Base from "@/layouts/Base.astro";
   <!-- Experience -->
   <section class="experience">
     <div class="container">
-      <div class="section-header light">
+      <div class="section-header">
         <span class="section-tag">
           <span class="prompt">$</span>
           {" "}
@@ -846,17 +846,7 @@ import Base from "@/layouts/Base.astro";
     background: var(--color-surface);
     color: var(--color-text-main);
   }
-  .projects .section-header.light h2 {
-    background: linear-gradient(
-      135deg,
-      var(--color-text-main) 10%,
-      var(--color-text-muted) 100%
-    );
-    -webkit-text-fill-color: transparent;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: inherit;
-  }
+
   .projects-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
