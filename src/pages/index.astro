@@ -9,8 +9,8 @@ const featuredPosts = posts.slice(0, 3);
 ---
 
 <Base
-  description="Sandikodev — Systems engineer with roots in networking and cybersecurity. I understand the full production stack from silicon to UI, not just the parts users can see."
-  meta_title={`${config.metadata.meta_author} — Systems Engineer & Fullstack Developer`}
+  description="Sandikodev — Architectural Engineer with roots in networking and cybersecurity. I understand the full production stack from silicon to UI, not just the parts users can see."
+  meta_title={`${config.metadata.meta_author} — Architectural Engineer & Fullstack Developer`}
 >
   <!-- Boot Sequence Hero -->
   <section class="hero-boot">
@@ -53,7 +53,7 @@ const featuredPosts = posts.slice(0, 3);
             <span class="prompt">$</span> whoami
           </div>
           <div class="boot-line result-line" data-delay="2100">
-            <span class="teal">sandikodev</span> — Systems Engineer &amp; Fullstack
+            <span class="teal">sandikodev</span> — Architectural Engineer &amp; Fullstack
             Developer
           </div>
           <div class="boot-cursor-line" data-delay="2400">
@@ -160,7 +160,8 @@ const featuredPosts = posts.slice(0, 3);
             </div>
             <div class="layer-tags">
               <span>iptables</span><span>pfSense</span><span>Snort</span><span
-                >VPN</span>
+                >VPN</span
+              >
             </div>
           </div>
           <div class="layer-bar" style="--w: 90%"></div>
@@ -175,7 +176,8 @@ const featuredPosts = posts.slice(0, 3);
             </div>
             <div class="layer-tags">
               <span>Linux</span><span>systemd</span><span>Bash</span><span
-                >cgroups</span>
+                >cgroups</span
+              >
             </div>
           </div>
           <div class="layer-bar" style="--w: 87%"></div>
@@ -191,7 +193,8 @@ const featuredPosts = posts.slice(0, 3);
             </div>
             <div class="layer-tags">
               <span>Docker</span><span>AWS</span><span>Nginx</span><span
-                >GitHub Actions</span>
+                >GitHub Actions</span
+              >
             </div>
           </div>
           <div class="layer-bar" style="--w: 93%"></div>
@@ -207,7 +210,8 @@ const featuredPosts = posts.slice(0, 3);
             </div>
             <div class="layer-tags">
               <span>Node.js</span><span>Hono</span><span>PostgreSQL</span><span
-                >Drizzle</span>
+                >Drizzle</span
+              >
             </div>
           </div>
           <div class="layer-bar" style="--w: 91%"></div>
@@ -222,7 +226,8 @@ const featuredPosts = posts.slice(0, 3);
             </div>
             <div class="layer-tags">
               <span>Next.js</span><span>SvelteKit</span><span>Astro</span><span
-                >Hono RPC</span>
+                >Hono RPC</span
+              >
             </div>
           </div>
           <div class="layer-bar" style="--w: 95%"></div>
@@ -251,7 +256,7 @@ const featuredPosts = posts.slice(0, 3);
   <section class="diff-section">
     <div class="diff-container">
       <div class="diff-header">
-        <span class="depth-tag"
+        <span class="depth-tag dark"
           ><span class="teal">$</span> diff average-dev.txt sandikodev.txt</span
         >
         <h2>What This Background Changes</h2>
@@ -310,7 +315,7 @@ const featuredPosts = posts.slice(0, 3);
             <span class="dot yellow"></span>
             <span class="dot green"></span>
           </div>
-          <span class="term-title">workspace.sandikodev.github.io</span>
+          <span class="term-title">sandikodev.github.io/workspace</span>
         </div>
         <div class="ws-preview">
           <div class="ws-sidebar">
@@ -342,7 +347,7 @@ const featuredPosts = posts.slice(0, 3);
         </div>
       </div>
       <div class="ws-text">
-        <span class="depth-tag"
+        <span class="depth-tag dark"
           ><span class="teal">$</span> ./launch-workspace.sh</span
         >
         <h2>This Site Has a Workspace Mode</h2>
@@ -380,7 +385,7 @@ const featuredPosts = posts.slice(0, 3);
     <div class="articles-container">
       <div class="articles-header">
         <div>
-          <span class="depth-tag"
+          <span class="depth-tag dark"
             ><span class="teal">$</span> tail -n3 blog/index.md</span
           >
           <h2>Latest Writing</h2>
@@ -754,6 +759,11 @@ const featuredPosts = posts.slice(0, 3);
     color: rgba(255, 255, 255, 0.4);
     display: block;
     margin-bottom: 0.75rem;
+  }
+
+  /* depth-tag on light/surface backgrounds */
+  .depth-tag.dark {
+    color: var(--color-text-muted);
   }
 
   .depth-header h2 {
