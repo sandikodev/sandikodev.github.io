@@ -224,7 +224,7 @@ import Base from "@/layouts/Base.astro";
   <!-- Featured Projects -->
   <section class="projects">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header light">
         <span class="section-tag">
           <span class="prompt">$</span>
           {" "}
@@ -233,22 +233,14 @@ import Base from "@/layouts/Base.astro";
         <h2>Featured Projects</h2>
       </div>
       <div class="projects-grid">
-        <a class="project-card" href="/portfolio#margin-pro">
+        <a class="project-card" href="/portfolio">
           <div class="project-meta">
-            <span class="project-tag">SaaS · AI</span>
-            <span class="proj-status-badge live">● Live</span>
+            <span class="project-tag">Cloud Platform</span>
+            <span class="project-arrow">↗</span>
           </div>
-          <h3>Margin Pro</h3>
-          <p>
-            Pricing intelligence SaaS untuk F&amp;B Indonesia — COGS,
-            GoFood/GrabFood margin simulation, dan AI-driven recommendations.
-          </p>
-          <div class="proj-techs">
-            <span>Koda Zenith</span><span>React 19</span><span>Hono</span><span
-              >Gemini 2.0</span
-            >
-          </div>
-          <span class="project-arrow">↗</span>
+          <h3>AwanKinton</h3>
+          <p>Vercel-like hosting & VPS reseller platform (AWS/Tencent)</p>
+          <span class="project-company">Koneksi Cloud</span>
         </a>
         <a
           class="project-card"
@@ -257,53 +249,25 @@ import Base from "@/layouts/Base.astro";
           target="_blank"
         >
           <div class="project-meta">
-            <span class="project-tag">Education · Multi-tenant</span>
-            <span class="proj-status-badge live">● Live</span>
+            <span class="project-tag">SaaS</span>
+            <span class="project-arrow">↗</span>
           </div>
-          <h3>Aksesekolah.id</h3>
-          <p>
-            Platform administrasi &amp; akademik sekolah — student enrollment,
-            attendance tracking, dan grade management.
-          </p>
-          <div class="proj-techs">
-            <span>Next.js</span><span>Headless WP</span><span>Prisma</span><span
-              >LibSQL</span
-            >
-          </div>
-          <span class="project-arrow">↗</span>
+          <h3>Akses Sekolah Digital</h3>
+          <p>Platform Sistem Administrasi & Akademik untuk sekolah</p>
+          <span class="project-company">aksesekolah.id</span>
         </a>
-        <a class="project-card" href="/portfolio#we-will-shine">
+        <a class="project-card" href="/portfolio">
           <div class="project-meta">
-            <span class="project-tag">AI · EdTech</span>
-            <span class="proj-status-badge live">● Live</span>
+            <span class="project-tag">AI / EdTech</span>
+            <span class="project-arrow">↗</span>
           </div>
           <h3>We Will Shine</h3>
-          <p>
-            AI-powered career guidance &amp; wellbeing app untuk SMP IT Masjid
-            Syuhada — gamification, Islamic career mapping, AI companion.
-          </p>
-          <div class="proj-techs">
-            <span>SvelteKit 2</span><span>Supabase</span><span>Gemini AI</span>
-          </div>
-          <span class="project-arrow">↗</span>
+          <p>2USE LLM — Proxy dengan Socratic method untuk pembelajaran</p>
+          <span class="project-company">Education AI</span>
         </a>
       </div>
       <div class="projects-cta">
-        <a class="btn-outline" href="/portfolio">
-          View All 8 Projects
-          <svg
-            fill="none"
-            width="14"
-            height="14"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            ><path
-              d="M5 12h14M12 5l7 7-7 7"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path></svg
-          >
-        </a>
+        <a class="btn-outline" href="/portfolio">View All Projects →</a>
       </div>
     </div>
   </section>
@@ -358,7 +322,7 @@ import Base from "@/layouts/Base.astro";
   <!-- Experience -->
   <section class="experience">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header light">
         <span class="section-tag">
           <span class="prompt">$</span>
           {" "}
@@ -371,47 +335,33 @@ import Base from "@/layouts/Base.astro";
           <div class="timeline-dot"></div>
           <div class="timeline-date">2016 — 2018</div>
           <div class="timeline-content">
-            <h3>Foundation Layer</h3>
-            <p>
-              Mulai dari merakit PC, konfigurasi jaringan LAN/WAN, instalasi
-              server Linux, dan IT support di lingkungan enterprise. Ini yang
-              membuat saya bisa debug dari hardware hingga application layer.
-            </p>
-            <code class="timeline-tech"
-              >Hardware • Linux • Networking • Troubleshooting • Bash</code
-            >
+            <h3>Foundation</h3>
+            <p>IT Support → Network Operations → System Administration</p>
+            <code class="timeline-tech">
+              Hardware • Networks • Linux • Troubleshooting
+            </code>
           </div>
         </div>
         <div class="timeline-item">
           <div class="timeline-dot"></div>
           <div class="timeline-date">2018 — 2021</div>
           <div class="timeline-content">
-            <h3>Development Phase</h3>
-            <p>
-              Mulai mengerjakan proyek web secara freelance — frontend dulu,
-              lalu full-stack. Membangun SPA, REST API, hingga sistem admin
-              multi-role untuk klien UKM dan sekolah.
-            </p>
-            <code class="timeline-tech"
-              >JavaScript • React • Node.js • Laravel • MySQL • REST API</code
-            >
+            <h3>Development</h3>
+            <p>Frontend Developer → Backend Developer → Full-Stack</p>
+            <code class="timeline-tech">
+              JavaScript • React • Node.js • Databases
+            </code>
           </div>
         </div>
-        <div class="timeline-item current">
+        <div class="timeline-item">
           <div class="timeline-dot active"></div>
           <div class="timeline-date">2021 — Now</div>
           <div class="timeline-content">
-            <h3>Architecture &amp; Product</h3>
-            <p>
-              Membangun produk SaaS dari nol, mengarsiteki sistem multi-tenant,
-              merancang CI/CD pipeline, dan memimpin development tim kecil.
-              Fokus pada technical debt yang rendah dan sistem yang bisa scale.
-            </p>
-            <code class="timeline-tech"
-              >AWS • Docker • Next.js • SvelteKit • Turso • GitHub Actions •
-              System Design</code
-            >
-            <span class="timeline-badge">Current</span>
+            <h3>Architecture & Leadership</h3>
+            <p>Full-Stack Engineer → DevOps → Solutions Architect</p>
+            <code class="timeline-tech">
+              AWS • Docker • System Design • Team Lead
+            </code>
           </div>
         </div>
       </div>
@@ -433,38 +383,30 @@ import Base from "@/layouts/Base.astro";
       <div class="value-grid">
         <div class="value-card">
           <div class="value-icon">🔍</div>
-          <h4>Understand the Full Stack</h4>
+          <h4>Understand the Stack</h4>
           <p>
-            Dari hardware ke application — pengalaman di IT Support membuat saya
-            bisa trace bug dari network packet hingga browser console tanpa
-            perlu eskalasi
+            Debugging lebih cepat karena paham dari layer hardware hingga
+            application
           </p>
         </div>
         <div class="value-card">
           <div class="value-icon">📐</div>
-          <h4>Architecture First</h4>
+          <h4>Design Before Code</h4>
           <p>
-            Spending 1 jam di whiteboard bisa menghemat 2 minggu refactor. Saya
-            design schema, API contract, dan state flow sebelum menulis baris
-            pertama
+            Arsitektur dulu, implementasi kemudian — menghindari technical debt
           </p>
         </div>
         <div class="value-card">
-          <div class="value-icon">🚀</div>
-          <h4>Ship, Then Improve</h4>
-          <p>
-            MVP yang live lebih valuable daripada roadmap sempurna. Saya deliver
-            working software dulu, lalu iterate berdasarkan feedback nyata dari
-            pengguna production
-          </p>
+          <div class="value-icon">🔄</div>
+          <h4>Iterate & Ship</h4>
+          <p>MVP dulu, improve berdasarkan feedback nyata dari production</p>
         </div>
         <div class="value-card">
           <div class="value-icon">📖</div>
-          <h4>Code as Communication</h4>
+          <h4>Document Everything</h4>
           <p>
-            Code yang saya tulis harus bisa dibaca developer lain 6 bulan
-            kemudian — readable naming, focused functions, dan dokumentasi yang
-            hidup di dekat kode
+            Code yang readable, API yang terdokumentasi, knowledge yang
+            transferable
           </p>
         </div>
       </div>
@@ -545,7 +487,7 @@ import Base from "@/layouts/Base.astro";
   }
 
   .section-header {
-    margin-bottom: 1.75rem;
+    margin-bottom: 3rem;
   }
   .section-header.light {
     color: white;
@@ -582,7 +524,7 @@ import Base from "@/layouts/Base.astro";
 
   /* Hero */
   .hero {
-    padding: 4rem 0;
+    padding: 6rem 0;
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
     color: white;
     position: relative;
@@ -790,7 +732,7 @@ import Base from "@/layouts/Base.astro";
 
   /* Bento Grid */
   .skills {
-    padding: 3rem 0;
+    padding: 5rem 0;
     background: var(--color-surface);
   }
   .bento-grid {
@@ -842,19 +784,28 @@ import Base from "@/layouts/Base.astro";
 
   /* Projects */
   .projects {
-    padding: 3rem 0;
+    padding: 5rem 0;
     background: var(--color-surface);
     color: var(--color-text-main);
   }
-
+  .projects .section-header.light h2 {
+    background: linear-gradient(
+      135deg,
+      var(--color-text-main) 10%,
+      var(--color-text-muted) 100%
+    );
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: inherit;
+  }
   .projects-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
   }
   .project-card {
-    display: flex;
-    flex-direction: column;
+    display: block;
     background: var(--color-bg);
     padding: 1.75rem;
     border-radius: 16px;
@@ -862,35 +813,32 @@ import Base from "@/layouts/Base.astro";
     color: inherit;
     border: 1px solid var(--color-border);
     transition: all 0.2s ease;
-    position: relative;
   }
   .project-card:hover {
     background: rgba(255, 255, 255, 0.08);
     border-color: rgba(255, 255, 255, 0.15);
     transform: translateY(-3px);
   }
-  .project-tag {
-    font-family: "SF Mono", "Fira Code", monospace;
-    font-size: 0.65rem;
-    background: transparent;
-    color: rgba(255, 255, 255, 0.6);
-    padding: 0;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
   .project-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.85rem;
+    margin-bottom: 1rem;
+  }
+  .project-tag {
+    font-family: "SF Mono", "Fira Code", monospace;
+    font-size: 0.7rem;
+    background: var(--color-dev-teal);
+    color: #1a1a2e; /* Keep dark enough for teal background */
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
   }
   .project-arrow {
     opacity: 0.5;
     transition: all 0.2s;
-    font-size: 1.1rem;
-    margin-top: auto;
-    align-self: flex-end;
   }
   .project-card:hover .project-arrow {
     opacity: 1;
@@ -906,40 +854,11 @@ import Base from "@/layouts/Base.astro";
     opacity: 0.7;
     line-height: 1.5;
     margin-bottom: 1rem;
-    flex: 1;
   }
-  /* Status badge on project cards */
-  .proj-status-badge {
-    font-size: 0.65rem;
-    font-weight: 700;
-    padding: 0.2rem 0.55rem;
-    border-radius: 99px;
-    border: 1px solid;
-  }
-  .proj-status-badge.live {
-    color: #22c55e;
-    border-color: rgba(34, 197, 94, 0.35);
-    background: rgba(34, 197, 94, 0.1);
-  }
-  /* Tech tags inside project cards */
-  .proj-techs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-    margin-top: 0.25rem;
-    margin-bottom: 0.75rem;
-  }
-  .proj-techs span {
+  .project-company {
     font-family: "SF Mono", "Fira Code", monospace;
-    font-size: 0.6rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.75rem;
+    opacity: 0.5;
   }
   .projects-cta {
     text-align: center;
@@ -948,7 +867,7 @@ import Base from "@/layouts/Base.astro";
 
   /* Process */
   .process {
-    padding: 3rem 0;
+    padding: 5rem 0;
     background: var(--color-bg);
   }
   .process-grid {
@@ -998,7 +917,7 @@ import Base from "@/layouts/Base.astro";
 
   /* Experience */
   .experience {
-    padding: 3rem 0;
+    padding: 5rem 0;
     background: var(--color-surface);
     color: var(--color-text-main);
   }
@@ -1043,11 +962,6 @@ import Base from "@/layouts/Base.astro";
     margin-bottom: 2.5rem;
     align-items: start;
   }
-  .timeline-item.current .timeline-content {
-    border-left: 2px solid var(--color-dev-teal);
-    padding-left: 1rem;
-    margin-left: -1rem;
-  }
   .timeline-item:last-child {
     margin-bottom: 0;
   }
@@ -1087,28 +1001,11 @@ import Base from "@/layouts/Base.astro";
     background: rgba(78, 205, 196, 0.1);
     padding: 0.25rem 0.5rem;
     border-radius: 4px;
-    display: block;
-    margin-top: 0.75rem;
-  }
-  .timeline-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    margin-top: 0.75rem;
-    font-size: 0.65rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-dev-teal);
-    padding: 0.2rem 0.6rem;
-    border-radius: 99px;
-    border: 1px solid rgba(78, 205, 196, 0.3);
-    background: rgba(78, 205, 196, 0.08);
   }
 
   /* Value */
   .value {
-    padding: 3rem 0;
+    padding: 5rem 0;
     background: var(--color-surface);
   }
   .value-grid {
@@ -1147,7 +1044,7 @@ import Base from "@/layouts/Base.astro";
   /* CTA */
   .cta {
     position: relative;
-    padding: 5rem 0;
+    padding: 8rem 0;
     overflow: hidden;
     background-color: var(--color-bg);
   }
@@ -1259,7 +1156,7 @@ import Base from "@/layouts/Base.astro";
     font-size: 1.125rem;
     color: var(--color-text-body);
     max-width: 600px;
-    margin-bottom: 1.75rem;
+    margin-bottom: 3rem;
     line-height: 1.6;
   }
 

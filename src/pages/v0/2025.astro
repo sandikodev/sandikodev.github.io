@@ -15,11 +15,17 @@ const featuredPosts = posts.slice(0, 6);
 >
   <!-- Archive banner -->
   <div class="v0-banner">
-    <span class="v0-badge">v0 · 2025</span>
+    <span class="v0-breadcrumb">
+      <a href="/">sandikodev.github.io</a>
+      <span>/</span>
+      <a href="/v0">v0</a>
+      <span>/</span>
+      <span>2025</span>
+    </span>
     <span class="v0-label"
-      >You're viewing the original landing page, preserved as-is.</span
+      >Original 2025 landing page — preserved as shipped.</span
     >
-    <a class="v0-link" href="/">← Back to current version</a>
+    <a class="v0-link" href="/v0">← Version history</a>
   </div>
 
   <!-- Hero — original, unmodified -->
@@ -72,16 +78,23 @@ const featuredPosts = posts.slice(0, 6);
     flex-wrap: wrap;
   }
 
-  .v0-badge {
+  .v0-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
     font-family: "SF Mono", "Fira Code", monospace;
-    font-size: 0.65rem;
-    font-weight: 800;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 0.2rem 0.55rem;
-    border-radius: 99px;
-    background: var(--color-text-main);
-    color: var(--color-bg);
+    font-size: 0.72rem;
+    color: var(--color-text-muted);
+  }
+
+  .v0-breadcrumb a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .v0-breadcrumb a:hover {
+    color: var(--color-text-main);
   }
 
   .v0-label {
