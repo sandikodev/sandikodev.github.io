@@ -1,0 +1,373 @@
+---
+import Base from "@/layouts/Base.astro";
+---
+
+<Base
+  meta_title="sandikodev — 2022 archive"
+  description="Archived 2022 version of sandikodev's personal site."
+>
+  <div class="v0-banner">
+    <span class="v0-breadcrumb">
+      <a href="/">sandikodev.github.io</a><span>/</span>
+      <a href="/v0">v0</a><span>/</span>
+      <span>2022</span>
+    </span>
+    <span class="v0-label">2022 snapshot — preserved as shipped.</span>
+    <a class="v0-link" href="/v0">← Version history</a>
+  </div>
+
+  <div class="page-22">
+    <header class="header-22">
+      <a href="/" class="logo-22">{"<sandikodev />"}</a>
+      <nav>
+        <a href="/blog">Blog</a>
+        <a href="/projects">Projects</a>
+        <a href="mailto:androxoss@hotmail.com">Contact</a>
+      </nav>
+    </header>
+
+    <section class="hero-22">
+      <div class="hero-content">
+        <span class="tag-22">Web Developer · Sysadmin · Learner</span>
+        <h1>Hi, I'm <span class="name-g">Sandi</span>.</h1>
+        <p>
+          I build web applications and manage Linux servers. Started from IT
+          support and networking, now doing full-stack development. Still
+          learning every day.
+        </p>
+        <div class="links-22">
+          <a
+            href="https://github.com/sandikodev"
+            target="_blank"
+            rel="noopener"
+            class="link-btn gh"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
+              ><path
+                d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+              ></path></svg
+            >
+            GitHub
+          </a>
+          <a href="/projects" class="link-btn proj">See Projects →</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="card-label">Currently building</div>
+        <ul class="project-list">
+          <li>
+            <span class="dot green"></span>
+            <div>
+              <strong>School Admin System</strong>
+              <small>Laravel · MySQL · Vue.js</small>
+            </div>
+          </li>
+          <li>
+            <span class="dot green"></span>
+            <div>
+              <strong>Personal VPS Setup</strong>
+              <small>Nginx · Docker · Linux</small>
+            </div>
+          </li>
+          <li>
+            <span class="dot yellow"></span>
+            <div>
+              <strong>Portfolio Rebuild</strong>
+              <small>Next.js · Tailwind</small>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="stack-22">
+      <h2>// Tech Stack</h2>
+      <div class="badge-list">
+        {
+          [
+            "PHP",
+            "Laravel",
+            "JavaScript",
+            "React",
+            "Node.js",
+            "MySQL",
+            "PostgreSQL",
+            "Docker",
+            "Linux",
+            "Nginx",
+            "Git",
+            "Tailwind CSS",
+            "REST API",
+            "AWS EC2",
+          ].map((t) => <span class="badge">{t}</span>)
+        }
+      </div>
+    </section>
+
+    <footer class="footer-22">
+      <p>Built with Next.js · Deployed on Linux VPS · sandikodev © 2022</p>
+    </footer>
+  </div>
+</Base>
+
+<style>
+  .v0-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 1.5rem;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+  }
+  .v0-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: "SF Mono", monospace;
+    font-size: 0.72rem;
+    color: var(--color-text-muted);
+  }
+  .v0-breadcrumb a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+  }
+  .v0-breadcrumb a:hover {
+    color: var(--color-text-main);
+  }
+  .v0-label {
+    color: var(--color-text-muted);
+    flex: 1;
+  }
+  .v0-link {
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+    margin-left: auto;
+  }
+
+  .page-22 {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .header-22 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 0;
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  .logo-22 {
+    font-family: "Courier New", monospace;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #10b981;
+    text-decoration: none;
+  }
+
+  .header-22 nav {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .header-22 nav a {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+  }
+
+  .header-22 nav a:hover {
+    color: var(--color-text-main);
+  }
+
+  /* Hero */
+  .hero-22 {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 3rem;
+    align-items: start;
+    padding: 4rem 0;
+  }
+
+  .tag-22 {
+    font-family: "Courier New", monospace;
+    font-size: 0.75rem;
+    color: #10b981;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(2.5rem, 7vw, 4rem);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    color: var(--color-text-main);
+    margin-bottom: 1rem;
+    line-height: 1;
+  }
+
+  .name-g {
+    background: linear-gradient(90deg, #10b981, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-content p {
+    font-size: 0.975rem;
+    line-height: 1.7;
+    color: var(--color-text-body);
+    opacity: 0.85;
+    margin-bottom: 1.75rem;
+    max-width: 46ch;
+  }
+
+  .links-22 {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6rem 1.25rem;
+    border-radius: 7px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .link-btn.gh {
+    background: #24292e;
+    color: white;
+    border: 1px solid #444;
+  }
+
+  .link-btn.gh:hover {
+    background: #333;
+  }
+
+  .link-btn.proj {
+    border: 1px solid var(--color-border);
+    color: var(--color-text-body);
+    background: var(--color-surface);
+  }
+
+  .link-btn.proj:hover {
+    border-color: #10b981;
+    color: #10b981;
+  }
+
+  /* Card */
+  .hero-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-top: 5rem;
+  }
+
+  .card-label {
+    font-family: "Courier New", monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .project-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+
+  .project-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+  .dot.green {
+    background: #10b981;
+  }
+  .dot.yellow {
+    background: #f59e0b;
+  }
+
+  .project-list strong {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+  }
+  .project-list small {
+    font-family: "Courier New", monospace;
+    font-size: 0.68rem;
+    color: var(--color-text-muted);
+  }
+
+  /* Stack */
+  .stack-22 {
+    padding: 2rem 0 3rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .stack-22 h2 {
+    font-family: "Courier New", monospace;
+    font-size: 0.9rem;
+    color: #10b981;
+    margin-bottom: 1.25rem;
+  }
+
+  .badge-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .badge {
+    font-family: "Courier New", monospace;
+    font-size: 0.72rem;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    background: var(--color-surface);
+    color: var(--color-text-body);
+  }
+
+  .footer-22 {
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--color-border);
+    font-family: "Courier New", monospace;
+    font-size: 0.72rem;
+    color: var(--color-text-muted);
+    text-align: center;
+  }
+
+  @media (max-width: 680px) {
+    .hero-22 {
+      grid-template-columns: 1fr;
+    }
+    .hero-card {
+      margin-top: 0;
+    }
+  }
+</style>

@@ -1,0 +1,213 @@
+---
+import Base from "@/layouts/Base.astro";
+import Posts from "@/layouts/Posts.astro";
+import { getAllPosts } from "@/lib/contentParser.astro";
+
+const posts = await getAllPosts();
+const featuredPosts = posts.slice(0, 4);
+---
+
+<Base meta_title="sandikodev — 2024 archive" description="Archived 2024 version of sandikodev's personal site.">
+  <div class="v0-banner">
+    <span class="v0-breadcrumb">
+      <a href="/">sandikodev.github.io</a><span>/</span>
+      <a href="/v0">v0</a><span>/</span>
+      <span>2024</span>
+    </span>
+    <span class="v0-label">2024 snapshot — preserved as shipped.</span>
+    <a class="v0-link" href="/v0">← Version history</a>
+  </div>
+
+  <main class="site-main">
+    <!-- Hero -->
+    <section class="hero-24">
+      <div class="hero-inner">
+        <div class="available-pill">
+          <span class="avail-dot"></span>
+          Open to freelance work
+        </div>
+        <h1>sandikodev</h1>
+        <p class="role">Full-Stack Engineer · DevOps · Open Source</p>
+        <p class="bio">
+          Building production-grade web apps and infrastructure. Documenting
+          the journey — from networking fundamentals to modern cloud-native
+          development.
+        </p>
+        <div class="cta-row">
+          <a href="/blog" class="btn-solid">Read Blog</a>
+          <a href="/portfolio" class="btn-outline-24">View Projects</a>
+        </div>
+      </div>
+      <div class="hero-code">
+        <pre><code><span class="c">// stack.ts — 2024</span>
+<span class="k">const</span> <span class="v">stack</span> = {{'{'}}
+  <span class="p">frontend</span>: [<span class="s">"Astro"</span>, <span class="s">"SvelteKit"</span>, <span class="s">"Next.js"</span>],
+  <span class="p">backend</span>:  [<span class="s">"Node.js"</span>, <span class="s">"Hono"</span>, <span class="s">"Laravel"</span>],
+  <span class="p">infra</span>:    [<span class="s">"Docker"</span>, <span class="s">"AWS"</span>, <span class="s">"Nginx"</span>],
+  <span class="p">db</span>:      [<span class="s">"PostgreSQL"</span>, <span class="s">"SQLite"</span>],
+{'}'}</code></pre>
+      </div>
+    </section>
+
+    <!-- Posts -->
+    <section class="posts-24">
+      <div class="sec-header">
+        <h2>Latest Articles</h2>
+        <a href="/blog">View all →</a>
+      </div>
+      <Posts posts={featuredPosts} />
+    </section>
+  </main>
+</Base>
+
+<style>
+  .v0-banner { display:flex; align-items:center; gap:.75rem; padding:.6rem 1.5rem; background:var(--color-surface); border-bottom:1px solid var(--color-border); font-size:.8rem; flex-wrap:wrap; }
+  .v0-breadcrumb { display:flex; align-items:center; gap:.35rem; font-family:"SF Mono",monospace; font-size:.72rem; color:var(--color-text-muted); }
+  .v0-breadcrumb a { color:var(--color-text-muted); text-decoration:none; }
+  .v0-breadcrumb a:hover { color:var(--color-text-main); }
+  .v0-label { color:var(--color-text-muted); flex:1; }
+  .v0-link { font-weight:600; color:var(--color-primary); text-decoration:none; margin-left:auto; }
+
+  .site-main { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+  /* Hero */
+  .hero-24 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    padding: 5rem 0 4rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .available-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .35rem .85rem;
+    border: 1px solid rgba(34,197,94,.3);
+    border-radius: 99px;
+    background: rgba(34,197,94,.06);
+    font-size: .72rem;
+    font-weight: 700;
+    color: #22c55e;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 1.5rem;
+  }
+
+  .avail-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #22c55e;
+    animation: pulse 2.5s infinite;
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(34,197,94,.5); }
+    70% { box-shadow: 0 0 0 7px transparent; }
+    100% { box-shadow: 0 0 0 0 transparent; }
+  }
+
+  .hero-inner h1 {
+    font-size: 3.25rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--color-text-main);
+    margin-bottom: .5rem;
+  }
+
+  .role {
+    font-family: "SF Mono", monospace;
+    font-size: .8rem;
+    color: var(--color-text-muted);
+    margin-bottom: 1.25rem;
+    letter-spacing: .03em;
+  }
+
+  .bio {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-text-body);
+    opacity: .85;
+    margin-bottom: 1.75rem;
+    max-width: 46ch;
+  }
+
+  .cta-row { display: flex; gap: .75rem; flex-wrap: wrap; }
+
+  .btn-solid {
+    padding: .7rem 1.5rem;
+    background: var(--color-text-main);
+    color: var(--color-bg);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: .875rem;
+    text-decoration: none;
+    transition: filter .2s, transform .2s;
+  }
+  .btn-solid:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+  .btn-outline-24 {
+    padding: .7rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: .875rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: all .2s;
+  }
+  .btn-outline-24:hover { border-color: var(--color-text-main); color: var(--color-text-main); }
+
+  .hero-code {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  pre {
+    padding: 1.5rem;
+    margin: 0;
+    font-family: "Fira Code", "SF Mono", monospace;
+    font-size: .78rem;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+
+  .c { color: var(--color-text-muted); }
+  .k { color: #c792ea; }
+  .v { color: #82aaff; }
+  .p { color: #f07178; }
+  .s { color: #c3e88d; }
+
+  /* Posts */
+  .posts-24 { padding: 3rem 0 5rem; }
+
+  .sec-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .sec-header h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    margin: 0;
+  }
+
+  .sec-header a {
+    font-size: .85rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+  }
+
+  .sec-header a:hover { color: var(--color-text-main); }
+
+  @media (max-width: 768px) {
+    .hero-24 { grid-template-columns: 1fr; }
+  }
+</style>

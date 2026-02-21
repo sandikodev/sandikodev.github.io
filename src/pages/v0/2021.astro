@@ -1,0 +1,466 @@
+---
+import Base from "@/layouts/Base.astro";
+---
+
+<Base
+  meta_title="sandikodev — 2021 archive"
+  description="Archived 2021 version of sandikodev's personal site."
+>
+  <div class="v0-banner">
+    <span class="v0-breadcrumb">
+      <a href="/">sandikodev.github.io</a><span>/</span>
+      <a href="/v0">v0</a><span>/</span>
+      <span>2021</span>
+    </span>
+    <span class="v0-label">2021 snapshot — preserved as shipped.</span>
+    <a class="v0-link" href="/v0">← Version history</a>
+  </div>
+
+  <div class="page-21">
+    <div class="terminal-top">
+      <span>sandikodev@github:~$</span>
+      <span class="cursor-21">_</span>
+    </div>
+
+    <section class="hero-21">
+      <div class="avatar-placeholder" aria-hidden="true">S</div>
+      <h1>Sandi Ko</h1>
+      <p class="title-21">IT Support → Network Engineer → Web Developer</p>
+      <p class="bio-21">
+        Halo! Saya IT professional yang sedang belajar web development.
+        Background saya dari dunia jaringan komputer dan sysadmin. Sekarang
+        sedang transisi ke software development.
+      </p>
+
+      <div class="status-21">
+        <span class="status-dot"></span>
+        Sedang belajar: <strong>JavaScript & Laravel</strong>
+      </div>
+
+      <div class="contact-21">
+        <a href="https://github.com/sandikodev" target="_blank" rel="noopener"
+          >GitHub ↗</a
+        >
+        <a
+          href="https://linkedin.com/in/sandikodev"
+          target="_blank"
+          rel="noopener">LinkedIn ↗</a
+        >
+        <a href="mailto:androxoss@hotmail.com">Email</a>
+      </div>
+    </section>
+
+    <section class="skills-21">
+      <h2>Keahlian</h2>
+
+      <div class="skill-category">
+        <h3>Networking & Infrastructure</h3>
+        <div class="skill-bars">
+          <div class="skill-row">
+            <span>Linux Server Administration</span>
+            <div class="bar-bg">
+              <div class="bar-fill" style="--pct: 85%"></div>
+            </div>
+            <span class="pct">85%</span>
+          </div>
+          <div class="skill-row">
+            <span>Networking (TCP/IP, Routing)</span>
+            <div class="bar-bg">
+              <div class="bar-fill" style="--pct: 80%"></div>
+            </div>
+            <span class="pct">80%</span>
+          </div>
+          <div class="skill-row">
+            <span>Firewall & Security</span>
+            <div class="bar-bg">
+              <div class="bar-fill" style="--pct: 75%"></div>
+            </div>
+            <span class="pct">75%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="skill-category">
+        <h3>Web Development (In Progress)</h3>
+        <div class="skill-bars">
+          <div class="skill-row">
+            <span>HTML & CSS</span>
+            <div class="bar-bg">
+              <div class="bar-fill" style="--pct: 70%"></div>
+            </div>
+            <span class="pct">70%</span>
+          </div>
+          <div class="skill-row">
+            <span>PHP / Laravel</span>
+            <div class="bar-bg">
+              <div class="bar-fill" style="--pct: 55%"></div>
+            </div>
+            <span class="pct">55%</span>
+          </div>
+          <div class="skill-row">
+            <span>JavaScript</span>
+            <div class="bar-bg">
+              <div class="bar-fill" style="--pct: 50%"></div>
+            </div>
+            <span class="pct">50%</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="journey-21">
+      <h2>Perjalanan</h2>
+      <div class="timeline-21">
+        <div class="t-item">
+          <span class="t-year">2016</span>
+          <div class="t-content">
+            <strong>IT Support & Technician</strong>
+            <p>
+              Mulai karier dari merakit PC, troubleshoot hardware, dan support
+              user.
+            </p>
+          </div>
+        </div>
+        <div class="t-item">
+          <span class="t-year">2017</span>
+          <div class="t-content">
+            <strong>Network Administration</strong>
+            <p>
+              Belajar dan implementasi jaringan LAN/WAN, konfigurasi router dan
+              switch.
+            </p>
+          </div>
+        </div>
+        <div class="t-item">
+          <span class="t-year">2019</span>
+          <div class="t-content">
+            <strong>Linux Sysadmin</strong>
+            <p>
+              Setup dan manage Linux server, web server (Apache/Nginx), VPN.
+            </p>
+          </div>
+        </div>
+        <div class="t-item active">
+          <span class="t-year">2021</span>
+          <div class="t-content">
+            <strong>Belajar Web Development ← Sekarang</strong>
+            <p>
+              Transisi ke software development. Sedang belajar Laravel dan
+              JavaScript.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer-21">
+      <p>Made with HTML + GitHub Pages · 2021</p>
+      <p class="footer-note">Website ini masih dalam pengembangan 🚧</p>
+    </footer>
+  </div>
+</Base>
+
+<style>
+  .v0-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 1.5rem;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+  }
+  .v0-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: "SF Mono", monospace;
+    font-size: 0.72rem;
+    color: var(--color-text-muted);
+  }
+  .v0-breadcrumb a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+  }
+  .v0-breadcrumb a:hover {
+    color: var(--color-text-main);
+  }
+  .v0-label {
+    color: var(--color-text-muted);
+    flex: 1;
+  }
+  .v0-link {
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+    margin-left: auto;
+  }
+
+  .page-21 {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+    font-family: "Courier New", Courier, monospace;
+  }
+
+  .terminal-top {
+    padding: 1rem 0;
+    font-size: 0.8rem;
+    color: #22c55e;
+    border-bottom: 1px dashed var(--color-border);
+    margin-bottom: 2rem;
+  }
+
+  .cursor-21 {
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  /* Hero */
+  .hero-21 {
+    text-align: center;
+    padding: 2rem 0 3rem;
+  }
+
+  .avatar-placeholder {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #22c55e, #3b82f6);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 900;
+    color: white;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-21 h1 {
+    font-family: Georgia, serif;
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--color-text-main);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .title-21 {
+    font-size: 0.8rem;
+    color: #22c55e;
+    margin-bottom: 1.25rem;
+    letter-spacing: 0.05em;
+  }
+
+  .bio-21 {
+    font-family: Georgia, serif;
+    font-size: 0.975rem;
+    line-height: 1.75;
+    color: var(--color-text-body);
+    max-width: 52ch;
+    margin: 0 auto 1.5rem;
+    opacity: 0.85;
+  }
+
+  .status-21 {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    animation: pulse-dot 2s infinite;
+  }
+
+  @keyframes pulse-dot {
+    0% {
+      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5);
+    }
+    70% {
+      box-shadow: 0 0 0 6px transparent;
+    }
+    100% {
+      box-shadow: 0 0 0 0 transparent;
+    }
+  }
+
+  .contact-21 {
+    display: flex;
+    gap: 1.25rem;
+    justify-content: center;
+  }
+
+  .contact-21 a {
+    font-size: 0.8rem;
+    color: #22c55e;
+    text-decoration: none;
+  }
+
+  .contact-21 a:hover {
+    text-decoration: underline;
+  }
+
+  /* Skills */
+  .skills-21 {
+    padding: 2rem 0;
+    border-top: 1px dashed var(--color-border);
+  }
+
+  .skills-21 h2 {
+    font-size: 0.85rem;
+    color: #22c55e;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+  }
+
+  .skill-category {
+    margin-bottom: 1.75rem;
+  }
+
+  .skill-category h3 {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    margin-bottom: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .skill-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .skill-row {
+    display: grid;
+    grid-template-columns: 240px 1fr 40px;
+    gap: 0.75rem;
+    align-items: center;
+    font-size: 0.75rem;
+  }
+
+  .skill-row span:first-child {
+    color: var(--color-text-body);
+  }
+
+  .bar-bg {
+    height: 6px;
+    background: var(--color-border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    width: var(--pct);
+    background: #22c55e;
+    border-radius: 99px;
+    transition: width 1s ease;
+  }
+
+  .pct {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    text-align: right;
+  }
+
+  /* Journey */
+  .journey-21 {
+    padding: 2rem 0;
+    border-top: 1px dashed var(--color-border);
+  }
+
+  .journey-21 h2 {
+    font-size: 0.85rem;
+    color: #22c55e;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+  }
+
+  .timeline-21 {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--color-border);
+  }
+
+  .t-item {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+  }
+
+  .t-item.active {
+    opacity: 1;
+  }
+
+  .t-year {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #22c55e;
+    white-space: nowrap;
+    min-width: 36px;
+  }
+
+  .t-content strong {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    margin-bottom: 0.25rem;
+  }
+
+  .t-content p {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    margin: 0;
+    font-family: Georgia, serif;
+  }
+
+  /* Footer */
+  .footer-21 {
+    padding: 2rem 0 1rem;
+    border-top: 1px dashed var(--color-border);
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--color-text-muted);
+  }
+
+  .footer-note {
+    margin-top: 0.35rem;
+    font-family: Georgia, serif;
+    font-size: 0.78rem;
+  }
+
+  @media (max-width: 640px) {
+    .skill-row {
+      grid-template-columns: 1fr;
+    }
+    .bar-bg,
+    .pct {
+      display: none;
+    }
+  }
+</style>

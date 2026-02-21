@@ -1,0 +1,331 @@
+---
+import Base from "@/layouts/Base.astro";
+---
+
+<Base
+  meta_title="sandikodev — 2023 archive"
+  description="Archived 2023 version of sandikodev's personal site."
+>
+  <div class="v0-banner">
+    <span class="v0-breadcrumb">
+      <a href="/">sandikodev.github.io</a><span>/</span>
+      <a href="/v0">v0</a><span>/</span>
+      <span>2023</span>
+    </span>
+    <span class="v0-label">2023 snapshot — preserved as shipped.</span>
+    <a class="v0-link" href="/v0">← Version history</a>
+  </div>
+
+  <div class="page-23">
+    <!-- Nav -->
+    <nav class="nav-23">
+      <span class="logo-23">sandikodev</span>
+      <div class="nav-links">
+        <a href="/blog">Blog</a>
+        <a href="/about">About</a>
+        <a href="/portfolio">Projects</a>
+        <a href="/contact" class="nav-cta">Hire Me</a>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero-23">
+      <div class="hero-tag">👋 Hello, I'm Sandi</div>
+      <h1>
+        Full-Stack Developer<br />
+        <span class="accent">who ships things.</span>
+      </h1>
+      <p>
+        Web apps, APIs, infrastructure. Based in Indonesia, available worldwide.
+        5+ years turning requirements into working software.
+      </p>
+      <div class="hero-btns">
+        <a href="/portfolio" class="btn-23-primary">See My Work</a>
+        <a href="/blog" class="btn-23-ghost">Read Blog</a>
+      </div>
+    </section>
+
+    <!-- Skills grid -->
+    <section class="skills-23">
+      <h2>What I work with</h2>
+      <div class="skill-grid">
+        <div class="skill-group">
+          <h3>Frontend</h3>
+          <ul>
+            <li>Next.js / React</li>
+            <li>SvelteKit</li>
+            <li>TypeScript</li>
+            <li>Tailwind CSS</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h3>Backend</h3>
+          <ul>
+            <li>Node.js / Express</li>
+            <li>Laravel / PHP</li>
+            <li>REST API Design</li>
+            <li>PostgreSQL / MySQL</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h3>Infrastructure</h3>
+          <ul>
+            <li>Docker</li>
+            <li>Linux / Nginx</li>
+            <li>AWS EC2, S3, RDS</li>
+            <li>CI/CD Pipelines</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h3>Tools</h3>
+          <ul>
+            <li>Git / GitHub</li>
+            <li>Figma</li>
+            <li>Postman</li>
+            <li>VS Code</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Work CTA -->
+    <section class="work-cta-23">
+      <h2>Let's build something together.</h2>
+      <p>
+        Available for freelance projects, consulting, and long-term
+        collaboration.
+      </p>
+      <a href="/contact" class="btn-23-primary">Get in Touch →</a>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .v0-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 1.5rem;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+  }
+  .v0-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: "SF Mono", monospace;
+    font-size: 0.72rem;
+    color: var(--color-text-muted);
+  }
+  .v0-breadcrumb a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+  }
+  .v0-breadcrumb a:hover {
+    color: var(--color-text-main);
+  }
+  .v0-label {
+    color: var(--color-text-muted);
+    flex: 1;
+  }
+  .v0-link {
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+    margin-left: auto;
+  }
+
+  .page-23 {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* Nav */
+  .nav-23 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .logo-23 {
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: -0.03em;
+    color: var(--color-text-main);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .nav-links a {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover {
+    color: var(--color-text-main);
+  }
+
+  .nav-cta {
+    padding: 0.4rem 1rem;
+    background: var(--color-text-main) !important;
+    color: var(--color-bg) !important;
+    border-radius: 6px;
+    font-weight: 600;
+  }
+
+  /* Hero */
+  .hero-23 {
+    padding: 5rem 0 4rem;
+    max-width: 640px;
+  }
+
+  .hero-tag {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-23 h1 {
+    font-size: clamp(2.5rem, 6vw, 3.75rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    color: var(--color-text-main);
+    margin-bottom: 1.25rem;
+  }
+
+  .accent {
+    color: #6366f1;
+  }
+
+  .hero-23 p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--color-text-body);
+    opacity: 0.85;
+    margin-bottom: 2rem;
+    max-width: 50ch;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-23-primary {
+    padding: 0.75rem 1.5rem;
+    background: #6366f1;
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition:
+      filter 0.2s,
+      transform 0.2s;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+  }
+  .btn-23-primary:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+  }
+
+  .btn-23-ghost {
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-23-ghost:hover {
+    border-color: #6366f1;
+    color: #6366f1;
+  }
+
+  /* Skills */
+  .skills-23 {
+    padding: 3rem 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .skills-23 h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    margin-bottom: 2rem;
+  }
+
+  .skill-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+
+  .skill-group h3 {
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+    margin-bottom: 0.875rem;
+  }
+
+  .skill-group ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .skill-group li {
+    font-size: 0.875rem;
+    color: var(--color-text-body);
+  }
+
+  /* CTA */
+  .work-cta-23 {
+    padding: 3rem 0 5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .work-cta-23 h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--color-text-main);
+    margin-bottom: 0.75rem;
+  }
+
+  .work-cta-23 p {
+    font-size: 0.95rem;
+    color: var(--color-text-body);
+    opacity: 0.8;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .skill-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .nav-links {
+      gap: 1rem;
+    }
+  }
+</style>

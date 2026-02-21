@@ -31,20 +31,19 @@ import config from "@/config/config.json";
         </div>
         <h2 class="ver-title">2026 — Architectural Engineer</h2>
         <p class="ver-desc">
-          Full redesign. Dark terminal aesthetic, 7-layer stack visualization,
-          boot sequence hero. Repositioned from "fullstack developer" to
-          Architectural Engineer born from networking and cybersecurity.
+          Full redesign with dark terminal aesthetic, boot sequence hero, and
+          7-layer stack depth visualization. Repositioned from "fullstack
+          developer" to Architectural Engineer with roots in networking and
+          cybersecurity.
         </p>
         <div class="ver-tags">
-          <span>Astro 5</span>
-          <span>Terminal UI</span>
-          <span>Dark theme</span>
-          <span>Boot animation</span>
+          <span>Astro 5</span><span>Terminal UI</span><span>Dark theme</span
+          ><span>Boot animation</span>
         </div>
         <span class="ver-arrow">↗</span>
       </a>
 
-      <!-- 2025 — archived -->
+      <!-- 2025 -->
       <a class="version-card" href="/v0/2025">
         <div class="ver-meta">
           <span class="ver-tag archived-tag">Archived</span>
@@ -52,15 +51,91 @@ import config from "@/config/config.json";
         </div>
         <h2 class="ver-title">2025 — Minimal Blog</h2>
         <p class="ver-desc">
-          Original site. Clean, minimal typography-first layout. Centered hero
-          with name and tagline, posts grid below. Written partly in Indonesian.
-          Simple and functional — no frills.
+          Clean typography-first layout. Centered hero with name and tagline,
+          latest posts grid below. Simple and functional — first iteration after
+          moving to Astro.
         </p>
         <div class="ver-tags">
-          <span>Astro 5</span>
-          <span>Minimal</span>
-          <span>Typography</span>
-          <span>Blog-first</span>
+          <span>Astro 5</span><span>Minimal</span><span>Typography</span><span
+            >Blog-first</span
+          >
+        </div>
+        <span class="ver-arrow">↗</span>
+      </a>
+
+      <!-- 2024 -->
+      <a class="version-card" href="/v0/2024">
+        <div class="ver-meta">
+          <span class="ver-tag archived-tag">Archived</span>
+          <span class="ver-date">2024</span>
+        </div>
+        <h2 class="ver-title">2024 — Two-Column Portfolio</h2>
+        <p class="ver-desc">
+          Split-column hero with live stack code snippet panel, availability
+          badge, and explicit DevOps positioning. First version to seriously
+          document the infrastructure side of the work.
+        </p>
+        <div class="ver-tags">
+          <span>Astro</span><span>Code panel</span><span>DevOps focus</span
+          ><span>Freelance CTA</span>
+        </div>
+        <span class="ver-arrow">↗</span>
+      </a>
+
+      <!-- 2023 -->
+      <a class="version-card" href="/v0/2023">
+        <div class="ver-meta">
+          <span class="ver-tag archived-tag">Archived</span>
+          <span class="ver-date">2023</span>
+        </div>
+        <h2 class="ver-title">2023 — Skills-Forward Portfolio</h2>
+        <p class="ver-desc">
+          Structured portfolio with explicit nav, four-column skills grid, and a
+          "Hire Me" CTA. Indigo accent. First attempt at professionally
+          positioning for freelance work internationally.
+        </p>
+        <div class="ver-tags">
+          <span>Next.js</span><span>Skills grid</span><span>Indigo theme</span
+          ><span>Hire Me CTA</span>
+        </div>
+        <span class="ver-arrow">↗</span>
+      </a>
+
+      <!-- 2022 -->
+      <a class="version-card" href="/v0/2022">
+        <div class="ver-meta">
+          <span class="ver-tag archived-tag">Archived</span>
+          <span class="ver-date">2022</span>
+        </div>
+        <h2 class="ver-title">2022 — Terminal Green Era</h2>
+        <p class="ver-desc">
+          Monospace-heavy design with green (#10b981) terminal accent. Included
+          a "currently building" project status card and a full tech badge list.
+          First real portfolio site with hosted projects listed.
+        </p>
+        <div class="ver-tags">
+          <span>Next.js</span><span>Monospace</span><span>Green accent</span
+          ><span>Project cards</span>
+        </div>
+        <span class="ver-arrow">↗</span>
+      </a>
+
+      <!-- 2021 -->
+      <a class="version-card origin-card" href="/v0/2021">
+        <div class="ver-meta">
+          <span class="ver-tag origin-tag">Origin</span>
+          <span class="ver-date">2021</span>
+        </div>
+        <h2 class="ver-title">2021 — First Web Presence</h2>
+        <p class="ver-desc">
+          Very first site. Courier New monospace, percentage skill bars, a
+          terminal prompt header, and a hand-written bio in Indonesian.
+          Documents the transition from IT support / networking into software
+          development. The starting point.
+        </p>
+        <div class="ver-tags">
+          <span>HTML + CSS</span><span>GitHub Pages</span><span>Skill bars</span
+          ><span>Origin story</span>
         </div>
         <span class="ver-arrow">↗</span>
       </a>
@@ -187,6 +262,21 @@ import config from "@/config/config.json";
     color: var(--color-text-muted);
     border-color: var(--color-border);
     background: transparent;
+  }
+
+  .origin-tag {
+    color: #f59e0b;
+    border-color: rgba(245, 158, 11, 0.35);
+    background: rgba(245, 158, 11, 0.06);
+  }
+
+  .origin-card {
+    border-color: rgba(245, 158, 11, 0.2);
+  }
+
+  .origin-card:hover {
+    border-color: rgba(245, 158, 11, 0.5);
+    box-shadow: 0 8px 32px -8px rgba(245, 158, 11, 0.15);
   }
 
   .ver-date {
