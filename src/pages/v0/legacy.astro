@@ -1,0 +1,211 @@
+---
+import V0Layout from "@/layouts/V0Layout.astro";
+---
+
+<V0Layout
+  meta_title="sandikodev — The Roots (2014-2020)"
+  description="The foundational fragments of sandikodev's journey — from 3rd grade SD tinkerings to formal engineering."
+>
+  <div class="v0-banner">
+    <span class="v0-breadcrumb">
+      <a href="/">sandikodev.github.io</a><span>/</span>
+      <a href="/v0">v0</a><span>/</span>
+      <span>legacy</span>
+    </span>
+    <span class="v0-label"
+      >Foundational Fragments — The undocumented years.</span
+    >
+    <a class="v0-link" href="/v0">← Version history</a>
+  </div>
+
+  <div class="legacy-container">
+    <header class="legacy-header">
+      <div class="glitch-wrapper">
+        <h1 class="glitch" data-text="THE ROOTS">THE ROOTS</h1>
+      </div>
+      <p class="legacy-period">Circa 2014 — 2020</p>
+    </header>
+
+    <div class="legacy-grid">
+      <section class="legacy-section">
+        <h2 class="section-title">{"//"} The Early Seeds (SD)</h2>
+        <div class="legacy-card">
+          <p>
+            It began in 3rd grade. Not with code, but with curiosity. By 5th
+            grade, the curiosity turned into consistency. Writing tips and
+            tricks about computer optimization on <strong>Blogspot</strong>.
+          </p>
+          <div class="fragment-list">
+            <span>Google AdSense experimentation</span>
+            <span>Free software distribution hub</span>
+            <span>Visual Design & 3D Modeling (Blender/Sketchup)</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="legacy-section">
+        <h2 class="section-title">{"//"} The Investigation (SMP)</h2>
+        <div class="legacy-card">
+          <p>
+            Expanding to Kaskus and Facebook. Learning <strong
+              >Meta Pixel</strong
+            >
+            and digital marketing before it was a mainstream career. Customizing
+            Blogspot scripts led to a deep dive into <strong>WordPress</strong>.
+          </p>
+          <p class="security-note">
+            This period introduced the "darker" side of the web: security
+            research, dorking, and understanding vulnerabilities from the inside
+            out — a period that built my deep technical intuition.
+          </p>
+          <div class="fragment-list">
+            <span>PHP / WordPress Themes</span>
+            <span>Web Vulnerability Research</span>
+            <span>Social Engineering & Scripting</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="legacy-section">
+        <h2 class="section-title">{"//"} The Formalization (SMK)</h2>
+        <div class="legacy-card">
+          <p>
+            Entering Computer and Network Engineering (SMK). Structural
+            understanding aligned with years of ad-hoc tinkering. Moving beyond
+            PHP into modern frameworks.
+          </p>
+          <div class="fragment-list">
+            <span>Ruby on Rails (Inspired by Bukalapak's peak era)</span>
+            <span>Laravel / CodeIgniter</span>
+            <span>Hugo / Gatsby / Static Site Generators</span>
+            <span>Cloud Deployment (Heroku / Netlify)</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="legacy-footer">
+      <p>
+        "Legally, this is the summary of a journey. A transition from a hidden
+        digital world into a professional, directed, and responsible future."
+      </p>
+      <div class="binary-decor">
+        01110010 01101111 01101111 01110100 01110011
+      </div>
+    </footer>
+  </div>
+</V0Layout>
+
+<style>
+  .legacy-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 8rem;
+    font-family: "Fira Code", "SF Mono", monospace;
+  }
+
+  .legacy-header {
+    margin-bottom: 4rem;
+    text-align: center;
+  }
+
+  .glitch-wrapper {
+    display: inline-block;
+  }
+
+  .glitch {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #a78bfa;
+    position: relative;
+    letter-spacing: 0.1em;
+  }
+
+  .legacy-period {
+    color: rgba(167, 139, 250, 0.5);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+  }
+
+  .legacy-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+  }
+
+  .section-title {
+    font-size: 0.85rem;
+    color: #a78bfa;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 1.25rem;
+  }
+
+  .legacy-card {
+    background: rgba(167, 139, 250, 0.03);
+    border: 1px solid rgba(167, 139, 250, 0.1);
+    padding: 2rem;
+    border-radius: 4px;
+    line-height: 1.7;
+    color: var(--color-text-body);
+  }
+
+  .legacy-card strong {
+    color: #a78bfa;
+    font-weight: 600;
+  }
+
+  .security-note {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 1.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid rgba(167, 139, 250, 0.3);
+  }
+
+  .fragment-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .fragment-list span {
+    font-size: 0.7rem;
+    background: rgba(167, 139, 250, 0.08);
+    color: rgba(167, 139, 250, 0.8);
+    padding: 0.4rem 0.75rem;
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .legacy-footer {
+    margin-top: 6rem;
+    text-align: center;
+    border-top: 1px solid rgba(167, 139, 250, 0.1);
+    padding-top: 3rem;
+  }
+
+  .legacy-footer p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+    max-width: 60ch;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+  }
+
+  .binary-decor {
+    font-size: 0.65rem;
+    color: rgba(167, 139, 250, 0.2);
+    letter-spacing: 0.2em;
+  }
+
+  @media (max-width: 640px) {
+    .glitch {
+      font-size: 2rem;
+    }
+  }
+</style>

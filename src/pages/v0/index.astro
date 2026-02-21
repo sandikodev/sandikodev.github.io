@@ -124,14 +124,34 @@ import V0Layout from "@/layouts/V0Layout.astro";
         </div>
         <h2 class="ver-title">2021 — First Web Presence</h2>
         <p class="ver-desc">
-          Very first site. Courier New monospace, percentage skill bars, a
-          terminal prompt header, and a hand-written bio in Indonesian.
-          Documents the transition from IT support / networking into software
-          development. The starting point.
+          Very first site on GitHub Pages. Courier New monospace, percentage
+          skill bars, and a hand-written bio. Documents the formal transition
+          from system administration and "dark tinkering" into structured
+          software development.
         </p>
         <div class="ver-tags">
           <span>HTML + CSS</span><span>GitHub Pages</span><span>Skill bars</span
-          ><span>Origin story</span>
+          >
+        </div>
+        <span class="ver-arrow">↗</span>
+      </a>
+
+      <!-- 2014 - 2020 -->
+      <a class="version-card roots-card" href="/v0/legacy">
+        <div class="ver-meta">
+          <span class="ver-tag roots-tag">The Roots</span>
+          <span class="ver-date">2014 — 2020</span>
+        </div>
+        <h2 class="ver-title">The Fragments — Early Tinkerings</h2>
+        <p class="ver-desc">
+          Blogspot era, Google AdSense, Meta Pixel optimization, and deep dives
+          into web security, scripting, and PHP/Wordpress. A period of intense
+          self-learning, starting from 3rd grade SD, that built the technical
+          intuition I carry today.
+        </p>
+        <div class="ver-tags">
+          <span>Blogspot</span><span>Wordpress</span><span>Web Security</span
+          ><span>PHP</span><span>Ruby on Rails</span>
         </div>
         <span class="ver-arrow">↗</span>
       </a>
@@ -273,6 +293,24 @@ import V0Layout from "@/layouts/V0Layout.astro";
   .origin-card:hover {
     border-color: rgba(245, 158, 11, 0.5);
     box-shadow: 0 8px 32px -8px rgba(245, 158, 11, 0.15);
+  }
+
+  /* Roots Card (Purple/Security) */
+  .roots-tag {
+    color: #a78bfa;
+    border-color: rgba(167, 139, 250, 0.35);
+    background: rgba(167, 139, 250, 0.06);
+  }
+
+  .roots-card {
+    border-color: rgba(167, 139, 250, 0.2);
+    border-style: dashed;
+  }
+
+  .roots-card:hover {
+    border-color: rgba(167, 139, 250, 0.5);
+    border-style: solid;
+    box-shadow: 0 8px 32px -8px rgba(167, 139, 250, 0.2);
   }
 
   .ver-date {
