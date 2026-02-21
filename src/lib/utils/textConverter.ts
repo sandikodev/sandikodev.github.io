@@ -20,9 +20,9 @@ export const humanize = (content: string) => {
   if (!content) return null;
 
   return content
-    .replace(/^[\s_]+|[\s_]+$/g, "")
-    .replace(/[_\s]+/g, " ")
-    .replace(/^[a-z]/, function (m) {
+    .replace(/^[\s_-]+|[\s_-]+$/g, "")
+    .replace(/[_\-\s]+/g, " ")
+    .replace(/\b\w/g, function (m) {
       return m.toUpperCase();
     });
 };

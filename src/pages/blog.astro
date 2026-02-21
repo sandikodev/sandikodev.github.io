@@ -1,4 +1,6 @@
 ---
+import { Icon } from "astro-icon/components";
+import ActivityHeatmap from "@/components/blog/ActivityHeatmap.astro";
 import NewsletterSignup from "@/components/blog/NewsletterSignup.astro";
 import PostCard from "@/components/blog/PostCard.astro";
 import config from "@/config/config.json";
@@ -22,17 +24,21 @@ const allCategories = await getTaxonomy("posts", "categories");
 
 // Icon mapping for common categories
 const iconMap: Record<string, string> = {
-  backend: "database",
-  devops: "terminal",
-  frontend: "layout",
-  git: "git-branch", // Ensure this icon exists or use a generic one
-  infrastructure: "server",
-  tools: "cpu",
-  "web-dev": "code",
+  architecture: "mdi:layers",
+  backend: "mdi:database",
+  devops: "mdi:console",
+  frontend: "mdi:web",
+  git: "mdi:source-branch",
+  infrastructure: "mdi:server",
+  security: "mdi:shield-check",
+  tools: "mdi:wrench",
+  vision: "mdi:eye",
+  "web-development": "mdi:xml",
+  "web-dev": "mdi:code-tags",
 };
 
 const categories = allCategories.map((catSlug) => ({
-  icon: iconMap[catSlug] || "folder",
+  icon: iconMap[catSlug] || "mdi:folder",
   name: humanize(catSlug),
   slug: catSlug,
 }));
@@ -77,10 +83,14 @@ const categories = allCategories.map((catSlug) => ({
           </form>
           <div class="discovery-divider"></div>
           <nav class="category-nav">
-            <a class="category-item active" href="/blog">All</a>
+            <a class="category-item active" href="/blog">
+              <Icon class="category-icon" name="mdi:view-grid" />
+              <span>All</span>
+            </a>
             {
               categories.map((cat) => (
                 <a class="category-item" href={`/categories/${cat.slug}`}>
+                  <Icon class="category-icon" name={cat.icon} />
                   <span>{cat.name}</span>
                 </a>
               ))
@@ -117,6 +127,8 @@ const categories = allCategories.map((catSlug) => ({
         </div>
 
         <aside class="blog-sidebar">
+          <ActivityHeatmap />
+
           <div class="sidebar-widget">
             <NewsletterSignup />
           </div>
@@ -291,6 +303,13 @@ const categories = allCategories.map((catSlug) => ({
     display: flex;
     gap: 0.25rem;
     padding-right: 0.5rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .category-nav::-webkit-scrollbar {
+    display: none;
   }
 
   .category-item {
@@ -300,6 +319,22 @@ const categories = allCategories.map((catSlug) => ({
     font-weight: 600;
     color: var(--color-text-body);
     transition: var(--transition-all);
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .category-icon {
+    width: 14px;
+    height: 14px;
+    opacity: 0.7;
+    transition: var(--transition-all);
+  }
+
+  .category-item:hover .category-icon,
+  .category-item.active .category-icon {
+    opacity: 1;
   }
 
   .category-item:hover {

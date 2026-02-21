@@ -1,0 +1,250 @@
+---
+import { getAllPosts } from "@/lib/contentParser.astro";
+
+// Konfigurasi Heatmap: 26 Minggu ke belakang (~6 bulan)
+const WEEKS = 26;
+const DAYS = WEEKS * 7;
+
+const now = new Date();
+const startDate = new Date(now.getTime() - DAYS * 24 * 60 * 60 * 1000);
+
+const posts = await getAllPosts();
+
+// Process heat map data
+const activityMap: Record<
+  string,
+  { count: number; lines: number; titles: string[] }
+> = {};
+
+posts.forEach((post) => {
+  if (!post.data.date) return;
+  const pd = new Date(post.data.date);
+  if (pd < startDate) return;
+
+  // Format YYYY-MM-DD
+  const dateStr = `${pd.getFullYear()}-${String(pd.getMonth() + 1).padStart(2, "0")}-${String(pd.getDate()).padStart(2, "0")}`;
+
+  // Hitung kasar jumlah baris berdasarkan pembacaan body content murni
+  const lines = post.body ? post.body.split("\n").length : 0;
+
+  if (!activityMap[dateStr]) {
+    activityMap[dateStr] = { count: 0, lines: 0, titles: [] };
+  }
+
+  activityMap[dateStr].count += 1;
+  activityMap[dateStr].lines += lines;
+  activityMap[dateStr].titles.push(post.data.title);
+});
+
+// Construct matrix [7 Hari][Jumlah Minggu]
+const matrix = [];
+for (let i = 0; i < 7; i++) {
+  matrix.push(new Array(WEEKS).fill(null));
+}
+
+let iterDate = new Date(startDate);
+// Mundurkan ke Hari Minggu untuk merapikan kalender
+const startDayOffset = iterDate.getDay();
+iterDate.setDate(iterDate.getDate() - startDayOffset);
+
+let currentWeek = 0;
+while (currentWeek < WEEKS) {
+  for (let dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++) {
+    const ds = `${iterDate.getFullYear()}-${String(iterDate.getMonth() + 1).padStart(2, "0")}-${String(iterDate.getDate()).padStart(2, "0")}`;
+    const data = activityMap[ds] || { count: 0, lines: 0, titles: [] };
+
+    matrix[dayOfWeek][currentWeek] = {
+      date: ds,
+      ...data,
+    };
+
+    iterDate.setDate(iterDate.getDate() + 1);
+  }
+  currentWeek++;
+}
+
+// Skala warna Github-style berdasarkan Line of Codes (LOC)
+const getLevel = (lines: number) => {
+  if (lines === 0) return 0;
+  if (lines <= 100) return 1;
+  if (lines <= 300) return 2;
+  if (lines <= 600) return 3;
+  return 4;
+};
+
+// Tooltip Hari
+const getDayLabel = (index: number) => {
+  if (index === 1) return "Mon";
+  if (index === 3) return "Wed";
+  if (index === 5) return "Fri";
+  return "";
+};
+---
+
+<div class="sidebar-widget">
+  <h3 class="widget-title">Writer's Heatmap</h3>
+  <div class="heatmap-container">
+    <div class="heatmap-layout">
+      <div class="heatmap-y-axis">
+        {matrix.map((_, i) => <div class="y-label">{getDayLabel(i)}</div>)}
+      </div>
+
+      <div class="heatmap-grid-scroll">
+        <div class="heatmap-grid">
+          {
+            matrix.map((row) => (
+              <div class="heatmap-row">
+                {row.map((cell) => {
+                  const level = getLevel(cell.lines);
+                  const tooltip =
+                    cell.count > 0
+                      ? `${cell.lines} lines of code across ${cell.count} posts on ${cell.date}\n- ${cell.titles.join("\n- ")}`
+                      : `No articles on ${cell.date}`;
+
+                  return (
+                    <div class={`heat-cell level-${level}`} title={tooltip} />
+                  );
+                })}
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Info & Legend -->
+    <div class="heatmap-footer">
+      <div class="heatmap-stats">
+        <span>Contributions (6 Months)</span>
+      </div>
+      <div class="heatmap-legend">
+        <span class="legend-label">Less</span>
+        <div class="heat-cell level-0"></div>
+        <div class="heat-cell level-1"></div>
+        <div class="heat-cell level-2"></div>
+        <div class="heat-cell level-3"></div>
+        <div class="heat-cell level-4"></div>
+        <span class="legend-label">More</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .heatmap-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .heatmap-layout {
+    display: flex;
+    gap: 6px;
+  }
+
+  .heatmap-y-axis {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 2px;
+  }
+
+  .y-label {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    height: 12px;
+    line-height: 12px;
+  }
+
+  .heatmap-grid-scroll {
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    /* Custom Scrollbar for the heatmap */
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
+
+  .heatmap-grid-scroll::-webkit-scrollbar {
+    height: 4px;
+  }
+  .heatmap-grid-scroll::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 4px;
+  }
+
+  .heatmap-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .heatmap-row {
+    display: flex;
+    gap: 3px;
+  }
+
+  .heat-cell {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    transition:
+      transform 0.1s ease,
+      filter 0.2s ease;
+    flex-shrink: 0;
+    cursor: default;
+  }
+
+  .heat-cell:hover {
+    transform: scale(1.3);
+    z-index: 10;
+    filter: brightness(1.2);
+    box-shadow: 0 0 5px var(--color-shadow-sm);
+  }
+
+  /* Retro/Cyber Green or Modern Primary Scales using CSS Color Mix or Opacity approximations */
+  /* Fallback to background with borders for elegant look */
+  .heat-cell.level-0 {
+    background-color: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border-alpha, rgba(0, 0, 0, 0.05));
+  }
+  .dark .heat-cell.level-0 {
+    background-color: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.05); /* very subtle */
+  }
+
+  /* Vibrant Levels scaled via opacity of primary color */
+  .heat-cell.level-1 {
+    background-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  }
+  .heat-cell.level-2 {
+    background-color: color-mix(in srgb, var(--color-primary) 50%, transparent);
+  }
+  .heat-cell.level-3 {
+    background-color: color-mix(in srgb, var(--color-primary) 70%, transparent);
+  }
+  .heat-cell.level-4 {
+    background-color: var(--color-primary);
+    box-shadow: 0 0 3px
+      color-mix(in srgb, var(--color-primary) 50%, transparent);
+  }
+
+  .heatmap-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    border-top: 1px dashed var(--color-border-alpha);
+    padding-top: 0.75rem;
+  }
+
+  .heatmap-legend {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .legend-label {
+    margin: 0 4px;
+  }
+</style>
