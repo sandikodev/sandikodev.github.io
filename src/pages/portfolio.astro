@@ -1,0 +1,1341 @@
+---
+import Base from "@/layouts/Base.astro";
+import config from "@/config/config.json";
+---
+
+<Base
+  description={`Explore ${config.metadata.meta_author}'s production work — SaaS platforms, institutional systems, and AI-powered tools built with Next.js, SvelteKit, Astro, and more.`}
+  meta_title={`Portfolio — ${config.metadata.meta_author} | Fullstack Developer`}
+  title={`Portfolio | ${config.metadata.meta_author}`}
+>
+  <!-- Hero -->
+  <section class="port-hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="availability-wrap">
+          <span class="avail-dot"></span>
+          <span class="avail-text">Open to Freelance &amp; Collaboration</span>
+        </div>
+        <h1 class="port-title">
+          Production-Grade<br />
+          <span class="stroke-text">Work.</span>
+        </h1>
+        <p class="port-sub">
+          A curated collection of real-world applications — SaaS platforms,
+          institutional systems, and AI-powered tools — shipped and running in
+          production.
+        </p>
+        <div class="hero-meta">
+          <div class="meta-item">
+            <span class="meta-num">17+</span>
+            <span class="meta-label">Projects</span>
+          </div>
+          <div class="meta-divider"></div>
+          <div class="meta-item">
+            <span class="meta-num">8</span>
+            <span class="meta-label">Years Exp.</span>
+          </div>
+          <div class="meta-divider"></div>
+          <div class="meta-item">
+            <span class="meta-num">3</span>
+            <span class="meta-label">Live Products</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filter Tabs -->
+  <section class="port-filters">
+    <div class="container">
+      <div class="filter-wrap">
+        <div
+          class="filter-bar"
+          role="tablist"
+          aria-label="Portfolio Categories"
+        >
+          <button class="filter-btn active" data-filter="all" role="tab"
+            >All</button
+          >
+          <button class="filter-btn" data-filter="saas" role="tab">SaaS</button>
+          <button class="filter-btn" data-filter="education" role="tab"
+            >Education</button
+          >
+          <button class="filter-btn" data-filter="devops" role="tab"
+            >DevOps &amp; CLI</button
+          >
+          <button class="filter-btn" data-filter="ai" role="tab">AI</button>
+          <button class="filter-btn" data-filter="community" role="tab"
+            >Community</button
+          >
+        </div>
+        <span class="filter-count" id="filter-count">8 projects</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Grid -->
+  <section class="port-grid-section">
+    <div class="container">
+      <div class="port-grid" id="port-grid">
+        <!-- Project 1: Margin Pro -->
+        <article class="proj-card featured" data-category="saas ai">
+          <div class="card-inner">
+            <div class="card-top">
+              <div class="proj-badge-row">
+                <span class="proj-type">SaaS Platform</span>
+                <span class="proj-status live">● Live</span>
+              </div>
+              <div class="proj-icon">📊</div>
+            </div>
+            <div class="card-body">
+              <h2 class="proj-title">Margin Pro</h2>
+              <p class="proj-desc">
+                Pricing intelligence SaaS for Indonesian F&amp;B businesses.
+                Calculates COGS, simulates delivery app margins (GoFood,
+                GrabFood), and provides AI-driven pricing recommendations via
+                Gemini 2.0.
+              </p>
+              <div class="tech-stack">
+                <span class="tech-tag">Koda Zenith</span>
+                <span class="tech-tag">React 19</span>
+                <span class="tech-tag">Hono RPC</span>
+                <span class="tech-tag">Turso</span>
+                <span class="tech-tag">Drizzle ORM</span>
+                <span class="tech-tag">Gemini 2.0</span>
+                <span class="tech-tag">Bun</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="card-actions">
+                <a
+                  class="action-btn primary"
+                  href="https://github.com/sandikodev"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <svg
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    width="14"
+                    height="14"
+                    ><path
+                      d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                    ></path></svg
+                  >
+                  GitHub
+                </a>
+                <a
+                  class="action-btn enquire"
+                  href="/contact?project=Margin+Pro"
+                >
+                  Enquire ↗
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 2: Aksesekolah -->
+        <article class="proj-card" data-category="education">
+          <div class="card-inner">
+            <div class="card-top">
+              <div class="proj-badge-row">
+                <span class="proj-type">Institutional Platform</span>
+                <span class="proj-status live">● Live</span>
+              </div>
+              <div class="proj-icon">🏫</div>
+            </div>
+            <div class="card-body">
+              <h2 class="proj-title">Aksesekolah.id</h2>
+              <p class="proj-desc">
+                Open-source school website builder &amp; multi-tenant academic
+                management system. Used by real schools for student enrollment,
+                attendance, and grade tracking.
+              </p>
+              <div class="tech-stack">
+                <span class="tech-tag">Next.js 16</span>
+                <span class="tech-tag">Headless WP</span>
+                <span class="tech-tag">Prisma</span>
+                <span class="tech-tag">LibSQL</span>
+                <span class="tech-tag">Radix UI</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="card-actions">
+                <a
+                  class="action-btn primary"
+                  href="https://aksesekolah.id"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <svg
+                    width="14"
+                    height="14"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    ><path
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"></path></svg
+                  >
+                  Live Site
+                </a>
+                <a
+                  class="action-btn enquire"
+                  href="/contact?project=Aksesekolah">Enquire ↗</a
+                >
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 3: SigmaBOT -->
+        <article class="proj-card" data-category="education ai">
+          <div class="card-inner">
+            <div class="card-top">
+              <div class="proj-badge-row">
+                <span class="proj-type">E-Learning &amp; Hardware</span>
+                <span class="proj-status live">● Live</span>
+              </div>
+              <div class="proj-icon">🤖</div>
+            </div>
+            <div class="card-body">
+              <h2 class="proj-title">SigmaBOT Platform</h2>
+              <p class="proj-desc">
+                IoT &amp; Robotics e-learning platform bundled with physical
+                hardware kits (Arduino, ESP32, Raspberry Pi). Gamification via
+                aura points and integrated Midtrans payments.
+              </p>
+              <div class="tech-stack">
+                <span class="tech-tag">Astro 5</span>
+                <span class="tech-tag">React 19</span>
+                <span class="tech-tag">Better Auth</span>
+                <span class="tech-tag">Turso</span>
+                <span class="tech-tag">Midtrans</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="card-actions">
+                <a
+                  class="action-btn primary"
+                  href="https://github.com/sandikodev"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <svg
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    width="14"
+                    height="14"
+                    ><path
+                      d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                    ></path></svg
+                  >
+                  GitHub
+                </a>
+                <a class="action-btn enquire" href="/contact?project=SigmaBOT"
+                  >Enquire ↗</a
+                >
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 4: Awan CLI -->
+        <article class="proj-card" data-category="devops">
+          <div class="card-inner">
+            <div class="card-top">
+              <div class="proj-badge-row">
+                <span class="proj-type">DevOps CLI Tool</span>
+                <span class="proj-status live">● Live</span>
+              </div>
+              <div class="proj-icon">☁️</div>
+            </div>
+            <div class="card-body">
+              <h2 class="proj-title">Awan CLI</h2>
+              <p class="proj-desc">
+                Self-hosted PaaS automation tool (Heroku-like) for managing
+                Docker containers and server deployments via YAML configurations
+                and a Python CLI interface.
+              </p>
+              <div class="tech-stack">
+                <span class="tech-tag">Python 3.11</span>
+                <span class="tech-tag">Typer &amp; Click</span>
+                <span class="tech-tag">Docker SDK</span>
+                <span class="tech-tag">Jinja2</span>
+                <span class="tech-tag">Poetry</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="card-actions">
+                <a
+                  class="action-btn primary"
+                  href="https://github.com/sandikodev"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <svg
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    width="14"
+                    height="14"
+                    ><path
+                      d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                    ></path></svg
+                  >
+                  GitHub
+                </a>
+                <a class="action-btn enquire" href="/contact?project=Awan+CLI"
+                  >Enquire ↗</a
+                >
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 5: We Will Shine -->
+        <article class="proj-card" data-category="education ai">
+          <div class="card-inner">
+            <div class="card-top">
+              <div class="proj-badge-row">
+                <span class="proj-type">AI Career Guidance</span>
+                <span class="proj-status live">● Live</span>
+              </div>
+              <div class="proj-icon">✨</div>
+            </div>
+            <div class="card-body">
+              <h2 class="proj-title">We Will Shine</h2>
+              <p class="proj-desc">
+                AI-powered student wellbeing &amp; career guidance app for SMP
+                IT Masjid Syuhada. Features gamification, Islamic career
+                mapping, and an AI companion powered by Gemini.
+              </p>
+              <div class="tech-stack">
+                <span class="tech-tag">SvelteKit 2</span>
+                <span class="tech-tag">Svelte 5 Runes</span>
+                <span class="tech-tag">Supabase</span>
+                <span class="tech-tag">Gemini AI</span>
+                <span class="tech-tag">Tailwind v4</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="card-actions">
+                <a
+                  class="action-btn primary"
+                  href="https://github.com/sandikodev"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <svg
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    width="14"
+                    height="14"
+                    ><path
+                      d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                    ></path></svg
+                  >
+                  GitHub
+                </a>
+                <a
+                  class="action-btn enquire"
+                  href="/contact?project=We+Will+Shine">Enquire ↗</a
+                >
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 6: Citation CORM -->
+        <article class="proj-card" data-category="ai community">
+          <div class="card-inner">
+            <div class="card-top">
+              <div class="proj-badge-row">
+                <span class="proj-type">AI Research Tool</span>
+                <span class="proj-status live">● Live</span>
+              </div>
+              <div class="proj-icon">🔬</div>
+            </div>
+            <div class="card-body">
+              <h2 class="proj-title">Citation (CORM)</h2>
+              <p class="proj-desc">
+                AI-powered scientific citation assistant for Indonesian physics
+                communities. Integrates Perplexity API for semantic search and
+                Pinecone for vector-based citation retrieval.
+              </p>
+              <div class="tech-stack">
+                <span class="tech-tag">Next.js 16</span>
+                <span class="tech-tag">Vercel AI SDK</span>
+                <span class="tech-tag">Perplexity API</span>
+                <span class="tech-tag">Pinecone</span>
+                <span class="tech-tag">Turso</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="card-actions">
+                <a
+                  class="action-btn primary"
+                  href="https://github.com/sandikodev"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <svg
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    width="14"
+                    height="14"
+                    ><path
+                      d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                    ></path></svg
+                  >
+                  GitHub
+                </a>
+                <a
+                  class="action-btn enquire"
+                  href="/contact?project=Citation+CORM">Enquire ↗</a
+                >
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 7: Naikkelas.id -->
+        <article class="proj-card" data-category="education">
+          <div class="card-inner">
+            <div class="card-top">
+              <div class="proj-badge-row">
+                <span class="proj-type">LMS Platform</span>
+                <span class="proj-status live">● Live</span>
+              </div>
+              <div class="proj-icon">📚</div>
+            </div>
+            <div class="card-body">
+              <h2 class="proj-title">Naikkelas.id</h2>
+              <p class="proj-desc">
+                Modern LMS running on Cloudflare Edge with interactive MDSvex
+                course modules and built-in certificate &amp; PDF export
+                functionality using html2canvas and jsPDF.
+              </p>
+              <div class="tech-stack">
+                <span class="tech-tag">SvelteKit 2</span>
+                <span class="tech-tag">Cloudflare Pages</span>
+                <span class="tech-tag">Turso</span>
+                <span class="tech-tag">MDSvex</span>
+                <span class="tech-tag">jsPDF</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="card-actions">
+                <a
+                  class="action-btn primary"
+                  href="https://github.com/sandikodev"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <svg
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    width="14"
+                    height="14"
+                    ><path
+                      d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                    ></path></svg
+                  >
+                  GitHub
+                </a>
+                <a class="action-btn enquire" href="/contact?project=Naikkelas"
+                  >Enquire ↗</a
+                >
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 8: Pocat -->
+        <article class="proj-card" data-category="ai">
+          <div class="card-inner">
+            <div class="card-top">
+              <div class="proj-badge-row">
+                <span class="proj-type">AI Video Tool</span>
+                <span class="proj-status wip">◐ In Dev</span>
+              </div>
+              <div class="proj-icon">🎬</div>
+            </div>
+            <div class="card-body">
+              <h2 class="proj-title">Pocat</h2>
+              <p class="proj-desc">
+                AI Video Clipper that transforms long-form YouTube videos into
+                viral short clips. End-to-end type-safe API contract via Tuyau,
+                with FFmpeg-powered processing pipeline.
+              </p>
+              <div class="tech-stack">
+                <span class="tech-tag">AdonisJS 6</span>
+                <span class="tech-tag">React 18</span>
+                <span class="tech-tag">TanStack Router</span>
+                <span class="tech-tag">FFmpeg</span>
+                <span class="tech-tag">yt-dlp</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="card-actions">
+                <a
+                  class="action-btn primary"
+                  href="https://github.com/sandikodev"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <svg
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    width="14"
+                    height="14"
+                    ><path
+                      d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                    ></path></svg
+                  >
+                  GitHub
+                </a>
+                <a class="action-btn enquire" href="/contact?project=Pocat"
+                  >Enquire ↗</a
+                >
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Empty state -->
+      <div class="empty-state" id="empty-state" style="display:none;">
+        <span class="empty-icon">🔍</span>
+        <p>No projects found in this category yet.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="port-cta">
+    <div class="container">
+      <div class="cta-card">
+        <div class="cta-glow"></div>
+        <div class="cta-inner">
+          <div class="cta-badge">
+            <span class="cta-dot"></span>
+            Available for hire
+          </div>
+          <h2 class="cta-title">Like what you see?</h2>
+          <p class="cta-desc">
+            Let's discuss your project. Whether it's a SaaS platform, an
+            institutional system, or a custom tool — I can help you build it
+            right from the start.
+          </p>
+          <div class="cta-actions">
+            <a class="cta-btn-primary" href="/contact">
+              Start a Project
+              <svg
+                fill="none"
+                height="16"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="16"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </a>
+            <button
+              class="cta-btn-ghost"
+              id="copy-email-btn"
+              title="Copy email to clipboard"
+            >
+              <svg
+                fill="none"
+                width="15"
+                height="15"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                ><path
+                  d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path></svg
+              >
+              <span id="copy-label">Copy Email</span>
+            </button>
+            <a
+              class="cta-btn-ghost"
+              href="https://linkedin.com/in/sandikodev"
+              rel="noopener"
+              target="_blank"
+            >
+              LinkedIn ↗
+            </a>
+          </div>
+          <div class="cta-platforms">
+            <span class="platform-label">Also available on:</span>
+            <a
+              class="platform-link"
+              href="https://fiverr.com/sandikodev"
+              rel="noopener"
+              target="_blank">Fiverr</a
+            >
+            <span class="platform-sep">·</span>
+            <a
+              class="platform-link"
+              href="https://www.upwork.com"
+              rel="noopener"
+              target="_blank">Upwork</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ─────────────────────────────────────────
+     Design Tokens
+  ───────────────────────────────────────── */
+  :root {
+    --port-accent: #667eea;
+    --port-accent-alt: #f093fb;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* ─────────────────────────────────────────
+     Hero
+  ───────────────────────────────────────── */
+  .port-hero {
+    padding: 6rem 0 4rem;
+    border-bottom: 1px solid var(--color-border);
+    background: radial-gradient(
+      ellipse at 60% 0%,
+      rgba(102, 126, 234, 0.08) 0%,
+      transparent 60%
+    );
+  }
+
+  .hero-inner {
+    max-width: 720px;
+  }
+
+  .availability-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 99px;
+    background: var(--color-surface);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #22c55e;
+    margin-bottom: 1.75rem;
+  }
+
+  .avail-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #22c55e;
+    animation: pulse-green 2.5s infinite;
+  }
+
+  @keyframes pulse-green {
+    0% {
+      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5);
+    }
+    70% {
+      box-shadow: 0 0 0 8px transparent;
+    }
+    100% {
+      box-shadow: 0 0 0 0 transparent;
+    }
+  }
+
+  .port-title {
+    font-size: clamp(3.5rem, 9vw, 6.5rem);
+    font-weight: 950;
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    margin-bottom: 1.5rem;
+    color: var(--color-text-main);
+  }
+
+  .stroke-text {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--color-text-main);
+  }
+
+  .port-sub {
+    font-size: 1.15rem;
+    color: var(--color-text-body);
+    max-width: 52ch;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    opacity: 0.85;
+  }
+
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .meta-num {
+    font-size: 1.75rem;
+    font-weight: 900;
+    color: var(--color-text-main);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .meta-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    margin-top: 0.25rem;
+  }
+
+  .meta-divider {
+    width: 1px;
+    height: 2.5rem;
+    background: var(--color-border);
+  }
+
+  /* ─────────────────────────────────────────
+     Filters
+  ───────────────────────────────────────── */
+  .port-filters {
+    padding: 2rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    backdrop-filter: blur(12px);
+  }
+
+  .filter-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .filter-bar {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-count {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    padding: 0.3rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 99px;
+    background: var(--color-surface);
+    transition: all 0.2s ease;
+  }
+
+  .filter-btn {
+    padding: 0.5rem 1.25rem;
+    border-radius: 99px;
+    border: 1px solid var(--color-border);
+    background: transparent;
+    color: var(--color-text-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .filter-btn:hover {
+    border-color: var(--port-accent);
+    color: var(--color-text-main);
+  }
+
+  .filter-btn.active {
+    background: var(--port-accent);
+    border-color: var(--port-accent);
+    color: white;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  }
+
+  /* ─────────────────────────────────────────
+     Grid
+  ───────────────────────────────────────── */
+  .port-grid-section {
+    padding: 3rem 0 6rem;
+  }
+
+  .port-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  /* ─────────────────────────────────────────
+     Cards
+  ───────────────────────────────────────── */
+  .proj-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 1.5rem;
+    overflow: hidden;
+    transition:
+      transform 0.3s ease,
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .proj-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(102, 126, 234, 0.4);
+    box-shadow: 0 20px 50px -20px rgba(102, 126, 234, 0.2);
+  }
+
+  .proj-card.featured {
+    grid-column: span 2;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    border-color: rgba(102, 126, 234, 0.3);
+    color: white;
+  }
+
+  .proj-card.featured .proj-desc,
+  .proj-card.featured .proj-title,
+  .proj-card.featured .proj-type {
+    color: white;
+  }
+
+  .proj-card.featured .proj-status.live {
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #86efac;
+  }
+
+  .proj-card.featured .tech-tag {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .proj-card.featured .proj-link {
+    color: rgba(255, 255, 255, 0.7);
+    border-top-color: rgba(255, 255, 255, 0.1);
+  }
+  .proj-card.featured .proj-link:hover {
+    color: white;
+  }
+
+  .card-inner {
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem;
+    height: 100%;
+    gap: 1rem;
+  }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .proj-badge-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .proj-type {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 800;
+    color: var(--color-text-muted);
+  }
+
+  .proj-status {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+    border-radius: 99px;
+    border: 1px solid;
+    width: fit-content;
+  }
+
+  .proj-status.live {
+    color: #22c55e;
+    border-color: rgba(34, 197, 94, 0.3);
+    background: rgba(34, 197, 94, 0.08);
+  }
+
+  .proj-status.wip {
+    color: #f59e0b;
+    border-color: rgba(245, 158, 11, 0.3);
+    background: rgba(245, 158, 11, 0.08);
+  }
+
+  .proj-icon {
+    font-size: 2.25rem;
+    line-height: 1;
+  }
+
+  .card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .proj-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--color-text-main);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  .proj-desc {
+    font-size: 0.875rem;
+    color: var(--color-text-body);
+    line-height: 1.6;
+    opacity: 0.85;
+    margin: 0;
+    flex: 1;
+  }
+
+  .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
+  }
+
+  .tech-tag {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.25rem 0.6rem;
+    border-radius: 99px;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-body);
+  }
+
+  .card-footer {
+    border-top: 1px solid var(--color-border);
+    padding-top: 1rem;
+    margin-top: auto;
+  }
+
+  /* Dual action buttons */
+  .card-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    border: 1px solid;
+  }
+
+  .action-btn.primary {
+    background: var(--color-bg);
+    border-color: var(--color-border);
+    color: var(--color-text-body);
+  }
+
+  .action-btn.primary:hover {
+    border-color: var(--port-accent);
+    color: var(--port-accent);
+    transform: translateY(-1px);
+  }
+
+  .action-btn.enquire {
+    background: var(--port-accent);
+    border-color: var(--port-accent);
+    color: white;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  }
+
+  .action-btn.enquire:hover {
+    box-shadow: 0 4px 14px rgba(102, 126, 234, 0.5);
+    transform: translateY(-1px);
+  }
+
+  .proj-card.featured .action-btn.primary {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .proj-card.featured .action-btn.primary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+  }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: 5rem 0;
+    color: var(--color-text-muted);
+  }
+
+  .empty-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  /* ─────────────────────────────────────────
+     CTA Section
+  ───────────────────────────────────────── */
+  .port-cta {
+    padding: 3rem 0 8rem;
+  }
+
+  .cta-card {
+    position: relative;
+    border: 1px solid var(--color-border);
+    border-radius: 2rem;
+    padding: 4rem;
+    overflow: hidden;
+    background: var(--color-surface);
+  }
+
+  .cta-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at 50% 0%,
+      rgba(102, 126, 234, 0.12) 0%,
+      transparent 60%
+    );
+    pointer-events: none;
+  }
+
+  .cta-inner {
+    position: relative;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .cta-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 99px;
+    background: var(--color-bg);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #22c55e;
+  }
+
+  .cta-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #22c55e;
+    animation: pulse-green 2.5s infinite;
+  }
+
+  .cta-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    color: var(--color-text-main);
+    margin: 0;
+    line-height: 1;
+  }
+
+  .cta-desc {
+    font-size: 1rem;
+    color: var(--color-text-body);
+    opacity: 0.8;
+    max-width: 46ch;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .cta-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 2rem;
+    border-radius: 12px;
+    background: var(--port-accent);
+    color: white;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.3s ease;
+  }
+
+  .cta-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.55);
+  }
+
+  .cta-btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-body);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+  }
+
+  .cta-btn-ghost:hover {
+    border-color: var(--port-accent);
+    color: var(--port-accent);
+    transform: translateY(-2px);
+  }
+
+  .cta-btn-ghost.copied {
+    border-color: #22c55e;
+    color: #22c55e;
+  }
+
+  .cta-platforms {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+  }
+
+  .platform-label {
+    opacity: 0.7;
+  }
+
+  .platform-link {
+    font-weight: 700;
+    color: var(--port-accent);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .platform-link:hover {
+    opacity: 0.75;
+  }
+
+  .platform-sep {
+    opacity: 0.4;
+  }
+
+  /* Filter animation */
+  .proj-card {
+    transition:
+      transform 0.3s ease,
+      border-color 0.3s ease,
+      box-shadow 0.3s ease,
+      opacity 0.25s ease;
+  }
+
+  .proj-card.hidden {
+    display: none;
+  }
+
+  .proj-card.fade-out {
+    opacity: 0;
+    transform: scale(0.97);
+    pointer-events: none;
+  }
+
+  /* ─────────────────────────────────────────
+     Responsive
+  ───────────────────────────────────────── */
+  @media (max-width: 1024px) {
+    .port-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .proj-card.featured {
+      grid-column: span 2;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .port-hero {
+      padding: 5rem 0 3rem;
+    }
+    .port-grid {
+      grid-template-columns: 1fr;
+    }
+    .proj-card.featured {
+      grid-column: span 1;
+    }
+    .hero-meta {
+      gap: 1.5rem;
+    }
+    .cta-card {
+      padding: 2.5rem 1.5rem;
+    }
+    .port-filters {
+      top: 0;
+    }
+  }
+</style>
+
+<script>
+  // ─── Helpers ───
+  const filterBtns =
+    document.querySelectorAll<HTMLButtonElement>(".filter-btn");
+  const cards = document.querySelectorAll<HTMLElement>(".proj-card");
+  const emptyState = document.getElementById("empty-state");
+  const filterCount = document.getElementById("filter-count");
+
+  function applyFilter(filter: string) {
+    // Update active button
+    filterBtns.forEach((b) => b.classList.remove("active"));
+    filterBtns.forEach((b) => {
+      if (b.dataset.filter === filter) b.classList.add("active");
+    });
+
+    // Animate & filter cards
+    let visibleCount = 0;
+    cards.forEach((card) => {
+      const cats = card.dataset.category ?? "";
+      const matches = filter === "all" || cats.includes(filter);
+
+      if (matches) {
+        card.classList.remove("hidden", "fade-out");
+        visibleCount++;
+      } else {
+        card.classList.add("fade-out");
+        setTimeout(() => card.classList.add("hidden"), 220);
+      }
+    });
+
+    // Handle featured card grid-column
+    const featured = document.querySelector<HTMLElement>(".proj-card.featured");
+    if (featured && !featured.classList.contains("hidden")) {
+      featured.style.gridColumn =
+        window.innerWidth >= 1024 ? "span 2" : "span 1";
+    }
+
+    // Update counter
+    if (filterCount) {
+      filterCount.textContent = `${visibleCount} project${visibleCount !== 1 ? "s" : ""}`;
+    }
+
+    // Show/hide empty state
+    if (emptyState) {
+      emptyState.style.display = visibleCount === 0 ? "block" : "none";
+    }
+  }
+
+  // ─── Filter click events ───
+  filterBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      applyFilter(btn.dataset.filter ?? "all");
+    });
+  });
+
+  // ─── Copy Email Button ───
+  const copyBtn = document.getElementById("copy-email-btn");
+  const copyLabel = document.getElementById("copy-label");
+  const EMAIL = "androxoss@hotmail.com";
+
+  copyBtn?.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+      if (copyLabel) copyLabel.textContent = "Copied! ✓";
+      copyBtn.classList.add("copied");
+      setTimeout(() => {
+        if (copyLabel) copyLabel.textContent = "Copy Email";
+        copyBtn.classList.remove("copied");
+      }, 2500);
+    } catch {
+      // fallback
+      const el = document.createElement("textarea");
+      el.value = EMAIL;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+      if (copyLabel) copyLabel.textContent = "Copied! ✓";
+    }
+  });
+
+  // ─── Deep link: /portfolio?project=name prefills contact ───
+  const params = new URLSearchParams(window.location.search);
+  const enquireLinks = document.querySelectorAll<HTMLAnchorElement>(
+    ".action-btn.enquire",
+  );
+  enquireLinks.forEach((link) => {
+    const projectName = link.href.split("project=")[1];
+    if (projectName) {
+      link.href = `/contact?subject=Project+Inquiry:+${projectName}`;
+    }
+  });
+
+  // ─── Initial state ───
+  applyFilter("all");
+</script>
