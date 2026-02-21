@@ -87,9 +87,9 @@ const desc =
           localStorage.setItem("v0-perspective-hidden", isHidden);
         });
 
-        // Elegant Auto-Hide on Scroll (Bug-Fixed)
+        // Elegant Auto-Hide on Scroll (Immediate response)
         let lastScrollTop = 0;
-        const hideThreshold = 80;
+        const hideThreshold = 10; // Instantly hide on first scroll down
 
         window.addEventListener(
           "scroll",
