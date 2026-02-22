@@ -146,6 +146,12 @@ const lastUpdated = "December 9, 2025";
             </div>
           </div>
         </div>
+
+        <div class="carousel-indicators">
+          <span class="indicator active"></span>
+          <span class="indicator"></span>
+          <span class="indicator"></span>
+        </div>
       </section>
 
       <!-- Section: The Stack -->
@@ -250,6 +256,28 @@ const lastUpdated = "December 9, 2025";
       if (!glow) return;
       glow.style.transform = `translate(${e.clientX - 250}px, ${e.clientY - 250}px)`;
     });
+
+    // Carousel Logic
+    const carouselContainer = document.querySelector(".journal-entries");
+    const indicators = document.querySelectorAll(".indicator");
+
+    if (carouselContainer && indicators.length) {
+      carouselContainer.addEventListener("scroll", () => {
+        const scrollPosition = carouselContainer.scrollLeft;
+        const itemWidth = carouselContainer.clientWidth;
+
+        // Calculate current active index based on scroll position
+        const activeIndex = Math.round(scrollPosition / itemWidth);
+
+        indicators.forEach((ind, index) => {
+          if (index === activeIndex) {
+            ind.classList.add("active");
+          } else {
+            ind.classList.remove("active");
+          }
+        });
+      });
+    }
   </script>
 </Base>
 
@@ -448,16 +476,47 @@ const lastUpdated = "December 9, 2025";
     font-weight: 600;
   }
 
-  /* Obsessions / Focus Grid */
+  /* Obsessions / Focus Grid (Carousel) */
   .journal-entries {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
     gap: 2rem;
+    padding-bottom: 2rem; /* space for indicators/scrollbar */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .journal-entries::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
   }
 
   .journal-entry {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
     display: flex;
     flex-direction: column;
+    padding-right: 1rem;
+  }
+
+  .carousel-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: -1rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-border);
+    transition: all 0.3s ease;
+  }
+
+  .indicator.active {
+    background: var(--color-primary);
+    transform: scale(1.5);
   }
 
   .journal-entry h3 {
@@ -700,9 +759,8 @@ const lastUpdated = "December 9, 2025";
     .span-full {
       grid-column: span 1;
     }
-    .journal-entries {
-      grid-template-columns: 1fr;
-      gap: 2rem;
+    .journal-entry {
+      flex: 0 0 100%;
     }
     .book-grid {
       grid-template-columns: 1fr;
