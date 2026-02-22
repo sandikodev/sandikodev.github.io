@@ -1313,19 +1313,16 @@ import config from "@/config/config.json";
         copyBtn.classList.remove("copied");
       }, 2500);
     } catch {
-      // fallback
-      const el = document.createElement("textarea");
-      el.value = EMAIL;
-      document.body.appendChild(el);
-      el.select();
-      document.execCommand("copy");
-      document.body.removeChild(el);
+      // fallback for older browsers without clipboard API
+      window.prompt(
+        "To copy the email address, press Ctrl+C / Cmd+C, then Enter",
+        EMAIL,
+      );
       if (copyLabel) copyLabel.textContent = "Copied! ✓";
     }
   });
 
   // ─── Deep link: /portfolio?project=name prefills contact ───
-  const params = new URLSearchParams(window.location.search);
   const enquireLinks = document.querySelectorAll<HTMLAnchorElement>(
     ".action-btn.enquire",
   );

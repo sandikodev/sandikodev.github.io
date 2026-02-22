@@ -1,17 +1,11 @@
 ---
-import {
-  FaAddressCard,
-  FaEnvelope,
-  FaPhoneAlt,
-  FaClock,
-  FaGlobe,
-} from "react-icons/fa";
+import { FaEnvelope, FaPhoneAlt, FaClock, FaGlobe } from "react-icons/fa";
 
 import ContactForm from "@/components/ui/ContactForm";
 import config from "@/config/config.json";
 import Base from "@/layouts/Base.astro";
 
-const { address, email, phone } = config.contactinfo;
+const { address, email } = config.contactinfo;
 ---
 
 <Base
