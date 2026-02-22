@@ -24,7 +24,12 @@ const lastUpdated = "December 9, 2025";
         <div class="header-content">
           <h1 class="split-text">N<span>o</span>w</h1>
           <p class="hero-sub">
-            A real-time snapshot of my focus, tools, and current orbit.
+            Powered by the <a
+              href="https://github.com/sandikodev/trackme"
+              target="_blank"
+              class="text-link">TrackMe</a
+            > & Wisenesday™ methodology. A real-time snapshot of my focus and current
+            orbit.
           </p>
         </div>
       </div>
@@ -52,27 +57,44 @@ const lastUpdated = "December 9, 2025";
       <section class="bento-card span-2 obsessions">
         <div class="card-header">
           <span class="card-idx">01</span>
-          <h2 class="card-title">Current Obsessions</h2>
+          <h2 class="card-title">TrackMe / Current Focus</h2>
         </div>
         <div class="journal-entries">
           <div class="journal-entry">
-            <h3>HyperFocus Documentation</h3>
+            <h3>Wisenesday™ Core Evaluations</h3>
             <p>
-              Distilling a decade of web development experience into a
-              definitive guide for the next generation.
+              Conducting weekly deep-dive productivity evaluations every
+              Wednesday. Transforming "hump day" into a day of wisdom and
+              growth.
             </p>
             <div class="progress-wrapper">
-              <div class="progress-track">
-                <div class="progress-fill" style="width: 65%;"></div>
-              </div>
-              <span class="progress-meta">65% Complete</span>
+              <a
+                href="https://github.com/sandikodev/trackme"
+                target="_blank"
+                class="repo-link"
+              >
+                <svg
+                  fill="none"
+                  height="16"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  width="16"
+                  viewBox="0 0 24 24"
+                  ><path
+                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                  ></path></svg
+                >
+                sandikodev/trackme
+              </a>
             </div>
           </div>
           <div class="journal-entry">
-            <h3>Editorial Redesign</h3>
+            <h3>Ecosystem & Gotong Royong</h3>
             <p>
-              Elevating this digital garden into a premium "atelier" that
-              prioritizes human connection.
+              Building open-source infrastructure (like <strong
+                >TrackMe Portfolio</strong
+              >) to foster a healthy, competitive Indonesian developer
+              ecosystem, not just private projects.
             </p>
           </div>
         </div>
@@ -150,7 +172,10 @@ const lastUpdated = "December 9, 2025";
         <p>
           This is a <a href="https://nownownow.com/about" target="_blank"
             >/now</a
-          > page. No tracking, no ads, just life.
+          > page. No tracking, no ads, just focus. Powered by <a
+            href="https://github.com/sandikodev/trackme"
+            target="_blank">TrackMe</a
+          >.
         </p>
         <span class="footer-tag">v2.0 / 2026</span>
       </div>
@@ -419,6 +444,38 @@ const lastUpdated = "December 9, 2025";
     font-size: 0.75rem;
     font-family: var(--font-mono);
     color: var(--color-text-muted);
+  }
+
+  .repo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-bg);
+    background: var(--color-text-main);
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .repo-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.15);
+  }
+
+  .text-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px dotted var(--color-primary);
+  }
+
+  .text-link:hover {
+    color: var(--color-text-main);
+    border-bottom-color: var(--color-text-main);
   }
 
   /* Stack Box */
