@@ -47,10 +47,14 @@ const {
     <script is:inline>
       {
         const initI3Theme = () => {
+          // 1. Critical Visibility - Resolve flicker by adding class immediately
+          document.documentElement.classList.add("critical-css-loaded");
+
           const saved = localStorage.getItem("design-mode");
           const path = window.location.pathname;
           if (saved === "blog" && path.startsWith("/workspace")) {
             window.location.href = path.replace("/workspace", "") || "/";
+            return;
           }
 
           const theme = localStorage.getItem("theme") || "tokyo-night";

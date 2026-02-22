@@ -76,45 +76,47 @@ const {
     <!-- End Google Tag Manager -->
     <script is:inline>
       (function () {
-        const STORAGE_VERSION = "2.0.2"; // Bumped version to force cache clear for existing users
+        const STORAGE_VERSION = "2.0.2";
 
         const initTheme = () => {
-          // Cache & Version Manager
+          // 1. Critical Visibility - Resolve flicker by adding class immediately
+          document.documentElement.classList.add("critical-css-loaded");
+
           try {
+            // 2. Cache & Version Manager
             const currentVersion = localStorage.getItem("app-version");
             if (currentVersion !== STORAGE_VERSION) {
               console.log("♻️ New version detected, clearing stale state...");
-              // Clear specific keys that might cause bugs
               localStorage.removeItem("design-mode");
               localStorage.removeItem("appearance");
-
               localStorage.setItem("app-version", STORAGE_VERSION);
             }
 
-            // Always unregister Service Workers forcefully to avoid cache lock-in
+            // 3. Service Worker Management
             if ("serviceWorker" in navigator) {
               navigator.serviceWorker
                 .getRegistrations()
                 .then((registrations) => {
-                  for (const registration of registrations) {
+                  for (const registration of registrations)
                     registration.unregister();
-                  }
                 });
             }
           } catch (e) {
-            console.error("Storage error:", e);
+            console.error("Theme init error:", e);
           }
 
-          // Mode Switch (Workspace vs Blog)
+          // 4. Identity & Mode Redirection
           const savedMode = localStorage.getItem("design-mode");
           const path = window.location.pathname;
           if (savedMode === "dev" && !path.startsWith("/workspace")) {
             window.location.href = "/workspace" + (path === "/" ? "" : path);
+            return;
           } else if (savedMode === "blog" && path.startsWith("/workspace")) {
             window.location.href = path.replace("/workspace", "") || "/";
+            return;
           }
 
-          // Theme Switch (Light vs Dark) - Using 'appearance' to avoid collision with terminal themes
+          // 5. Theme State (Light/Dark/Terminal)
           const savedTheme = localStorage.getItem("appearance");
           const prefersDark = window.matchMedia(
             "(prefers-color-scheme: dark)",
@@ -126,9 +128,8 @@ const {
           }
         };
 
+        // Execution path
         initTheme();
-
-        // Handle Astro View Transitions
         document.addEventListener("astro:after-swap", initTheme);
       })();
     </script>
