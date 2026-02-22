@@ -18,12 +18,12 @@
       "hasChildren": true,
       "children": [
         {
-          "name": "Portfolio",
-          "url": "/portfolio"
-        },
-        {
           "name": "Now",
           "url": "/now"
+        },
+        {
+          "name": "Portfolio",
+          "url": "/portfolio"
         },
         {
           "name": "Architecture",
