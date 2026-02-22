@@ -57,19 +57,20 @@ const lastUpdated = "December 9, 2025";
       <section class="bento-card span-2 obsessions">
         <div class="card-header">
           <span class="card-idx">01</span>
-          <h2 class="card-title">TrackMe / Current Focus</h2>
+          <h2 class="card-title">Manifesto & Ecosystem Focus</h2>
         </div>
         <div class="journal-entries">
+          <!-- ShowMyGear -->
           <div class="journal-entry">
-            <h3>Wisenesday™ Core Evaluations</h3>
+            <h3>ShowMyGear (Somager)</h3>
             <p>
-              Conducting weekly deep-dive productivity evaluations every
-              Wednesday. Transforming "hump day" into a day of wisdom and
-              growth.
+              An open autopsy of my mental models, raw engineering setup, and
+              disciplined CLI-first workflows. Total transparency to face the
+              BCI era.
             </p>
             <div class="progress-wrapper">
               <a
-                href="https://github.com/sandikodev/trackme"
+                href="https://github.com/sandikodev/showmygear"
                 target="_blank"
                 class="repo-link"
               >
@@ -84,18 +85,65 @@ const lastUpdated = "December 9, 2025";
                     d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
                   ></path></svg
                 >
-                sandikodev/trackme
+                Engine & Mindset
               </a>
             </div>
           </div>
+
+          <!-- Hyperfocus -->
           <div class="journal-entry">
-            <h3>Ecosystem & Gotong Royong</h3>
+            <h3>HyperFocus</h3>
             <p>
-              Building open-source infrastructure (like <strong
-                >TrackMe Portfolio</strong
-              >) to foster a healthy, competitive Indonesian developer
-              ecosystem, not just private projects.
+              A 10-year gift to the community. Distilling web technology
+              education from zero to DevOps. Driven by passion, not profit.
             </p>
+            <div class="progress-wrapper">
+              <a
+                href="https://sandikodev.github.io/hyperfocus"
+                target="_blank"
+                class="repo-link outline-link"
+              >
+                <svg
+                  fill="none"
+                  height="16"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  width="16"
+                  viewBox="0 0 24 24"
+                  ><path
+                    d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+                  ></path></svg
+                >
+                Read Journey
+              </a>
+            </div>
+          </div>
+
+          <!-- TrackMe -->
+          <div class="journal-entry trackme-featured">
+            <h3>TrackMe Live</h3>
+            <p>
+              Live, unfiltered visibility into my professional integrity, daily
+              commitments, and weekly Wisenesday™ evaluations.
+            </p>
+            <div class="progress-wrapper">
+              <a
+                href="https://github.com/sandikodev/trackme"
+                target="_blank"
+                class="repo-link outline-link"
+              >
+                <svg
+                  fill="none"
+                  height="16"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  width="16"
+                  viewBox="0 0 24 24"
+                  ><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg
+                >
+                Live Tracking
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -400,11 +448,16 @@ const lastUpdated = "December 9, 2025";
     font-weight: 600;
   }
 
-  /* Obsessions */
+  /* Obsessions / Focus Grid */
   .journal-entries {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .journal-entry {
+    display: flex;
+    flex-direction: column;
   }
 
   .journal-entry h3 {
@@ -418,12 +471,14 @@ const lastUpdated = "December 9, 2025";
     color: var(--color-text-body);
     line-height: 1.6;
     margin-bottom: 1.5rem;
+    flex: 1;
   }
 
   .progress-wrapper {
     display: flex;
     align-items: center;
     gap: 1rem;
+    margin-top: auto;
   }
 
   .progress-track {
@@ -464,6 +519,18 @@ const lastUpdated = "December 9, 2025";
   .repo-link:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(255, 255, 255, 0.15);
+  }
+
+  .outline-link {
+    background: transparent;
+    color: var(--color-text-main);
+    border: 1px solid var(--color-border);
+  }
+
+  .outline-link:hover {
+    background: var(--color-bg-secondary);
+    box-shadow: none;
+    border-color: var(--color-primary-alpha-30);
   }
 
   .text-link {
