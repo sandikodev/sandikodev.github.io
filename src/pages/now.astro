@@ -55,8 +55,8 @@ const lastUpdated = "December 9, 2025";
     <main class="bento-grid">
       <!-- Section: Obsessions -->
       <section class="bento-card span-2 obsessions">
+        <span class="card-idx" style="bottom: -2.5rem; left: -0.5rem;">01</span>
         <div class="card-header">
-          <span class="card-idx">01</span>
           <h2 class="card-title">Manifesto & Ecosystem Focus</h2>
         </div>
         <div class="journal-entries">
@@ -67,7 +67,10 @@ const lastUpdated = "December 9, 2025";
               <p>
                 An open autopsy of my mental models, raw engineering setup, and
                 disciplined CLI-first workflows. Total transparency to face the
-                BCI era.
+                BCI era. Every dotfile, script, and alias is meticulously
+                documented to bridge the gap between human intent and machine
+                execution, transforming the developer into a true pilot of their
+                ecosystem.
               </p>
               <div class="progress-wrapper">
                 <a
@@ -105,6 +108,10 @@ const lastUpdated = "December 9, 2025";
               <p>
                 A 10-year gift to the community. Distilling web technology
                 education from zero to DevOps. Driven by passion, not profit.
+                This initiative breaks down complex architectural decisions into
+                digestible, principled lessons, ensuring the next generation of
+                engineers focuses on fundamental mastery rather than chasing
+                fleeting hype.
               </p>
               <div class="progress-wrapper">
                 <a
@@ -141,7 +148,11 @@ const lastUpdated = "December 9, 2025";
               <h3>TrackMe Live</h3>
               <p>
                 Live, unfiltered visibility into my professional integrity,
-                daily commitments, and weekly Wisenesday™ evaluations.
+                daily commitments, and weekly Wisenesday™ evaluations. By
+                publicly sharing real-time metrics, blockers, and cognitive
+                focus shifts, it enforces radical accountability and proves that
+                consistent, measured discipline scales better than raw
+                motivation.
               </p>
               <div class="progress-wrapper">
                 <a
@@ -180,8 +191,9 @@ const lastUpdated = "December 9, 2025";
 
       <!-- Section: The Stack -->
       <section class="bento-card stack-box">
+        <span class="card-idx" style="bottom: -3.5rem; right: -1.5rem;">02</span
+        >
         <div class="card-header">
-          <span class="card-idx">02</span>
           <h2 class="card-title">Core Arsenal</h2>
         </div>
         <div class="stack-mini-list">
@@ -195,7 +207,7 @@ const lastUpdated = "December 9, 2025";
               { tech: "Postgres / SQL", role: "Relational Persistence" },
               { tech: "Zsh / Tmux", role: "CLI/TUI Workflows" },
               { tech: "Bun & Node.js", role: "Backend Runtimes" },
-            ].map((item, i) => (
+            ].map((item) => (
               <div class="stack-tag">
                 <div class="stack-tag-header">
                   <span class="tag-dot" />
@@ -210,8 +222,12 @@ const lastUpdated = "December 9, 2025";
 
       <!-- Section: Reading -->
       <section class="bento-card span-full shelf-box">
+        <span
+          class="card-idx"
+          style="top: 50%; right: -1.5rem; transform: translateY(-50%);"
+          >03</span
+        >
         <div class="card-header">
-          <span class="card-idx">03</span>
           <h2 class="card-title">On the Shelf (Active Learning)</h2>
         </div>
         <div class="book-grid">
@@ -244,8 +260,8 @@ const lastUpdated = "December 9, 2025";
 
       <!-- Section: Curiosity -->
       <section class="bento-card curiosity-highlight">
+        <span class="card-idx" style="top: -3rem; right: -1.5rem;">04</span>
         <div class="card-header">
-          <span class="card-idx">04</span>
           <h2 class="card-title">Curiosity & R&D</h2>
         </div>
         <div class="curiosity-content">
@@ -384,6 +400,8 @@ const lastUpdated = "December 9, 2025";
 </Base>
 
 <style>
+  @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap");
+
   .now-workspace {
     max-width: 1200px;
     margin: 0 auto;
@@ -580,16 +598,25 @@ const lastUpdated = "December 9, 2025";
 
   .card-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+    z-index: 10;
   }
 
   .card-idx {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
+    position: absolute;
+    font-family: "Orbitron", var(--font-mono), monospace;
+    font-size: 14rem;
+    font-weight: 900;
+    line-height: 1;
     color: var(--color-primary);
-    opacity: 0.6;
+    opacity: 0.12; /* Increased visibility */
+    z-index: 0;
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: -0.05em;
   }
 
   .card-title {
@@ -600,13 +627,27 @@ const lastUpdated = "December 9, 2025";
     font-weight: 600;
   }
 
+  .obsessions {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .obsessions .card-header {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
   /* Obsessions / Focus Grid (Carousel) */
   .journal-entries {
+    position: relative;
+    z-index: 10;
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     gap: 2rem;
-    padding-bottom: 0.5rem; /* tight space for indicators */
+    padding-bottom: 3rem; /* tight space for indicators */
+    padding-left: 2rem;
+    padding-right: 2rem;
     scrollbar-width: none; /* Firefox */
   }
 
@@ -616,11 +657,10 @@ const lastUpdated = "December 9, 2025";
 
   .journal-entry {
     flex: 0 0 100%;
-    scroll-snap-align: start;
+    scroll-snap-align: center;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
-    padding-right: 1rem;
     align-items: stretch;
   }
 
@@ -673,11 +713,13 @@ const lastUpdated = "December 9, 2025";
   }
 
   .carousel-indicators {
+    position: absolute;
+    bottom: 1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     justify-content: center;
     gap: 0.5rem;
-    margin-top: 1.5rem;
-    margin-bottom: 0;
   }
 
   .indicator {
@@ -759,6 +801,8 @@ const lastUpdated = "December 9, 2025";
 
   /* Stack Box */
   .stack-mini-list {
+    position: relative;
+    z-index: 10;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
@@ -808,6 +852,8 @@ const lastUpdated = "December 9, 2025";
 
   /* Book Grid */
   .book-grid {
+    position: relative;
+    z-index: 10;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
@@ -891,6 +937,8 @@ const lastUpdated = "December 9, 2025";
 
   /* Curiosity */
   .curiosity-content {
+    position: relative;
+    z-index: 10;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -1014,6 +1062,18 @@ const lastUpdated = "December 9, 2025";
     }
     .bento-card {
       padding: 1.75rem;
+    }
+    .obsessions {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .obsessions .card-header {
+      padding-left: 1.75rem;
+      padding-right: 1.75rem;
+    }
+    .journal-entries {
+      padding-left: 1.75rem;
+      padding-right: 1.75rem;
     }
     .footer-wrap {
       flex-direction: column;
