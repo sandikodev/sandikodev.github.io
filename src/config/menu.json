@@ -5,24 +5,31 @@
       "url": "/"
     },
     {
+      "name": "About",
+      "url": "/about"
+    },
+    {
       "name": "Blog",
       "url": "/blog"
     },
     {
-      "name": "Portfolio",
-      "url": "/portfolio"
-    },
-    {
-      "name": "Now",
-      "url": "/now"
-    },
-    {
-      "name": "Architecture",
-      "url": "/architecture"
-    },
-    {
-      "name": "About",
-      "url": "/about"
+      "name": "Work",
+      "url": "#",
+      "hasChildren": true,
+      "children": [
+        {
+          "name": "Portfolio",
+          "url": "/portfolio"
+        },
+        {
+          "name": "Now",
+          "url": "/now"
+        },
+        {
+          "name": "Architecture",
+          "url": "/architecture"
+        }
+      ]
     }
   ],
   "footer": [
