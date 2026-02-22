@@ -6,7 +6,6 @@ import tailwind from "@astrojs/tailwind";
 import AutoImport from "astro-auto-import";
 import icon from "astro-icon";
 import { defineConfig } from "astro/config";
-import serviceWorker from "astrojs-service-worker";
 import rehypeKatex from "rehype-katex";
 import rehypeMermaid from "rehype-mermaid";
 import remarkCollapse from "remark-collapse";
@@ -65,7 +64,6 @@ export default defineConfig({
       ],
     }),
     mdx(),
-    serviceWorker(),
     icon(), // Development-only: Astro-deck admin panel
     ...(isDev && astroDeck ? [astroDeck()] : []),
   ],

@@ -76,7 +76,7 @@ const {
     <!-- End Google Tag Manager -->
     <script is:inline>
       (function () {
-        const STORAGE_VERSION = "2.0.1"; // Update this for major releases to clear stale state
+        const STORAGE_VERSION = "2.0.2"; // Bumped version to force cache clear for existing users
 
         const initTheme = () => {
           // Cache & Version Manager
@@ -88,18 +88,18 @@ const {
               localStorage.removeItem("design-mode");
               localStorage.removeItem("appearance");
 
-              // Unregister Service Workers
-              if ("serviceWorker" in navigator) {
-                navigator.serviceWorker
-                  .getRegistrations()
-                  .then((registrations) => {
-                    for (const registration of registrations) {
-                      registration.unregister();
-                    }
-                  });
-              }
-
               localStorage.setItem("app-version", STORAGE_VERSION);
+            }
+
+            // Always unregister Service Workers forcefully to avoid cache lock-in
+            if ("serviceWorker" in navigator) {
+              navigator.serviceWorker
+                .getRegistrations()
+                .then((registrations) => {
+                  for (const registration of registrations) {
+                    registration.unregister();
+                  }
+                });
             }
           } catch (e) {
             console.error("Storage error:", e);
