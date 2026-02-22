@@ -238,17 +238,24 @@ const currentPath = Astro.url.pathname;
   }
 
   .mobile-menu {
-    display: none;
-    padding: 0.5rem 1rem 1rem;
-    border-top: 1px solid var(--color-border);
+    display: block;
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 1rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(16px);
+    border-top: 1px solid transparent;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   :global(.dark) .mobile-menu {
-    border-top: 1px solid var(--color-border);
+    background: rgba(15, 23, 42, 0.95);
   }
 
   .mobile-menu.open {
-    display: block;
+    max-height: 400px;
+    padding: 1rem;
+    border-top-color: var(--color-border);
   }
 
   .mobile-link {
@@ -285,6 +292,26 @@ const currentPath = Astro.url.pathname;
     .mobile-btn {
       display: none;
     }
+  }
+
+  /* Header Scroll Hide/Show */
+  .header {
+    transition:
+      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      background-color 0.3s;
+  }
+
+  .header.scrolled-down {
+    transform: translateY(-100%);
+  }
+
+  .header.scrolled-up {
+    transform: translateY(0);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  :global(.dark) .header.scrolled-up {
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
   }
 </style>
 
@@ -342,6 +369,38 @@ const currentPath = Astro.url.pathname;
       mobileMenu.classList.remove("open");
     });
   });
+
+  // Smart Header Scroll
+  let lastScrollY = window.scrollY;
+  const header = document.getElementById("header");
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      const currentScrollY = window.scrollY;
+
+      // Don't hide header if mobile menu is open
+      if (mobileMenu?.classList.contains("open")) return;
+
+      if (header) {
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          // Scrolling down
+          header.classList.add("scrolled-down");
+          header.classList.remove("scrolled-up");
+        } else if (currentScrollY < lastScrollY || currentScrollY <= 100) {
+          // Scrolling up or at top
+          header.classList.remove("scrolled-down");
+          if (currentScrollY > 20) {
+            header.classList.add("scrolled-up");
+          } else {
+            header.classList.remove("scrolled-up");
+          }
+        }
+      }
+      lastScrollY = currentScrollY;
+    },
+    { passive: true },
+  );
 </script>
 
 <style is:global>
