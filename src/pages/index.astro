@@ -57,9 +57,18 @@ const featuredPosts = posts.slice(0, 3);
             <span class="teal">sandikodev</span> — Architectural Engineer &amp; Fullstack
             Developer
           </div>
-          <div class="boot-cursor-line" data-delay="2400">
+          <div class="boot-cursor-line" data-delay="2400" id="cmd-wrapper">
             <span class="prompt">$</span>
-            <span class="boot-cursor"></span>
+            <span id="cmd-text" class="cmd-text"></span>
+            <span class="boot-cursor" id="cmd-cursor"></span>
+            <input
+              type="text"
+              id="cmd-input"
+              class="cmd-input"
+              aria-label="Terminal input"
+              autocomplete="off"
+              spellcheck="false"
+            />
           </div>
         </div>
       </div>
@@ -298,13 +307,15 @@ const featuredPosts = posts.slice(0, 3);
       </div>
       <div class="ws-preview">
         <div class="ws-sidebar">
-          <div class="ws-item active">📁 Projects</div>
-          <div class="ws-item">📝 Blog</div>
-          <div class="ws-item">🔧 Skills</div>
-          <div class="ws-item">📊 Stats</div>
+          <div class="ws-item active" data-target="ws-projects">
+            📁 Projects
+          </div>
+          <div class="ws-item" data-target="ws-blog">📝 Blog</div>
+          <div class="ws-item" data-target="ws-skills">🔧 Skills</div>
+          <div class="ws-item" data-target="ws-stats">📊 Stats</div>
         </div>
         <div class="ws-content">
-          <div class="ws-panel">
+          <div class="ws-panel active" id="ws-projects">
             <div class="ws-panel-title">{"//"} Active Projects</div>
             <div class="ws-project">
               <span class="ws-dot green"></span>
@@ -320,6 +331,33 @@ const featuredPosts = posts.slice(0, 3);
               <span class="ws-dot amber"></span>
               <span>pocat</span>
               <span class="ws-tag">AI Tool</span>
+            </div>
+          </div>
+          <div class="ws-panel" id="ws-blog" style="display:none;">
+            <div class="ws-panel-title">{"//"} Recent Drafts</div>
+            <div class="ws-project">
+              <span>~ architecture.md</span><span class="ws-tag">12kb</span>
+            </div>
+            <div class="ws-project">
+              <span>~ system-design.md</span><span class="ws-tag">8kb</span>
+            </div>
+          </div>
+          <div class="ws-panel" id="ws-skills" style="display:none;">
+            <div class="ws-panel-title">{"//"} Core Stack</div>
+            <div class="ws-project">
+              <span>TypeScript / Node.js</span><span class="ws-tag">L7</span>
+            </div>
+            <div class="ws-project">
+              <span>Docker / Linux</span><span class="ws-tag">L4</span>
+            </div>
+          </div>
+          <div class="ws-panel" id="ws-stats" style="display:none;">
+            <div class="ws-panel-title">{"//"} System Status</div>
+            <div class="ws-project">
+              <span>Uptime</span><span class="ws-tag teal">99.99%</span>
+            </div>
+            <div class="ws-project">
+              <span>Coffee/Day</span><span class="ws-tag amber">3 Cups</span>
             </div>
           </div>
         </div>
@@ -562,6 +600,24 @@ const featuredPosts = posts.slice(0, 3);
     50% {
       opacity: 0;
     }
+  }
+
+  .cmd-input {
+    background: transparent;
+    border: none;
+    color: transparent;
+    outline: none;
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    opacity: 0;
+  }
+  .cmd-text {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+  }
+  .cmd-history.result-line {
+    margin-bottom: 0.5rem;
   }
 
   /* Hero Text */
@@ -850,9 +906,14 @@ const featuredPosts = posts.slice(0, 3);
     left: 0;
     top: 0;
     height: 100%;
-    width: var(--w);
+    width: 0; /* Starts at 0, filled by IntersectionObserver */
     background: linear-gradient(90deg, #4ecdc4, #667eea);
     border-radius: 99px;
+    transition: width 1.2s cubic-bezier(0.1, 0.7, 0.1, 1);
+  }
+
+  .layer.animate-bar .layer-bar::after {
+    width: var(--w);
   }
 
   /* ─── Diff Section ─── */
@@ -1217,14 +1278,116 @@ const featuredPosts = posts.slice(0, 3);
 </style>
 
 <script>
-  // Boot sequence animation
+  // Boot sequence and interactivity
   document.addEventListener("DOMContentLoaded", () => {
+    // 1. Boot Lines Animation
     const lines = document.querySelectorAll<HTMLElement>(
       ".boot-line, .boot-cursor-line",
     );
     lines.forEach((line) => {
       const delay = parseInt(line.dataset.delay ?? "0");
       setTimeout(() => line.classList.add("visible"), delay);
+    });
+
+    // 2. Interactive Terminal Easter Egg
+    const terminalPanel = document.getElementById("terminal-panel");
+    const cmdInput = document.getElementById("cmd-input") as HTMLInputElement;
+    const cmdText = document.getElementById("cmd-text");
+    const bootBody = document.querySelector(".terminal-body");
+
+    if (cmdInput && terminalPanel && cmdText && bootBody) {
+      terminalPanel.addEventListener("click", () => cmdInput.focus());
+
+      cmdInput.addEventListener("input", (e) => {
+        cmdText.textContent = (e.target as HTMLInputElement).value;
+      });
+
+      cmdInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          const val = cmdInput.value.trim().toLowerCase();
+          cmdInput.value = "";
+          cmdText.textContent = "";
+
+          let response = "";
+          if (val === "help") {
+            response =
+              "Available cmds: whoami, clear, skills, contact, sudo rm -rf /";
+          } else if (val === "whoami") {
+            response = "sandikodev — Architectural Engineer";
+          } else if (val === "skills") {
+            response = "Scroll down to see L1-L7 stack";
+          } else if (val === "contact") {
+            response = "Redirecting to /contact...";
+            setTimeout(() => (window.location.href = "/contact"), 800);
+          } else if (val === "sudo rm -rf /") {
+            response = "Nice try. Permission denied.";
+          } else if (val === "clear") {
+            const oldLines = bootBody.querySelectorAll(".cmd-history");
+            oldLines.forEach((l) => l.remove());
+            return;
+          } else if (val !== "") {
+            response = `zsh: command not found: ${val}`;
+          }
+
+          if (val !== "" && val !== "clear") {
+            const historyCmd = document.createElement("div");
+            historyCmd.className =
+              "boot-line visible cmd-history highlight-line";
+            historyCmd.innerHTML = `<span class="prompt">$</span> ${val}`;
+
+            const historyRes = document.createElement("div");
+            historyRes.className = "boot-line visible cmd-history result-line";
+            historyRes.style.color =
+              val === "sudo rm -rf /" || val.includes("not found")
+                ? "#ff5f57"
+                : "#4ecdc4";
+            historyRes.textContent = response;
+
+            const wrapper = document.getElementById("cmd-wrapper");
+            if (wrapper) {
+              bootBody.insertBefore(historyCmd, wrapper);
+              bootBody.insertBefore(historyRes, wrapper);
+            }
+          }
+        }
+      });
+    }
+
+    // 3. Stack Layer Hover Interaction & Animation
+    const layers = document.querySelectorAll(".layer");
+    layers.forEach((layer) => {
+      layer.addEventListener("mouseenter", () => {
+        layers.forEach((l) => l.classList.remove("active-layer"));
+        layer.classList.add("active-layer");
+      });
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-bar");
+          }
+        });
+      },
+      { threshold: 0.3 },
+    );
+    layers.forEach((layer) => observer.observe(layer));
+
+    // 4. Workspace Tabs Interaction
+    const wsItems = document.querySelectorAll<HTMLElement>(".ws-item");
+    const wsPanels = document.querySelectorAll<HTMLElement>(".ws-panel");
+    wsItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        wsItems.forEach((i) => i.classList.remove("active"));
+        wsPanels.forEach((p) => (p.style.display = "none"));
+        item.classList.add("active");
+        const targetId = item.dataset.target;
+        if (targetId) {
+          const targetEl = document.getElementById(targetId);
+          if (targetEl) targetEl.style.display = "block";
+        }
+      });
     });
   });
 </script>
