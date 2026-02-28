@@ -299,103 +299,117 @@ const lastUpdated = "December 9, 2025";
     </footer>
   </article>
 
-  <script is:inline>
-    function updateTime() {
-      const timeEl = document.getElementById("local-time");
-      if (!timeEl) return;
-      const now = new Date();
-      timeEl.textContent = now.toLocaleTimeString("en-US", {
-        hour12: false,
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-      });
-    }
-    setInterval(updateTime, 1000);
-    updateTime();
+  <script>
+    const initNowPage = () => {
+      function updateTime() {
+        const timeEl = document.getElementById("local-time");
+        if (!timeEl) return;
+        const now = new Date();
+        timeEl.textContent = now.toLocaleTimeString("en-US", {
+          hour12: false,
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        });
+      }
+      setInterval(updateTime, 1000);
+      updateTime();
 
-    document.addEventListener("mousemove", (e) => {
-      const glow = document.querySelector(".ambient-glow");
-      if (!glow) return;
-      glow.style.transform = `translate(${e.clientX - 250}px, ${e.clientY - 250}px)`;
-    });
-
-    // Intersection Observer for Staggered Fade-in
-    const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("animate-in");
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    // Apply observer to header and cards
-    const animElements = document.querySelectorAll(
-      ".header-main, .header-vitals, .bento-card",
-    );
-    animElements.forEach((el, index) => {
-      el.style.setProperty("--anim-delay", `${index * 0.1}s`);
-      el.classList.add("prepare-anim");
-      observer.observe(el);
-    });
-
-    // 3D Tilt Effect for Bento Cards
-    document.querySelectorAll(".bento-card").forEach((card) => {
-      card.addEventListener("mousemove", (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-
-        // Calculate rotation based on cursor position (max 3 degrees for subtlety)
-        const rotateX = ((y - centerY) / centerY) * -3;
-        const rotateY = ((x - centerX) / centerX) * 3;
-
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-        card.style.transition = "none";
+      document.addEventListener("mousemove", (e) => {
+        const glow = document.querySelector(".ambient-glow") as HTMLElement;
+        if (!glow) return;
+        glow.style.transform = `translate(${e.clientX - 250}px, ${e.clientY - 250}px)`;
       });
 
-      card.addEventListener("mouseleave", () => {
-        card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-        card.style.transition = "transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)";
-      });
-    });
-
-    // Carousel Logic
-    const carouselContainer = document.querySelector(".journal-entries");
-    const indicators = document.querySelectorAll(".indicator");
-
-    if (carouselContainer && indicators.length) {
-      carouselContainer.addEventListener("scroll", () => {
-        const scrollPosition = carouselContainer.scrollLeft;
-        const itemWidth = carouselContainer.clientWidth;
-
-        const activeIndex = Math.round(scrollPosition / itemWidth);
-
-        indicators.forEach((ind, index) => {
-          if (index === activeIndex) {
-            ind.classList.add("active");
-          } else {
-            ind.classList.remove("active");
+      // Intersection Observer for Staggered Fade-in
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-in");
+            observer.unobserve(entry.target);
           }
         });
+      }, observerOptions);
+
+      // Apply observer to header and cards
+      const animElements = document.querySelectorAll(
+        ".header-main, .header-vitals, .bento-card",
+      );
+      animElements.forEach((el, index) => {
+        (el as HTMLElement).style.setProperty(
+          "--anim-delay",
+          `${index * 0.1}s`,
+        );
+        el.classList.add("prepare-anim");
+        observer.observe(el);
       });
 
-      // Make indicators clickable
-      indicators.forEach((ind, index) => {
-        ind.style.cursor = "pointer";
-        ind.addEventListener("click", () => {
-          const itemWidth = carouselContainer.clientWidth;
-          carouselContainer.scrollTo({
-            left: index * itemWidth,
-            behavior: "smooth",
-          });
+      // 3D Tilt Effect for Bento Cards
+      document.querySelectorAll(".bento-card").forEach((card) => {
+        card.addEventListener("mousemove", (e: any) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+
+          // Calculate rotation based on cursor position (max 3 degrees for subtlety)
+          const rotateX = ((y - centerY) / centerY) * -3;
+          const rotateY = ((x - centerX) / centerX) * 3;
+
+          (card as HTMLElement).style.transform =
+            `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+          (card as HTMLElement).style.transition = "none";
+        });
+
+        card.addEventListener("mouseleave", () => {
+          (card as HTMLElement).style.transform =
+            `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+          (card as HTMLElement).style.transition =
+            "transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)";
         });
       });
-    }
+
+      // Carousel Logic
+      const carouselContainer = document.querySelector(".journal-entries");
+      const indicators = document.querySelectorAll(".indicator");
+
+      if (carouselContainer && indicators.length) {
+        carouselContainer.addEventListener("scroll", () => {
+          const scrollPosition = carouselContainer.scrollLeft;
+          const itemWidth = carouselContainer.clientWidth;
+
+          const activeIndex = Math.round(scrollPosition / itemWidth);
+
+          indicators.forEach((ind, index) => {
+            if (index === activeIndex) {
+              ind.classList.add("active");
+            } else {
+              ind.classList.remove("active");
+            }
+          });
+        });
+
+        // Make indicators clickable
+        indicators.forEach((ind, index) => {
+          (ind as HTMLElement).style.cursor = "pointer";
+          ind.addEventListener("click", () => {
+            const itemWidth = carouselContainer.clientWidth;
+            carouselContainer.scrollTo({
+              left: index * itemWidth,
+              behavior: "smooth",
+            });
+          });
+        });
+      }
+    };
+
+    document.addEventListener("DOMContentLoaded", initNowPage);
+    document.addEventListener("astro:page-load", initNowPage);
   </script>
 </Base>
 

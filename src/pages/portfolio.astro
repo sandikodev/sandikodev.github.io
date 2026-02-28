@@ -1244,95 +1244,102 @@ import config from "@/config/config.json";
 </style>
 
 <script>
-  // ─── Helpers ───
-  const filterBtns =
-    document.querySelectorAll<HTMLButtonElement>(".filter-btn");
-  const cards = document.querySelectorAll<HTMLElement>(".proj-card");
-  const emptyState = document.getElementById("empty-state");
-  const filterCount = document.getElementById("filter-count");
+  const initPortfolioPage = () => {
+    // ─── Helpers ───
+    const filterBtns =
+      document.querySelectorAll<HTMLButtonElement>(".filter-btn");
+    const cards = document.querySelectorAll<HTMLElement>(".proj-card");
+    const emptyState = document.getElementById("empty-state");
+    const filterCount = document.getElementById("filter-count");
 
-  function applyFilter(filter: string) {
-    // Update active button
-    filterBtns.forEach((b) => b.classList.remove("active"));
-    filterBtns.forEach((b) => {
-      if (b.dataset.filter === filter) b.classList.add("active");
+    function applyFilter(filter: string) {
+      // Update active button
+      filterBtns.forEach((b) => b.classList.remove("active"));
+      filterBtns.forEach((b) => {
+        if (b.dataset.filter === filter) b.classList.add("active");
+      });
+
+      // Animate & filter cards
+      let visibleCount = 0;
+      cards.forEach((card) => {
+        const cats = card.dataset.category ?? "";
+        const matches = filter === "all" || cats.includes(filter);
+
+        if (matches) {
+          card.classList.remove("hidden", "fade-out");
+          visibleCount++;
+        } else {
+          card.classList.add("fade-out");
+          setTimeout(() => card.classList.add("hidden"), 220);
+        }
+      });
+
+      // Handle featured card grid-column
+      const featured = document.querySelector<HTMLElement>(
+        ".proj-card.featured",
+      );
+      if (featured && !featured.classList.contains("hidden")) {
+        featured.style.gridColumn =
+          window.innerWidth >= 1024 ? "span 2" : "span 1";
+      }
+
+      // Update counter
+      if (filterCount) {
+        filterCount.textContent = `${visibleCount} project${visibleCount !== 1 ? "s" : ""}`;
+      }
+
+      // Show/hide empty state
+      if (emptyState) {
+        emptyState.style.display = visibleCount === 0 ? "block" : "none";
+      }
+    }
+
+    // ─── Filter click events ───
+    filterBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        applyFilter(btn.dataset.filter ?? "all");
+      });
     });
 
-    // Animate & filter cards
-    let visibleCount = 0;
-    cards.forEach((card) => {
-      const cats = card.dataset.category ?? "";
-      const matches = filter === "all" || cats.includes(filter);
+    // ─── Copy Email Button ───
+    const copyBtn = document.getElementById("copy-email-btn");
+    const copyLabel = document.getElementById("copy-label");
+    const EMAIL = "androxoss@hotmail.com";
 
-      if (matches) {
-        card.classList.remove("hidden", "fade-out");
-        visibleCount++;
-      } else {
-        card.classList.add("fade-out");
-        setTimeout(() => card.classList.add("hidden"), 220);
+    copyBtn?.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(EMAIL);
+        if (copyLabel) copyLabel.textContent = "Copied! ✓";
+        copyBtn.classList.add("copied");
+        setTimeout(() => {
+          if (copyLabel) copyLabel.textContent = "Copy Email";
+          copyBtn.classList.remove("copied");
+        }, 2500);
+      } catch {
+        // fallback for older browsers without clipboard API
+        window.prompt(
+          "To copy the email address, press Ctrl+C / Cmd+C, then Enter",
+          EMAIL,
+        );
+        if (copyLabel) copyLabel.textContent = "Copied! ✓";
       }
     });
 
-    // Handle featured card grid-column
-    const featured = document.querySelector<HTMLElement>(".proj-card.featured");
-    if (featured && !featured.classList.contains("hidden")) {
-      featured.style.gridColumn =
-        window.innerWidth >= 1024 ? "span 2" : "span 1";
-    }
-
-    // Update counter
-    if (filterCount) {
-      filterCount.textContent = `${visibleCount} project${visibleCount !== 1 ? "s" : ""}`;
-    }
-
-    // Show/hide empty state
-    if (emptyState) {
-      emptyState.style.display = visibleCount === 0 ? "block" : "none";
-    }
-  }
-
-  // ─── Filter click events ───
-  filterBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      applyFilter(btn.dataset.filter ?? "all");
+    // ─── Deep link: /portfolio?project=name prefills contact ───
+    const enquireLinks = document.querySelectorAll<HTMLAnchorElement>(
+      ".action-btn.enquire",
+    );
+    enquireLinks.forEach((link) => {
+      const projectName = link.href.split("project=")[1];
+      if (projectName) {
+        link.href = `/contact?subject=Project+Inquiry:+${projectName}`;
+      }
     });
-  });
 
-  // ─── Copy Email Button ───
-  const copyBtn = document.getElementById("copy-email-btn");
-  const copyLabel = document.getElementById("copy-label");
-  const EMAIL = "androxoss@hotmail.com";
+    // ─── Initial state ───
+    applyFilter("all");
+  };
 
-  copyBtn?.addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(EMAIL);
-      if (copyLabel) copyLabel.textContent = "Copied! ✓";
-      copyBtn.classList.add("copied");
-      setTimeout(() => {
-        if (copyLabel) copyLabel.textContent = "Copy Email";
-        copyBtn.classList.remove("copied");
-      }, 2500);
-    } catch {
-      // fallback for older browsers without clipboard API
-      window.prompt(
-        "To copy the email address, press Ctrl+C / Cmd+C, then Enter",
-        EMAIL,
-      );
-      if (copyLabel) copyLabel.textContent = "Copied! ✓";
-    }
-  });
-
-  // ─── Deep link: /portfolio?project=name prefills contact ───
-  const enquireLinks = document.querySelectorAll<HTMLAnchorElement>(
-    ".action-btn.enquire",
-  );
-  enquireLinks.forEach((link) => {
-    const projectName = link.href.split("project=")[1];
-    if (projectName) {
-      link.href = `/contact?subject=Project+Inquiry:+${projectName}`;
-    }
-  });
-
-  // ─── Initial state ───
-  applyFilter("all");
+  document.addEventListener("DOMContentLoaded", initPortfolioPage);
+  document.addEventListener("astro:page-load", initPortfolioPage);
 </script>
