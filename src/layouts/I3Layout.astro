@@ -44,11 +44,18 @@ const {
     <meta content={description} name="description" />
 
     <!-- Prevent theme flash (FOUC) - redirect to blog if preference is blog -->
+    <style is:inline>
+      html:not(.critical-css-loaded) {
+        visibility: hidden;
+      }
+    </style>
     <script is:inline>
       {
         const initI3Theme = () => {
           // 1. Critical Visibility - Resolve flicker by adding class immediately
-          document.documentElement.classList.add("critical-css-loaded");
+          requestAnimationFrame(() => {
+            document.documentElement.classList.add("critical-css-loaded");
+          });
 
           const saved = localStorage.getItem("design-mode");
           const path = window.location.pathname;

@@ -8,8 +8,12 @@
    * Works dynamically across all modes (Workspace & Standard Blog)
    */
   function initPerformanceOptimizations() {
-    // 1. Critical CSS Loading State - Always apply to prevent FOUC
-    document.documentElement.classList.add("critical-css-loaded");
+    // 1. Critical CSS Loading State - Delay showing content to prevent FOUC
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.documentElement.classList.add("critical-css-loaded");
+      });
+    });
 
     // 2. Intelligent Image Lazy Loading
     if ("IntersectionObserver" in window) {

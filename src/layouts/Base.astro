@@ -74,12 +74,19 @@ const {
       })(window, document, "script", "dataLayer", "GTM-WLRW535");
     </script>
     <!-- End Google Tag Manager -->
+    <!-- Anti-flicker style: MUST be inline and at the top -->
+    <style is:inline>
+      html:not(.critical-css-loaded) {
+        visibility: hidden;
+      }
+    </style>
     <script is:inline>
       (function () {
         const STORAGE_VERSION = "2.0.2";
 
         const initTheme = () => {
-          // 1. Critical Visibility - Resolve flicker by adding class immediately
+          // 1. Critical Visibility - Resolve flicker by adding class after theme is set
+          // We add it immediately but after the theme classes are applied to minimize flash
           document.documentElement.classList.add("critical-css-loaded");
 
           try {
