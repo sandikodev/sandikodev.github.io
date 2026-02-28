@@ -42,8 +42,7 @@ const traceLogs = [
 ---
 
 <script is:inline>
-  // Dynamic 404 routing for workspace
-  (function () {
+  const init404Page = () => {
     const path = window.location.pathname;
     // Redirect broken workspace paths to workspace 404, but NOT the root workspace itself
     if (
@@ -53,7 +52,10 @@ const traceLogs = [
     ) {
       window.location.href = "/workspace/404";
     }
-  })();
+  };
+
+  document.addEventListener("DOMContentLoaded", init404Page);
+  document.addEventListener("astro:page-load", init404Page);
 </script>
 
 {

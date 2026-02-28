@@ -153,28 +153,33 @@ const skills = {
 </style>
 
 <script is:inline define:vars={{ skills }}>
-  // JSON syntax highlighter (jq-style)
-  function highlightJSON(obj) {
-    const json = JSON.stringify(obj, null, 2);
+  const initSkillsPage = () => {
+    // JSON syntax highlighter (jq-style)
+    function highlightJSON(obj) {
+      const json = JSON.stringify(obj, null, 2);
 
-    // Regex-based syntax highlighting
-    const highlighted = json
-      .replace(
-        /"([^"]+)":/g,
-        '<span class="json-key">"$1"</span><span class="json-punctuation">:</span>',
-      )
-      .replace(/: "([^"]*)"/g, ': <span class="json-string">"$1"</span>')
-      .replace(/: (\d+\.?\d*)/g, ': <span class="json-number">$1</span>')
-      .replace(/: (true|false)/g, ': <span class="json-boolean">$1</span>')
-      .replace(/: null/g, ': <span class="json-null">null</span>')
-      .replace(/([{}[\],])/g, '<span class="json-punctuation">$1</span>');
+      // Regex-based syntax highlighting
+      const highlighted = json
+        .replace(
+          /"([^"]+)":/g,
+          '<span class="json-key">"$1"</span><span class="json-punctuation">:</span>',
+        )
+        .replace(/: "([^"]*)"/g, ': <span class="json-string">"$1"</span>')
+        .replace(/: (\d+\.?\d*)/g, ': <span class="json-number">$1</span>')
+        .replace(/: (true|false)/g, ': <span class="json-boolean">$1</span>')
+        .replace(/: null/g, ': <span class="json-null">null</span>')
+        .replace(/([{}[\],])/g, '<span class="json-punctuation">$1</span>');
 
-    return highlighted;
-  }
+      return highlighted;
+    }
 
-  // Inject highlighted JSON
-  const container = document.getElementById("json-container");
-  if (container) {
-    container.innerHTML = highlightJSON(skills);
-  }
+    // Inject highlighted JSON
+    const container = document.getElementById("json-container");
+    if (container) {
+      container.innerHTML = highlightJSON(skills);
+    }
+  };
+
+  document.addEventListener("DOMContentLoaded", initSkillsPage);
+  document.addEventListener("astro:page-load", initSkillsPage);
 </script>

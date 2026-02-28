@@ -492,12 +492,18 @@ const categories = allCategories.map((catSlug) => ({
 </style>
 
 <script>
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "/" && document.activeElement?.tagName !== "INPUT") {
-      e.preventDefault();
-      (
-        document.querySelector(".blog-search input") as HTMLInputElement
-      )?.focus();
-    }
-  });
+  const initBlogPage = () => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "/" && document.activeElement?.tagName !== "INPUT") {
+        e.preventDefault();
+        (
+          document.querySelector(".blog-search input") as HTMLInputElement
+        )?.focus();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+  };
+
+  document.addEventListener("DOMContentLoaded", initBlogPage);
+  document.addEventListener("astro:page-load", initBlogPage);
 </script>
