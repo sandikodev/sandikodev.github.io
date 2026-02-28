@@ -5,7 +5,7 @@ import { defineCollection, z } from "astro:content";
 const postsCollection = defineCollection({
   loader: glob({
     base: "./content/posts", // Submodule directory
-    pattern: "**/*.md",
+    pattern: "**/*.{md,mdx}",
   }),
   schema: z
     .object({
@@ -36,7 +36,7 @@ const postsCollection = defineCollection({
 
 // Templates collection - local templates in src/content/posts
 const templatesCollection = defineCollection({
-  loader: glob({ base: "./src/content/templates", pattern: "**/*.md" }),
+  loader: glob({ base: "./src/content/templates", pattern: "**/*.{md,mdx}" }),
   schema: z
     .object({
       author: z.string().optional(),
@@ -66,7 +66,7 @@ const templatesCollection = defineCollection({
 
 // Author collection schema
 const authorsCollection = defineCollection({
-  loader: glob({ base: "./src/content/authors", pattern: "**/*.md" }),
+  loader: glob({ base: "./src/content/authors", pattern: "**/*.{md,mdx}" }),
   schema: z.object({
     description: z.string().optional(),
     draft: z.boolean().optional(),
@@ -86,7 +86,7 @@ const authorsCollection = defineCollection({
 
 // Pages collection schema
 const pagesCollection = defineCollection({
-  loader: glob({ base: "./src/content/pages", pattern: "**/*.md" }),
+  loader: glob({ base: "./src/content/pages", pattern: "**/*.{md,mdx}" }),
   schema: z.object({
     description: z.string().optional(),
     draft: z.boolean().optional(),
@@ -100,7 +100,7 @@ const pagesCollection = defineCollection({
 
 // About collection schema
 const aboutCollection = defineCollection({
-  loader: glob({ base: "./src/content/about", pattern: "**/*.md" }),
+  loader: glob({ base: "./src/content/about", pattern: "**/*.{md,mdx}" }),
   schema: z.object({
     description: z.string().optional(),
     draft: z.boolean().optional(),

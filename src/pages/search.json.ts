@@ -6,7 +6,7 @@ export async function GET() {
   const searchData = posts.map((post: any) => ({
     categories: post.data.categories || [],
     description: post.data.description || "",
-    slug: post.id,
+    slug: post.id.replace(/\.mdx?$/, ""),
     tags: post.data.tags || [],
     title: post.data.title,
   }));

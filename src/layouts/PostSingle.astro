@@ -149,11 +149,73 @@ const readingTime = calculateReadingTime(post.body);
     color: var(--color-text-body);
   }
 
-  /* Typography styles managed by Tailwind Typography (prose) */
+  /* Typography styles managed by Tailwind Typography (prose) and custom overrides */
+  .article-content :global(h1),
   .article-content :global(h2),
   .article-content :global(h3),
-  .article-content :global(h4) {
+  .article-content :global(h4),
+  .article-content :global(h5),
+  .article-content :global(h6) {
     scroll-margin-top: var(--spacing-12);
+    margin-top: 1em !important;
+    margin-bottom: 0.1em !important;
+  }
+
+  /* Paragraph spacing refinement */
+  .article-content :global(p) {
+    margin-top: 0.1em !important;
+    margin-bottom: 0.5em !important;
+  }
+
+  /* Image spacing refinement */
+  .article-content :global(img) {
+    margin-top: 1em !important;
+    margin-bottom: 0.5em !important;
+    border-radius: var(--radius-md);
+  }
+
+  /* List and nested list spacing refinement */
+  .article-content :global(li) {
+    margin-top: 0.1em !important;
+    margin-bottom: 0.5em !important;
+  }
+
+  /* Reset margin for paragraphs inside lists to ensure consistent spacing */
+  .article-content :global(li > p) {
+    margin-top: 0.25em !important;
+    margin-bottom: 0.5em !important;
+  }
+
+  .article-content :global(li > ul),
+  .article-content :global(li > ol) {
+    margin-top: 0.1em !important;
+    margin-bottom: 0px !important;
+  }
+
+  .article-content :global(ul),
+  .article-content :global(ol) {
+    margin-top: 0.1em !important;
+    margin-bottom: 0.5em !important;
+  }
+
+  .article-content :global(hr) {
+    margin-top: 0.5em !important;
+    margin-bottom: 1.5em !important;
+  }
+
+  /* Caption refinement - Hanya untuk teks miring yang mengikuti gambar */
+  .article-content :global(img + em),
+  .article-content :global(img + br + em) {
+    font-size: 0.85em;
+    color: var(--color-text-muted);
+    display: block;
+    margin-top: 0.25em;
+  }
+
+  /* Kembalikan teks miring biasa agar tetap inline */
+  .article-content :global(em) {
+    font-style: italic;
+    color: inherit;
   }
 
   .article-footer {

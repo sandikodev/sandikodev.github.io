@@ -36,6 +36,7 @@ export default defineConfig({
       include: [
         "**/react-components/*",
         "**/layouts/components/*",
+        "**/shortcodes/*",
         "**/partials/*",
         "**/components/*",
       ],
@@ -61,6 +62,14 @@ export default defineConfig({
         "@/shortcodes/Tabs",
         "@/shortcodes/Tab",
         "@/shortcodes/LinkCard",
+        {
+          "@/shortcodes/ThoughtProcess": [
+            "ThoughtBlock",
+            "ThoughtLog",
+            "AnalyzedLog",
+            "ThoughtStep",
+          ],
+        },
       ],
     }),
     mdx(),

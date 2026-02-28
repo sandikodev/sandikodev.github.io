@@ -22,19 +22,19 @@ export async function getStaticPaths() {
         .filter((post) => !post.data.draft)
         .filter((post) => !["404", "about"].includes(post.id))
         .map((post) => ({
-          params: { slug: `blog/${post.id}` },
+          params: { slug: `blog/${post.id.replace(/\.mdx?$/, "")}` },
           props: { entry: post, type: "post" },
         })),
       ...pages
         .filter((page) => !["404", "about"].includes(page.id))
         .map((page) => ({
-          params: { slug: page.id },
+          params: { slug: page.id.replace(/\.mdx?$/, "") },
           props: { entry: page, type: "page" },
         })),
       ...about
         .filter((entry) => entry.id !== "about")
         .map((entry) => ({
-          params: { slug: entry.id },
+          params: { slug: entry.id.replace(/\.mdx?$/, "") },
           props: { entry, type: "about" },
         })),
     ];

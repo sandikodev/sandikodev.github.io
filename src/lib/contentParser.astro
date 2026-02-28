@@ -25,7 +25,10 @@ export const getAllPosts = async (): Promise<CollectionEntry<"posts">[]> => {
     collection: "posts" as const,
   }));
 
-  const allPosts = [...posts, ...templatesAsPosts];
+  const allPosts = [...posts, ...templatesAsPosts].map((post) => ({
+    ...post,
+    id: post.id.replace(/\.mdx?$/, ""),
+  }));
   const removeIndex = allPosts.filter((data) => data.id.match(/^(?!-)/));
   const removeDrafts = removeIndex.filter((data) => !data.data.draft);
 

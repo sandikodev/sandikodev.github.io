@@ -24,7 +24,7 @@ export async function getStaticPaths() {
       .filter((page) => !excludedSlugs.includes(page.id))
       .map((page) => ({
         params: {
-          regular: page.id,
+          regular: page.id.replace(/\.mdx?$/, ""),
         },
         props: { page },
       }));
