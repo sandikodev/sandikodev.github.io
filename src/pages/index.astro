@@ -1302,7 +1302,7 @@ const featuredPosts = posts.slice(0, 3);
 
 <script>
   // Boot sequence and interactivity
-  document.addEventListener("DOMContentLoaded", () => {
+  const initLandingPage = () => {
     // 1. Boot Lines Animation
     const lines = document.querySelectorAll<HTMLElement>(
       ".boot-line, .boot-cursor-line",
@@ -1412,5 +1412,8 @@ const featuredPosts = posts.slice(0, 3);
         }
       });
     });
-  });
+  };
+
+  document.addEventListener("DOMContentLoaded", initLandingPage);
+  document.addEventListener("astro:page-load", initLandingPage);
 </script>

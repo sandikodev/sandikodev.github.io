@@ -1632,7 +1632,7 @@ import Base from "@/layouts/Base.astro";
   }, observerOptions);
 
   // Add animation classes to elements
-  document.addEventListener("DOMContentLoaded", () => {
+  const initAnimations = () => {
     const animateElements = document.querySelectorAll(
       ".bento-card, .project-card, .process-step, .timeline-item, .value-card, .stat-card, .cta-wrapper",
     );
@@ -1641,5 +1641,8 @@ import Base from "@/layouts/Base.astro";
       el.classList.add("animate-on-scroll");
       observer.observe(el);
     });
-  });
+  };
+
+  document.addEventListener("DOMContentLoaded", initAnimations);
+  document.addEventListener("astro:page-load", initAnimations);
 </script>
