@@ -8,7 +8,6 @@ import RelatedPostsUnified from "@/components/blog/RelatedPostsUnified.astro";
 import SocialShare from "@/components/blog/SocialShare.astro";
 import TableOfContents from "@/components/blog/TableOfContents.astro";
 import Breadcrumb from "@/components/layout/Breadcrumb.astro";
-import SEOOptimized from "@/components/seo/SEOOptimized.astro";
 import CodeBlockEnhancer from "@/components/ui/CodeBlockEnhancer.astro";
 import DevStats from "@/components/ui/DevStats.astro";
 import FontSizeToggle from "@/components/ui/FontSizeToggle.astro";
@@ -30,19 +29,6 @@ const { authors, categories, date, description, image, tags, title } =
 // Calculate reading time using utility
 const readingTime = calculateReadingTime(post.body);
 ---
-
-<SEOOptimized
-  article={{
-    author: "Sandikodev",
-    publishedTime: new Date(date).toISOString(),
-    section: categories[0] || "Blog",
-    tags: tags || [],
-  }}
-  description={description}
-  image={image}
-  title={title}
-  type="article"
-/>
 
 <style>
   .article-layout {

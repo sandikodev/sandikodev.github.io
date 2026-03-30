@@ -48,6 +48,7 @@ export const ThoughtLog = ({
           {children}
         </div>
       )}
+      {/* @ts-expect-error: styled-jsx attribute 'jsx' is not recognized by standard TS types */}
       <style jsx>{`
         .custom-scrollbar::-webkit-scrollbar {
           width: 5px;

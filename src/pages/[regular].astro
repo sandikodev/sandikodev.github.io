@@ -44,13 +44,26 @@ const templates = await getCollection("templates");
 const isPost =
   posts.some((post) => post.id === page.id) ||
   templates.some((template) => template.id === page.id);
+
+const article = isPost
+  ? {
+      author: (page.data as any).authors?.[0] || "Sandikodev",
+      publishedTime: (page.data as any).date
+        ? new Date((page.data as any).date).toISOString()
+        : new Date().toISOString(),
+      section: (page.data as any).categories?.[0] || "Blog",
+      tags: (page.data as any).tags || [],
+    }
+  : undefined;
 ---
 
 <Base
+  article={article}
   description={description}
   image={image}
   meta_title={meta_title}
   title={title}
+  type={isPost ? "article" : "website"}
 >
   {isPost ? <PostSingle post={page} /> : <Default data={page} />}
 </Base>
