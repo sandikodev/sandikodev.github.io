@@ -387,17 +387,17 @@ const {
 
     <!-- og-image -->
     <meta
-      content={image && image.startsWith("http")
+      content={image?.startsWith("http")
         ? image
-        : `${config.site.base_url}${image ? image : config.metadata.meta_image}`}
+        : `${config.site.base_url}${image || config.metadata.meta_image}`}
       property="og:image"
     />
 
     <!-- twitter-image -->
     <meta
-      content={image && image.startsWith("http")
+      content={image?.startsWith("http")
         ? image
-        : `${config.site.base_url}${image ? image : config.metadata.meta_image}`}
+        : `${config.site.base_url}${image || config.metadata.meta_image}`}
       name="twitter:image"
     />
     <meta content="summary_large_image" name="twitter:card" />
