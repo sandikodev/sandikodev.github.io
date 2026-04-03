@@ -189,6 +189,12 @@ const readingTime = calculateReadingTime(post.body);
     margin-bottom: 1.5em !important;
   }
 
+  /* Pre/code block spacing */
+  .article-content :global(pre) {
+    margin-top: 0 !important;
+    margin-bottom: 1.5rem !important;
+  }
+
   /* Caption refinement - Hanya untuk teks miring yang mengikuti gambar */
   .article-content :global(img + em),
   .article-content :global(img + br + em) {
