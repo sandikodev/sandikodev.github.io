@@ -196,11 +196,24 @@ const readingTime = calculateReadingTime(post.body);
   }
 
   /* Line numbers — exclude mermaid/math/latex */
-  .article-content :global(pre:not([data-language="mermaid"]):not([data-language="math"]):not([data-language="latex"]) code) {
+  .article-content
+    :global(
+      pre:not([data-language="mermaid"]):not([data-language="math"]):not(
+          [data-language="latex"]
+        )
+        code
+    ) {
     counter-reset: line;
     font-size: 0; /* collapses \n text nodes Shiki injects between .line spans */
   }
-  .article-content :global(pre:not([data-language="mermaid"]):not([data-language="math"]):not([data-language="latex"]) code .line) {
+  .article-content
+    :global(
+      pre:not([data-language="mermaid"]):not([data-language="math"]):not(
+          [data-language="latex"]
+        )
+        code
+        .line
+    ) {
     display: block;
     font-size: revert;
     padding-left: 2.75rem;
@@ -208,7 +221,14 @@ const readingTime = calculateReadingTime(post.body);
     margin: 0;
     line-height: var(--leading-relaxed, 1.75);
   }
-  .article-content :global(pre:not([data-language="mermaid"]):not([data-language="math"]):not([data-language="latex"]) code .line::before) {
+  .article-content
+    :global(
+      pre:not([data-language="mermaid"]):not([data-language="math"]):not(
+          [data-language="latex"]
+        )
+        code
+        .line::before
+    ) {
     counter-increment: line;
     content: counter(line);
     position: absolute;
