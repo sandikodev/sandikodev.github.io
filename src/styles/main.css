@@ -238,31 +238,45 @@ h6,
 
 .content h1 {
   margin-bottom: 1rem;
+  margin-top: 3rem;
   font-size: 2.5rem;
   font-weight: 700;
 }
 
 .content h2 {
-  margin-bottom: 1rem;
-  margin-top: 1rem;
+  margin-bottom: 1.25rem;
+  margin-top: 3rem;
   font-size: 2rem;
 }
 
 .content h3 {
-  margin-top: 1rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
   font-size: 1.75rem;
 }
 
 .content h4 {
-  margin-top: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 0.875rem;
 }
 
 .content h5 {
-  margin-bottom: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 0.875rem;
 }
 
 .content h6 {
+  margin-top: 2rem;
+  margin-bottom: 0.875rem;
+}
+
+.content p {
   margin-bottom: 1.5rem;
+}
+
+.content hr {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
 }
 
 .content blockquote {

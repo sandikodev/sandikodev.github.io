@@ -143,14 +143,14 @@ const readingTime = calculateReadingTime(post.body);
   .article-content :global(h5),
   .article-content :global(h6) {
     scroll-margin-top: var(--spacing-12);
-    margin-top: 1em !important;
-    margin-bottom: 0.1em !important;
+    margin-top: 2.5em !important;
+    margin-bottom: 0.6em !important;
   }
 
   /* Paragraph spacing refinement */
   .article-content :global(p) {
-    margin-top: 0.1em !important;
-    margin-bottom: 0.5em !important;
+    margin-top: 0 !important;
+    margin-bottom: 1em !important;
   }
 
   /* Image spacing refinement */
@@ -185,14 +185,40 @@ const readingTime = calculateReadingTime(post.body);
   }
 
   .article-content :global(hr) {
-    margin-top: 0.5em !important;
-    margin-bottom: 1.5em !important;
+    margin-top: 1.75em !important;
+    margin-bottom: 1.75em !important;
   }
 
   /* Pre/code block spacing */
   .article-content :global(pre) {
     margin-top: 0 !important;
     margin-bottom: 1.5rem !important;
+  }
+
+  /* Line numbers — exclude mermaid/math/latex */
+  .article-content :global(pre:not([data-language="mermaid"]):not([data-language="math"]):not([data-language="latex"]) code) {
+    counter-reset: line;
+    font-size: 0; /* collapses \n text nodes Shiki injects between .line spans */
+  }
+  .article-content :global(pre:not([data-language="mermaid"]):not([data-language="math"]):not([data-language="latex"]) code .line) {
+    display: block;
+    font-size: revert;
+    padding-left: 2.75rem;
+    position: relative;
+    margin: 0;
+    line-height: var(--leading-relaxed, 1.75);
+  }
+  .article-content :global(pre:not([data-language="mermaid"]):not([data-language="math"]):not([data-language="latex"]) code .line::before) {
+    counter-increment: line;
+    content: counter(line);
+    position: absolute;
+    left: 0;
+    width: 2rem;
+    text-align: right;
+    opacity: 0.3;
+    user-select: none;
+    font-size: 0.85em;
+    line-height: inherit;
   }
 
   /* Caption refinement - Hanya untuk teks miring yang mengikuti gambar */
