@@ -1,0 +1,115 @@
+// Article content typography and code block styles
+// Used by PostSingle.astro via :global() scope
+
+// Languages that should NOT get line numbers
+$diagram-langs: "mermaid", "math", "latex";
+
+// Build :not() selector string for diagram exclusions
+// Usage: pre#{$not-diagram} code
+$not-diagram: ':not([data-language="mermaid"]):not([data-language="math"]):not([data-language="latex"])';
+
+.article-content {
+  // ── Headings ──────────────────────────────────────────────────────────────
+  :global(h1),
+  :global(h2),
+  :global(h3),
+  :global(h4),
+  :global(h5),
+  :global(h6) {
+    scroll-margin-top: var(--spacing-12);
+    margin-top: 2.5em !important;
+    margin-bottom: 0.6em !important;
+  }
+
+  // ── Paragraph ─────────────────────────────────────────────────────────────
+  :global(p) {
+    margin-top: 0 !important;
+    margin-bottom: 1em !important;
+  }
+
+  // ── Images ────────────────────────────────────────────────────────────────
+  :global(img) {
+    margin-top: 1em !important;
+    margin-bottom: 0.5em !important;
+    border-radius: var(--radius-md);
+  }
+
+  // Caption: italic text immediately after image
+  :global(img + em),
+  :global(img + br + em) {
+    font-size: 0.85em;
+    color: var(--color-text-muted);
+    display: block;
+    margin-top: 0.25em;
+  }
+
+  // Restore normal italic
+  :global(em) {
+    font-style: italic;
+    color: inherit;
+  }
+
+  // ── Lists ─────────────────────────────────────────────────────────────────
+  :global(li) {
+    margin-top: 0.1em !important;
+    margin-bottom: 0.5em !important;
+  }
+
+  :global(li > p) {
+    margin-top: 0.25em !important;
+    margin-bottom: 0.5em !important;
+  }
+
+  :global(li > ul),
+  :global(li > ol) {
+    margin-top: 0.1em !important;
+    margin-bottom: 0 !important;
+  }
+
+  :global(ul),
+  :global(ol) {
+    margin-top: 0.1em !important;
+    margin-bottom: 0.5em !important;
+  }
+
+  // ── Divider ───────────────────────────────────────────────────────────────
+  :global(hr) {
+    margin-top: 1.75em !important;
+    margin-bottom: 1.75em !important;
+  }
+
+  // ── Code blocks ───────────────────────────────────────────────────────────
+  :global(pre) {
+    margin-top: 0 !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  // Line numbers — only for code snippets, not diagrams
+  // font-size:0 on code collapses the \n text nodes Shiki injects between .line spans
+  :global(pre#{$not-diagram} code) {
+    counter-reset: line;
+    font-size: 0;
+  }
+
+  :global(pre#{$not-diagram} code .line) {
+    display: block;
+    font-size: revert;
+    padding-left: 2.75rem;
+    position: relative;
+    margin: 0;
+    line-height: var(--leading-relaxed, 1.75);
+  }
+
+  :global(pre#{$not-diagram} code .line::before) {
+    counter-increment: line;
+    content: counter(line);
+    position: absolute;
+    left: 0;
+    width: 2rem;
+    text-align: right;
+    opacity: 0.3;
+    user-select: none;
+    font-size: 0.85em;
+    line-height: inherit;
+  }
+}

@@ -868,3 +868,102 @@ footer p a:hover {
     page-break-inside: avoid;
   }
 }
+
+/* ── Article Content Typography ─────────────────────────────────────────── */
+
+.article-content h1,
+.article-content h2,
+.article-content h3,
+.article-content h4,
+.article-content h5,
+.article-content h6 {
+  scroll-margin-top: var(--spacing-12);
+  margin-top: 2.5em !important;
+  margin-bottom: 0.6em !important;
+}
+
+.article-content p {
+  margin-top: 0 !important;
+  margin-bottom: 1em !important;
+}
+
+.article-content img {
+  margin-top: 1em !important;
+  margin-bottom: 0.5em !important;
+  border-radius: var(--radius-md);
+}
+
+.article-content img + em,
+.article-content img + br + em {
+  font-size: 0.85em;
+  color: var(--color-text-muted);
+  display: block;
+  margin-top: 0.25em;
+}
+
+.article-content em {
+  font-style: italic;
+  color: inherit;
+}
+
+.article-content li {
+  margin-top: 0.1em !important;
+  margin-bottom: 0.5em !important;
+}
+
+.article-content li > p {
+  margin-top: 0.25em !important;
+  margin-bottom: 0.5em !important;
+}
+
+.article-content li > ul,
+.article-content li > ol {
+  margin-top: 0.1em !important;
+  margin-bottom: 0 !important;
+}
+
+.article-content ul,
+.article-content ol {
+  margin-top: 0.1em !important;
+  margin-bottom: 0.5em !important;
+}
+
+.article-content hr {
+  margin-top: 1.75em !important;
+  margin-bottom: 1.75em !important;
+}
+
+.article-content pre {
+  margin-top: 0 !important;
+  margin-bottom: 1.5rem !important;
+}
+
+/* ── Code block line numbers ─────────────────────────────────────────────── */
+/* Exclude diagram languages (mermaid, math, latex) */
+
+.article-content pre:not([data-language="mermaid"]):not([data-language="math"]):not([data-language="latex"]) code {
+  counter-reset: line;
+  font-size: 0; /* collapses \n text nodes Shiki injects between .line spans */
+}
+
+.article-content pre:not([data-language="mermaid"]):not([data-language="math"]):not([data-language="latex"]) code .line {
+  display: block;
+  font-size: revert;
+  padding-left: 2.75rem;
+  position: relative;
+  margin: 0;
+  line-height: var(--leading-relaxed, 1.75);
+}
+
+.article-content pre:not([data-language="mermaid"]):not([data-language="math"]):not([data-language="latex"]) code .line::before {
+  counter-increment: line;
+  content: counter(line);
+  position: absolute;
+  left: 0;
+  width: 2rem;
+  text-align: right;
+  opacity: 0.3;
+  user-select: none;
+  font-size: 0.85em;
+  line-height: inherit;
+}
