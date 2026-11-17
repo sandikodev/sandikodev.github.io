@@ -539,9 +539,11 @@ const currentPath = Astro.url.pathname;
               // Scrolling down
               currentHeader.classList.add("scrolled-down");
               currentHeader.classList.remove("scrolled-up");
+              document.documentElement.classList.add("header-hidden");
             } else if (currentScrollY < lastScrollY || currentScrollY <= 100) {
               // Scrolling up or at top
               currentHeader.classList.remove("scrolled-down");
+              document.documentElement.classList.remove("header-hidden");
               if (currentScrollY > 20) {
                 currentHeader.classList.add("scrolled-up");
               } else {

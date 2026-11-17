@@ -691,7 +691,8 @@ const {
               </div>
             `;
 
-            block.replaceWith(wrapper);
+            const containerToReplace = block.closest(".code-block-wrapper") || block;
+            containerToReplace.replaceWith(wrapper);
           }
         });
 

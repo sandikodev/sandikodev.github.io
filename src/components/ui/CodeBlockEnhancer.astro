@@ -89,6 +89,217 @@
 </style>
 
 <script>
+  // Helper to determine friendly language badge
+  function detectLanguage(pre: HTMLPreElement, code: HTMLElement): string {
+    const rawAttr =
+      pre.getAttribute("data-language") ||
+      code.getAttribute("data-language") ||
+      "";
+    const classMatch =
+      code.className.match(/language-([a-zA-Z0-9_\-#+]+)/)?.[1] ||
+      pre.className.match(/language-([a-zA-Z0-9_\-#+]+)/)?.[1] ||
+      "";
+
+    let lang = (rawAttr || classMatch).toLowerCase().trim();
+    const codeText = (code.textContent || "").trim();
+
+    // Auto-detection heuristics if language is missing or generic text
+    if (!lang || lang === "text" || lang === "plaintext") {
+      if (
+        codeText.startsWith("npm ") ||
+        codeText.startsWith("pnpm ") ||
+        codeText.startsWith("bun ") ||
+        codeText.startsWith("yarn ") ||
+        codeText.startsWith("git ") ||
+        codeText.startsWith("curl ") ||
+        codeText.startsWith("wget ") ||
+        codeText.startsWith("sudo ") ||
+        codeText.startsWith("cd ") ||
+        codeText.startsWith("mkdir ") ||
+        codeText.startsWith("docker ") ||
+        codeText.startsWith("kubectl ") ||
+        codeText.startsWith("chmod ") ||
+        codeText.startsWith("chown ") ||
+        codeText.startsWith("apt ") ||
+        codeText.startsWith("brew ") ||
+        codeText.startsWith("$ ")
+      ) {
+        lang = "bash";
+      } else if (
+        codeText.startsWith("Get-") ||
+        codeText.startsWith("Set-") ||
+        codeText.startsWith("Install-Module") ||
+        codeText.startsWith("PS ") ||
+        codeText.startsWith("pwsh")
+      ) {
+        lang = "powershell";
+      } else if (
+        codeText.startsWith("@echo") ||
+        codeText.startsWith("REM ") ||
+        codeText.startsWith("dir ") ||
+        codeText.startsWith("cls")
+      ) {
+        lang = "cmd";
+      } else if (
+        codeText.startsWith("<!DOCTYPE") ||
+        codeText.startsWith("<html") ||
+        codeText.startsWith("<template") ||
+        codeText.startsWith("<div")
+      ) {
+        lang = "html";
+      } else if (
+        (codeText.startsWith("{") && codeText.endsWith("}")) ||
+        (codeText.startsWith("[") && codeText.endsWith("]"))
+      ) {
+        try {
+          JSON.parse(codeText);
+          lang = "json";
+        } catch {
+          // not valid json
+        }
+      } else if (
+        codeText.startsWith("import ") ||
+        codeText.startsWith("export ") ||
+        codeText.startsWith("const ") ||
+        codeText.startsWith("let ") ||
+        codeText.startsWith("class ")
+      ) {
+        lang = "typescript";
+      }
+    }
+
+    const friendlyNames: Record<string, string> = {
+      ts: "TYPESCRIPT",
+      typescript: "TYPESCRIPT",
+      js: "JAVASCRIPT",
+      javascript: "JAVASCRIPT",
+      mjs: "JAVASCRIPT",
+      cjs: "JAVASCRIPT",
+      jsx: "REACT JSX",
+      tsx: "REACT TSX",
+      astro: "ASTRO",
+      svelte: "SVELTE",
+      vue: "VUE",
+      html: "HTML",
+      css: "CSS",
+      scss: "SCSS",
+      sass: "SASS",
+      less: "LESS",
+      bash: "BASH",
+      sh: "SHELL",
+      shell: "SHELL",
+      zsh: "ZSH",
+      powershell: "POWERSHELL",
+      ps: "POWERSHELL",
+      ps1: "POWERSHELL",
+      pwsh: "POWERSHELL",
+      cmd: "CMD",
+      bat: "BATCH",
+      batch: "BATCH",
+      dos: "DOS",
+      py: "PYTHON",
+      python: "PYTHON",
+      rs: "RUST",
+      rust: "RUST",
+      go: "GO",
+      golang: "GO",
+      java: "JAVA",
+      cs: "C#",
+      csharp: "C#",
+      "c#": "C#",
+      cpp: "C++",
+      "c++": "C++",
+      c: "C",
+      json: "JSON",
+      jsonc: "JSON",
+      json5: "JSON5",
+      yaml: "YAML",
+      yml: "YAML",
+      toml: "TOML",
+      sql: "SQL",
+      md: "MARKDOWN",
+      markdown: "MARKDOWN",
+      mdx: "MDX",
+      docker: "DOCKER",
+      dockerfile: "DOCKER",
+      nginx: "NGINX",
+      graphql: "GRAPHQL",
+      gql: "GRAPHQL",
+      angular: "ANGULAR",
+      "angular-ts": "ANGULAR",
+      "angular-html": "ANGULAR HTML",
+      angularjs: "ANGULARJS",
+      aurelia: "AURELIA",
+      aureliajs: "AURELIA",
+      "aurelia-ts": "AURELIA TS",
+      "aurelia-html": "AURELIA HTML",
+      xml: "XML",
+      php: "PHP",
+      ruby: "RUBY",
+      rb: "RUBY",
+      swift: "SWIFT",
+      kt: "KOTLIN",
+      kotlin: "KOTLIN",
+      dts: "DEVICE TREE",
+      diff: "DIFF",
+      regex: "REGEX",
+      text: "TEXT",
+      plaintext: "TEXT",
+    };
+
+    return friendlyNames[lang] || (lang ? lang.toUpperCase() : "CODE");
+  }
+
+  // Check if block is diagram or math
+  function isDiagramOrMath(pre: HTMLPreElement, code: HTMLElement): boolean {
+    const rawAttr = (
+      pre.getAttribute("data-language") ||
+      code.getAttribute("data-language") ||
+      ""
+    ).toLowerCase();
+
+    if (
+      rawAttr === "mermaid" ||
+      rawAttr === "math" ||
+      rawAttr === "latex" ||
+      rawAttr === "katex"
+    ) {
+      return true;
+    }
+
+    if (
+      pre.classList.contains("mermaid") ||
+      pre.classList.contains("language-mermaid") ||
+      code.classList.contains("language-mermaid") ||
+      pre.classList.contains("katex") ||
+      pre.classList.contains("math")
+    ) {
+      return true;
+    }
+
+    const trimmed = (code.textContent || "").trim();
+    if (
+      trimmed.startsWith("graph ") ||
+      trimmed.startsWith("flowchart ") ||
+      trimmed.startsWith("sequenceDiagram") ||
+      trimmed.startsWith("classDiagram") ||
+      trimmed.startsWith("stateDiagram") ||
+      trimmed.startsWith("erDiagram") ||
+      trimmed.startsWith("gantt") ||
+      trimmed.startsWith("pie") ||
+      trimmed.startsWith("journey") ||
+      trimmed.startsWith("mindmap") ||
+      trimmed.startsWith("timeline") ||
+      trimmed.startsWith("gitGraph") ||
+      trimmed.startsWith("C4Context") ||
+      trimmed.startsWith("xychart-beta")
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
   // Enhance all code blocks
   function enhanceCodeBlocks() {
     const codeBlocks = document.querySelectorAll("pre");
@@ -102,19 +313,13 @@
       const code = pre.querySelector("code");
       if (!code) return;
 
-      const codeText = code.textContent || "";
-      const language = code.className.match(/language-(\w+)/)?.[1] || "text";
-
-      // Skip diagram languages
-      if (
-        language === "mermaid" ||
-        language === "math" ||
-        language === "latex" ||
-        pre.classList.contains("mermaid") ||
-        code.classList.contains("language-mermaid")
-      ) {
+      // Skip diagram languages and diagram content
+      if (isDiagramOrMath(pre, code)) {
         return;
       }
+
+      const codeText = code.textContent || "";
+      const displayLang = detectLanguage(pre, code);
 
       // Wrap in container
       const wrapper = document.createElement("div");
@@ -133,7 +338,7 @@
           <span class="dot dot-yellow"></span>
           <span class="dot dot-green"></span>
         </div>
-        <span class="code-lang">${language.toUpperCase()}</span>
+        <span class="code-lang">${displayLang}</span>
       `;
 
       // Copy button
@@ -195,7 +400,7 @@
       `;
       bookmarkBtn.addEventListener("click", () => {
         if ((window as any).addSnippet) {
-          (window as any).addSnippet(codeText, language);
+          (window as any).addSnippet(codeText, displayLang);
         }
         bookmarkBtn.innerHTML = `
           <svg fill="currentColor" viewBox="0 0 24 24">

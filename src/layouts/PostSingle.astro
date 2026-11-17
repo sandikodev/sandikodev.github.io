@@ -188,8 +188,13 @@ const readingTime = calculateReadingTime(post.body);
       display: flex;
       flex-direction: column;
       position: sticky;
-      top: 100px;
+      top: 84px;
       height: fit-content;
+      transition: top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    :global(html.header-hidden) .article-sidebar {
+      top: 1.5rem;
     }
   }
 </style>
