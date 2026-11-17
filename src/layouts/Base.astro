@@ -443,7 +443,7 @@ const {
       }
       .mermaid-toolbar {
         position: absolute;
-        top: 0.75rem;
+        bottom: 0.75rem;
         right: 0.75rem;
         display: flex;
         align-items: center;
@@ -452,7 +452,7 @@ const {
         border: 1px solid var(--color-border);
         border-radius: var(--radius-md);
         padding: 0.25rem 0.4rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
         z-index: 10;
       }
       .mermaid-btn {
@@ -480,11 +480,11 @@ const {
       }
       .mermaid-viewport {
         overflow: auto;
-        padding: 2.75rem 1.5rem 1.5rem;
+        padding: 1.5rem 1.5rem 3.5rem 1.5rem;
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: 120px;
+        min-height: 140px;
       }
       .mermaid-viewport svg {
         max-width: 100% !important;
@@ -581,26 +581,37 @@ const {
             document.body.style.overflow = "";
           };
 
-          modal.querySelector("#modal-close")?.addEventListener("click", closeModal);
+          modal
+            .querySelector("#modal-close")
+            ?.addEventListener("click", closeModal);
           modal.addEventListener("click", (e) => {
             if (e.target === modal) closeModal();
           });
           document.addEventListener("keydown", (e) => {
-            if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
+            if (e.key === "Escape" && modal.classList.contains("open"))
+              closeModal();
           });
 
-          modal.querySelector("#modal-zoom-in")?.addEventListener("click", () => {
-            modalScale = Math.min(modalScale + 0.25, 4.0);
-            if (activeModalSvg) activeModalSvg.style.transform = `scale(${modalScale})`;
-          });
-          modal.querySelector("#modal-zoom-out")?.addEventListener("click", () => {
-            modalScale = Math.max(modalScale - 0.25, 0.4);
-            if (activeModalSvg) activeModalSvg.style.transform = `scale(${modalScale})`;
-          });
-          modal.querySelector("#modal-zoom-reset")?.addEventListener("click", () => {
-            modalScale = 1.0;
-            if (activeModalSvg) activeModalSvg.style.transform = "scale(1)";
-          });
+          modal
+            .querySelector("#modal-zoom-in")
+            ?.addEventListener("click", () => {
+              modalScale = Math.min(modalScale + 0.25, 4.0);
+              if (activeModalSvg)
+                activeModalSvg.style.transform = `scale(${modalScale})`;
+            });
+          modal
+            .querySelector("#modal-zoom-out")
+            ?.addEventListener("click", () => {
+              modalScale = Math.max(modalScale - 0.25, 0.4);
+              if (activeModalSvg)
+                activeModalSvg.style.transform = `scale(${modalScale})`;
+            });
+          modal
+            .querySelector("#modal-zoom-reset")
+            ?.addEventListener("click", () => {
+              modalScale = 1.0;
+              if (activeModalSvg) activeModalSvg.style.transform = "scale(1)";
+            });
         }
         return modal;
       }
@@ -712,33 +723,42 @@ const {
               btnZoomReset?.replaceWith(btnZoomReset.cloneNode(true));
               btnFullscreen?.replaceWith(btnFullscreen.cloneNode(true));
 
-              wrapper.querySelector(".btn-zoom-in")?.addEventListener("click", () => {
-                scale = Math.min(scale + 0.2, 3.0);
-                svgElement.style.transform = `scale(${scale})`;
-              });
+              wrapper
+                .querySelector(".btn-zoom-in")
+                ?.addEventListener("click", () => {
+                  scale = Math.min(scale + 0.2, 3.0);
+                  svgElement.style.transform = `scale(${scale})`;
+                });
 
-              wrapper.querySelector(".btn-zoom-out")?.addEventListener("click", () => {
-                scale = Math.max(scale - 0.2, 0.4);
-                svgElement.style.transform = `scale(${scale})`;
-              });
+              wrapper
+                .querySelector(".btn-zoom-out")
+                ?.addEventListener("click", () => {
+                  scale = Math.max(scale - 0.2, 0.4);
+                  svgElement.style.transform = `scale(${scale})`;
+                });
 
-              wrapper.querySelector(".btn-zoom-reset")?.addEventListener("click", () => {
-                scale = 1.0;
-                svgElement.style.transform = "scale(1)";
-              });
+              wrapper
+                .querySelector(".btn-zoom-reset")
+                ?.addEventListener("click", () => {
+                  scale = 1.0;
+                  svgElement.style.transform = "scale(1)";
+                });
 
-              wrapper.querySelector(".btn-fullscreen")?.addEventListener("click", () => {
-                const modal = ensureModal();
-                const modalBody = modal.querySelector("#mermaid-modal-body");
-                if (modalBody) {
-                  modalBody.innerHTML = svg;
-                  activeModalSvg = modalBody.querySelector("svg");
-                  modalScale = 1.0;
-                  if (activeModalSvg) activeModalSvg.style.transform = "scale(1)";
-                  modal.classList.add("open");
-                  document.body.style.overflow = "hidden";
-                }
-              });
+              wrapper
+                .querySelector(".btn-fullscreen")
+                ?.addEventListener("click", () => {
+                  const modal = ensureModal();
+                  const modalBody = modal.querySelector("#mermaid-modal-body");
+                  if (modalBody) {
+                    modalBody.innerHTML = svg;
+                    activeModalSvg = modalBody.querySelector("svg");
+                    modalScale = 1.0;
+                    if (activeModalSvg)
+                      activeModalSvg.style.transform = "scale(1)";
+                    modal.classList.add("open");
+                    document.body.style.overflow = "hidden";
+                  }
+                });
             }
           } catch (renderError) {
             console.warn("Mermaid rendering skipped for diagram:", renderError);

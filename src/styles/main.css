@@ -961,22 +961,27 @@ footer p a:hover {
 }
 
 .article-content pre {
-  margin-top: 0.75rem !important;
-  margin-bottom: 1.25rem !important;
-  font-size: 0.875rem !important;
-  line-height: 1.5 !important;
-  border-radius: var(--radius-lg);
+  margin: 0 !important;
+  padding: 0.875rem 0 !important;
+  font-size: 0.84rem !important;
+  line-height: 1.45rem !important;
+  border-radius: 0 !important;
+  border: none !important;
+  background-color: transparent !important;
   overflow-x: auto;
 }
 
 .article-content pre code {
-  font-family: var(--font-mono, monospace) !important;
-  font-size: 0.875rem !important;
-  line-height: 1.5 !important;
+  display: block;
+  font-family: var(--font-mono, "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace) !important;
+  font-size: 0.84rem !important;
+  line-height: 1.45rem !important;
+  tab-size: 2;
   white-space: pre !important;
+  min-width: 100%;
 }
 
-/* ── Code block line numbers ─────────────────────────────────────────────── */
+/* ── Code block line numbers & IDE gutter ────────────────────────────────── */
 /* Exclude diagram languages (mermaid, math, latex) */
 
 .article-content
@@ -995,12 +1000,25 @@ footer p a:hover {
   code
   .line {
   display: block;
-  font-size: 0.875rem !important;
-  padding-left: 2.75rem;
+  font-size: 0.84rem !important;
+  padding-left: 3.6rem;
   position: relative;
   margin: 0;
-  line-height: 1.5 !important;
+  line-height: 1.45rem !important;
+  min-height: 1.45rem !important;
+  box-sizing: border-box;
   white-space: pre !important;
+}
+
+.article-content
+  pre:not([data-language="mermaid"]):not([data-language="math"]):not(
+    [data-language="latex"]
+  )
+  code
+  .line:empty::after {
+  content: "\00a0";
+  visibility: hidden;
+  display: inline-block;
 }
 
 .article-content
@@ -1013,10 +1031,21 @@ footer p a:hover {
   content: counter(line);
   position: absolute;
   left: 0;
-  width: 2rem;
+  top: 0;
+  width: 2.75rem;
+  height: 1.45rem;
+  line-height: 1.45rem !important;
+  padding-right: 0.75rem;
   text-align: right;
+  border-right: 1px solid var(--color-border);
+  color: var(--color-text-muted);
   opacity: 0.35;
   user-select: none;
-  font-size: 0.85em;
-  line-height: 1.5;
+  font-size: 0.75rem;
+  font-family: var(--font-mono, monospace);
+  box-sizing: border-box;
+}
+
+:global(.dark) .article-content pre code .line::before {
+  border-right-color: rgba(255, 255, 255, 0.08);
 }

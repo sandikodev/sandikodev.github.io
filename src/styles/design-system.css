@@ -269,7 +269,7 @@ a:hover {
 /* Ensure code blocks in scalable content scope scale correctly */
 .scalable-content pre code {
   font-size: var(--text-sm) !important;
-  line-height: var(--leading-relaxed);
+  line-height: 1.5 !important;
 }
 
 /* Mermaid Theme Compatibility - Comprehensive synchronization */
