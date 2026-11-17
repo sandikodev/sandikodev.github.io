@@ -454,6 +454,19 @@ const {
         padding: 0.25rem 0.4rem;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
         z-index: 10;
+        user-select: none;
+      }
+      .mermaid-hint {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 10px;
+        font-weight: 700;
+        font-family: var(--font-mono, monospace);
+        color: var(--color-text-muted);
+        padding: 0 4px;
+        user-select: none;
+        opacity: 0.75;
       }
       .mermaid-btn {
         display: inline-flex;
@@ -479,18 +492,34 @@ const {
         height: 15px;
       }
       .mermaid-viewport {
-        overflow: auto;
-        padding: 1.5rem 1.5rem 3.5rem 1.5rem;
+        overflow: hidden !important;
+        padding: 2rem 1.5rem 4rem 1.5rem;
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: 140px;
+        min-height: 180px;
+        cursor: grab;
+        user-select: none;
+        touch-action: none;
+        position: relative;
       }
-      .mermaid-viewport svg {
+      .mermaid-viewport:active {
+        cursor: grabbing;
+      }
+      .mermaid-target {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+      .mermaid-target svg {
         max-width: 100% !important;
         height: auto !important;
-        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         transform-origin: center center;
+        user-select: none;
+        will-change: transform;
       }
       /* Mermaid Modal */
       #mermaid-modal {
@@ -655,16 +684,45 @@ const {
             ? code.textContent.trim()
             : block.textContent.trim();
 
+          const langAttr = (
+            block.getAttribute("data-language") ||
+            code?.getAttribute("data-language") ||
+            ""
+          ).toLowerCase();
+
           const isMermaid =
+            langAttr === "mermaid" ||
+            block.classList.contains("mermaid") ||
+            block.classList.contains("language-mermaid") ||
+            (code && code.classList.contains("language-mermaid")) ||
             content.startsWith("graph ") ||
+            content.startsWith("graph\n") ||
+            content.startsWith("flowchart ") ||
+            content.startsWith("flowchart\n") ||
             content.startsWith("sequenceDiagram") ||
-            content.startsWith("gantt") ||
             content.startsWith("classDiagram") ||
             content.startsWith("stateDiagram") ||
+            content.startsWith("stateDiagram-v2") ||
+            content.startsWith("erDiagram") ||
+            content.startsWith("journey") ||
+            content.startsWith("gantt") ||
             content.startsWith("pie") ||
-            content.startsWith("flowchart ") ||
-            block.classList.contains("language-mermaid") ||
-            (code && code.classList.contains("language-mermaid"));
+            content.startsWith("quadrantChart") ||
+            content.startsWith("requirementDiagram") ||
+            content.startsWith("gitGraph") ||
+            content.startsWith("C4Context") ||
+            content.startsWith("C4Container") ||
+            content.startsWith("C4Component") ||
+            content.startsWith("C4Dynamic") ||
+            content.startsWith("C4Deployment") ||
+            content.startsWith("sankey-beta") ||
+            content.startsWith("xychart-beta") ||
+            content.startsWith("block-beta") ||
+            content.startsWith("timeline") ||
+            content.startsWith("mindmap") ||
+            content.startsWith("architecture-beta") ||
+            content.startsWith("packet-beta") ||
+            content.startsWith("kanban");
 
           if (isMermaid) {
             diagramIndex++;
@@ -675,23 +733,30 @@ const {
 
             wrapper.innerHTML = `
               <div class="mermaid-toolbar">
-                <button class="mermaid-btn btn-zoom-out" title="Zoom Out">
+                <span class="mermaid-hint" title="Click & drag to pan • Scroll to zoom">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
+                    <path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M12 2v20M2 12h20"/>
+                  </svg>
+                  PAN
+                </span>
+                <button class="mermaid-btn btn-zoom-out" title="Zoom Out (-)">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
                 </button>
-                <button class="mermaid-btn btn-zoom-reset" title="Reset Zoom">1:1</button>
-                <button class="mermaid-btn btn-zoom-in" title="Zoom In">
+                <button class="mermaid-btn btn-zoom-reset" title="Reset Zoom & Pan">1:1</button>
+                <button class="mermaid-btn btn-zoom-in" title="Zoom In (+)">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                 </button>
                 <button class="mermaid-btn btn-fullscreen" title="Fullscreen View">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
                 </button>
               </div>
-              <div class="mermaid-viewport">
+              <div class="mermaid-viewport" title="Click & drag to pan • Scroll to zoom">
                 <div class="mermaid-target"></div>
               </div>
             `;
 
-            const containerToReplace = block.closest(".code-block-wrapper") || block;
+            const containerToReplace =
+              block.closest(".code-block-wrapper") || block;
             containerToReplace.replaceWith(wrapper);
           }
         });
@@ -710,56 +775,116 @@ const {
             target.innerHTML = svg;
 
             let scale = 1.0;
+            let panX = 0;
+            let panY = 0;
+            let isDragging = false;
+            let startX = 0;
+            let startY = 0;
+
             const svgElement = target.querySelector("svg");
-            if (svgElement) {
-              svgElement.style.transform = "scale(1)";
+            const viewport = wrapper.querySelector(".mermaid-viewport");
+
+            const updateTransform = () => {
+              if (svgElement) {
+                svgElement.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+              }
+            };
+
+            if (svgElement && viewport) {
+              updateTransform();
+
+              // Drag to Pan
+              viewport.addEventListener("mousedown", (e) => {
+                const targetEl = e.target;
+                if (targetEl && targetEl.closest && targetEl.closest(".mermaid-toolbar")) return;
+                isDragging = true;
+                startX = e.clientX - panX;
+                startY = e.clientY - panY;
+                viewport.style.cursor = "grabbing";
+              });
+
+              window.addEventListener("mousemove", (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+                panX = e.clientX - startX;
+                panY = e.clientY - startY;
+                updateTransform();
+              });
+
+              window.addEventListener("mouseup", () => {
+                if (isDragging) {
+                  isDragging = false;
+                  viewport.style.cursor = "grab";
+                }
+              });
+
+              // Touch Pan for Mobile
+              viewport.addEventListener("touchstart", (e) => {
+                const targetEl = e.target;
+                if (targetEl && targetEl.closest && targetEl.closest(".mermaid-toolbar")) return;
+                if (e.touches.length === 1) {
+                  isDragging = true;
+                  startX = e.touches[0].clientX - panX;
+                  startY = e.touches[0].clientY - panY;
+                }
+              }, { passive: true });
+
+              viewport.addEventListener("touchmove", (e) => {
+                if (!isDragging || e.touches.length !== 1) return;
+                panX = e.touches[0].clientX - startX;
+                panY = e.touches[0].clientY - startY;
+                updateTransform();
+              }, { passive: true });
+
+              viewport.addEventListener("touchend", () => {
+                isDragging = false;
+              });
+
+              // Mouse Wheel Zoom
+              viewport.addEventListener("wheel", (e) => {
+                if (e.ctrlKey || e.metaKey || viewport.matches(":hover")) {
+                  e.preventDefault();
+                  const delta = e.deltaY < 0 ? 0.15 : -0.15;
+                  scale = Math.min(Math.max(scale + delta, 0.3), 4.0);
+                  updateTransform();
+                }
+              }, { passive: false });
 
               const btnZoomIn = wrapper.querySelector(".btn-zoom-in");
               const btnZoomOut = wrapper.querySelector(".btn-zoom-out");
               const btnZoomReset = wrapper.querySelector(".btn-zoom-reset");
               const btnFullscreen = wrapper.querySelector(".btn-fullscreen");
 
-              btnZoomIn?.replaceWith(btnZoomIn.cloneNode(true));
-              btnZoomOut?.replaceWith(btnZoomOut.cloneNode(true));
-              btnZoomReset?.replaceWith(btnZoomReset.cloneNode(true));
-              btnFullscreen?.replaceWith(btnFullscreen.cloneNode(true));
+              btnZoomIn?.addEventListener("click", () => {
+                scale = Math.min(scale + 0.25, 4.0);
+                updateTransform();
+              });
 
-              wrapper
-                .querySelector(".btn-zoom-in")
-                ?.addEventListener("click", () => {
-                  scale = Math.min(scale + 0.2, 3.0);
-                  svgElement.style.transform = `scale(${scale})`;
-                });
+              btnZoomOut?.addEventListener("click", () => {
+                scale = Math.max(scale - 0.25, 0.3);
+                updateTransform();
+              });
 
-              wrapper
-                .querySelector(".btn-zoom-out")
-                ?.addEventListener("click", () => {
-                  scale = Math.max(scale - 0.2, 0.4);
-                  svgElement.style.transform = `scale(${scale})`;
-                });
+              btnZoomReset?.addEventListener("click", () => {
+                scale = 1.0;
+                panX = 0;
+                panY = 0;
+                updateTransform();
+              });
 
-              wrapper
-                .querySelector(".btn-zoom-reset")
-                ?.addEventListener("click", () => {
-                  scale = 1.0;
-                  svgElement.style.transform = "scale(1)";
-                });
-
-              wrapper
-                .querySelector(".btn-fullscreen")
-                ?.addEventListener("click", () => {
-                  const modal = ensureModal();
-                  const modalBody = modal.querySelector("#mermaid-modal-body");
-                  if (modalBody) {
-                    modalBody.innerHTML = svg;
-                    activeModalSvg = modalBody.querySelector("svg");
-                    modalScale = 1.0;
-                    if (activeModalSvg)
-                      activeModalSvg.style.transform = "scale(1)";
-                    modal.classList.add("open");
-                    document.body.style.overflow = "hidden";
-                  }
-                });
+              btnFullscreen?.addEventListener("click", () => {
+                const modal = ensureModal();
+                const modalBody = modal.querySelector("#mermaid-modal-body");
+                if (modalBody) {
+                  modalBody.innerHTML = svg;
+                  activeModalSvg = modalBody.querySelector("svg");
+                  modalScale = 1.0;
+                  if (activeModalSvg)
+                    activeModalSvg.style.transform = "scale(1)";
+                  modal.classList.add("open");
+                  document.body.style.overflow = "hidden";
+                }
+              });
             }
           } catch (renderError) {
             console.warn("Mermaid rendering skipped for diagram:", renderError);

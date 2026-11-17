@@ -165,10 +165,17 @@
         codeText.startsWith("class ")
       ) {
         lang = "typescript";
+      } else if (
+        codeText.includes("├──") ||
+        codeText.includes("└──") ||
+        codeText.includes("│   ")
+      ) {
+        lang = "tree";
       }
     }
 
     const friendlyNames: Record<string, string> = {
+      tree: "PROJECT TREE",
       ts: "TYPESCRIPT",
       typescript: "TYPESCRIPT",
       js: "JAVASCRIPT",
@@ -280,19 +287,33 @@
     const trimmed = (code.textContent || "").trim();
     if (
       trimmed.startsWith("graph ") ||
+      trimmed.startsWith("graph\n") ||
       trimmed.startsWith("flowchart ") ||
+      trimmed.startsWith("flowchart\n") ||
       trimmed.startsWith("sequenceDiagram") ||
       trimmed.startsWith("classDiagram") ||
       trimmed.startsWith("stateDiagram") ||
+      trimmed.startsWith("stateDiagram-v2") ||
       trimmed.startsWith("erDiagram") ||
+      trimmed.startsWith("journey") ||
       trimmed.startsWith("gantt") ||
       trimmed.startsWith("pie") ||
-      trimmed.startsWith("journey") ||
-      trimmed.startsWith("mindmap") ||
-      trimmed.startsWith("timeline") ||
+      trimmed.startsWith("quadrantChart") ||
+      trimmed.startsWith("requirementDiagram") ||
       trimmed.startsWith("gitGraph") ||
       trimmed.startsWith("C4Context") ||
-      trimmed.startsWith("xychart-beta")
+      trimmed.startsWith("C4Container") ||
+      trimmed.startsWith("C4Component") ||
+      trimmed.startsWith("C4Dynamic") ||
+      trimmed.startsWith("C4Deployment") ||
+      trimmed.startsWith("sankey-beta") ||
+      trimmed.startsWith("xychart-beta") ||
+      trimmed.startsWith("block-beta") ||
+      trimmed.startsWith("timeline") ||
+      trimmed.startsWith("mindmap") ||
+      trimmed.startsWith("architecture-beta") ||
+      trimmed.startsWith("packet-beta") ||
+      trimmed.startsWith("kanban")
     ) {
       return true;
     }

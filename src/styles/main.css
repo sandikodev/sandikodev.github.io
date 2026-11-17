@@ -973,9 +973,18 @@ footer p a:hover {
 
 .article-content pre code {
   display: block;
-  font-family: var(--font-mono, "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace) !important;
-  font-size: 0.84rem !important;
-  line-height: 1.45rem !important;
+  font-family: var(
+    --font-mono,
+    "JetBrains Mono",
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    monospace
+  ) !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
   tab-size: 2;
   white-space: pre !important;
   min-width: 100%;
@@ -990,7 +999,8 @@ footer p a:hover {
   )
   code {
   counter-reset: line;
-  font-size: 0; /* collapses \n text nodes Shiki injects between .line spans */
+  font-size: 0 !important; /* collapses \n text nodes Shiki injects between .line spans */
+  line-height: 0 !important;
 }
 
 .article-content
@@ -1002,10 +1012,13 @@ footer p a:hover {
   display: block;
   font-size: 0.84rem !important;
   padding-left: 3.6rem;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
   position: relative;
-  margin: 0;
+  margin: 0 !important;
   line-height: 1.45rem !important;
   min-height: 1.45rem !important;
+  height: 1.45rem !important;
   box-sizing: border-box;
   white-space: pre !important;
 }

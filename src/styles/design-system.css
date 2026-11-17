@@ -268,8 +268,20 @@ a:hover {
 
 /* Ensure code blocks in scalable content scope scale correctly */
 .scalable-content pre code {
-  font-size: var(--text-sm) !important;
-  line-height: 1.5 !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+.scalable-content pre code .line {
+  font-size: calc(0.84rem * var(--font-scale, 1)) !important;
+  line-height: calc(1.45rem * var(--font-scale, 1)) !important;
+  min-height: calc(1.45rem * var(--font-scale, 1)) !important;
+  height: calc(1.45rem * var(--font-scale, 1)) !important;
+}
+
+.scalable-content pre code .line::before {
+  height: calc(1.45rem * var(--font-scale, 1)) !important;
+  line-height: calc(1.45rem * var(--font-scale, 1)) !important;
 }
 
 /* Mermaid Theme Compatibility - Comprehensive synchronization */
