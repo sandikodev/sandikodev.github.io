@@ -86,24 +86,25 @@ const breadcrumbs = items.length > 0 ? items : generateBreadcrumbs();
   }
 
   .breadcrumb-link {
-    color: var(--text-secondary, #6b7280);
+    color: var(--color-text-muted);
     text-decoration: none;
-    transition: color 0.2s;
+    transition: color 0.2s ease;
   }
 
   .breadcrumb-link:hover {
-    color: var(--text-primary, #1f2937);
-    text-decoration: underline;
+    color: var(--color-primary);
+    text-decoration: none;
   }
 
   .breadcrumb-current {
-    color: var(--text-primary, #1f2937);
-    font-weight: 500;
+    color: var(--color-text-main);
+    font-weight: 600;
   }
 
   .breadcrumb-separator {
-    color: var(--text-secondary, #6b7280);
-    opacity: 0.6;
+    color: var(--color-text-muted);
+    opacity: 0.5;
+    user-select: none;
   }
 
   /* Dev Mode styling */

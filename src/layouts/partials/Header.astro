@@ -457,91 +457,110 @@ const currentPath = Astro.url.pathname;
 </style>
 
 <script>
-  // Theme toggle with smooth transition
-  const themeBtn = document.getElementById("theme-btn");
-  const html = document.documentElement;
+  let headerScrollInitialized = false;
 
-  themeBtn?.addEventListener("click", () => {
-    // Add transition class
-    html.classList.add("theme-transition");
+  function initHeaderControls() {
+    const html = document.documentElement;
 
-    html.classList.toggle("dark");
-    const isDark = html.classList.contains("dark");
+    // Theme toggle button
+    const themeBtn = document.getElementById("theme-btn");
+    if (themeBtn && !(themeBtn as any)._bound) {
+      (themeBtn as any)._bound = true;
+      themeBtn.addEventListener("click", () => {
+        html.classList.add("theme-transition");
+        const isDark = html.classList.toggle("dark");
+        localStorage.setItem("appearance", isDark ? "dark" : "light");
 
-    // Save with the new key to avoid collision with Workspace themes
-    localStorage.setItem("appearance", isDark ? "dark" : "light");
+        // Dispatch event for other components to react
+        html.dispatchEvent(
+          new CustomEvent("theme-change", {
+            detail: { theme: isDark ? "dark" : "light" },
+          }),
+        );
 
-    // Dispatch event for other components to react
-    html.dispatchEvent(
-      new CustomEvent("theme-change", {
-        detail: { theme: isDark ? "dark" : "light" },
-      }),
-    );
+        setTimeout(() => {
+          html.classList.remove("theme-transition");
+        }, 300);
+      });
+    }
 
-    // Remove transition class after animation completes
-    setTimeout(() => {
-      html.classList.remove("theme-transition");
-    }, 300);
-  });
+    // Mobile menu toggle
+    const mobileBtn = document.getElementById("mobile-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+    if (mobileBtn && !(mobileBtn as any)._bound) {
+      (mobileBtn as any)._bound = true;
+      mobileBtn.addEventListener("click", () => {
+        mobileMenu?.classList.toggle("open");
+      });
+    }
 
-  // Mobile menu
-  const mobileBtn = document.getElementById("mobile-btn");
-  const mobileMenu = document.getElementById("mobile-menu");
+    // Search shortcut
+    const searchBtn = document.getElementById("search-btn");
+    if (searchBtn && !(searchBtn as any)._bound) {
+      (searchBtn as any)._bound = true;
+      searchBtn.addEventListener("click", () => {
+        // Trigger command palette
+        const event = new KeyboardEvent("keydown", {
+          bubbles: true,
+          key: "k",
+          metaKey: true,
+        });
+        document.dispatchEvent(event);
+      });
+    }
 
-  mobileBtn?.addEventListener("click", () => {
-    mobileMenu?.classList.toggle("open");
-  });
-
-  // Search shortcut
-  const searchBtn = document.getElementById("search-btn");
-  searchBtn?.addEventListener("click", () => {
-    // Trigger command palette
-    const event = new KeyboardEvent("keydown", {
-      bubbles: true,
-      key: "k",
-      metaKey: true,
-    });
-    document.dispatchEvent(event);
-  });
-
-  // Close mobile menu on link click
-  mobileMenu?.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => {
-      mobileMenu.classList.remove("open");
-    });
-  });
-
-  // Smart Header Scroll
-  let lastScrollY = window.scrollY;
-  const header = document.getElementById("header");
-
-  window.addEventListener(
-    "scroll",
-    () => {
-      const currentScrollY = window.scrollY;
-
-      // Don't hide header if mobile menu is open
-      if (mobileMenu?.classList.contains("open")) return;
-
-      if (header) {
-        if (currentScrollY > lastScrollY && currentScrollY > 100) {
-          // Scrolling down
-          header.classList.add("scrolled-down");
-          header.classList.remove("scrolled-up");
-        } else if (currentScrollY < lastScrollY || currentScrollY <= 100) {
-          // Scrolling up or at top
-          header.classList.remove("scrolled-down");
-          if (currentScrollY > 20) {
-            header.classList.add("scrolled-up");
-          } else {
-            header.classList.remove("scrolled-up");
-          }
-        }
+    // Close mobile menu on link click
+    mobileMenu?.querySelectorAll("a").forEach((link) => {
+      if (!(link as any)._bound) {
+        (link as any)._bound = true;
+        link.addEventListener("click", () => {
+          mobileMenu?.classList.remove("open");
+        });
       }
-      lastScrollY = currentScrollY;
-    },
-    { passive: true },
-  );
+    });
+
+    // Smart Header Scroll
+    if (!headerScrollInitialized) {
+      headerScrollInitialized = true;
+      let lastScrollY = window.scrollY;
+
+      window.addEventListener(
+        "scroll",
+        () => {
+          const currentHeader = document.getElementById("header");
+          const currentMobileMenu = document.getElementById("mobile-menu");
+          const currentScrollY = window.scrollY;
+
+          // Don't hide header if mobile menu is open
+          if (currentMobileMenu?.classList.contains("open")) return;
+
+          if (currentHeader) {
+            if (currentScrollY > lastScrollY && currentScrollY > 100) {
+              // Scrolling down
+              currentHeader.classList.add("scrolled-down");
+              currentHeader.classList.remove("scrolled-up");
+            } else if (currentScrollY < lastScrollY || currentScrollY <= 100) {
+              // Scrolling up or at top
+              currentHeader.classList.remove("scrolled-down");
+              if (currentScrollY > 20) {
+                currentHeader.classList.add("scrolled-up");
+              } else {
+                currentHeader.classList.remove("scrolled-up");
+              }
+            }
+          }
+          lastScrollY = currentScrollY;
+        },
+        { passive: true },
+      );
+    }
+  }
+
+  // Initialize on page load and view transitions
+  document.addEventListener("astro:page-load", initHeaderControls);
+  if (document.readyState !== "loading") {
+    initHeaderControls();
+  }
 </script>
 
 <style is:global>
