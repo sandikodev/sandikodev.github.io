@@ -491,6 +491,12 @@ const {
         width: 15px;
         height: 15px;
       }
+      .mermaid-divider {
+        width: 1px;
+        height: 14px;
+        background: var(--color-border);
+        margin: 0 2px;
+      }
       .mermaid-viewport {
         overflow: hidden !important;
         padding: 2rem 1.5rem 4rem 1.5rem;
@@ -520,6 +526,87 @@ const {
         transform-origin: center center;
         user-select: none;
         will-change: transform;
+        overflow: visible;
+      }
+
+      /* Dark Mode Mermaid Text & Diagram Enhancements */
+      html.dark .mermaid-target svg text,
+      html[data-theme-mode="terminal"] .mermaid-target svg text,
+      html.dark .mermaid-target svg tspan,
+      html[data-theme-mode="terminal"] .mermaid-target svg tspan,
+      html.dark .mermaid-target svg .nodeLabel,
+      html.dark .mermaid-target svg .titleText,
+      html.dark .mermaid-target svg .taskText,
+      html.dark .mermaid-target svg .sectionTitle,
+      html.dark #mermaid-modal .mermaid-modal-body svg text,
+      html.dark #mermaid-modal .mermaid-modal-body svg tspan,
+      html.dark #mermaid-modal .mermaid-modal-body svg .nodeLabel,
+      html.dark #mermaid-modal .mermaid-modal-body svg .titleText {
+        fill: #ffffff !important;
+        color: #ffffff !important;
+      }
+
+      /* In Timeline diagrams: Ensure event and section text in Dark Mode is crisp white */
+      html.dark .mermaid-target svg .taskWrapper text,
+      html.dark .mermaid-target svg .eventWrapper text,
+      html.dark .mermaid-target svg [class*="section-"] text,
+      html.dark #mermaid-modal .mermaid-modal-body svg .taskWrapper text,
+      html.dark #mermaid-modal .mermaid-modal-body svg .eventWrapper text,
+      html.dark #mermaid-modal .mermaid-modal-body svg [class*="section-"] text {
+        fill: #ffffff !important;
+        color: #ffffff !important;
+        font-weight: 500;
+      }
+
+      /* Timeline section header cards in Dark Mode */
+      html.dark .mermaid-target svg [class*="section-"] rect,
+      html.dark #mermaid-modal .mermaid-modal-body svg [class*="section-"] rect {
+        stroke: rgba(255, 255, 255, 0.25) !important;
+        stroke-width: 1px !important;
+      }
+
+      /* Timeline event cards in Dark Mode */
+      html.dark .mermaid-target svg .eventWrapper rect,
+      html.dark .mermaid-target svg .taskWrapper rect,
+      html.dark #mermaid-modal .mermaid-modal-body svg .eventWrapper rect,
+      html.dark #mermaid-modal .mermaid-modal-body svg .taskWrapper rect {
+        stroke: rgba(255, 255, 255, 0.2) !important;
+        stroke-width: 1px !important;
+      }
+
+      /* Timeline line connectors in Dark Mode */
+      html.dark .mermaid-target svg .task-line,
+      html.dark .mermaid-target svg .lineWrapper line,
+      html.dark #mermaid-modal .mermaid-modal-body svg .task-line,
+      html.dark #mermaid-modal .mermaid-modal-body svg .lineWrapper line {
+        stroke: #94a3b8 !important;
+        stroke-width: 1.5px !important;
+      }
+
+      /* Gantt chart grid and timeline markers (VS Code Markdown Preview look) */
+      html.dark .mermaid-target svg .grid .tick line,
+      html.dark #mermaid-modal .mermaid-modal-body svg .grid .tick line {
+        stroke: rgba(255, 255, 255, 0.12) !important;
+      }
+      html.dark .mermaid-target svg .grid .tick text,
+      html.dark #mermaid-modal .mermaid-modal-body svg .grid .tick text {
+        fill: #94a3b8 !important;
+      }
+      html.dark .mermaid-target svg .today,
+      html.dark #mermaid-modal .mermaid-modal-body svg .today {
+        stroke: #ef4444 !important;
+        stroke-width: 2px !important;
+      }
+
+      /* Light Mode Contrast Tuning */
+      html:not(.dark):not([data-theme-mode="terminal"]) .mermaid-target svg text,
+      html:not(.dark):not([data-theme-mode="terminal"]) .mermaid-target svg tspan,
+      html:not(.dark):not([data-theme-mode="terminal"]) .mermaid-target svg .nodeLabel,
+      html:not(.dark):not([data-theme-mode="terminal"]) .mermaid-target svg .titleText,
+      html:not(.dark):not([data-theme-mode="terminal"]) #mermaid-modal .mermaid-modal-body svg text,
+      html:not(.dark):not([data-theme-mode="terminal"]) #mermaid-modal .mermaid-modal-body svg tspan {
+        fill: #0f172a !important;
+        color: #0f172a !important;
       }
       /* Mermaid Modal */
       #mermaid-modal {
@@ -571,12 +658,13 @@ const {
       }
     </style>
 
-    <!-- Mermaid Client-side Rendering with Interactive Zoom -->
+    <!-- Mermaid Client-side Rendering with Interactive Zoom & Copy -->
     <script is:inline type="module">
       import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
 
       let modalScale = 1.0;
       let activeModalSvg = null;
+      let activeModalRawContent = "";
 
       function ensureModal() {
         let modal = document.getElementById("mermaid-modal");
@@ -587,15 +675,20 @@ const {
             <div class="mermaid-modal-content">
               <div class="mermaid-modal-header">
                 <span style="font-weight: 600; font-size: 0.95rem; color: var(--color-text-main);">Diagram Zoom & Pan</span>
-                <div style="display: flex; gap: 0.5rem; align-items: center;">
-                  <button class="mermaid-btn" id="modal-zoom-out" title="Zoom Out">
+                <div style="display: flex; gap: 0.4rem; align-items: center;">
+                  <button class="mermaid-btn" id="modal-copy-btn" title="Salin Kode Mermaid (Copy)" aria-label="Copy Mermaid Code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    <svg class="check-icon" style="display:none; color: #10b981;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                  </button>
+                  <span class="mermaid-divider"></span>
+                  <button class="mermaid-btn" id="modal-zoom-out" title="Perkecil (-)">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
                   </button>
-                  <button class="mermaid-btn" id="modal-zoom-reset" title="Reset Zoom">1:1</button>
-                  <button class="mermaid-btn" id="modal-zoom-in" title="Zoom In">
+                  <button class="mermaid-btn" id="modal-zoom-reset" title="Reset Zoom (1:1)">1:1</button>
+                  <button class="mermaid-btn" id="modal-zoom-in" title="Perbesar (+)">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                   </button>
-                  <button class="mermaid-btn" id="modal-close" title="Close (Esc)" style="margin-left: 0.75rem; color: var(--color-error);">
+                  <button class="mermaid-btn" id="modal-close" title="Tutup (Esc)" style="margin-left: 0.5rem; color: var(--color-error);">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                   </button>
                 </div>
@@ -620,6 +713,28 @@ const {
             if (e.key === "Escape" && modal.classList.contains("open"))
               closeModal();
           });
+
+          modal
+            .querySelector("#modal-copy-btn")
+            ?.addEventListener("click", async () => {
+              if (!activeModalRawContent) return;
+              try {
+                await navigator.clipboard.writeText(activeModalRawContent);
+                const btn = modal.querySelector("#modal-copy-btn");
+                const copyIcon = btn?.querySelector(".copy-icon");
+                const checkIcon = btn?.querySelector(".check-icon");
+                if (copyIcon && checkIcon) {
+                  copyIcon.style.display = "none";
+                  checkIcon.style.display = "inline";
+                  setTimeout(() => {
+                    copyIcon.style.display = "inline";
+                    checkIcon.style.display = "none";
+                  }, 2000);
+                }
+              } catch (err) {
+                console.error("Gagal menyalin diagram:", err);
+              }
+            });
 
           modal
             .querySelector("#modal-zoom-in")
@@ -647,36 +762,8 @@ const {
 
       let diagramIndex = 0;
 
-      const initMermaid = async () => {
-        const isDarkMode =
-          document.documentElement.classList.contains("dark") ||
-          document.documentElement.getAttribute("data-theme-mode") ===
-            "terminal";
-
-        try {
-          mermaid.initialize({
-            fontFamily: "var(--font-primary)",
-            securityLevel: "loose",
-            startOnLoad: false,
-            theme: isDarkMode ? "dark" : "default",
-            themeVariables: {
-              darkMode: isDarkMode,
-              mainBkg: isDarkMode ? "#1e293b" : "#f8fafc",
-              nodeBorder: isDarkMode ? "#475569" : "#cbd5e1",
-              clusterBkg: isDarkMode ? "#0f172a" : "#f1f5f9",
-              clusterBorder: isDarkMode ? "#334155" : "#e2e8f0",
-              lineColor: isDarkMode ? "#60a5fa" : "#2563eb",
-              titleColor: isDarkMode ? "#f8fafc" : "#0f172a",
-              edgeLabelBackground: isDarkMode ? "#1e293b" : "#ffffff",
-              nodeTextColor: isDarkMode ? "#f8fafc" : "#0f172a",
-              fontSize: "14px",
-            },
-          });
-        } catch (e) {
-          console.warn("Mermaid init error:", e);
-        }
-
-        // Convert raw <pre> blocks containing mermaid to .mermaid-wrapper
+      // 1. Wrap raw pre blocks into .mermaid-wrapper
+      const wrapMermaidBlocks = () => {
         const blocks = document.querySelectorAll("pre");
         blocks.forEach((block) => {
           const code = block.querySelector("code");
@@ -733,24 +820,29 @@ const {
 
             wrapper.innerHTML = `
               <div class="mermaid-toolbar">
-                <span class="mermaid-hint" title="Click & drag to pan • Scroll to zoom">
+                <button class="mermaid-btn btn-copy-mermaid" title="Salin Kode Mermaid (Copy)" aria-label="Copy Mermaid Code">
+                  <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <svg class="check-icon" style="display:none; color: #10b981;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <span class="mermaid-divider"></span>
+                <span class="mermaid-hint" title="Klik & geser untuk pan • Scroll untuk zoom">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
                     <path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M12 2v20M2 12h20"/>
                   </svg>
                   PAN
                 </span>
-                <button class="mermaid-btn btn-zoom-out" title="Zoom Out (-)">
+                <button class="mermaid-btn btn-zoom-out" title="Perkecil (-)">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
                 </button>
-                <button class="mermaid-btn btn-zoom-reset" title="Reset Zoom & Pan">1:1</button>
-                <button class="mermaid-btn btn-zoom-in" title="Zoom In (+)">
+                <button class="mermaid-btn btn-zoom-reset" title="Reset Zoom & Pan (1:1)">1:1</button>
+                <button class="mermaid-btn btn-zoom-in" title="Perbesar (+)">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                 </button>
-                <button class="mermaid-btn btn-fullscreen" title="Fullscreen View">
+                <button class="mermaid-btn btn-fullscreen" title="Layar Penuh (Fullscreen)">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
                 </button>
               </div>
-              <div class="mermaid-viewport" title="Click & drag to pan • Scroll to zoom">
+              <div class="mermaid-viewport" title="Klik & geser untuk pan • Scroll untuk zoom">
                 <div class="mermaid-target"></div>
               </div>
             `;
@@ -758,10 +850,288 @@ const {
             const containerToReplace =
               block.closest(".code-block-wrapper") || block;
             containerToReplace.replaceWith(wrapper);
+
+            setupWrapperInteractions(wrapper);
           }
         });
+      };
 
-        // Render each wrapper with mermaid.render
+      // 2. Setup pan/zoom & copy handlers once per wrapper
+      const setupWrapperInteractions = (wrapper) => {
+        if (wrapper.getAttribute("data-bound") === "true") return;
+        wrapper.setAttribute("data-bound", "true");
+
+        let scale = 1.0;
+        let panX = 0;
+        let panY = 0;
+        let isDragging = false;
+        let startX = 0;
+        let startY = 0;
+
+        const target = wrapper.querySelector(".mermaid-target");
+        const viewport = wrapper.querySelector(".mermaid-viewport");
+
+        const updateTransform = () => {
+          const svgElement = target?.querySelector("svg");
+          if (svgElement) {
+            svgElement.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+          }
+        };
+
+        // Attach transform updater to wrapper so renderer can call it
+        wrapper._updateTransform = updateTransform;
+
+        if (viewport) {
+          // Drag to Pan (Mouse)
+          viewport.addEventListener("mousedown", (e) => {
+            const targetEl = e.target;
+            if (targetEl && targetEl.closest && targetEl.closest(".mermaid-toolbar")) return;
+            isDragging = true;
+            startX = e.clientX - panX;
+            startY = e.clientY - panY;
+            viewport.style.cursor = "grabbing";
+          });
+
+          window.addEventListener("mousemove", (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            panX = e.clientX - startX;
+            panY = e.clientY - startY;
+            updateTransform();
+          });
+
+          window.addEventListener("mouseup", () => {
+            if (isDragging) {
+              isDragging = false;
+              viewport.style.cursor = "grab";
+            }
+          });
+
+          // Touch Pan (Mobile)
+          viewport.addEventListener(
+            "touchstart",
+            (e) => {
+              const targetEl = e.target;
+              if (targetEl && targetEl.closest && targetEl.closest(".mermaid-toolbar")) return;
+              if (e.touches.length === 1) {
+                isDragging = true;
+                startX = e.touches[0].clientX - panX;
+                startY = e.touches[0].clientY - panY;
+              }
+            },
+            { passive: true },
+          );
+
+          viewport.addEventListener(
+            "touchmove",
+            (e) => {
+              if (!isDragging || e.touches.length !== 1) return;
+              panX = e.touches[0].clientX - startX;
+              panY = e.touches[0].clientY - startY;
+              updateTransform();
+            },
+            { passive: true },
+          );
+
+          viewport.addEventListener("touchend", () => {
+            isDragging = false;
+          });
+
+          // Mouse Wheel Zoom
+          viewport.addEventListener(
+            "wheel",
+            (e) => {
+              if (e.ctrlKey || e.metaKey || viewport.matches(":hover")) {
+                e.preventDefault();
+                const delta = e.deltaY < 0 ? 0.15 : -0.15;
+                scale = Math.min(Math.max(scale + delta, 0.3), 4.0);
+                updateTransform();
+              }
+            },
+            { passive: false },
+          );
+
+          // Copy Button
+          const btnCopy = wrapper.querySelector(".btn-copy-mermaid");
+          btnCopy?.addEventListener("click", async (e) => {
+            e.stopPropagation();
+            const rawContent = wrapper.getAttribute("data-raw-content") || "";
+            try {
+              await navigator.clipboard.writeText(rawContent);
+              const copyIcon = btnCopy.querySelector(".copy-icon");
+              const checkIcon = btnCopy.querySelector(".check-icon");
+              if (copyIcon && checkIcon) {
+                copyIcon.style.display = "none";
+                checkIcon.style.display = "inline";
+                btnCopy.setAttribute("title", "Tersalin!");
+                setTimeout(() => {
+                  copyIcon.style.display = "inline";
+                  checkIcon.style.display = "none";
+                  btnCopy.setAttribute("title", "Salin Kode Mermaid (Copy)");
+                }, 2000);
+              }
+            } catch (err) {
+              console.error("Gagal menyalin diagram:", err);
+            }
+          });
+
+          // Zoom In
+          const btnZoomIn = wrapper.querySelector(".btn-zoom-in");
+          btnZoomIn?.addEventListener("click", () => {
+            scale = Math.min(scale + 0.25, 4.0);
+            updateTransform();
+          });
+
+          // Zoom Out
+          const btnZoomOut = wrapper.querySelector(".btn-zoom-out");
+          btnZoomOut?.addEventListener("click", () => {
+            scale = Math.max(scale - 0.25, 0.3);
+            updateTransform();
+          });
+
+          // Reset Zoom & Pan
+          const btnZoomReset = wrapper.querySelector(".btn-zoom-reset");
+          btnZoomReset?.addEventListener("click", () => {
+            scale = 1.0;
+            panX = 0;
+            panY = 0;
+            updateTransform();
+          });
+
+          // Fullscreen Modal
+          const btnFullscreen = wrapper.querySelector(".btn-fullscreen");
+          btnFullscreen?.addEventListener("click", () => {
+            const rawContent = wrapper.getAttribute("data-raw-content") || "";
+            activeModalRawContent = rawContent;
+            const modal = ensureModal();
+            const modalBody = modal.querySelector("#mermaid-modal-body");
+            const currentSvg = target?.querySelector("svg");
+            if (modalBody && currentSvg) {
+              modalBody.innerHTML = currentSvg.outerHTML;
+              activeModalSvg = modalBody.querySelector("svg");
+              modalScale = 1.0;
+              if (activeModalSvg) activeModalSvg.style.transform = "scale(1)";
+              modal.classList.add("open");
+              document.body.style.overflow = "hidden";
+            }
+          });
+        }
+      };
+
+      // 3. Render / Re-render SVGs with current theme
+      let renderCounter = 0;
+      const renderMermaidDiagrams = async () => {
+        const isDarkMode =
+          document.documentElement.classList.contains("dark") ||
+          document.documentElement.getAttribute("data-theme-mode") ===
+            "terminal";
+
+        try {
+          mermaid.initialize({
+            fontFamily: "var(--font-primary)",
+            securityLevel: "loose",
+            startOnLoad: false,
+            theme: isDarkMode ? "dark" : "default",
+            themeVariables: {
+              darkMode: isDarkMode,
+              background: isDarkMode ? "#0f172a" : "#ffffff",
+              mainBkg: isDarkMode ? "#1e293b" : "#f8fafc",
+              secondBkg: isDarkMode ? "#0f172a" : "#f1f5f9",
+              primaryColor: isDarkMode ? "#3b82f6" : "#2563eb",
+              primaryTextColor: isDarkMode ? "#ffffff" : "#0f172a",
+              primaryBorderColor: isDarkMode ? "#60a5fa" : "#3b82f6",
+              secondaryColor: isDarkMode ? "#8b5cf6" : "#7c3aed",
+              secondaryTextColor: isDarkMode ? "#ffffff" : "#0f172a",
+              secondaryBorderColor: isDarkMode ? "#a78bfa" : "#8b5cf6",
+              tertiaryColor: isDarkMode ? "#10b981" : "#059669",
+              tertiaryTextColor: isDarkMode ? "#ffffff" : "#0f172a",
+              tertiaryBorderColor: isDarkMode ? "#34d399" : "#10b981",
+              textColor: isDarkMode ? "#f8fafc" : "#0f172a",
+              titleColor: isDarkMode ? "#ffffff" : "#0f172a",
+              nodeTextColor: isDarkMode ? "#ffffff" : "#0f172a",
+              lineColor: isDarkMode ? "#94a3b8" : "#475569",
+              nodeBorder: isDarkMode ? "#475569" : "#cbd5e1",
+              clusterBkg: isDarkMode ? "#0f172a" : "#f1f5f9",
+              clusterBorder: isDarkMode ? "#334155" : "#cbd5e1",
+              edgeLabelBackground: isDarkMode ? "#1e293b" : "#ffffff",
+              fontSize: "14px",
+
+              // Timeline & Palette Variables (High Contrast)
+              scaleLabelColor: isDarkMode ? "#ffffff" : "#0f172a",
+              cScale0: isDarkMode ? "#1d4ed8" : "#dbeafe",
+              cScale1: isDarkMode ? "#6d28d9" : "#ede9fe",
+              cScale2: isDarkMode ? "#047857" : "#d1fae5",
+              cScale3: isDarkMode ? "#b45309" : "#fef3c7",
+              cScale4: isDarkMode ? "#be185d" : "#fce7f3",
+              cScale5: isDarkMode ? "#0f766e" : "#ccfbf1",
+              cScale6: isDarkMode ? "#334155" : "#f1f5f9",
+              cScale7: isDarkMode ? "#4338ca" : "#e0e7ff",
+              cScale8: isDarkMode ? "#701a75" : "#fae8ff",
+              cScale9: isDarkMode ? "#b91c1c" : "#fee2e2",
+              cScale10: isDarkMode ? "#0369a1" : "#e0f2fe",
+              cScale11: isDarkMode ? "#15803d" : "#dcfce7",
+
+              cScaleLabel0: isDarkMode ? "#ffffff" : "#0f172a",
+              cScaleLabel1: isDarkMode ? "#ffffff" : "#0f172a",
+              cScaleLabel2: isDarkMode ? "#ffffff" : "#0f172a",
+              cScaleLabel3: isDarkMode ? "#ffffff" : "#0f172a",
+              cScaleLabel4: isDarkMode ? "#ffffff" : "#0f172a",
+              cScaleLabel5: isDarkMode ? "#ffffff" : "#0f172a",
+              cScaleLabel6: isDarkMode ? "#ffffff" : "#0f172a",
+              cScaleLabel7: isDarkMode ? "#ffffff" : "#0f172a",
+              cScaleLabel8: isDarkMode ? "#ffffff" : "#0f172a",
+              cScaleLabel9: isDarkMode ? "#ffffff" : "#0f172a",
+              cScaleLabel10: isDarkMode ? "#ffffff" : "#0f172a",
+              cScaleLabel11: isDarkMode ? "#ffffff" : "#0f172a",
+
+              cScaleInv0: isDarkMode ? "#93c5fd" : "#1e40af",
+              cScaleInv1: isDarkMode ? "#c4b5fd" : "#5b21b6",
+              cScaleInv2: isDarkMode ? "#6ee7b7" : "#065f46",
+              cScaleInv3: isDarkMode ? "#fde68a" : "#92400e",
+              cScaleInv4: isDarkMode ? "#fbcfe8" : "#9d174d",
+              cScaleInv5: isDarkMode ? "#99f6e4" : "#115e59",
+              cScaleInv6: isDarkMode ? "#cbd5e1" : "#334155",
+              cScaleInv7: isDarkMode ? "#c7d2fe" : "#3730a3",
+              cScaleInv8: isDarkMode ? "#f5d0fe" : "#6b21a8",
+              cScaleInv9: isDarkMode ? "#fecaca" : "#991b1b",
+              cScaleInv10: isDarkMode ? "#bae6fd" : "#075985",
+              cScaleInv11: isDarkMode ? "#bbf7d0" : "#166534",
+
+              // Gantt Chart Variables (Clean VS Code Preview style)
+              sectionBkgColor: isDarkMode ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.03)",
+              altSectionBkgColor: isDarkMode ? "rgba(255, 255, 255, 0.09)" : "rgba(0, 0, 0, 0.06)",
+              sectionBkgColor2: isDarkMode ? "rgba(255, 255, 255, 0.03)" : "rgba(0, 0, 0, 0.02)",
+              taskTextColor: isDarkMode ? "#ffffff" : "#0f172a",
+              taskTextLightColor: isDarkMode ? "#ffffff" : "#0f172a",
+              taskTextOutsideColor: isDarkMode ? "#ffffff" : "#0f172a",
+              taskTextDarkColor: isDarkMode ? "#ffffff" : "#0f172a",
+              taskTextClickableColor: isDarkMode ? "#60a5fa" : "#2563eb",
+              taskBkgColor: isDarkMode ? "#2563eb" : "#93c5fd",
+              taskBorderColor: isDarkMode ? "#3b82f6" : "#2563eb",
+              activeTaskBkgColor: isDarkMode ? "#1d4ed8" : "#60a5fa",
+              activeTaskBorderColor: isDarkMode ? "#60a5fa" : "#2563eb",
+              doneTaskBkgColor: isDarkMode ? "#334155" : "#e2e8f0",
+              doneTaskBorderColor: isDarkMode ? "#64748b" : "#94a3b8",
+              critBkgColor: isDarkMode ? "#b91c1c" : "#fca5a5",
+              critBorderColor: isDarkMode ? "#ef4444" : "#dc2626",
+              gridColor: isDarkMode ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.12)",
+              todayLineColor: "#ef4444",
+
+              // Git Graph Variables
+              git0: isDarkMode ? "#3b82f6" : "#2563eb",
+              git1: isDarkMode ? "#8b5cf6" : "#7c3aed",
+              git2: isDarkMode ? "#10b981" : "#059669",
+              git3: isDarkMode ? "#f59e0b" : "#d97706",
+              gitBranchLabel0: isDarkMode ? "#ffffff" : "#0f172a",
+              gitBranchLabel1: isDarkMode ? "#ffffff" : "#0f172a",
+              gitBranchLabel2: isDarkMode ? "#ffffff" : "#0f172a",
+              gitBranchLabel3: isDarkMode ? "#ffffff" : "#0f172a",
+            },
+          });
+        } catch (e) {
+          console.warn("Mermaid init error:", e);
+        }
+
         const wrappers = document.querySelectorAll(".mermaid-wrapper");
         for (let i = 0; i < wrappers.length; i++) {
           const wrapper = wrappers[i];
@@ -770,121 +1140,12 @@ const {
           if (!rawContent || !target) continue;
 
           try {
-            const uniqueRenderId = "mermaid-svg-" + Date.now() + "-" + i;
+            renderCounter++;
+            const uniqueRenderId = "mermaid-svg-" + Date.now() + "-" + renderCounter;
             const { svg } = await mermaid.render(uniqueRenderId, rawContent);
             target.innerHTML = svg;
-
-            let scale = 1.0;
-            let panX = 0;
-            let panY = 0;
-            let isDragging = false;
-            let startX = 0;
-            let startY = 0;
-
-            const svgElement = target.querySelector("svg");
-            const viewport = wrapper.querySelector(".mermaid-viewport");
-
-            const updateTransform = () => {
-              if (svgElement) {
-                svgElement.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
-              }
-            };
-
-            if (svgElement && viewport) {
-              updateTransform();
-
-              // Drag to Pan
-              viewport.addEventListener("mousedown", (e) => {
-                const targetEl = e.target;
-                if (targetEl && targetEl.closest && targetEl.closest(".mermaid-toolbar")) return;
-                isDragging = true;
-                startX = e.clientX - panX;
-                startY = e.clientY - panY;
-                viewport.style.cursor = "grabbing";
-              });
-
-              window.addEventListener("mousemove", (e) => {
-                if (!isDragging) return;
-                e.preventDefault();
-                panX = e.clientX - startX;
-                panY = e.clientY - startY;
-                updateTransform();
-              });
-
-              window.addEventListener("mouseup", () => {
-                if (isDragging) {
-                  isDragging = false;
-                  viewport.style.cursor = "grab";
-                }
-              });
-
-              // Touch Pan for Mobile
-              viewport.addEventListener("touchstart", (e) => {
-                const targetEl = e.target;
-                if (targetEl && targetEl.closest && targetEl.closest(".mermaid-toolbar")) return;
-                if (e.touches.length === 1) {
-                  isDragging = true;
-                  startX = e.touches[0].clientX - panX;
-                  startY = e.touches[0].clientY - panY;
-                }
-              }, { passive: true });
-
-              viewport.addEventListener("touchmove", (e) => {
-                if (!isDragging || e.touches.length !== 1) return;
-                panX = e.touches[0].clientX - startX;
-                panY = e.touches[0].clientY - startY;
-                updateTransform();
-              }, { passive: true });
-
-              viewport.addEventListener("touchend", () => {
-                isDragging = false;
-              });
-
-              // Mouse Wheel Zoom
-              viewport.addEventListener("wheel", (e) => {
-                if (e.ctrlKey || e.metaKey || viewport.matches(":hover")) {
-                  e.preventDefault();
-                  const delta = e.deltaY < 0 ? 0.15 : -0.15;
-                  scale = Math.min(Math.max(scale + delta, 0.3), 4.0);
-                  updateTransform();
-                }
-              }, { passive: false });
-
-              const btnZoomIn = wrapper.querySelector(".btn-zoom-in");
-              const btnZoomOut = wrapper.querySelector(".btn-zoom-out");
-              const btnZoomReset = wrapper.querySelector(".btn-zoom-reset");
-              const btnFullscreen = wrapper.querySelector(".btn-fullscreen");
-
-              btnZoomIn?.addEventListener("click", () => {
-                scale = Math.min(scale + 0.25, 4.0);
-                updateTransform();
-              });
-
-              btnZoomOut?.addEventListener("click", () => {
-                scale = Math.max(scale - 0.25, 0.3);
-                updateTransform();
-              });
-
-              btnZoomReset?.addEventListener("click", () => {
-                scale = 1.0;
-                panX = 0;
-                panY = 0;
-                updateTransform();
-              });
-
-              btnFullscreen?.addEventListener("click", () => {
-                const modal = ensureModal();
-                const modalBody = modal.querySelector("#mermaid-modal-body");
-                if (modalBody) {
-                  modalBody.innerHTML = svg;
-                  activeModalSvg = modalBody.querySelector("svg");
-                  modalScale = 1.0;
-                  if (activeModalSvg)
-                    activeModalSvg.style.transform = "scale(1)";
-                  modal.classList.add("open");
-                  document.body.style.overflow = "hidden";
-                }
-              });
+            if (wrapper._updateTransform) {
+              wrapper._updateTransform();
             }
           } catch (renderError) {
             console.warn("Mermaid rendering skipped for diagram:", renderError);
@@ -892,9 +1153,14 @@ const {
         }
       };
 
+      const initMermaid = async () => {
+        wrapMermaidBlocks();
+        await renderMermaidDiagrams();
+      };
+
       document.addEventListener("astro:page-load", initMermaid);
       document.documentElement.addEventListener("theme-change", () => {
-        initMermaid();
+        renderMermaidDiagrams();
       });
       if (document.readyState !== "loading") {
         initMermaid();

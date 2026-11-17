@@ -285,28 +285,26 @@ a:hover {
 }
 
 /* Mermaid Theme Compatibility - Comprehensive synchronization */
-.mermaid svg {
+.mermaid svg,
+.mermaid-target svg {
   background: transparent !important;
 }
 
-/* Base Node Styling - Uses system tokens by default, but allows overrides */
-.mermaid .node rect,
-.mermaid .node polygon,
-.mermaid .node circle,
-.mermaid .node path,
-.mermaid .node ellipse,
+/* Base Node Styling - Fallback for unstyled nodes without overriding color palettes */
+.mermaid .node:not([class*="color"]):not([class*="fill"]) rect:not([fill]),
+.mermaid .node:not([class*="color"]):not([class*="fill"]) polygon:not([fill]),
 .mermaid .actor,
 .mermaid rect.actor {
-  fill: var(--color-surface) !important;
-  stroke: var(--color-border) !important;
-  stroke-width: 1.5px !important;
+  fill: var(--color-surface);
+  stroke: var(--color-border);
+  stroke-width: 1.5px;
 }
 
 /* Arrows and lines in diagrams - High visibility across themes */
-.mermaid svg path,
-.mermaid svg line,
 .mermaid .edgePath .path,
-.mermaid .flowchart-link {
+.mermaid .flowchart-link,
+.mermaid-target .edgePath .path,
+.mermaid-target .flowchart-link {
   stroke: var(--color-primary) !important;
   stroke-width: 2px !important;
   stroke-opacity: 0.8 !important;
@@ -326,15 +324,30 @@ a:hover {
 .mermaid .actor text,
 .mermaid div,
 .mermaid span,
-.mermaid p {
-  fill: var(--color-text-main) !important;
-  color: var(--color-text-main) !important;
+.mermaid p,
+.mermaid-target text,
+.mermaid-target tspan,
+.mermaid-target .nodeLabel,
+.mermaid-target .label-container,
+.mermaid-target .label text,
+.mermaid-target .edgeLabel,
+.mermaid-target .messageText,
+.mermaid-target .noteText,
+.mermaid-target .actor-label,
+.mermaid-target .labelText,
+.mermaid-target .loopText,
+.mermaid-target .actor text,
+.mermaid-target div,
+.mermaid-target span,
+.mermaid-target p {
   font-family: var(--font-primary) !important;
 }
 
 /* Specific fix for HTML-based labels in foreignObject nodes */
 .mermaid div,
-.mermaid span {
+.mermaid span,
+.mermaid-target div,
+.mermaid-target span {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -342,7 +355,10 @@ a:hover {
 
 .mermaid marker path,
 .mermaid marker polygon,
-.mermaid .arrowheadPath {
+.mermaid .arrowheadPath,
+.mermaid-target marker path,
+.mermaid-target marker polygon,
+.mermaid-target .arrowheadPath {
   fill: var(--color-primary) !important;
   stroke: var(--color-primary) !important;
 }
