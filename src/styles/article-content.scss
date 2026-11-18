@@ -90,6 +90,16 @@ $not-diagram: ':not([data-language="mermaid"]):not([data-language="math"]):not([
     margin: 1.5rem 0;
   }
 
+  // ── KaTeX Math Display ────────────────────────────────────────────────────
+  :global(.katex-display) {
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    margin: 1.5rem 0;
+  }
+
   // ── Code blocks ───────────────────────────────────────────────────────────
   :global(pre) {
     margin-top: 0 !important;

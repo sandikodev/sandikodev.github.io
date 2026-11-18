@@ -189,6 +189,16 @@ const title = entry.data.title;
     min-width: 220px;
   }
 
+  @media (max-width: 1024px) {
+    .column-outline,
+    .column-main,
+    .column-utils {
+      min-width: 0 !important;
+      width: 100% !important;
+      flex: 1 1 auto !important;
+    }
+  }
+
   /* Article Styling */
   .workspace-article {
     padding: 2rem;

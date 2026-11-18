@@ -191,6 +191,8 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
+  overflow-x: clip;
+  max-width: 100%;
 }
 
 body {
@@ -198,6 +200,8 @@ body {
   color: var(--color-text-body);
   line-height: var(--leading-relaxed);
   margin: 0;
+  overflow-x: clip;
+  max-width: 100%;
 }
 
 h1,
@@ -457,4 +461,13 @@ pre,
       rgba(0, 0, 0, 0)
     );
   }
+}
+
+/* ─── KaTeX Math Display Overflow Safety ────────────────────────── */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
 }
