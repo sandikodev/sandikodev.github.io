@@ -12,6 +12,7 @@
     "lint:fix": "eslint . --fix",
     "dev:all": "concurrently \"pnpm dev\" \"pnpm cms\"",
     "preview": "astro preview",
+    "capture:responsive": "node scripts/capture-responsive.js",
     "validate": "pnpm format && pnpm lint && astro check",
     "prepare": "husky"
   },

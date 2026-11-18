@@ -78,10 +78,24 @@ $not-diagram: ':not([data-language="mermaid"]):not([data-language="math"]):not([
     margin-bottom: 1.75em !important;
   }
 
+  // ── Tables ────────────────────────────────────────────────────────────────
+  :global(table) {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+  }
+
   // ── Code blocks ───────────────────────────────────────────────────────────
   :global(pre) {
     margin-top: 0 !important;
     margin-bottom: 1.5rem !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   // Line numbers — only for code snippets, not diagrams

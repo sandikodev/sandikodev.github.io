@@ -26,6 +26,7 @@ package-lock.json
 
 # Working notes
 .notes/
+.sisyphus/
 
 # Development packages (now tracked as submodules)
 # packages/astro-deck/  # Removed: now a proper submodule

@@ -178,7 +178,7 @@ const currentPath = Astro.url.pathname;
   .nav {
     max-width: var(--max-width-container);
     margin: 0 auto;
-    padding: 0 var(--spacing-6);
+    padding: 0 var(--container-padding);
     height: 64px;
     display: flex;
     align-items: center;
@@ -316,14 +316,15 @@ const currentPath = Astro.url.pathname;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    min-width: 44px;
+    min-height: 44px;
     border: none;
     background: transparent;
     color: var(--color-text-muted);
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     cursor: pointer;
     transition: var(--transition-all);
+    touch-action: manipulation;
   }
 
   :global(.dark) .icon-btn {
@@ -352,44 +353,91 @@ const currentPath = Astro.url.pathname;
 
   .mobile-btn {
     display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    border: none;
+    background: transparent;
+    color: var(--color-text-muted);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition-all);
+    touch-action: manipulation;
+  }
+
+  .mobile-btn:hover {
+    background: var(--color-bg-secondary);
+    color: var(--color-text-main);
+  }
+
+  :global(.dark) .mobile-btn:hover {
+    background: var(--color-bg-tertiary);
+    color: var(--color-text-main);
   }
 
   .mobile-btn svg path {
-    transition: all 0.2s ease;
+    transition:
+      transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.2s ease;
     transform-origin: center;
+  }
+
+  .mobile-btn.open .line1 {
+    transform: translateY(4px) rotate(45deg);
+  }
+
+  .mobile-btn.open .line2 {
+    opacity: 0;
+  }
+
+  .mobile-btn.open .line3 {
+    transform: translateY(-4px) rotate(-45deg);
   }
 
   .mobile-menu {
     display: block;
     max-height: 0;
     overflow: hidden;
-    padding: 0 1rem;
-    background: rgba(255, 255, 255, 0.95);
+    padding: 0 var(--container-padding);
+    background: rgba(255, 255, 255, 0.96);
     backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-top: 1px solid transparent;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition:
+      max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+      padding 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.3s ease;
+    box-sizing: border-box;
+    width: 100%;
   }
 
   :global(.dark) .mobile-menu {
-    background: rgba(15, 23, 42, 0.95);
+    background: rgba(15, 23, 42, 0.96);
   }
 
   .mobile-menu.open {
-    max-height: 400px;
-    padding: 1rem;
+    max-height: 75vh;
+    overflow-y: auto;
+    padding-top: 1rem;
+    padding-bottom: 1.5rem;
     border-top-color: var(--color-border);
+    -webkit-overflow-scrolling: touch;
   }
 
   .mobile-link {
-    display: block;
+    display: flex;
+    align-items: center;
+    min-height: 44px;
     font-family: var(--font-primary);
     font-size: var(--text-base);
     font-weight: 500;
     color: var(--color-text-muted);
     text-decoration: none;
-    padding: 0.75rem 0.5rem;
+    padding: 0.5rem 0.75rem;
     border-radius: var(--radius-md);
     transition: var(--transition-all);
+    touch-action: manipulation;
   }
 
   :global(.dark) .mobile-link {
@@ -490,7 +538,9 @@ const currentPath = Astro.url.pathname;
     if (mobileBtn && !(mobileBtn as any)._bound) {
       (mobileBtn as any)._bound = true;
       mobileBtn.addEventListener("click", () => {
-        mobileMenu?.classList.toggle("open");
+        const isOpen = mobileMenu?.classList.toggle("open");
+        mobileBtn.classList.toggle("open", Boolean(isOpen));
+        mobileBtn.setAttribute("aria-expanded", String(Boolean(isOpen)));
       });
     }
 
@@ -515,6 +565,8 @@ const currentPath = Astro.url.pathname;
         (link as any)._bound = true;
         link.addEventListener("click", () => {
           mobileMenu?.classList.remove("open");
+          mobileBtn?.classList.remove("open");
+          mobileBtn?.setAttribute("aria-expanded", "false");
         });
       }
     });

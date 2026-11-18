@@ -132,6 +132,14 @@ const appShortcuts = [
 </I3Layout>
 
 <style>
+  @media (max-width: 768px) {
+    .i3-split-h,
+    .i3-split-v {
+      flex: none !important;
+      width: 100% !important;
+    }
+  }
+
   .terminal-scrollback {
     padding: 16px;
   }
