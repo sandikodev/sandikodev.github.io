@@ -504,9 +504,10 @@ const {
         justify-content: center;
         align-items: center;
         min-height: 180px;
+        max-height: 75vh;
         cursor: grab;
         user-select: none;
-        touch-action: none;
+        touch-action: pan-y;
         position: relative;
       }
       .mermaid-viewport:active {
@@ -704,34 +705,58 @@ const {
       let activeModalSvg = null;
       let activeModalRawContent = "";
 
-      // Zoom berbasis ukuran layout (bukan CSS scale) agar vektor dirender ulang dan tetap tajam
-      const measureBase = (svg, maxW) => {
+      // Zoom berbasis CSS transform (scale & translate) dengan ukuran layout terkunci
+      // agar card/viewport tidak melonjak/resize di dalam artikel
+      const measureBase = (svg, maxW, maxH) => {
         const vb = svg.viewBox && svg.viewBox.baseVal;
         let w = vb && vb.width ? vb.width : svg.getBoundingClientRect().width;
         let h =
           vb && vb.height ? vb.height : svg.getBoundingClientRect().height;
+        if (!w || !h) {
+          try {
+            const bbox = svg.getBBox();
+            w = bbox.width || 400;
+            h = bbox.height || 250;
+          } catch {
+            w = 400;
+            h = 250;
+          }
+        }
         if (maxW && w > maxW) {
           h = (h * maxW) / w;
           w = maxW;
         }
+        if (maxH && h > maxH) {
+          w = (w * maxH) / h;
+          h = maxH;
+        }
         return { w, h };
       };
 
-      const applySvgSize = (svg, base, scale, x, y) => {
+      const applySvgTransform = (svg, base, scale, x, y, animate = false) => {
         svg.style.setProperty("max-width", "none", "important");
-        svg.style.setProperty("width", `${base.w * scale}px`, "important");
-        svg.style.setProperty("height", `${base.h * scale}px`, "important");
-        svg.style.transform = `translate(${x}px, ${y}px)`;
+        svg.style.setProperty("width", `${base.w}px`, "important");
+        svg.style.setProperty("height", `${base.h}px`, "important");
+        svg.style.setProperty("transform-origin", "center center");
+        svg.style.setProperty(
+          "transition",
+          animate ? "transform 0.18s cubic-bezier(0.4, 0, 0.2, 1)" : "none",
+        );
+        svg.style.setProperty(
+          "transform",
+          `translate(${x}px, ${y}px) scale(${scale})`,
+        );
       };
 
-      const applyModalTransform = () => {
+      const applyModalTransform = (animate = false) => {
         if (activeModalSvg)
-          applySvgSize(
+          applySvgTransform(
             activeModalSvg,
             modalBase,
             modalScale,
             modalPanX,
             modalPanY,
+            animate,
           );
       };
 
@@ -820,7 +845,7 @@ const {
             e.preventDefault();
             modalPanX = e.clientX - mStartX;
             modalPanY = e.clientY - mStartY;
-            applyModalTransform();
+            applyModalTransform(false);
           });
           window.addEventListener("mouseup", () => {
             if (modalDrag) {
@@ -843,7 +868,7 @@ const {
               const cy = e.clientY - (rect.top + rect.height / 2);
               modalPanX = cx - (cx - modalPanX) * r;
               modalPanY = cy - (cy - modalPanY) * r;
-              applyModalTransform();
+              applyModalTransform(false);
             },
             { passive: false },
           );
@@ -852,13 +877,13 @@ const {
             .querySelector("#modal-zoom-in")
             ?.addEventListener("click", () => {
               modalScale = Math.min(modalScale + 0.25, 4.0);
-              applyModalTransform();
+              applyModalTransform(true);
             });
           modal
             .querySelector("#modal-zoom-out")
             ?.addEventListener("click", () => {
               modalScale = Math.max(modalScale - 0.25, 0.3);
-              applyModalTransform();
+              applyModalTransform(true);
             });
           modal
             .querySelector("#modal-zoom-reset")
@@ -866,7 +891,7 @@ const {
               modalScale = 1.0;
               modalPanX = 0;
               modalPanY = 0;
-              applyModalTransform();
+              applyModalTransform(true);
             });
         }
         return modal;
@@ -937,7 +962,7 @@ const {
                   <svg class="check-icon" style="display:none; color: #10b981;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
                 </button>
                 <span class="mermaid-divider"></span>
-                <span class="mermaid-hint" title="Klik & geser untuk pan • Scroll untuk zoom">
+                <span class="mermaid-hint" title="Klik & geser untuk pan • Ctrl + scroll untuk zoom">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
                     <path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M12 2v20M2 12h20"/>
                   </svg>
@@ -954,7 +979,7 @@ const {
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
                 </button>
               </div>
-              <div class="mermaid-viewport" title="Klik & geser untuk pan • Scroll untuk zoom">
+              <div class="mermaid-viewport" title="Klik & geser untuk pan • Ctrl + scroll untuk zoom">
                 <div class="mermaid-target"></div>
               </div>
             `;
@@ -986,7 +1011,7 @@ const {
         let base = { w: 0, h: 0 };
         let measuredSvg = null;
 
-        const updateTransform = () => {
+        const updateTransform = (animate = false) => {
           const svgElement = target?.querySelector("svg");
           if (!svgElement) return;
           if (measuredSvg !== svgElement) {
@@ -994,20 +1019,33 @@ const {
             svgElement.style.cssText = "";
             base = measureBase(svgElement, target.clientWidth);
           }
-          applySvgSize(svgElement, base, scale, panX, panY);
+          applySvgTransform(svgElement, base, scale, panX, panY, animate);
         };
 
-        const zoomAt = (newScale, cx = 0, cy = 0) => {
+        const zoomAt = (newScale, cx = 0, cy = 0, animate = false) => {
           const next = Math.min(Math.max(newScale, 0.3), 4.0);
           const r = next / scale;
           scale = next;
           panX = cx - (cx - panX) * r;
           panY = cy - (cy - panY) * r;
-          updateTransform();
+          updateTransform(animate);
         };
 
         // Attach transform updater to wrapper so renderer can call it
         wrapper._updateTransform = updateTransform;
+
+        // Auto refit on responsive window resize when in default view
+        let resizeTimer;
+        window.addEventListener("resize", () => {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(() => {
+            const svgElement = target?.querySelector("svg");
+            if (svgElement && scale === 1.0 && panX === 0 && panY === 0) {
+              base = measureBase(svgElement, target.clientWidth);
+              applySvgTransform(svgElement, base, scale, panX, panY, false);
+            }
+          }, 150);
+        });
 
         if (viewport) {
           // Drag to Pan (Mouse)
@@ -1030,7 +1068,7 @@ const {
             e.preventDefault();
             panX = e.clientX - startX;
             panY = e.clientY - startY;
-            updateTransform();
+            updateTransform(false);
           });
 
           window.addEventListener("mouseup", () => {
@@ -1066,7 +1104,7 @@ const {
               if (!isDragging || e.touches.length !== 1) return;
               panX = e.touches[0].clientX - startX;
               panY = e.touches[0].clientY - startY;
-              updateTransform();
+              updateTransform(false);
             },
             { passive: true },
           );
@@ -1075,16 +1113,16 @@ const {
             isDragging = false;
           });
 
-          // Mouse Wheel Zoom
+          // Mouse Wheel Zoom (Require Ctrl / Cmd to avoid hijacking normal page scroll)
           viewport.addEventListener(
             "wheel",
             (e) => {
-              if (e.ctrlKey || e.metaKey || viewport.matches(":hover")) {
+              if (e.ctrlKey || e.metaKey) {
                 e.preventDefault();
                 const rect = target.getBoundingClientRect();
                 const cx = e.clientX - (rect.left + rect.width / 2);
                 const cy = e.clientY - (rect.top + rect.height / 2);
-                zoomAt(scale + (e.deltaY < 0 ? 0.15 : -0.15), cx, cy);
+                zoomAt(scale + (e.deltaY < 0 ? 0.15 : -0.15), cx, cy, false);
               }
             },
             { passive: false },
@@ -1117,13 +1155,13 @@ const {
           // Zoom In
           const btnZoomIn = wrapper.querySelector(".btn-zoom-in");
           btnZoomIn?.addEventListener("click", () => {
-            zoomAt(scale + 0.25);
+            zoomAt(scale + 0.25, 0, 0, true);
           });
 
           // Zoom Out
           const btnZoomOut = wrapper.querySelector(".btn-zoom-out");
           btnZoomOut?.addEventListener("click", () => {
-            zoomAt(scale - 0.25);
+            zoomAt(scale - 0.25, 0, 0, true);
           });
 
           // Reset Zoom & Pan
@@ -1132,7 +1170,7 @@ const {
             scale = 1.0;
             panX = 0;
             panY = 0;
-            updateTransform();
+            updateTransform(true);
           });
 
           // Fullscreen Modal
@@ -1157,8 +1195,9 @@ const {
                 modalBase = measureBase(
                   activeModalSvg,
                   modalBody.clientWidth - 64,
+                  modalBody.clientHeight - 64,
                 );
-                applyModalTransform();
+                applyModalTransform(false);
               }
             }
           });
